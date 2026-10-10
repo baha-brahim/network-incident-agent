@@ -318,7 +318,7 @@ def test_dns_degradation(world: World, kpis: Kpis) -> None:
 
 
 def test_dns_volume_effect(world: World, kpis: Kpis) -> None:
-    """National DL volume falls 15-30 % (as in the spec) against the same hours elsewhere."""
+    """National DL volume falls 15-30 % against the same hours elsewhere."""
     total = kpis.arr["dl_volume_mb"].sum(axis=0)
     for sc in scenarios(world, "dns_degradation"):
         i0, i1 = kpis.idx(sc["start_at"]), kpis.idx(sc["end_at"])

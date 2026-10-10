@@ -4,7 +4,7 @@ An AI agent that investigates network incidents. Ask "why did traffic drop in re
 
 Stack: LangGraph, Gemini / Groq free tiers (Ollama as local fallback), Postgres + pgvector, FastAPI, Docker, GCP Cloud Run or AWS, GitHub Actions. Optional: tools exposed as an MCP server.
 
-Plan and notes live in the Obsidian vault: `10 Projects/Network Incident Agent/`. The scope, architecture and milestones are in [`docs/PLAN.md`](docs/PLAN.md).
+The scope, architecture and milestones are in [`docs/PLAN.md`](docs/PLAN.md).
 
 ## Quick start
 

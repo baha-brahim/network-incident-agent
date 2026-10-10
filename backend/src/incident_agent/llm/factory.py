@@ -64,6 +64,13 @@ def make_chat_model(spec: str, **kwargs: Any) -> BaseChatModel:
     return ChatOllama(model=model, base_url=settings.ollama_base_url, **kwargs)
 
 
+def chain_specs(role: Literal["agent", "grader"], settings: Settings) -> list[str]:
+    """Model specs for a role, in order. Fallbacks whose provider has no key are left out."""
+    if role == "grader":
+        return [settings.grader_model]
+    return [settings.agent_model, *(s for s in settings.fallback_models if _usable(s, settings))]
+
+
 def get_llm(role: Literal["agent", "grader"]) -> Runnable[LanguageModelInput, AIMessage]:
     """agent = primary with fallbacks (skipping ones without keys); grader = no fallback."""
     settings = get_settings()

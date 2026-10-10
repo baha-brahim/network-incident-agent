@@ -14,6 +14,12 @@ def get_engine() -> Engine:
 
 
 @lru_cache
+def get_agent_engine() -> Engine:
+    """Read-only engine (role agent_ro) used by every agent tool. It can't write or read `gt`."""
+    return create_engine(get_settings().agent_db_url, pool_pre_ping=True)
+
+
+@lru_cache
 def get_session_factory() -> sessionmaker[Session]:
     return sessionmaker(get_engine(), expire_on_commit=False)
 

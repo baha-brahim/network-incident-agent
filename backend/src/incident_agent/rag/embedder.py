@@ -6,7 +6,7 @@ import re
 import time
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Protocol
+from typing import Any, Protocol, runtime_checkable
 
 from incident_agent.config import get_settings
 
@@ -15,6 +15,7 @@ EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 EMBEDDING_DIM = 384
 
 
+@runtime_checkable
 class Embedder(Protocol):
     name: str
 

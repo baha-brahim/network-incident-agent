@@ -9,7 +9,7 @@ from sqlalchemy import Engine, create_engine, text
 from sqlalchemy.engine import URL, make_url
 
 from incident_agent.config import DEFAULT_DATABASE_URL, Settings, get_settings
-from incident_agent.db.session import get_engine, get_session_factory
+from incident_agent.db.session import get_agent_engine, get_engine, get_session_factory
 
 SETTINGS_ENV_VARS = [
     "GEMINI_API_KEY",
@@ -20,6 +20,10 @@ SETTINGS_ENV_VARS = [
     "FALLBACK_MODELS",
     "GRADER_MODEL",
     "EMBEDDING_CACHE_DIR",
+    "AGENT_DATABASE_URL",
+    "LLM_CACHE_MODE",
+    "LLM_CACHE_DIR",
+    "LLM_MIN_INTERVAL_SECONDS",
 ]
 
 ALEMBIC_INI = Path(__file__).resolve().parents[1] / "alembic.ini"
@@ -125,6 +129,9 @@ def test_database_url() -> str:
 def _reset_app_caches() -> None:
     if get_engine.cache_info().currsize:
         get_engine().dispose()
+    if get_agent_engine.cache_info().currsize:
+        get_agent_engine().dispose()
+    get_agent_engine.cache_clear()
     get_session_factory.cache_clear()
     get_engine.cache_clear()
     get_settings.cache_clear()
