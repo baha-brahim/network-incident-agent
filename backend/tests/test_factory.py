@@ -67,12 +67,12 @@ def test_agent_has_fallback_chain(use_settings: UseSettings) -> None:
     llm = get_llm("agent")
     assert isinstance(llm, RunnableWithFallbacks)
     assert isinstance(llm.runnable, ChatGoogleGenerativeAI)
-    assert _fallback_types(llm) == [ChatGroq, ChatOllama]
+    assert _fallback_types(llm) == [ChatGoogleGenerativeAI, ChatGroq, ChatOllama]
 
 
 def test_agent_skips_fallbacks_without_keys(use_settings: UseSettings) -> None:
     use_settings(gemini_api_key="g")  # no groq key
-    assert _fallback_types(get_llm("agent")) == [ChatOllama]
+    assert _fallback_types(get_llm("agent")) == [ChatGoogleGenerativeAI, ChatOllama]
 
 
 def test_agent_without_any_fallback_returns_primary(use_settings: UseSettings) -> None:

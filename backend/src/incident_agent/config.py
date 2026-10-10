@@ -25,9 +25,13 @@ class Settings(BaseSettings):
     database_url: str = DEFAULT_DATABASE_URL
 
     # Model roles, as "provider:model" strings.
-    agent_model: str = "gemini:gemini-flash-latest"
+    agent_model: str = "gemini:gemini-3.5-flash-lite"
     # As an env var, give a JSON list: FALLBACK_MODELS='["groq:openai/gpt-oss-120b"]'
-    fallback_models: list[str] = ["groq:openai/gpt-oss-120b", "ollama:qwen3:4b"]
+    fallback_models: list[str] = [
+        "gemini:gemini-3.1-flash-lite",
+        "groq:openai/gpt-oss-120b",
+        "ollama:qwen3:4b",
+    ]
     grader_model: str = "groq:qwen/qwen3.8-27b"
 
 

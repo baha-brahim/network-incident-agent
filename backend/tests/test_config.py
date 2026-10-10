@@ -12,8 +12,12 @@ def test_defaults_without_env_file() -> None:
     assert s.groq_api_key is None
     assert s.ollama_base_url == "http://localhost:11434"
     assert s.database_url == "postgresql+psycopg://incident:incident@localhost:5433/incident_agent"
-    assert s.agent_model == "gemini:gemini-flash-latest"
-    assert s.fallback_models == ["groq:openai/gpt-oss-120b", "ollama:qwen3:4b"]
+    assert s.agent_model == "gemini:gemini-3.5-flash-lite"
+    assert s.fallback_models == [
+        "gemini:gemini-3.1-flash-lite",
+        "groq:openai/gpt-oss-120b",
+        "ollama:qwen3:4b",
+    ]
     assert s.grader_model == "groq:qwen/qwen3.8-27b"
 
 
