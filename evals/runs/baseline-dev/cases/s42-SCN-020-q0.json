@@ -1,0 +1,622 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-21T08:09:00Z",
+    "case_id": "s42-SCN-020-q0",
+    "question": "Latency complaints across the country yesterday afternoon, any idea?",
+    "question_index": 0,
+    "scenario_id": "SCN-020",
+    "seed": 42,
+    "split": "dev"
+  },
+  "created_at": "2026-10-10T13:49:59.166338Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-21T08:09:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-21 09:09",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-20 10:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-20 10:00 to 2026-09-21 09:09.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0021 high ended, 2026-09-20 12:30 to 2026-09-20 14:30 (2.0 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 43 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 38 more) and on CORE-DNS-01 for 2 h\n  latency_ms spike on 47 entities: worst SUD z 11.1, 25.7 -> 37.7, 2026-09-20 12:30 to 2026-09-20 14:30\n  query_success_pct drop on 1 entity: worst CORE-DNS-01 z -72.7, 99.9 -> 91.7, 2026-09-20 12:30 to 2026-09-20 14:30\n  resolution_ms spike on 1 entity: worst CORE-DNS-01 z 46.6, 11.1 -> 93.8, 2026-09-20 12:30 to 2026-09-20 14:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-20 10:00 to 2026-09-21 09:09.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0021",
+          "ANM-000275",
+          "ANM-000231",
+          "ANM-000232"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-20 18:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 10:00"
+        },
+        "body": "No changes on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-20 18:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 10:00"
+        },
+        "body": "No alarms on CORE-DNS-01 and nodes below between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No alarms on CORE-DNS-01 and nodes below between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "CORE-DNS-01 resolution_ms spike query_success_pct drop"
+        },
+        "body": "4 runbook chunk(s) for 'CORE-DNS-01 resolution_ms spike query_success_pct drop', best first (excerpts):\n[RB-DNS-DEGRADATION#02] Core DNS degradation > Signature in the data: Core KPIs on the DNS node. `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms` rises five to twenty times from its normal 8 to 15 ms. ... What stays normal. `rrc_success_pct`, `availability_pct` and `drop_rate_pct` are unaffected, because radio signalling does not need DNS. ... A `DNS_TIMEOUT_RATE` alarm, severity `major`, on the DNS node. ... Other...\n[RB-DNS-DEGRADATION#04] Core DNS degradation > Verification steps: 1. `get_anomalies`: look for latency and volume anomalies in all regions starting in the same step. 2. ... 3. `query_kpis` on core metrics of `CORE-DNS-01`: `query_success_pct` and `resolution_ms`. Do this even when there is no alarm. 4. ... 5. ... 6. `get_changes` on core nodes in the six hours before the onset. 7. `get_alarms` on the DNS node, including any late `DNS_TIMEOUT_RATE`.\n[RB-DNS-DEGRADATION#05] Core DNS degradation > Recommended actions: Ask core operations to check the DNS service: process health, resource usage, upstream resolvers and recent configuration. Fail over to a secondary resolver if one exists. Review query volume for abuse. Notify customer care that the problem is nationwide and short. Confirm recovery in `resolution_ms` and `query_success_pct` before closing.\n[RB-DNS-DEGRADATION#03] Core DNS degradation > Differential diagnosis: ... In a DNS fault the dip lasts hours, latency rises, and the DNS KPIs are off. Versus congestion ... With DNS trouble latency is high while PRB is low. ... Versus a bad change ... DNS trouble is nationwide, leaves RRC success alone and raises latency. ... A UPF problem shows as a drop in that UPF's `throughput_gbps` and `session_count` for its regions only. ... Versus a decoy...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'CORE-DNS-01 resolution_ms spike query_success_pct drop', best first (excerpts):",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "RB-DNS-DEGRADATION#02",
+          "RB-DNS-DEGRADATION#04",
+          "RB-DNS-DEGRADATION#05",
+          "RB-DNS-DEGRADATION#03"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 13
+      },
+      {
+        "args": {
+          "end": "2026-09-20 18:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 06:30"
+        },
+        "body": "No changes on CORE-DNS-01 and its parents between 2026-09-20 06:30 and 2026-09-20 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on CORE-DNS-01 and its parents between 2026-09-20 06:30 and 2026-09-20 18:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-20 18:00",
+          "entity_ids": [
+            "CORE-DNS-01"
+          ],
+          "entity_type": "core_node",
+          "metrics": [
+            "query_success_pct",
+            "resolution_ms"
+          ],
+          "start": "2026-09-20 10:00"
+        },
+        "body": "Deviation in 2 of 2 series. Earliest onset 2026-09-20 12:30: CORE-DNS-01 query_success_pct below baseline.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-21 09:09). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier Sundays with data; treat small deviations with caution.\nCORE-DNS-01 query_success_pct: mean 97.9 vs baseline 99.9 (-2%); min 91.5 at 2026-09-20 13:00, max 99.9 at 2026-09-20 12:00.\nDeviation below baseline: onset 2026-09-20 12:30; worst 91.5 vs 99.9 at 2026-09-20 13:00; recovery 2026-09-20 14:30.\nseries (45 min buckets from 2026-09-20 10:00): 99.9 99.9 99.9 94.6 91.8 91.8 99.9 99.9 99.9 99.9 99.9\nbaseline: 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9\nCORE-DNS-01 resolution_ms: mean 29.5 vs baseline 10.7 (+176%); min 9.8 at 2026-09-20 17:00, max 93.8 at 2026-09-20 14:00.\nDeviation above baseline: onset 2026-09-20 12:30; worst 93.8 vs 11.3 at 2026-09-20 14:00; recovery 2026-09-20 14:30.\nseries (45 min buckets from 2026-09-20 10:00): 10.9 10.7 10.5 59 89.6 91.2 10.7 10.9 10.7 10 10.4\nbaseline: 11 10.8 10.5 10.6 10.5 11 11 10.7 10.6 10.5 10.3",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 2 series. Earliest onset 2026-09-20 12:30: CORE-DNS-01 query_success_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 24
+      },
+      {
+        "args": {
+          "end": "2026-09-20 18:00",
+          "region_id": null,
+          "start": "2026-09-20 10:00"
+        },
+        "body": "No external events for all regions between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for all regions between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-20 18:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 10:00"
+        },
+        "body": "No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALR-0021": {
+        "kind": "alert",
+        "ref": "ALR-0021",
+        "summary": "ended alert from 2026-09-20 12:30: 43 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +39 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc..."
+      },
+      "ANM-000231": {
+        "kind": "anomaly",
+        "ref": "ANM-000231",
+        "summary": "CORE-DNS-01 query_success_pct drop, z -72.7, baseline 99.9 -> 91.7"
+      },
+      "ANM-000232": {
+        "kind": "anomaly",
+        "ref": "ANM-000232",
+        "summary": "CORE-DNS-01 resolution_ms spike, z 46.6, baseline 11.1 -> 93.8"
+      },
+      "ANM-000275": {
+        "kind": "anomaly",
+        "ref": "ANM-000275",
+        "summary": "SUD latency_ms spike, z 11.1, baseline 25.7 -> 37.7"
+      },
+      "RB-DNS-DEGRADATION#02": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#02",
+        "summary": "Core DNS degradation > Signature in the data: - **Core KPIs on the DNS node.** `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms..."
+      },
+      "RB-DNS-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#03",
+        "summary": "Core DNS degradation > Differential diagnosis: ### Versus a public holiday or other expected demand change A holiday also lowers traffic in every region, but..."
+      },
+      "RB-DNS-DEGRADATION#04": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#04",
+        "summary": "Core DNS degradation > Verification steps: 1. `get_anomalies`: look for latency and volume anomalies in all regions starting in the same step. 2. `query_kpis..."
+      },
+      "RB-DNS-DEGRADATION#05": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#05",
+        "summary": "Core DNS degradation > Recommended actions: Ask core operations to check the DNS service: process health, resource usage, upstream resolvers and recent confi..."
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-20 10:00, end=2026-09-21 09:09) -> 1 detector alert(s) overlap 2026-09-20 10:00 to 2026-09-21 09:09."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_changes(start=2026-09-20 10:00, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-20 10:00, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_descendants=True, min_severity=minor) -> No alarms on CORE-DNS-01 and nodes below between 2026-09-20 10:00 and 2026-09-20 18:00."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "search_runbooks(query=CORE-DNS-01 resolution_ms spike query_success_pct drop, k=4) -> 4 runbook chunk(s) for 'CORE-DNS-01 resolution_ms spike query_success_pct drop', best first (excerpts):"
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-20 06:30, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-20 06:30 and 2026-09-20 18:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=core_node, entity_ids=['CORE-DNS-01'], metrics=['query_success_pct', 'resolution_ms'], start=2026-09-20 10:00, end=2026-09-20 1 -> Deviation in 2 of 2 series. Earliest onset 2026-09-20 12:30: CORE-DNS-01 query_success_pct below baseline."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_external_events(start=2026-09-20 10:00, end=2026-09-20 18:00) -> No external events for all regions between 2026-09-20 10:00 and 2026-09-20 18:00."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_maintenance(start=2026-09-20 10:00, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide Latency and Core DNS Degradation\n\n- **Classification:** incident\n- **Root cause:** core_degradation at `CORE-DNS-01`\n- **Confidence:** high (Directly evidenced by anomaly alerts and KPI deviations on CORE-DNS-01, with changes, external events, alarms, and maintenance checked and ruled out.)\n- **Impact:** 2026-09-20 12:30 to 2026-09-20 14:30\n- **Cause time:** 2026-09-20 12:30\n- **Affected:** CORE-DNS-01, S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004\n\n## Summary\n\nCore DNS degradation on CORE-DNS-01 leading to query success rate drops and resolution latency spikes.\n\nNationwide latency complaints due to core DNS degradation affecting 43 sites, starting at 2026-09-20 12:30 and recovering by 2026-09-20 14:30.\n\n## Timeline\n\n- 2026-09-20 12:30: Anomaly alert ALR-0021 and KPI deviations started on CORE-DNS-01 with a drop in query_success_pct and a spike in resolution_ms. [T1, T6, ALR-0021]\n- 2026-09-20 14:30: CORE-DNS-01 KPIs recovered to baseline levels, ending the incident impact. [T6]\n\n## Evidence\n\n- Detector alert ALR-0021 overlapped the incident window, affecting 43 sites and core CORE-DNS-01. [T1, ALR-0021]\n- CORE-DNS-01 query_success_pct dropped below baseline and resolution_ms spiked between 2026-09-20 12:30 and 14:30. [T6, ANM-000231, ANM-000232]\n- No changes, alarms, external events, or maintenance windows occurred on CORE-DNS-01 or its parents during the incident window. [T2, T3, T5, T7, T8]\n\n## Hypotheses\n\n1. **core_degradation** at CORE-DNS-01: confirmed. Directly evidenced by KPI anomalies and alert ALR-0021 matching runbook RB-DNS-DEGRADATION. [T1, T6, ALR-0021, RB-DNS-DEGRADATION#02]\n\n## Ruled out\n\n- T2: No configuration changes were found on CORE-DNS-01 or its parents during the window.\n- T3: No alarms were present on CORE-DNS-01 and nodes below during the window.\n- T7: No external events were recorded across all regions during the window.\n- T8: No maintenance windows were scheduled on CORE-DNS-01 or its parents during the window.\n\n## Recommended actions\n\n- Ask core operations to check the DNS service: process health, resource usage, upstream resolvers, and query logs as per RB-DNS-DEGRADATION.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-20 10:00, end=2026-09-21 09:09) -> 1 detector alert(s) overlap 2026-09-20 10:00 to 2026-09-21 09:09.\n- `T6`: query_kpis(entity_type=core_node, entity_ids=['CORE-DNS-01'], metrics=['query_success_pct', 'resolution_ms'], start=2026-09-20 10:00, end=2026-09-20 1 -> Deviation in 2 of 2 series. Earliest onset 2026-09-20 12:30: CORE-DNS-01 query_success_pct below baseline.\n- `ALR-0021`: ended alert from 2026-09-20 12:30: 43 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +39 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc...\n- `ANM-000231`: CORE-DNS-01 query_success_pct drop, z -72.7, baseline 99.9 -> 91.7\n- `ANM-000232`: CORE-DNS-01 resolution_ms spike, z 46.6, baseline 11.1 -> 93.8\n- `T2`: get_changes(start=2026-09-20 10:00, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.\n- `T3`: get_alarms(start=2026-09-20 10:00, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_descendants=True, min_severity=minor) -> No alarms on CORE-DNS-01 and nodes below between 2026-09-20 10:00 and 2026-09-20 18:00.\n- `T5`: get_changes(start=2026-09-20 06:30, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-20 06:30 and 2026-09-20 18:00.\n- `T7`: get_external_events(start=2026-09-20 10:00, end=2026-09-20 18:00) -> No external events for all regions between 2026-09-20 10:00 and 2026-09-20 18:00.\n- `T8`: get_maintenance(start=2026-09-20 10:00, end=2026-09-20 18:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.\n- `RB-DNS-DEGRADATION#02`: Core DNS degradation > Signature in the data: - **Core KPIs on the DNS node.** `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms...\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Latency complaints across the country yesterday afternoon, any idea?",
+    "report": {
+      "affected_node_ids": [
+        "CORE-DNS-01",
+        "S-SAH-001",
+        "S-SAH-002",
+        "S-SAH-003",
+        "S-SAH-004"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by anomaly alerts and KPI deviations on CORE-DNS-01, with changes, external events, alarms, and maintenance checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "No configuration changes were found on CORE-DNS-01 or its parents during the window.",
+          "ref": "T2"
+        },
+        {
+          "reason": "No alarms were present on CORE-DNS-01 and nodes below during the window.",
+          "ref": "T3"
+        },
+        {
+          "reason": "No external events were recorded across all regions during the window.",
+          "ref": "T7"
+        },
+        {
+          "reason": "No maintenance windows were scheduled on CORE-DNS-01 or its parents during the window.",
+          "ref": "T8"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Detector alert ALR-0021 overlapped the incident window, affecting 43 sites and core CORE-DNS-01.",
+          "refs": [
+            "T1",
+            "ALR-0021"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "CORE-DNS-01 query_success_pct dropped below baseline and resolution_ms spiked between 2026-09-20 12:30 and 14:30.",
+          "refs": [
+            "T6",
+            "ANM-000231",
+            "ANM-000232"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes, alarms, external events, or maintenance windows occurred on CORE-DNS-01 or its parents during the incident window.",
+          "refs": [
+            "T2",
+            "T3",
+            "T5",
+            "T7",
+            "T8"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "core_degradation",
+          "node_id": "CORE-DNS-01",
+          "reason": "Directly evidenced by KPI anomalies and alert ALR-0021 matching runbook RB-DNS-DEGRADATION.",
+          "refs": [
+            "T1",
+            "T6",
+            "ALR-0021",
+            "RB-DNS-DEGRADATION#02"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-20 14:30",
+      "impact_start": "2026-09-20 12:30",
+      "impact_summary": "Nationwide latency complaints due to core DNS degradation affecting 43 sites, starting at 2026-09-20 12:30 and recovering by 2026-09-20 14:30.",
+      "recommended_actions": [
+        "Ask core operations to check the DNS service: process health, resource usage, upstream resolvers, and query logs as per RB-DNS-DEGRADATION."
+      ],
+      "root_cause_category": "core_degradation",
+      "root_cause_node_id": "CORE-DNS-01",
+      "root_cause_summary": "Core DNS degradation on CORE-DNS-01 leading to query success rate drops and resolution latency spikes.",
+      "root_cause_time": "2026-09-20 12:30",
+      "timeline": [
+        {
+          "event": "Anomaly alert ALR-0021 and KPI deviations started on CORE-DNS-01 with a drop in query_success_pct and a spike in resolution_ms.",
+          "refs": [
+            "T1",
+            "T6",
+            "ALR-0021"
+          ],
+          "time": "2026-09-20 12:30"
+        },
+        {
+          "event": "CORE-DNS-01 KPIs recovered to baseline levels, ending the incident impact.",
+          "refs": [
+            "T6"
+          ],
+          "time": "2026-09-20 14:30"
+        }
+      ],
+      "title": "Nationwide Latency and Core DNS Degradation"
+    },
+    "run_id": "RUN-bc3f9c1be1",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "Latency complaints",
+      "unknown_ids": [],
+      "window_end": "2026-09-20T17:00:00Z",
+      "window_start": "2026-09-20T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 377,
+        "latency_ms": 1074,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 94,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2124
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2993,
+        "latency_ms": 1059,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 185,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4468
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3943,
+        "latency_ms": 1102,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 218,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4511
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5081,
+        "latency_ms": 1374,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 144,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4736
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5267,
+        "latency_ms": 922,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 72,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4051
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5441,
+        "latency_ms": 1154,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 181,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4735
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3106,
+        "latency_ms": 3274,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1145,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6616
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 26208,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2039,
+      "tool_calls": 8,
+      "wall_seconds": 31.34
+    }
+  },
+  "run_name": "baseline-dev",
+  "truth": {
+    "affected_node_ids": [
+      "CORE-DNS-01",
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [
+      {
+        "id": "ALM-000413",
+        "table": "alarms",
+        "visible_from": "2026-09-20T10:32:00+00:00",
+        "why": "Routine CPU_HIGH warning alarm on CORE-DNS-01 60 min before the incident; it cleared by itself and has no KPI impact."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-20T13:31:00Z",
+    "evidence": [],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-20T11:32:00Z",
+    "is_incident": true,
+    "kind": "dns_degradation",
+    "notes": "CORE-DNS-01 degraded: query success dropped and resolution time multiplied. Applied nationwide: latency x1.43, DL volume -21%. No alarm was raised; the evidence is only in core_kpis.",
+    "root_cause_category": "core_degradation",
+    "root_cause_node_id": "CORE-DNS-01",
+    "severity": "high",
+    "start_at": "2026-09-20T11:32:00Z"
+  },
+  "variant": "default"
+}

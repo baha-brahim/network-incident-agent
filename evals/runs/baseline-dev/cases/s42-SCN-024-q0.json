@@ -1,0 +1,567 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-24T07:56:00Z",
+    "case_id": "s42-SCN-024-q0",
+    "question": "Why did traffic fall to nothing at S-TUN-010 last night?",
+    "question_index": 0,
+    "scenario_id": "SCN-024",
+    "seed": 42,
+    "split": "dev"
+  },
+  "created_at": "2026-10-10T13:44:08.693575Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-24T07:56:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-24 08:56",
+          "entity_id": "S-TUN-010",
+          "region_id": null,
+          "start": "2026-09-23 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-23 16:00 to 2026-09-24 08:56.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0028 medium ended, 2026-09-24 02:00 to 2026-09-24 05:45 (3.8 h): Traffic, active users and availability drop on 1 site in TUN (S-TUN-010) for 4 h\n  active_users drop on 1 entity: worst S-TUN-010 z -10.0, 16.8 -> 0, 2026-09-24 02:15 to 2026-09-24 05:30\n  availability_pct drop on 1 entity: worst S-TUN-010 z -100.0, 100 -> 0, 2026-09-24 02:00 to 2026-09-24 05:45\n  dl_volume_mb drop on 1 entity: worst S-TUN-010 z -10.3, 1234 -> 0, 2026-09-24 02:15 to 2026-09-24 05:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-23 16:00 to 2026-09-24 08:56.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0028",
+          "ANM-000319",
+          "ANM-000318",
+          "ANM-000320"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-010"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-010 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-010: site, TUN, Ezzahra, suburban.\nCells: C-TUN-010-1, C-TUN-010-2, C-TUN-010-3.\nSiblings under LNK-TUN-01-B: S-TUN-001, S-TUN-013.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-010 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-010",
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-001",
+          "S-TUN-013"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-24T07:00:00",
+          "entity_ids": [
+            "S-TUN-010"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "dl_volume_mb",
+            "active_users"
+          ],
+          "start": "2026-09-23T23:00:00"
+        },
+        "body": "Deviation in 3 of 3 series. Earliest onset 2026-09-24 02:00: S-TUN-010 availability_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-24 08:56). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-010 availability_pct: mean 59.4 vs baseline 100 (-41%); min 0 at 2026-09-24 02:15, max 100 at 2026-09-23 23:00.\nDeviation below baseline: onset 2026-09-24 02:00; worst 0 vs 100 at 2026-09-24 02:15; recovery 2026-09-24 05:45.\nseries (45 min buckets from 2026-09-23 23:00): 100 100 100 100 31.1 0 0 0 22.2 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100 100\nS-TUN-010 dl_volume_mb: mean 2372 vs baseline 2883 (-18%); min 0 at 2026-09-24 02:15, max 8895 at 2026-09-23 23:00.\nDeviation below baseline: onset 2026-09-24 02:15; worst 0 vs 1617 at 2026-09-24 02:15; recovery 2026-09-24 05:45.\nseries (45 min buckets from 2026-09-23 23:00): 8146 5757 3639 2384 569 0 0 0 375 2168 3052\nbaseline: 8132 5624 3684 2352 1629 1298 1212 1287 1572 2053 2874\nS-TUN-010 active_users: mean 32.2 vs baseline 39.7 (-19%); min 0 at 2026-09-24 02:15, max 117 at 2026-09-23 23:00.\nDeviation below baseline: onset 2026-09-24 02:15; worst 0 vs 22 at 2026-09-24 02:15; recovery 2026-09-24 05:45.\nseries (45 min buckets from 2026-09-23 23:00): 108 76.6 51.2 33.6 7.83 0 0 0 5.03 29.5 42.1\nbaseline: 112 77.1 50.6 32.2 22.3 17.8 16.3 17.7 21.8 28.5 39.7",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 3 of 3 series. Earliest onset 2026-09-24 02:00: S-TUN-010 availability_pct below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 55
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-24T07:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-010",
+            "LNK-TUN-01-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-23T23:00:00"
+        },
+        "body": "1 alarm(s) on S-TUN-010, LNK-TUN-01-B and nodes below, 2026-09-23 23:00 to 2026-09-24 07:00: 1 critical; 0 active at asked_at (2026-09-24 08:56).\nEarliest critical/major: 2026-09-24 02:15 SITE_DOWN on S-TUN-010 (ALM-000546).\n2026-09-24 02:15 ALM-000546 critical SITE_DOWN S-TUN-010: cleared 2026-09-24 05:37",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-TUN-010, LNK-TUN-01-B and nodes below, 2026-09-23 23:00 to 2026-09-24 07:00: 1 critical; 0 active at asked_at (2026-09-24 08:56).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000546"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-24T07:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-23T23:00:00"
+        },
+        "body": "1 maintenance window(s) on S-TUN-010 and its parents overlap 2026-09-23 23:00 to 2026-09-24 07:00: 1 completed (state as of asked_at 2026-09-24 08:56).\nMW-0009 completed 2026-09-24 02:11 -> 2026-09-24 05:44 on S-TUN-010: Planned battery replacement and cabinet inspection at S-TUN-010; expected impact: Site offline for the duration of the works",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on S-TUN-010 and its parents overlap 2026-09-23 23:00 to 2026-09-24 07:00: 1 completed (state as of asked_at 2026-09-24 08:56).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "MW-0009"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-24T07:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-23T23:00:00"
+        },
+        "body": "No changes on S-TUN-010 and its parents between 2026-09-23 23:00 and 2026-09-24 07:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-010 and its parents between 2026-09-23 23:00 and 2026-09-24 07:00.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000546": {
+        "kind": "alarm",
+        "ref": "ALM-000546",
+        "summary": "critical SITE_DOWN on S-TUN-010, raised 2026-09-24 02:15, cleared 2026-09-24 05:37"
+      },
+      "ALR-0028": {
+        "kind": "alert",
+        "ref": "ALR-0028",
+        "summary": "ended alert from 2026-09-24 02:00: 1 site(s) (S-TUN-010); region-level TUN; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000318": {
+        "kind": "anomaly",
+        "ref": "ANM-000318",
+        "summary": "S-TUN-010 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000319": {
+        "kind": "anomaly",
+        "ref": "ANM-000319",
+        "summary": "S-TUN-010 active_users drop, z -10.0, baseline 16.8 -> 0"
+      },
+      "ANM-000320": {
+        "kind": "anomaly",
+        "ref": "ANM-000320",
+        "summary": "S-TUN-010 dl_volume_mb drop, z -10.3, baseline 1234 -> 0"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-B": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-B",
+        "summary": "fiber link, TUN, 28.8 km, 10.0 Gbps"
+      },
+      "MW-0009": {
+        "kind": "maintenance",
+        "ref": "MW-0009",
+        "summary": "completed window 2026-09-24 02:11 -> 2026-09-24 05:44 on S-TUN-010: Planned battery replacement and cabinet inspection at S-TUN-010; expected impact: Site offline for..."
+      },
+      "S-TUN-001": {
+        "kind": "node",
+        "ref": "S-TUN-001",
+        "summary": "site, TUN, Ariana, urban, near a venue; sibling of S-TUN-010"
+      },
+      "S-TUN-010": {
+        "kind": "node",
+        "ref": "S-TUN-010",
+        "summary": "site, TUN, Ezzahra, suburban; chain: S-TUN-010 -> LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-013": {
+        "kind": "node",
+        "ref": "S-TUN-013",
+        "summary": "site, TUN, Lac 1, urban; sibling of S-TUN-010"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-23 16:00, end=2026-09-24 08:56, entity_id=S-TUN-010) -> 1 detector alert(s) overlap 2026-09-23 16:00 to 2026-09-24 08:56."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-010, include=all) -> Depends on (child -> parent -> core): S-TUN-010 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-010'], metrics=['availability_pct', 'dl_volume_mb', 'active_users'], start=2026-09-23T23:00:00, end=20 -> Deviation in 3 of 3 series. Earliest onset 2026-09-24 02:00: S-TUN-010 availability_pct below baseline."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-23T23:00:00, end=2026-09-24T07:00:00, node_ids=['S-TUN-010', 'LNK-TUN-01-B'], include_descendants=True) -> 1 alarm(s) on S-TUN-010, LNK-TUN-01-B and nodes below, 2026-09-23 23:00 to 2026-09-24 07:00: 1 critical; 0 active at asked_at (2026-09-24 08:56)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-23T23:00:00, end=2026-09-24T07:00:00, node_ids=['S-TUN-010'], include_ancestors=True) -> 1 maintenance window(s) on S-TUN-010 and its parents overlap 2026-09-23 23:00 to 2026-09-24 07:00: 1 completed (state as of asked_at 2026-09-24 08:56)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-23T23:00:00, end=2026-09-24T07:00:00, node_ids=['S-TUN-010'], include_ancestors=True) -> No changes on S-TUN-010 and its parents between 2026-09-23 23:00 and 2026-09-24 07:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Planned Maintenance Outage at S-TUN-010\n\n- **Classification:** planned_maintenance\n- **Root cause:** planned_maintenance at `S-TUN-010`\n- **Confidence:** high (Direct evidence from maintenance schedules matching the exact timing of the outage, supported by alarms and KPI drops, and no unplanned changes were found. External events were NOT CHECKED.)\n- **Impact:** 2026-09-24 02:00 to 2026-09-24 05:45\n- **Cause time:** 2026-09-24 02:11\n- **Affected:** S-TUN-010\n\n## Summary\n\nPlanned battery replacement and cabinet inspection causing the site to be offline.\n\nTraffic, active users, and availability dropped to zero at S-TUN-010 due to planned maintenance, recovering fully after the work completed.\n\n## Timeline\n\n- 2026-09-24 02:00: Availability drop on S-TUN-010 detected as per KPI deviation onset. [T3]\n- 2026-09-24 02:11: Planned maintenance window MW-0009 starts for battery replacement and cabinet inspection at S-TUN-010. [T5, MW-0009]\n- 2026-09-24 02:15: Critical SITE_DOWN alarm ALM-000546 raised on S-TUN-010. [T4, ALM-000546]\n- 2026-09-24 05:37: Critical SITE_DOWN alarm ALM-000546 cleared on S-TUN-010. [T4, ALM-000546]\n- 2026-09-24 05:44: Planned maintenance window MW-0009 completed on S-TUN-010. [T5, MW-0009]\n- 2026-09-24 05:45: Recovery of availability, volume, and active users on S-TUN-010. [T1, T3]\n\n## Evidence\n\n- S-TUN-010 experienced a planned maintenance window MW-0009 from 2026-09-24 02:11 to 2026-09-24 05:44 for battery replacement and cabinet inspection. [T5, MW-0009]\n- S-TUN-010 dropped to zero traffic, active users, and availability between 2026-09-24 02:00 and 2026-09-24 05:45. [T1, T3]\n- Critical SITE_DOWN alarm ALM-000546 was raised at 2026-09-24 02:15 and cleared at 2026-09-24 05:37 on S-TUN-010. [T4, ALM-000546]\n- No unplanned changes were logged on S-TUN-010 or its parents during the window. [T6]\n\n## Hypotheses\n\n1. **planned_maintenance** at S-TUN-010: confirmed. The planned maintenance window MW-0009 perfectly accounts for the site outage, matching the alarm and KPI drop times. [T3, T4, T5, MW-0009]\n2. **transport_failure** at LNK-TUN-01-B: rejected. Maintenance window explicitly accounts for the outage locally on S-TUN-010. [T5, MW-0009]\n\n## Ruled out\n\n- T6: No unplanned changes were found on S-TUN-010 or its parents, ruling out a bad change.\n\n## Recommended actions\n\n- Verify post-maintenance health checks for S-TUN-010 to ensure stable long-term operation.\n\n## Sources\n\n- `T3`: query_kpis(entity_type=site, entity_ids=['S-TUN-010'], metrics=['availability_pct', 'dl_volume_mb', 'active_users'], start=2026-09-23T23:00:00, end=20 -> Deviation in 3 of 3 series. Earliest onset 2026-09-24 02:00: S-TUN-010 availability_pct below baseline.\n- `T5`: get_maintenance(start=2026-09-23T23:00:00, end=2026-09-24T07:00:00, node_ids=['S-TUN-010'], include_ancestors=True) -> 1 maintenance window(s) on S-TUN-010 and its parents overlap 2026-09-23 23:00 to 2026-09-24 07:00: 1 completed (state as of asked_at 2026-09-24 08:56).\n- `MW-0009`: completed window 2026-09-24 02:11 -> 2026-09-24 05:44 on S-TUN-010: Planned battery replacement and cabinet inspection at S-TUN-010; expected impact: Site offline for...\n- `T4`: get_alarms(start=2026-09-23T23:00:00, end=2026-09-24T07:00:00, node_ids=['S-TUN-010', 'LNK-TUN-01-B'], include_descendants=True) -> 1 alarm(s) on S-TUN-010, LNK-TUN-01-B and nodes below, 2026-09-23 23:00 to 2026-09-24 07:00: 1 critical; 0 active at asked_at (2026-09-24 08:56).\n- `ALM-000546`: critical SITE_DOWN on S-TUN-010, raised 2026-09-24 02:15, cleared 2026-09-24 05:37\n- `T1`: get_anomalies(start=2026-09-23 16:00, end=2026-09-24 08:56, entity_id=S-TUN-010) -> 1 detector alert(s) overlap 2026-09-23 16:00 to 2026-09-24 08:56.\n- `T6`: get_changes(start=2026-09-23T23:00:00, end=2026-09-24T07:00:00, node_ids=['S-TUN-010'], include_ancestors=True) -> No changes on S-TUN-010 and its parents between 2026-09-23 23:00 and 2026-09-24 07:00.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why did traffic fall to nothing at S-TUN-010 last night?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-010"
+      ],
+      "classification": "planned_maintenance",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence from maintenance schedules matching the exact timing of the outage, supported by alarms and KPI drops, and no unplanned changes were found. External events were NOT CHECKED.",
+      "dismissed_signals": [
+        {
+          "reason": "No unplanned changes were found on S-TUN-010 or its parents, ruling out a bad change.",
+          "ref": "T6"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-TUN-010 experienced a planned maintenance window MW-0009 from 2026-09-24 02:11 to 2026-09-24 05:44 for battery replacement and cabinet inspection.",
+          "refs": [
+            "T5",
+            "MW-0009"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-TUN-010 dropped to zero traffic, active users, and availability between 2026-09-24 02:00 and 2026-09-24 05:45.",
+          "refs": [
+            "T1",
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical SITE_DOWN alarm ALM-000546 was raised at 2026-09-24 02:15 and cleared at 2026-09-24 05:37 on S-TUN-010.",
+          "refs": [
+            "T4",
+            "ALM-000546"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No unplanned changes were logged on S-TUN-010 or its parents during the window.",
+          "refs": [
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "planned_maintenance",
+          "node_id": "S-TUN-010",
+          "reason": "The planned maintenance window MW-0009 perfectly accounts for the site outage, matching the alarm and KPI drop times.",
+          "refs": [
+            "T3",
+            "T4",
+            "T5",
+            "MW-0009"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-TUN-01-B",
+          "reason": "Maintenance window explicitly accounts for the outage locally on S-TUN-010.",
+          "refs": [
+            "T5",
+            "MW-0009"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-24 05:45",
+      "impact_start": "2026-09-24 02:00",
+      "impact_summary": "Traffic, active users, and availability dropped to zero at S-TUN-010 due to planned maintenance, recovering fully after the work completed.",
+      "recommended_actions": [
+        "Verify post-maintenance health checks for S-TUN-010 to ensure stable long-term operation."
+      ],
+      "root_cause_category": "planned_maintenance",
+      "root_cause_node_id": "S-TUN-010",
+      "root_cause_summary": "Planned battery replacement and cabinet inspection causing the site to be offline.",
+      "root_cause_time": "2026-09-24 02:11",
+      "timeline": [
+        {
+          "event": "Availability drop on S-TUN-010 detected as per KPI deviation onset.",
+          "refs": [
+            "T3"
+          ],
+          "time": "2026-09-24 02:00"
+        },
+        {
+          "event": "Planned maintenance window MW-0009 starts for battery replacement and cabinet inspection at S-TUN-010.",
+          "refs": [
+            "T5",
+            "MW-0009"
+          ],
+          "time": "2026-09-24 02:11"
+        },
+        {
+          "event": "Critical SITE_DOWN alarm ALM-000546 raised on S-TUN-010.",
+          "refs": [
+            "T4",
+            "ALM-000546"
+          ],
+          "time": "2026-09-24 02:15"
+        },
+        {
+          "event": "Critical SITE_DOWN alarm ALM-000546 cleared on S-TUN-010.",
+          "refs": [
+            "T4",
+            "ALM-000546"
+          ],
+          "time": "2026-09-24 05:37"
+        },
+        {
+          "event": "Planned maintenance window MW-0009 completed on S-TUN-010.",
+          "refs": [
+            "T5",
+            "MW-0009"
+          ],
+          "time": "2026-09-24 05:44"
+        },
+        {
+          "event": "Recovery of availability, volume, and active users on S-TUN-010.",
+          "refs": [
+            "T1",
+            "T3"
+          ],
+          "time": "2026-09-24 05:45"
+        }
+      ],
+      "title": "Planned Maintenance Outage at S-TUN-010"
+    },
+    "run_id": "RUN-a7b9128227",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-010"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "traffic fall to zero",
+      "unknown_ids": [],
+      "window_end": "2026-09-24T05:00:00Z",
+      "window_start": "2026-09-23T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 382,
+        "latency_ms": 841,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1266
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3221,
+        "latency_ms": 1671,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 274,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5315
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4968,
+        "latency_ms": 1091,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 153,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3844
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5166,
+        "latency_ms": 799,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 79,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4208
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5345,
+        "latency_ms": 1039,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 130,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4728
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4164,
+        "latency_ms": 4687,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1445,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8145
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 23246,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 6,
+      "output_tokens": 2199,
+      "tool_calls": 6,
+      "wall_seconds": 27.61
+    }
+  },
+  "run_name": "baseline-dev",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-010"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-24T04:44:00Z",
+    "evidence": [
+      {
+        "id": "MW-0009",
+        "table": "maintenance",
+        "visible_from": null
+      },
+      {
+        "id": "ALM-000546",
+        "table": "alarms",
+        "visible_from": "2026-09-24T01:15:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_maintenance",
+      "get_alarms",
+      "query_kpis"
+    ],
+    "impact_start_at": "2026-09-24T01:14:00Z",
+    "is_incident": false,
+    "kind": "planned_maintenance",
+    "notes": "Sites went down inside the maintenance window on S-TUN-010; not an incident.",
+    "root_cause_category": "planned_maintenance",
+    "root_cause_node_id": "S-TUN-010",
+    "severity": "low",
+    "start_at": "2026-09-24T01:11:00Z"
+  },
+  "variant": "default"
+}

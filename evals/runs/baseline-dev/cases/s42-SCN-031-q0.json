@@ -1,0 +1,713 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-29T07:50:00Z",
+    "case_id": "s42-SCN-031-q0",
+    "question": "S-SAH-004 keeps raising alarms yesterday morning. Is the site in trouble?",
+    "question_index": 0,
+    "scenario_id": "SCN-031",
+    "seed": 42,
+    "split": "dev"
+  },
+  "created_at": "2026-10-10T13:45:33.520875Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-29T07:50:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-29 08:50",
+          "entity_id": "S-SAH-004",
+          "region_id": null,
+          "start": "2026-09-28 04:00"
+        },
+        "body": "No detector alerts for S-SAH-004 or its relatives between 2026-09-28 04:00 and 2026-09-29 08:50.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No detector alerts for S-SAH-004 or its relatives between 2026-09-28 04:00 and 2026-09-29 08:50.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-004"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-004 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-004: site, SAH, Monastir, urban.\nCells: C-SAH-004-1, C-SAH-004-2, C-SAH-004-3.\nSiblings under LNK-SAH-02-A: S-SAH-003, S-SAH-012.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-004 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-004",
+          "LNK-SAH-02-A",
+          "AGG-SAH-02",
+          "CORE-UPF-01",
+          "S-SAH-003",
+          "S-SAH-012"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-28 12:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SAH-004"
+          ],
+          "region_id": null,
+          "start": "2026-09-28 06:00:00"
+        },
+        "body": "23 alarm(s) on S-SAH-004 and nodes below, 2026-09-28 06:00 to 2026-09-28 12:00: 12 minor, 11 warning; 0 active at asked_at (2026-09-29 08:50).\nNo critical or major alarm in this window. 23 of 23 cleared within 10 min of being raised (self-clearing).\n2026-09-28 11:15 .. 11:35 warning DOOR_OPEN S-SAH-004 x5 (e.g. ALM-000624): all cleared\n2026-09-28 11:17 .. 11:49 minor RECTIFIER_FAULT S-SAH-004 x6 (e.g. ALM-000625): all cleared\n2026-09-28 11:23 .. 11:56 warning TEMP_HIGH S-SAH-004 x6 (e.g. ALM-000629): all cleared\n2026-09-28 11:27 .. 11:57 minor FAN_FAILURE S-SAH-004 x3 (e.g. ALM-000632): all cleared\n2026-09-28 11:27 .. 11:36 minor VSWR_HIGH S-SAH-004 x3 (e.g. ALM-000633): all cleared",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "23 alarm(s) on S-SAH-004 and nodes below, 2026-09-28 06:00 to 2026-09-28 12:00: 12 minor, 11 warning; 0 active at asked_at (2026-09-29 08:50).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000624",
+          "ALM-000625",
+          "ALM-000629",
+          "ALM-000632",
+          "ALM-000633"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-28 12:00:00",
+          "entity_ids": [
+            "S-SAH-004"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "rrc_success_pct",
+            "drop_rate_pct",
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-28 06:00:00"
+        },
+        "body": "No series deviates from its baseline between 2026-09-28 06:00 and 2026-09-28 12:00.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-29 08:50). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SAH-004 drop_rate_pct: mean 0.58 vs baseline 0.63 (-8%); min 0.43 at 2026-09-28 08:15, max 0.73 at 2026-09-28 11:30.\nNo sustained deviation from baseline in the steps that reported.\nseries (45 min buckets from 2026-09-28 06:00): 0.62 0.6 0.49 0.49 0.54 0.64 0.58 0.67 0.62\nbaseline: 0.61 0.64 0.63 0.63 0.66 0.64 0.64 0.62 0.62\nS-SAH-004 dl_volume_mb: mean 12415 vs baseline 12655 (-2%); min 4548 at 2026-09-28 06:00, max 15800 at 2026-09-28 09:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (45 min buckets from 2026-09-28 06:00): 5299 8215 11153 14467 15611 15276 14919 13923 13783\nbaseline: 5493 8312 11452 13998 15938 15851 15186 14399 14485\nS-SAH-004 rrc_success_pct: mean 99.1 vs baseline 99.1 (+0%); min 99.1 at 2026-09-28 08:00, max 99.2 at 2026-09-28 06:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (45 min buckets from 2026-09-28 06:00): 99.2 99.2 99.1 99.1 99.2 99.1 99.1 99.1 99.2\nbaseline: 99.1 99.1 99.1 99.1 99.2 99.2 99.1 99.1 99.2\nS-SAH-004 availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-28 06:00, max 100 at 2026-09-28 06:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (45 min buckets from 2026-09-28 06:00): 100 100 100 100 100 100 100 100 100\nbaseline: 100 100 100 100 100 100 100 100 100",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No series deviates from its baseline between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 53
+      },
+      {
+        "args": {
+          "end": "2026-09-28 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-004"
+          ],
+          "region_id": null,
+          "start": "2026-09-28 06:00:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-28 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-004"
+          ],
+          "region_id": null,
+          "start": "2026-09-28 06:00:00"
+        },
+        "body": "No changes on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-28 12:00:00",
+          "region_id": "SAH",
+          "start": "2026-09-28 06:00:00"
+        },
+        "body": "No external events for region SAH (and nationwide) between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SAH (and nationwide) between 2026-09-28 06:00 and 2026-09-28 12:00.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-02": {
+        "kind": "node",
+        "ref": "AGG-SAH-02",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000624": {
+        "kind": "alarm",
+        "ref": "ALM-000624",
+        "summary": "warning DOOR_OPEN on S-SAH-004, 5 occurrences from 2026-09-28 11:15 .. 11:35; all cleared"
+      },
+      "ALM-000625": {
+        "kind": "alarm",
+        "ref": "ALM-000625",
+        "summary": "minor RECTIFIER_FAULT on S-SAH-004, 6 occurrences from 2026-09-28 11:17 .. 11:49; all cleared"
+      },
+      "ALM-000629": {
+        "kind": "alarm",
+        "ref": "ALM-000629",
+        "summary": "warning TEMP_HIGH on S-SAH-004, 6 occurrences from 2026-09-28 11:23 .. 11:56; all cleared"
+      },
+      "ALM-000632": {
+        "kind": "alarm",
+        "ref": "ALM-000632",
+        "summary": "minor FAN_FAILURE on S-SAH-004, 3 occurrences from 2026-09-28 11:27 .. 11:57; all cleared"
+      },
+      "ALM-000633": {
+        "kind": "alarm",
+        "ref": "ALM-000633",
+        "summary": "minor VSWR_HIGH on S-SAH-004, 3 occurrences from 2026-09-28 11:27 .. 11:36; all cleared"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-02-A": {
+        "kind": "node",
+        "ref": "LNK-SAH-02-A",
+        "summary": "fiber link, SAH, 15.3 km, 10.0 Gbps"
+      },
+      "S-SAH-003": {
+        "kind": "node",
+        "ref": "S-SAH-003",
+        "summary": "site, SAH, Kantaoui, urban; sibling of S-SAH-004"
+      },
+      "S-SAH-004": {
+        "kind": "node",
+        "ref": "S-SAH-004",
+        "summary": "site, SAH, Monastir, urban; chain: S-SAH-004 -> LNK-SAH-02-A -> AGG-SAH-02 -> CORE-UPF-01"
+      },
+      "S-SAH-012": {
+        "kind": "node",
+        "ref": "S-SAH-012",
+        "summary": "site, SAH, Bekalta, urban; sibling of S-SAH-004"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-28 04:00, end=2026-09-29 08:50, entity_id=S-SAH-004) -> No detector alerts for S-SAH-004 or its relatives between 2026-09-28 04:00 and 2026-09-29 08:50."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-004, include=all) -> Depends on (child -> parent -> core): S-SAH-004 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, node_ids=['S-SAH-004'], include_descendants=True) -> 23 alarm(s) on S-SAH-004 and nodes below, 2026-09-28 06:00 to 2026-09-28 12:00: 12 minor, 11 warning; 0 active at asked_at (2026-09-29 08:50)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-004'], metrics=['availability_pct', 'rrc_success_pct', 'drop_rate_pct', 'dl_volume_mb'], start=2026-09 -> No series deviates from its baseline between 2026-09-28 06:00 and 2026-09-28 12:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, node_ids=['S-SAH-004'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, node_ids=['S-SAH-004'], include_ancestors=True) -> No changes on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_external_events(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-28 06:00 and 2026-09-28 12:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Incident Report: Alarms on S-SAH-004\n\n- **Classification:** no_impact\n- **Root cause:** no_impact at `S-SAH-004`\n- **Confidence:** high (Direct observation of self-clearing alarms combined with completely normal KPIs and zero matching changes, maintenance, or external events.)\n- **Impact:** 2026-09-28 11:15 to 2026-09-28 11:57\n- **Cause time:** 2026-09-28 11:15\n- **Affected:** S-SAH-004\n\n## Summary\n\nTransient minor and warning alarms raised on site S-SAH-004 with no impact on service KPIs.\n\nNo service impact; 23 transient minor and warning alarms self-cleared within minutes.\n\n## Timeline\n\n- 2026-09-28 11:15: Warning DOOR_OPEN alarm raised on S-SAH-004 [ALM-000624, T3]\n- 2026-09-28 11:17: Minor RECTIFIER_FAULT alarm raised on S-SAH-004 [ALM-000625, T3]\n- 2026-09-28 11:23: Warning TEMP_HIGH alarm raised on S-SAH-004 [ALM-000629, T3]\n- 2026-09-28 11:27: Minor FAN_FAILURE and VSWR_HIGH alarms raised on S-SAH-004 [ALM-000632, ALM-000633, T3]\n- 2026-09-28 11:57: All alarms on S-SAH-004 fully cleared [T3]\n\n## Evidence\n\n- No detector alerts for S-SAH-004 or its relatives between 2026-09-28 04:00 and 2026-09-29 08:50 [T1]\n- 23 alarms raised on S-SAH-004 consisting of 12 minor and 11 warning alarms, all self-clearing within minutes [T3, ALM-000624, ALM-000625, ALM-000629, ALM-000632, ALM-000633]\n- No KPI series deviated from its baseline between 2026-09-28 06:00 and 2026-09-28 12:00 [T4]\n- No maintenance window, configuration changes, or external events occurred during the alarm window [T5, T6, T7]\n\n## Hypotheses\n\n1. **no_impact** at S-SAH-004: confirmed. Alarms were transient, self-clearing, low severity, and accompanied by completely normal KPIs, ruling out any real service degradation or incident. [T3, T4]\n\n## Ruled out\n\n- T1: No anomaly detector alerts were triggered for the site or its relatives.\n- T5: No maintenance was scheduled during the time window.\n- T6: No configuration changes were applied to the site or its parents.\n- T7: No external events were recorded in the SAH region.\n\n## Recommended actions\n\n- No action required as the alarms self-cleared and KPIs remain normal.\n\n## Sources\n\n- `ALM-000624`: warning DOOR_OPEN on S-SAH-004, 5 occurrences from 2026-09-28 11:15 .. 11:35; all cleared\n- `T3`: get_alarms(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, node_ids=['S-SAH-004'], include_descendants=True) -> 23 alarm(s) on S-SAH-004 and nodes below, 2026-09-28 06:00 to 2026-09-28 12:00: 12 minor, 11 warning; 0 active at asked_at (2026-09-29 08:50).\n- `ALM-000625`: minor RECTIFIER_FAULT on S-SAH-004, 6 occurrences from 2026-09-28 11:17 .. 11:49; all cleared\n- `ALM-000629`: warning TEMP_HIGH on S-SAH-004, 6 occurrences from 2026-09-28 11:23 .. 11:56; all cleared\n- `ALM-000632`: minor FAN_FAILURE on S-SAH-004, 3 occurrences from 2026-09-28 11:27 .. 11:57; all cleared\n- `ALM-000633`: minor VSWR_HIGH on S-SAH-004, 3 occurrences from 2026-09-28 11:27 .. 11:36; all cleared\n- `T1`: get_anomalies(start=2026-09-28 04:00, end=2026-09-29 08:50, entity_id=S-SAH-004) -> No detector alerts for S-SAH-004 or its relatives between 2026-09-28 04:00 and 2026-09-29 08:50.\n- `T4`: query_kpis(entity_type=site, entity_ids=['S-SAH-004'], metrics=['availability_pct', 'rrc_success_pct', 'drop_rate_pct', 'dl_volume_mb'], start=2026-09 -> No series deviates from its baseline between 2026-09-28 06:00 and 2026-09-28 12:00.\n- `T5`: get_maintenance(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, node_ids=['S-SAH-004'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00.\n- `T6`: get_changes(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, node_ids=['S-SAH-004'], include_ancestors=True) -> No changes on S-SAH-004 and its parents between 2026-09-28 06:00 and 2026-09-28 12:00.\n- `T7`: get_external_events(start=2026-09-28 06:00:00, end=2026-09-28 12:00:00, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-28 06:00 and 2026-09-28 12:00.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-SAH-004 keeps raising alarms yesterday morning. Is the site in trouble?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-004"
+      ],
+      "classification": "no_impact",
+      "confidence": "high",
+      "confidence_reason": "Direct observation of self-clearing alarms combined with completely normal KPIs and zero matching changes, maintenance, or external events.",
+      "dismissed_signals": [
+        {
+          "reason": "No anomaly detector alerts were triggered for the site or its relatives.",
+          "ref": "T1"
+        },
+        {
+          "reason": "No maintenance was scheduled during the time window.",
+          "ref": "T5"
+        },
+        {
+          "reason": "No configuration changes were applied to the site or its parents.",
+          "ref": "T6"
+        },
+        {
+          "reason": "No external events were recorded in the SAH region.",
+          "ref": "T7"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "No detector alerts for S-SAH-004 or its relatives between 2026-09-28 04:00 and 2026-09-29 08:50",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "23 alarms raised on S-SAH-004 consisting of 12 minor and 11 warning alarms, all self-clearing within minutes",
+          "refs": [
+            "T3",
+            "ALM-000624",
+            "ALM-000625",
+            "ALM-000629",
+            "ALM-000632",
+            "ALM-000633"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No KPI series deviated from its baseline between 2026-09-28 06:00 and 2026-09-28 12:00",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window, configuration changes, or external events occurred during the alarm window",
+          "refs": [
+            "T5",
+            "T6",
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "no_impact",
+          "node_id": "S-SAH-004",
+          "reason": "Alarms were transient, self-clearing, low severity, and accompanied by completely normal KPIs, ruling out any real service degradation or incident.",
+          "refs": [
+            "T3",
+            "T4"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-28 11:57",
+      "impact_start": "2026-09-28 11:15",
+      "impact_summary": "No service impact; 23 transient minor and warning alarms self-cleared within minutes.",
+      "recommended_actions": [
+        "No action required as the alarms self-cleared and KPIs remain normal."
+      ],
+      "root_cause_category": "no_impact",
+      "root_cause_node_id": "S-SAH-004",
+      "root_cause_summary": "Transient minor and warning alarms raised on site S-SAH-004 with no impact on service KPIs.",
+      "root_cause_time": "2026-09-28 11:15",
+      "timeline": [
+        {
+          "event": "Warning DOOR_OPEN alarm raised on S-SAH-004",
+          "refs": [
+            "ALM-000624",
+            "T3"
+          ],
+          "time": "2026-09-28 11:15"
+        },
+        {
+          "event": "Minor RECTIFIER_FAULT alarm raised on S-SAH-004",
+          "refs": [
+            "ALM-000625",
+            "T3"
+          ],
+          "time": "2026-09-28 11:17"
+        },
+        {
+          "event": "Warning TEMP_HIGH alarm raised on S-SAH-004",
+          "refs": [
+            "ALM-000629",
+            "T3"
+          ],
+          "time": "2026-09-28 11:23"
+        },
+        {
+          "event": "Minor FAN_FAILURE and VSWR_HIGH alarms raised on S-SAH-004",
+          "refs": [
+            "ALM-000632",
+            "ALM-000633",
+            "T3"
+          ],
+          "time": "2026-09-28 11:27"
+        },
+        {
+          "event": "All alarms on S-SAH-004 fully cleared",
+          "refs": [
+            "T3"
+          ],
+          "time": "2026-09-28 11:57"
+        }
+      ],
+      "title": "Incident Report: Alarms on S-SAH-004"
+    },
+    "run_id": "RUN-b6806eea60",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-004"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "site raising alarms",
+      "unknown_ids": [],
+      "window_end": "2026-09-28T11:00:00Z",
+      "window_start": "2026-09-28T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 385,
+        "latency_ms": 873,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 119,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1267
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2942,
+        "latency_ms": 1296,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 276,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4909
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4793,
+        "latency_ms": 1255,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 80,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4398
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4975,
+        "latency_ms": 1162,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 144,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4401
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5160,
+        "latency_ms": 853,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 69,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4184
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5327,
+        "latency_ms": 1147,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 110,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4775
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4097,
+        "latency_ms": 3595,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1331,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6945
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 27679,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2129,
+      "tool_calls": 7,
+      "wall_seconds": 30.99
+    }
+  },
+  "run_name": "baseline-dev",
+  "truth": {
+    "affected_node_ids": [],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-28T11:23:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000624",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:15:00+00:00"
+      },
+      {
+        "id": "ALM-000625",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:17:00+00:00"
+      },
+      {
+        "id": "ALM-000626",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:18:00+00:00"
+      },
+      {
+        "id": "ALM-000627",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:21:00+00:00"
+      },
+      {
+        "id": "ALM-000628",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:22:00+00:00"
+      },
+      {
+        "id": "ALM-000629",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:23:00+00:00"
+      },
+      {
+        "id": "ALM-000630",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:23:00+00:00"
+      },
+      {
+        "id": "ALM-000631",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:24:00+00:00"
+      },
+      {
+        "id": "ALM-000632",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:27:00+00:00"
+      },
+      {
+        "id": "ALM-000633",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:27:00+00:00"
+      },
+      {
+        "id": "ALM-000634",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:29:00+00:00"
+      },
+      {
+        "id": "ALM-000635",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:30:00+00:00"
+      },
+      {
+        "id": "ALM-000637",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:34:00+00:00"
+      },
+      {
+        "id": "ALM-000638",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:35:00+00:00"
+      },
+      {
+        "id": "ALM-000639",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:36:00+00:00"
+      },
+      {
+        "id": "ALM-000640",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:41:00+00:00"
+      },
+      {
+        "id": "ALM-000641",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:42:00+00:00"
+      },
+      {
+        "id": "ALM-000642",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:45:00+00:00"
+      },
+      {
+        "id": "ALM-000643",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:49:00+00:00"
+      },
+      {
+        "id": "ALM-000644",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:52:00+00:00"
+      },
+      {
+        "id": "ALM-000645",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:54:00+00:00"
+      },
+      {
+        "id": "ALM-000646",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:56:00+00:00"
+      },
+      {
+        "id": "ALM-000647",
+        "table": "alarms",
+        "visible_from": "2026-09-28T10:57:00+00:00"
+      },
+      {
+        "id": "ALM-000649",
+        "table": "alarms",
+        "visible_from": "2026-09-28T11:01:00+00:00"
+      },
+      {
+        "id": "ALM-000650",
+        "table": "alarms",
+        "visible_from": "2026-09-28T11:08:00+00:00"
+      },
+      {
+        "id": "ALM-000651",
+        "table": "alarms",
+        "visible_from": "2026-09-28T11:12:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis"
+    ],
+    "impact_start_at": "2026-09-28T10:13:00Z",
+    "is_incident": false,
+    "kind": "alarm_storm",
+    "notes": "S-SAH-004 raised 26 minor/warning alarms in an hour with no KPI impact.",
+    "root_cause_category": "no_impact",
+    "root_cause_node_id": "S-SAH-004",
+    "severity": "low",
+    "start_at": "2026-09-28T10:13:00Z"
+  },
+  "variant": "default"
+}

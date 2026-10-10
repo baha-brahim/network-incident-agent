@@ -1,0 +1,800 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-05T07:36:00Z",
+    "case_id": "s42-SCN-002-q0",
+    "question": "S-SFX-001 shows poor accessibility since 03:50. Why?",
+    "question_index": 0,
+    "scenario_id": "SCN-002",
+    "seed": 42,
+    "split": "dev"
+  },
+  "created_at": "2026-10-10T13:41:40.003045Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-05T07:36:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "entity_id": "S-SFX-001",
+          "region_id": null,
+          "start": "2026-09-05 01:50"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-05 01:50 to 2026-09-05 08:36 (1 still ongoing at asked_at 2026-09-05 08:36).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0002 ONGOING since 2026-09-05 03:45 (4.8 h so far); 5 anomalies so far on 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; severity not final\n  drop_rate_pct spike on 1 entity: ongoing, e.g. S-SFX-001 since 2026-09-05 03:45\n  rrc_success_pct drop on 1 entity: ongoing, e.g. S-SFX-001 since 2026-09-05 03:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-05 01:50 to 2026-09-05 08:36 (1 still ongoing at asked_at 2026-09-05 08:36).",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0002",
+          "ANM-000048",
+          "ANM-000049"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 39
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-001"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-001 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-001: site, SFX, Sfax Centre, suburban.\nCells: C-SFX-001-1, C-SFX-001-2, C-SFX-001-3.\nSiblings under LNK-SFX-02-B: S-SFX-007.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-001 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SFX-001",
+          "LNK-SFX-02-B",
+          "AGG-SFX-02",
+          "CORE-UPF-02",
+          "S-SFX-007"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "entity_ids": [
+            "S-SFX-001",
+            "S-SFX-007"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct",
+            "availability_pct"
+          ],
+          "start": "2026-09-05 01:50"
+        },
+        "body": "No baseline available for 2026-09-05 01:50 to 2026-09-05 08:36: fewer than 2 earlier Saturdays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-05 08:36). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SFX-001 rrc_success_pct: mean 94.8; min 93 at 2026-09-05 08:00, max 99.4 at 2026-09-05 02:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 99.4 99.3 96.1 93.1 93 93 93.1 93.1 93\nS-SFX-001 drop_rate_pct: mean 2.27; min 0.5 at 2026-09-05 02:00, max 3.7 at 2026-09-05 07:30; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 0.56 0.65 1.75 2.65 2.29 2.81 3.23 3.28 3.23\nS-SFX-001 availability_pct: mean 100; min 100 at 2026-09-05 02:00, max 100 at 2026-09-05 02:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 100 100 100 100 100 100 100 100 100\nS-SFX-007 rrc_success_pct: mean 95; min 93.2 at 2026-09-05 08:00, max 99.4 at 2026-09-05 02:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 99.4 99.4 96.2 93.3 93.4 93.3 93.3 93.3 93.3\nS-SFX-007 drop_rate_pct: mean 1.98; min 0.51 at 2026-09-05 02:45, max 2.98 at 2026-09-05 05:15; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 0.64 0.55 1.52 2.7 2.88 2.36 2.18 2.3 2.65\nS-SFX-007 availability_pct: mean 100; min 100 at 2026-09-05 02:00, max 100 at 2026-09-05 02:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 100 100 100 100 100 100 100 100 100",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-05 01:50 to 2026-09-05 08:36: fewer than 2 earlier Saturdays with data. Raw statistics only.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 48
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-05 08:36",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 01:50"
+        },
+        "body": "2 alarm(s) on LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-05 01:50 to 2026-09-05 08:36: 2 minor; 2 active at asked_at (2026-09-05 08:36).\nNo critical or major alarm in this window.\n2026-09-05 04:25 ALM-000073 minor RRC_FAILURE_RATE_HIGH S-SFX-007 (below LNK-SFX-02-B): active\n2026-09-05 04:27 ALM-000074 minor RRC_FAILURE_RATE_HIGH S-SFX-001 (below LNK-SFX-02-B): active",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-05 01:50 to 2026-09-05 08:36: 2 minor; 2 active at asked_at (2026-09-05 08:36).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000073",
+          "ALM-000074"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-001",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 01:50"
+        },
+        "body": "1 change(s) on S-SFX-001, LNK-SFX-02-B, AGG-SFX-02 and its parents, 2026-09-05 01:50 to 2026-09-05 08:36 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-05 08:36).\n2026-09-05 03:52 CHG-2026-0008 config_push on S-SFX-001: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) -> in effect (not rolled back)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SFX-001, LNK-SFX-02-B, AGG-SFX-02 and its parents, 2026-09-05 01:50 to 2026-09-05 08:36 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-05 08:36).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "CHG-2026-0008"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 01:50"
+        },
+        "body": "1 change(s) on S-SFX-007 and its parents, 2026-09-05 01:50 to 2026-09-05 08:36 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-05 08:36).\n2026-09-05 03:52 CHG-2026-0009 config_push on S-SFX-007: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) -> in effect (not rolled back)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SFX-007 and its parents, 2026-09-05 01:50 to 2026-09-05 08:36 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-05 08:36).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "CHG-2026-0009"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-05 08:36",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "AGG-SFX-02"
+          ],
+          "region_id": "SFX",
+          "start": "2026-09-05 01:50"
+        },
+        "body": "2 alarm(s) on AGG-SFX-02 and nodes below, 2026-09-05 01:50 to 2026-09-05 08:36: 2 minor; 2 active at asked_at (2026-09-05 08:36).\nNo critical or major alarm in this window.\n2026-09-05 04:25 ALM-000073 minor RRC_FAILURE_RATE_HIGH S-SFX-007 (below AGG-SFX-02): active\n2026-09-05 04:27 ALM-000074 minor RRC_FAILURE_RATE_HIGH S-SFX-001 (below AGG-SFX-02): active",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on AGG-SFX-02 and nodes below, 2026-09-05 01:50 to 2026-09-05 08:36: 2 minor; 2 active at asked_at (2026-09-05 08:36).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "ALM-000073",
+          "ALM-000074"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "RRC_FAILURE_RATE_HIGH admission control RT-2.4"
+        },
+        "body": "4 runbook chunk(s) for 'RRC_FAILURE_RATE_HIGH admission control RT-2.4', best first (excerpts):\n[RB-ALARM-REFERENCE#05] Alarm reference > Radio and accessibility alarms: `HIGH_PRB` (warning, on a site). PRB utilisation above 85 or 90 percent. Raised during congestion and during large events. It does not say which. `RRC_FAILURE_RATE_HIGH` (minor, on a site). RRC setup failure rate above the threshold. Seen on some sites after a bad change, 15 to 45 minutes late. Few sites raise it even when many are affected. `VSWR_HIGH` (minor, on a site). ...\n[RB-DNS-DEGRADATION#03] Core DNS degradation > Differential diagnosis: Versus a public holiday or other expected demand change A holiday also lowers traffic in every region, but latency does not rise, the dip lasts all day, it follows a business-versus-residential pattern, and an `external_events` row exists. In a DNS fault the dip lasts hours, latency rises, and the DNS KPIs are off. Versus congestion ... Versus a bad change ...\n[RB-RAN-UPGRADE-REGRESSION#02] RAN software upgrade regression > Signature in the data: A software upgrade change on a site or group of sites, executed at night. A short availability dip during the restart is expected, typically one or two steps. Persistent quality loss after the restart. ... This is the difference from a config push, which is tied to a template and reverses at once. Version-specific. ... Alarms. Possibly `RRC_FAILURE_RATE_HIGH` or equipment alarms. ...\n[RB-CONGESTION#03] Radio capacity congestion > Differential diagnosis: Versus a stadium event or other expected demand An event also brings users, high PRB and `HIGH_PRB` alarms. Look in `external_events` for a record covering the time and the region, and check whether the site is near the venue (`nodes.attrs.near_venue`). Venue sites have extra capacity, so latency rises mildly. ... Versus a normal busy hour ... Versus a decoy parameter change ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'RRC_FAILURE_RATE_HIGH admission control RT-2.4', best first (excerpts):",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "RB-ALARM-REFERENCE#05",
+          "RB-DNS-DEGRADATION#03",
+          "RB-RAN-UPGRADE-REGRESSION#02",
+          "RB-CONGESTION#03"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 18
+      },
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 01:50"
+        },
+        "body": "No changes on AGG-SFX-02 and its parents between 2026-09-05 01:50 and 2026-09-05 08:36.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on AGG-SFX-02 and its parents between 2026-09-05 01:50 and 2026-09-05 08:36.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "entity_ids": [
+            "S-SFX-001",
+            "S-SFX-007"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-05 01:50"
+        },
+        "body": "No baseline available for 2026-09-05 01:50 to 2026-09-05 08:36: fewer than 2 earlier Saturdays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-05 08:36). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SFX-001 rrc_success_pct: mean 94.8; min 93 at 2026-09-05 08:00, max 99.4 at 2026-09-05 02:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 99.4 99.3 96.1 93.1 93 93 93.1 93.1 93\nS-SFX-001 prb_util_pct: mean 5.97; min 3.3 at 2026-09-05 04:00, max 12.1 at 2026-09-05 08:30; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 5.56 4.26 3.54 3.4 3.93 5.37 7.31 8.99 11.4\nS-SFX-007 rrc_success_pct: mean 95; min 93.2 at 2026-09-05 08:00, max 99.4 at 2026-09-05 02:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 99.4 99.4 96.2 93.3 93.4 93.3 93.3 93.3 93.3\nS-SFX-007 prb_util_pct: mean 5.63; min 3.13 at 2026-09-05 04:15, max 10.4 at 2026-09-05 08:30; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (45 min buckets from 2026-09-05 02:00): 6.06 4.43 3.48 3.21 3.7 4.74 6.43 8.45 10.2",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-05 01:50 to 2026-09-05 08:36: fewer than 2 earlier Saturdays with data. Raw statistics only.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T10",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 40
+      },
+      {
+        "args": {
+          "k": 3,
+          "query": "CHG-2026-0008 template RT-2.4 admission control RRC setup failure"
+        },
+        "body": "3 runbook chunk(s) for 'CHG-2026-0008 template RT-2.4 admission control RRC setup failure', best first (excerpts):\n[RB-BAD-CHANGE#05] Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start time. 2. `get_topology`: find the common ancestor of the affected sites (aggregation router or link). 3. `get_changes` for that node and its sites in the 24 hours before the onset. Compare each executed time with the onset. 4. `query_kpis`: confirm availability is 100 % and the RRC step is aligned with the change. Use sites outside the changed subtree as a control group; they must be normal. 5. ...\n[RB-RAN-UPGRADE-REGRESSION#02] RAN software upgrade regression > Signature in the data: A software upgrade change on a site or group of sites, executed at night. A short availability dip during the restart is expected, typically one or two steps. Persistent quality loss after the restart. Elevated `drop_rate_pct`, lower `rrc_success_pct`, and sometimes a lower volume that does not recover on the following days. This is the difference from a config push, which is tied to a template and reverses at once. Version-specific. Only sites that received the new software are affected. ... Repeated restarts. ...\n[RB-ALARM-REFERENCE#05] Alarm reference > Radio and accessibility alarms: - **`HIGH_PRB`** (warning, on a site). PRB utilisation above 85 or 90 percent. Raised during congestion and during large events. It does not say which. - **`RRC_FAILURE_RATE_HIGH`** (minor, on a site). RRC setup failure rate above the threshold. Seen on some sites after a bad change, 15 to 45 minutes late. Few sites raise it even when many are affected. - **`VSWR_HIGH`** (minor, on a site). Reflection on a sector antenna feeder. Frequent and usually harmless. If real, one sector degrades.\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 runbook chunk(s) for 'CHG-2026-0008 template RT-2.4 admission control RRC setup failure', best first (excerpts):",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T11",
+        "row_refs": [
+          "RB-BAD-CHANGE#05",
+          "RB-RAN-UPGRADE-REGRESSION#02",
+          "RB-ALARM-REFERENCE#05"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 16
+      },
+      {
+        "args": {
+          "end": "2026-09-05 08:36",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-SFX-02"
+          ],
+          "region_id": "SFX",
+          "start": "2026-09-05 01:50"
+        },
+        "body": "No changes on AGG-SFX-02 and its parents between 2026-09-05 01:50 and 2026-09-05 08:36.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on AGG-SFX-02 and its parents between 2026-09-05 01:50 and 2026-09-05 08:36.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T12",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-02": {
+        "kind": "node",
+        "ref": "AGG-SFX-02",
+        "summary": "agg router, SFX"
+      },
+      "ALM-000073": {
+        "kind": "alarm",
+        "ref": "ALM-000073",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SFX-007, raised 2026-09-05 04:25, active"
+      },
+      "ALM-000074": {
+        "kind": "alarm",
+        "ref": "ALM-000074",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SFX-001, raised 2026-09-05 04:27, active"
+      },
+      "ALR-0002": {
+        "kind": "alert",
+        "ref": "ALR-0002",
+        "summary": "ongoing alert from 2026-09-05 03:45: 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000048": {
+        "kind": "anomaly",
+        "ref": "ANM-000048",
+        "summary": "S-SFX-001 drop_rate_pct spike, ongoing since 2026-09-05 03:45"
+      },
+      "ANM-000049": {
+        "kind": "anomaly",
+        "ref": "ANM-000049",
+        "summary": "S-SFX-001 rrc_success_pct drop, ongoing since 2026-09-05 03:45"
+      },
+      "CHG-2026-0008": {
+        "kind": "change",
+        "ref": "CHG-2026-0008",
+        "summary": "config_push on S-SFX-001 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) [in effect (not rolled back)]"
+      },
+      "CHG-2026-0009": {
+        "kind": "change",
+        "ref": "CHG-2026-0009",
+        "summary": "config_push on S-SFX-007 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) [in effect (not rolled back)]"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-02-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-02-B",
+        "summary": "fiber link, SFX, 2.6 km, 10.0 Gbps"
+      },
+      "RB-ALARM-REFERENCE#05": {
+        "kind": "runbook",
+        "ref": "RB-ALARM-REFERENCE#05",
+        "summary": "Alarm reference > Radio and accessibility alarms: - **`HIGH_PRB`** (warning, on a site). PRB utilisation above 85 or 90 percent. Raised during congestion and..."
+      },
+      "RB-BAD-CHANGE#05": {
+        "kind": "runbook",
+        "ref": "RB-BAD-CHANGE#05",
+        "summary": "Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start..."
+      },
+      "RB-CONGESTION#03": {
+        "kind": "runbook",
+        "ref": "RB-CONGESTION#03",
+        "summary": "Radio capacity congestion > Differential diagnosis: ### Versus a stadium event or other expected demand An event also brings users, high PRB and `HIGH_PRB` a..."
+      },
+      "RB-DNS-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#03",
+        "summary": "Core DNS degradation > Differential diagnosis: ### Versus a public holiday or other expected demand change A holiday also lowers traffic in every region, but..."
+      },
+      "RB-RAN-UPGRADE-REGRESSION#02": {
+        "kind": "runbook",
+        "ref": "RB-RAN-UPGRADE-REGRESSION#02",
+        "summary": "RAN software upgrade regression > Signature in the data: - **A software upgrade change** on a site or group of sites, executed at night. A short availability..."
+      },
+      "S-SFX-001": {
+        "kind": "node",
+        "ref": "S-SFX-001",
+        "summary": "site, SFX, Sfax Centre, suburban; chain: S-SFX-001 -> LNK-SFX-02-B -> AGG-SFX-02 -> CORE-UPF-02"
+      },
+      "S-SFX-007": {
+        "kind": "node",
+        "ref": "S-SFX-007",
+        "summary": "site, SFX, Mahres, suburban; sibling of S-SFX-001"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-05 01:50, end=2026-09-05 08:36, entity_id=S-SFX-001) -> 1 detector alert(s) overlap 2026-09-05 01:50 to 2026-09-05 08:36 (1 still ongoing at asked_at 2026-09-05 08:36)."
+      },
+      "T10": {
+        "kind": "call",
+        "ref": "T10",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-001', 'S-SFX-007'], metrics=['rrc_success_pct', 'prb_util_pct'], start=2026-09-05 01:50, end=2026-09-0 -> No baseline available for 2026-09-05 01:50 to 2026-09-05 08:36: fewer than 2 earlier Saturdays with data. Raw statistics only."
+      },
+      "T11": {
+        "kind": "call",
+        "ref": "T11",
+        "summary": "search_runbooks(query=CHG-2026-0008 template RT-2.4 admission control RRC setup failure, k=3) -> 3 runbook chunk(s) for 'CHG-2026-0008 template RT-2.4 admission control RRC setup failure', best first (excerpts):"
+      },
+      "T12": {
+        "kind": "call",
+        "ref": "T12",
+        "summary": "get_changes(start=2026-09-05 01:50, end=2026-09-05 08:36, node_ids=['AGG-SFX-02'], region_id=SFX, include_ancestors=True) -> No changes on AGG-SFX-02 and its parents between 2026-09-05 01:50 and 2026-09-05 08:36."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SFX-001, include=all) -> Depends on (child -> parent -> core): S-SFX-001 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-001', 'S-SFX-007'], metrics=['rrc_success_pct', 'drop_rate_pct', 'availability_pct'], start=2026-09-05 -> No baseline available for 2026-09-05 01:50 to 2026-09-05 08:36: fewer than 2 earlier Saturdays with data. Raw statistics only."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-05 01:50, end=2026-09-05 08:36, node_ids=['LNK-SFX-02-B', 'AGG-SFX-02'], include_descendants=True) -> 2 alarm(s) on LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-05 01:50 to 2026-09-05 08:36: 2 minor; 2 active at asked_at (2026-09-05 08:36)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-05 01:50, end=2026-09-05 08:36, node_ids=['S-SFX-001', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_ancestors=True) -> 1 change(s) on S-SFX-001, LNK-SFX-02-B, AGG-SFX-02 and its parents, 2026-09-05 01:50 to 2026-09-05 08:36 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-05 08:36)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-05 01:50, end=2026-09-05 08:36, node_ids=['S-SFX-007'], include_ancestors=True) -> 1 change(s) on S-SFX-007 and its parents, 2026-09-05 01:50 to 2026-09-05 08:36 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-05 08:36)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_alarms(start=2026-09-05 01:50, end=2026-09-05 08:36, node_ids=['AGG-SFX-02'], region_id=SFX, include_descendants=True, min_severity=warning) -> 2 alarm(s) on AGG-SFX-02 and nodes below, 2026-09-05 01:50 to 2026-09-05 08:36: 2 minor; 2 active at asked_at (2026-09-05 08:36)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "search_runbooks(query=RRC_FAILURE_RATE_HIGH admission control RT-2.4, k=4) -> 4 runbook chunk(s) for 'RRC_FAILURE_RATE_HIGH admission control RT-2.4', best first (excerpts):"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_changes(start=2026-09-05 01:50, end=2026-09-05 08:36, node_ids=['AGG-SFX-02'], include_ancestors=True) -> No changes on AGG-SFX-02 and its parents between 2026-09-05 01:50 and 2026-09-05 08:36."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: the maintenance calendar, external events."
+    ],
+    "markdown": "# Accessibility Degradation on S-SFX-001 and S-SFX-007\n\n- **Classification:** incident\n- **Root cause:** bad_change at `S-SFX-001`\n- **Confidence:** medium (Direct evidence of configuration changes on the affected sites immediately preceding the accessibility degradation, backed by detector alerts and minor RRC failure alarms. The maintenance calendar and external events were NOT CHECKED via tool call.)\n- **Impact:** 2026-09-05 03:50 to not established or ongoing\n- **Cause time:** 2026-09-05 03:52\n- **Affected:** S-SFX-001, S-SFX-007\n\n## Summary\n\nConfiguration change CHG-2026-0008 pushed to S-SFX-001 (and CHG-2026-0009 to S-SFX-007) at 03:52 introducing regression in admission control and RRC timers.\n\nPoor accessibility with dropped rrc_success_pct and spiked drop_rate_pct starting at 03:50 on S-SFX-001 and S-SFX-007, ongoing at 08:36.\n\n## Timeline\n\n- 2026-09-05 03:45: Anomaly ANM-000048 (drop_rate_pct spike) and ANM-000049 (rrc_success_pct drop) started on S-SFX-001. [ANM-000048, ANM-000049, ALR-0002]\n- 2026-09-05 03:52: Configuration change CHG-2026-0008 pushed RAN parameter template RT-2.4 to S-SFX-001, and CHG-2026-0009 pushed to S-SFX-007. [CHG-2026-0008, CHG-2026-0009]\n- 2026-09-05 04:25: Minor alarm ALM-000073 (RRC_FAILURE_RATE_HIGH) raised on S-SFX-007. [ALM-000073]\n- 2026-09-05 04:27: Minor alarm ALM-000074 (RRC_FAILURE_RATE_HIGH) raised on S-SFX-001. [ALM-000074]\n\n## Evidence\n\n- S-SFX-001 and S-SFX-007 experienced drops in rrc_success_pct and spikes in drop_rate_pct starting around 03:45 to 03:50. [ALR-0002, ANM-000048, ANM-000049]\n- Configuration changes CHG-2026-0008 and CHG-2026-0009 pushed RAN parameter template RT-2.4 to S-SFX-001 and S-SFX-007 at 03:52. [CHG-2026-0008, CHG-2026-0009]\n- Minor RRC_FAILURE_RATE_HIGH alarms were raised on both affected sites shortly after the configuration push. [ALM-000073, ALM-000074]\n\n## Hypotheses\n\n1. **bad_change** at S-SFX-001: confirmed. Configuration changes CHG-2026-0008 and CHG-2026-0009 pushed parameter template RT-2.4 affecting admission control and RRC timers precisely matching the onset of accessibility degradation. [CHG-2026-0008, CHG-2026-0009, ALR-0002]\n2. **capacity** at S-SFX-001: rejected. PRB utilization remains very low during the window, ruling out traffic congestion. [RB-CONGESTION#03]\n\n## Ruled out\n\n- RB-CONGESTION#03: PRB utilization is very low, ruling out congestion.\n\n## Recommended actions\n\n- Rollback configuration changes CHG-2026-0008 and CHG-2026-0009 to restore previous RRC and admission control parameters.\n\n## Sources\n\n- `ANM-000048`: S-SFX-001 drop_rate_pct spike, ongoing since 2026-09-05 03:45\n- `ANM-000049`: S-SFX-001 rrc_success_pct drop, ongoing since 2026-09-05 03:45\n- `ALR-0002`: ongoing alert from 2026-09-05 03:45: 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; metrics: drop_rate_pct, rrc_success_pct\n- `CHG-2026-0008`: config_push on S-SFX-001 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) [in effect (not rolled back)]\n- `CHG-2026-0009`: config_push on S-SFX-007 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) [in effect (not rolled back)]\n- `ALM-000073`: minor RRC_FAILURE_RATE_HIGH on S-SFX-007, raised 2026-09-05 04:25, active\n- `ALM-000074`: minor RRC_FAILURE_RATE_HIGH on S-SFX-001, raised 2026-09-05 04:27, active\n- `RB-CONGESTION#03`: Radio capacity congestion > Differential diagnosis: ### Versus a stadium event or other expected demand An event also brings users, high PRB and `HIGH_PRB` a...\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: the maintenance calendar, external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-SFX-001 shows poor accessibility since 03:50. Why?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-001",
+        "S-SFX-007"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct evidence of configuration changes on the affected sites immediately preceding the accessibility degradation, backed by detector alerts and minor RRC failure alarms. The maintenance calendar and external events were NOT CHECKED via tool call.",
+      "dismissed_signals": [
+        {
+          "reason": "PRB utilization is very low, ruling out congestion.",
+          "ref": "RB-CONGESTION#03"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SFX-001 and S-SFX-007 experienced drops in rrc_success_pct and spikes in drop_rate_pct starting around 03:45 to 03:50.",
+          "refs": [
+            "ALR-0002",
+            "ANM-000048",
+            "ANM-000049"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Configuration changes CHG-2026-0008 and CHG-2026-0009 pushed RAN parameter template RT-2.4 to S-SFX-001 and S-SFX-007 at 03:52.",
+          "refs": [
+            "CHG-2026-0008",
+            "CHG-2026-0009"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Minor RRC_FAILURE_RATE_HIGH alarms were raised on both affected sites shortly after the configuration push.",
+          "refs": [
+            "ALM-000073",
+            "ALM-000074"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "S-SFX-001",
+          "reason": "Configuration changes CHG-2026-0008 and CHG-2026-0009 pushed parameter template RT-2.4 affecting admission control and RRC timers precisely matching the onset of accessibility degradation.",
+          "refs": [
+            "CHG-2026-0008",
+            "CHG-2026-0009",
+            "ALR-0002"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "capacity",
+          "node_id": "S-SFX-001",
+          "reason": "PRB utilization remains very low during the window, ruling out traffic congestion.",
+          "refs": [
+            "RB-CONGESTION#03"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-05 03:50",
+      "impact_summary": "Poor accessibility with dropped rrc_success_pct and spiked drop_rate_pct starting at 03:50 on S-SFX-001 and S-SFX-007, ongoing at 08:36.",
+      "recommended_actions": [
+        "Rollback configuration changes CHG-2026-0008 and CHG-2026-0009 to restore previous RRC and admission control parameters."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "S-SFX-001",
+      "root_cause_summary": "Configuration change CHG-2026-0008 pushed to S-SFX-001 (and CHG-2026-0009 to S-SFX-007) at 03:52 introducing regression in admission control and RRC timers.",
+      "root_cause_time": "2026-09-05 03:52",
+      "timeline": [
+        {
+          "event": "Anomaly ANM-000048 (drop_rate_pct spike) and ANM-000049 (rrc_success_pct drop) started on S-SFX-001.",
+          "refs": [
+            "ANM-000048",
+            "ANM-000049",
+            "ALR-0002"
+          ],
+          "time": "2026-09-05 03:45"
+        },
+        {
+          "event": "Configuration change CHG-2026-0008 pushed RAN parameter template RT-2.4 to S-SFX-001, and CHG-2026-0009 pushed to S-SFX-007.",
+          "refs": [
+            "CHG-2026-0008",
+            "CHG-2026-0009"
+          ],
+          "time": "2026-09-05 03:52"
+        },
+        {
+          "event": "Minor alarm ALM-000073 (RRC_FAILURE_RATE_HIGH) raised on S-SFX-007.",
+          "refs": [
+            "ALM-000073"
+          ],
+          "time": "2026-09-05 04:25"
+        },
+        {
+          "event": "Minor alarm ALM-000074 (RRC_FAILURE_RATE_HIGH) raised on S-SFX-001.",
+          "refs": [
+            "ALM-000074"
+          ],
+          "time": "2026-09-05 04:27"
+        }
+      ],
+      "title": "Accessibility Degradation on S-SFX-001 and S-SFX-007"
+    },
+    "run_id": "RUN-1d79a737cc",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SFX-001"
+      ],
+      "ongoing": true,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "poor accessibility",
+      "unknown_ids": [],
+      "window_end": "2026-09-05T07:36:00Z",
+      "window_start": "2026-09-05T02:50:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 386,
+        "latency_ms": 1449,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3160,
+        "latency_ms": 1369,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 296,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5127,
+        "latency_ms": 1320,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 196,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4893,
+        "latency_ms": 1045,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 224,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5162,
+        "latency_ms": 1570,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 82,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5347,
+        "latency_ms": 1175,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 142,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5534,
+        "latency_ms": 1124,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 96,
+        "provider": "gemini",
+        "purpose": "investigate turn 6",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3277,
+        "latency_ms": 5426,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1484,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4
+      }
+    ],
+    "usage": {
+      "cached_calls": 8,
+      "input_tokens": 32886,
+      "live_requests": {},
+      "llm_calls": 8,
+      "output_tokens": 2638,
+      "tool_calls": 12,
+      "wall_seconds": 0.25
+    }
+  },
+  "run_name": "baseline-dev",
+  "truth": {
+    "affected_node_ids": [
+      "S-SFX-001",
+      "S-SFX-007"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-05T11:08:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0008",
+        "table": "changes",
+        "visible_from": "2026-09-05T02:52:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0012",
+        "table": "changes",
+        "visible_from": "2026-09-05T11:10:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0009",
+        "table": "changes",
+        "visible_from": "2026-09-05T02:52:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0013",
+        "table": "changes",
+        "visible_from": "2026-09-05T11:10:00+00:00"
+      },
+      {
+        "id": "ALM-000073",
+        "table": "alarms",
+        "visible_from": "2026-09-05T03:25:00+00:00"
+      },
+      {
+        "id": "ALM-000074",
+        "table": "alarms",
+        "visible_from": "2026-09-05T03:27:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-05T02:52:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "Change RT-2.4 pushed to a group of sites (S-SFX-001) regressed RRC success and drop rate until it was rolled back. Root cause node is the first site of the pushed group.",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "S-SFX-001",
+    "severity": "medium",
+    "start_at": "2026-09-05T02:52:00Z"
+  },
+  "variant": "default"
+}

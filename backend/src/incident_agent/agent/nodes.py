@@ -375,8 +375,9 @@ def investigate(state: AgentState, deps: Deps) -> dict[str, Any]:
         "If the evidence is sufficient, write your final note and call no tool."
     )
     result, step = _call_llm(
-        deps, state, "investigate", f"investigate turn {iteration}", prompts.INVESTIGATE_SYSTEM,
-        human, tools=tool_schemas(),
+        deps, state, "investigate", f"investigate turn {iteration}",
+        prompts.investigate_system(cfg.disabled_tools),
+        human, tools=[t for t in tool_schemas() if t["name"] not in cfg.disabled_tools],
     )  # fmt: skip
     update: dict[str, Any] = {"steps": [*state.steps, step], "iteration": iteration}
     if result is None:

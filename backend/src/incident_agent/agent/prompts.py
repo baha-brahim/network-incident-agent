@@ -47,6 +47,18 @@ KPI impact. If the evidence stays thin, say so. If you cannot find the reported 
 window may be wrong: search again over a wider period up to Now before concluding.
 Only use ids that appear in results. If a tool returns an error, correct the arguments."""
 
+_RUNBOOK_STEP = (
+    "5. Search the runbooks for the differential diagnosis of your leading explanation.\n"
+)
+
+
+def investigate_system(disabled_tools: tuple[str, ...] = ()) -> str:
+    """The investigate prompt. Without the runbook tool, the step that asks for it is left out."""
+    if "search_runbooks" not in disabled_tools:
+        return INVESTIGATE_SYSTEM
+    return INVESTIGATE_SYSTEM.replace(_RUNBOOK_STEP, "").replace('\n6. "Not', '\n5. "Not')
+
+
 CONCLUDE_SYSTEM = """\
 Write the incident report from the case file. Use only facts in it. Cite references exactly as \
 written (T3, ALM-..., CHG-..., MW-..., EVT-..., RB-...#nn, node ids): every timeline entry, \

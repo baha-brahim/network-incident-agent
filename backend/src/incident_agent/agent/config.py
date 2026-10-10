@@ -10,6 +10,8 @@ class AgentConfig(BaseModel):
     # If the model wants to stop without having checked the maintenance calendar, the change log
     # and external events for the affected scope and window, nudge it once. Off for ablations.
     completeness_gate: bool = True
+    # Tools the model is not told about (ablations).
+    disabled_tools: tuple[str, ...] = ()
     max_repairs: int = Field(default=1, ge=0)  # extra LLM calls to fix an invalid report
     # Size limits of what a model sees (characters; the runner estimates ~3.5 characters/token).
     casefile_chars: int = Field(default=7_500, ge=2_000)

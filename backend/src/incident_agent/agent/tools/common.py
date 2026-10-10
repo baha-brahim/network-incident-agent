@@ -40,18 +40,27 @@ def trim(value: str, limit: int) -> str:
 
 
 def num(value: float | None) -> str:
-    """Compact number: enough digits to compare values, few enough to save tokens."""
+    """Compact number: enough digits to compare values, few enough to save tokens.
+
+    The value is first rounded to 9 decimals, so the last-bit differences that sums in another
+    order or on another machine can produce do not flip a rounding tie, and a tiny negative
+    value reads "0", never "-0".
+    """
     if value is None or value != value:
         return "-"
+    value = round(value, 9)
     if abs(value) >= 100:
-        return f"{value:.0f}"
-    if abs(value) >= 10:
-        return f"{value:.1f}".rstrip("0").rstrip(".")
-    return f"{value:.2f}".rstrip("0").rstrip(".") or "0"
+        text = f"{value:.0f}"
+    elif abs(value) >= 10:
+        text = f"{value:.1f}".rstrip("0").rstrip(".")
+    else:
+        text = f"{value:.2f}".rstrip("0").rstrip(".")
+    return "0" if text in ("", "-0") else text
 
 
 def pct(value: float) -> str:
-    return f"{value:+.0f}%"
+    text = f"{round(value, 9):+.0f}%"
+    return "+0%" if text == "-0%" else text
 
 
 def join_ids(ids: list[str], limit: int = 6) -> str:

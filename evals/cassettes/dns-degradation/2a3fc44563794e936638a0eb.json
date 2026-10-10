@@ -1,0 +1,82 @@
+{
+  "key": "2a3fc44563794e936638a0eb90a649a8d3a6d17bd90dd205850a7914aa3d8c56",
+  "request": {
+    "role": "agent",
+    "purpose": "investigate turn 1",
+    "messages_hash": "31df872e5f0cd9dc6c153235f967b359c5ca6bb3b475e410f1ca445b0a2e47ff",
+    "tools_hash": "6295a6f4fc4b92ae5377237248cdeceac29ba7dbd7661c2ee9f409e784fe8072",
+    "schema_hash": "",
+    "n_messages": 2,
+    "tool_names": [
+      "get_anomalies",
+      "query_kpis",
+      "get_topology",
+      "get_alarms",
+      "get_changes",
+      "get_maintenance",
+      "get_external_events",
+      "search_runbooks",
+      "run_sql"
+    ],
+    "schema_name": null,
+    "prompt_preview": "CASE FILE Question: Customers in Tunis and Sfax complained yesterday around lunchtime that web pages and apps would not load, even though their phones showed full signal. What was going on? Now: 2026-"
+  },
+  "response": {
+    "text": "",
+    "tool_calls": [
+      {
+        "name": "query_kpis",
+        "args": {
+          "entity_type": "core_node",
+          "metrics": [
+            "query_success_pct",
+            "resolution_ms"
+          ],
+          "entity_ids": [
+            "CORE-DNS-01"
+          ],
+          "start": "2026-09-02T11:00:00",
+          "end": "2026-09-02T15:00:00"
+        }
+      },
+      {
+        "name": "get_changes",
+        "args": {
+          "start": "2026-09-02T11:00:00",
+          "end": "2026-09-02T15:00:00",
+          "node_ids": [
+            "CORE-DNS-01"
+          ]
+        }
+      },
+      {
+        "name": "get_maintenance",
+        "args": {
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "start": "2026-09-02T11:00:00",
+          "end": "2026-09-02T15:00:00"
+        }
+      }
+    ],
+    "parsed": null
+  },
+  "usage": {
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "input_tokens": 3480,
+    "output_tokens": 240,
+    "latency_ms": 1096,
+    "served_model": "gemini-3.5-flash-lite",
+    "attempts": [
+      {
+        "model": "gemini:gemini-3.5-flash-lite",
+        "status": "ok",
+        "error": null,
+        "latency_ms": 1096
+      }
+    ],
+    "fell_back": false
+  }
+}

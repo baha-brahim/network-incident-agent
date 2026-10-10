@@ -490,6 +490,26 @@ def test_model_kwargs_turn_reasoning_down() -> None:
     assert o["reasoning"] is True and o["temperature"] == 0
 
 
+def test_reasoning_can_be_switched_on_for_groq_only() -> None:
+    on = build_model_kwargs("groq", "qwen/qwen3.8-27b", max_output_tokens=1, reasoning=True)
+    assert on["reasoning_effort"] == "high" and on["reasoning_format"] == "hidden"
+    off = build_model_kwargs("groq", "qwen/qwen3.8-27b", max_output_tokens=1)
+    assert off["reasoning_effort"] == "none" and "reasoning_format" not in off
+    oss = build_model_kwargs("groq", "openai/gpt-oss-120b", max_output_tokens=1, reasoning=True)
+    assert oss["reasoning_effort"] == "medium"
+    for provider, model in (("gemini", "gemini-3.5-flash-lite"), ("ollama", "qwen3:4b")):
+        assert build_model_kwargs(provider, model, max_output_tokens=1, reasoning=True) == (
+            build_model_kwargs(provider, model, max_output_tokens=1)
+        )
+
+
+def test_runner_passes_reasoning_to_the_client(use_settings: Any) -> None:
+    use_settings(groq_api_key="k")
+    runner = LLMRunner("grader", reasoning=True, cache_mode="off")
+    chat = runner._chat_model(runner.chain[0])
+    assert chat.reasoning_effort == "high"  # type: ignore[attr-defined]
+
+
 def test_real_clients_accept_the_kwargs(use_settings: Any) -> None:
     from incident_agent.llm.factory import make_chat_model
 

@@ -106,7 +106,12 @@ class Runner(Protocol):
 
 
 def build_model_kwargs(
-    provider: str, model: str, *, max_output_tokens: int, timeout: float | None = None
+    provider: str,
+    model: str,
+    *,
+    max_output_tokens: int,
+    timeout: float | None = None,
+    reasoning: bool = False,
 ) -> dict[str, Any]:
     """Client settings for one provider: temperature 0, no internal retries, reasoning turned down.
 
@@ -119,6 +124,11 @@ def build_model_kwargs(
       in the answer (ending in a bare `</think>`). So `reasoning=True`, which makes Ollama return
       the thinking separately and the answer clean (same token count, no leak).
     Gemini 3.5 ignores `temperature` (fixed sampling), so it is not sent there.
+
+    `reasoning=True` turns reasoning back on for Groq models (qwen: effort "high", gpt-oss:
+    "medium"; the thinking text is hidden from the answer but still counts as output tokens). It
+    changes nothing for the other providers. Checked live on qwen/qwen3.8-27b: effort "default"
+    produced no reasoning tokens at all, "high" does.
     """
     if provider == "gemini":
         kwargs: dict[str, Any] = {
@@ -140,9 +150,11 @@ def build_model_kwargs(
             "max_retries": 0,
         }
         if "gpt-oss" in model:
-            kwargs["reasoning_effort"] = "low"
+            kwargs["reasoning_effort"] = "medium" if reasoning else "low"
         elif "qwen" in model:
-            kwargs["reasoning_effort"] = "none"
+            kwargs["reasoning_effort"] = "high" if reasoning else "none"
+            if reasoning:
+                kwargs["reasoning_format"] = "hidden"
         return kwargs
     return {
         "temperature": 0.0,
@@ -235,6 +247,9 @@ class LLMRunner:
         route: optional `call_index -> specs`: the ordered models to try for that call (each must
             be in the chain). Lets a test force a different provider per call.
         cache_mode / cache_dir / min_interval_seconds: override the settings.
+        reasoning: leave reasoning on for models that allow switching it (see `build_model_kwargs`).
+            The cache key does not include it, so keep runs with different settings in different
+            `cache_dir`s.
         clock / sleep: injectable for tests (throttle and cooldown use them).
     """
 
@@ -248,6 +263,7 @@ class LLMRunner:
         cache_dir: Path | None = None,
         min_interval_seconds: float | None = None,
         max_output_tokens: int = DEFAULT_MAX_OUTPUT_TOKENS,
+        reasoning: bool = False,
         route: Callable[[int], Sequence[str]] | None = None,
         clock: Callable[[], float] = time.monotonic,
         sleep: Callable[[float], None] = time.sleep,
@@ -264,6 +280,7 @@ class LLMRunner:
             else min_interval_seconds
         )
         self.max_output_tokens = max_output_tokens
+        self.reasoning = reasoning
         self.route = route
         self._clock = clock
         self._throttle = _Throttle(clock, sleep)
@@ -373,7 +390,10 @@ class LLMRunner:
     def _chat_model(self, entry: ChainEntry) -> BaseChatModel:
         if entry.model is None:
             kwargs = build_model_kwargs(
-                entry.provider, entry.name, max_output_tokens=self._output_tokens(entry.provider)
+                entry.provider,
+                entry.name,
+                max_output_tokens=self._output_tokens(entry.provider),
+                reasoning=self.reasoning,
             )
             entry.model = make_chat_model(entry.spec, **kwargs)
         return entry.model
