@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  checks:
+    name: Lint, types, unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy src
+      - run: uv run pytest
+
+  db:
+    name: Database tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: incident
+          POSTGRES_PASSWORD: incident
+          POSTGRES_DB: incident_agent
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U incident -d incident_agent"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv sync --locked
+      - name: Apply docker/postgres/init.sql
+        run: psql -h localhost -p 5433 -U incident -d incident_agent -v ON_ERROR_STOP=1 -f ../docker/postgres/init.sql
+        env:
+          PGPASSWORD: incident
+      - run: uv run alembic upgrade head
+      - run: uv run pytest -m db
