@@ -1,0 +1,312 @@
+# Retrieval evaluation queries for the runbook search.
+#
+# Each query is phrased the way an investigator would ask mid-investigation, from what they see
+# in the data, not from document titles. `relevant` lists section ids (DOC/h2-slug); a query is
+# satisfied by any chunk of a listed section. Types:
+#   alarm_code   exact alarm names or codes (keyword search should do well)
+#   paraphrase   an observed pattern described without the documents' vocabulary
+#   differential "is it X or Y?" questions about telling look-alikes apart
+#   procedure    how-to and reference questions
+#   distractor   the best answer is a runbook for a failure the dataset never contains
+# The same person wrote the documents and these queries; see docs/results/retrieval.md.
+queries:
+  # ---- alarm codes ----------------------------------------------------------------------
+  - id: a01
+    type: alarm_code
+    query: "LINK_LOS critical alarm on a transport link"
+    relevant: [RB-FIBER-CUT/signature-in-the-data, RB-ALARM-REFERENCE/transport-alarms]
+  - id: a02
+    type: alarm_code
+    query: "MAINS_FAILURE major alarm followed later by BATTERY_LOW"
+    relevant: [RB-POWER-FAILURE/signature-in-the-data, RB-ALARM-REFERENCE/power-alarms]
+  - id: a03
+    type: alarm_code
+    query: "DNS_TIMEOUT_RATE never fired but resolution times look terrible"
+    relevant: [RB-DNS-DEGRADATION/signature-in-the-data, RB-ALARM-REFERENCE/core-and-router-alarms]
+  - id: a04
+    type: alarm_code
+    query: "HIGH_PRB warning raised on one site this evening"
+    relevant:
+      - RB-CONGESTION/signature-in-the-data
+      - RB-EXPECTED-EVENTS/stadium-or-venue-event-signature
+      - RB-ALARM-REFERENCE/radio-and-accessibility-alarms
+  - id: a05
+    type: alarm_code
+    query: "RRC_FAILURE_RATE_HIGH minor on a couple of sites, others silent"
+    relevant: [RB-BAD-CHANGE/signature-in-the-data, RB-ALARM-REFERENCE/radio-and-accessibility-alarms]
+  - id: a06
+    type: alarm_code
+    query: "RECTIFIER_FAULT on a cabinet, how serious is it"
+    relevant: [RB-ALARM-REFERENCE/power-alarms, RB-POWER-FAILURE/differential-diagnosis]
+  - id: a07
+    type: alarm_code
+    query: "SITE_DOWN critical, OAM heartbeat lost"
+    relevant: [RB-ALARM-REFERENCE/site-availability-alarm, RB-FIBER-CUT/signature-in-the-data]
+  - id: a08
+    type: alarm_code
+    query: "TEMP_HIGH, VSWR_HIGH and DOOR_OPEN keep flapping on the same cabinet"
+    relevant: [RB-NUISANCE-ALARMS/signature-in-the-data, RB-ALARM-REFERENCE/environmental-alarms]
+  - id: a09
+    type: alarm_code
+    query: "LINK_DEGRADED major, link at reduced modulation, RSL below threshold"
+    relevant: [RB-MICROWAVE-DEGRADATION/signature-in-the-data, RB-ALARM-REFERENCE/transport-alarms]
+  - id: a10
+    type: alarm_code
+    query: "CPU_HIGH warning on an aggregation router, does that explain an outage"
+    relevant: [RB-ALARM-REFERENCE/core-and-router-alarms, RB-FIBER-CUT/differential-diagnosis]
+  - id: a11
+    type: alarm_code
+    query: "FAN_FAILURE minor that has been active for hours"
+    relevant: [RB-ALARM-REFERENCE/environmental-alarms, RB-NUISANCE-ALARMS/differential-diagnosis]
+  - id: a12
+    type: alarm_code
+    query: "BATTERY_LOW major but the site is still carrying traffic"
+    relevant: [RB-POWER-FAILURE/signature-in-the-data, RB-ALARM-REFERENCE/power-alarms]
+
+  # ---- paraphrases of observed patterns ---------------------------------------------------
+  - id: p01
+    type: paraphrase
+    query: "three sites behind the same link lost all traffic at the same minute"
+    relevant: [RB-FIBER-CUT/signature-in-the-data, RB-TOPOLOGY/blast-radius-rules]
+  - id: p02
+    type: paraphrase
+    query: "site went down two hours after a mains alarm"
+    relevant: [RB-POWER-FAILURE/overview, RB-POWER-FAILURE/signature-in-the-data]
+  - id: p03
+    type: paraphrase
+    query: "traffic is a quarter lower in every region at once and delays are up although the cells are lightly loaded"
+    relevant: [RB-DNS-DEGRADATION/signature-in-the-data, RB-DNS-DEGRADATION/differential-diagnosis]
+  - id: p04
+    type: paraphrase
+    query: "connection success fell several points across a dozen sites right when a template went out, nothing is offline"
+    relevant: [RB-BAD-CHANGE/signature-in-the-data]
+  - id: p05
+    type: paraphrase
+    query: "radio utilisation pinned near full for two hours in the evening, double the usual users, throughput per user collapsing"
+    relevant: [RB-CONGESTION/signature-in-the-data]
+  - id: p06
+    type: paraphrase
+    query: "sites behind a radio hop carry forty percent less data and respond slowly but none are unreachable"
+    relevant: [RB-MICROWAVE-DEGRADATION/signature-in-the-data]
+  - id: p07
+    type: paraphrase
+    query: "a crowd near the arena pushed user counts to three times normal on the closest sites"
+    relevant: [RB-EXPECTED-EVENTS/stadium-or-venue-event-signature]
+  - id: p08
+    type: paraphrase
+    query: "country-wide volume was fifteen percent lower for the entire day while delays stayed normal"
+    relevant: [RB-EXPECTED-EVENTS/public-holiday-signature]
+  - id: p09
+    type: paraphrase
+    query: "one cabinet produced forty small alarms in an hour yet its customers saw nothing unusual"
+    relevant: [RB-NUISANCE-ALARMS/signature-in-the-data, RB-NUISANCE-ALARMS/overview]
+  - id: p10
+    type: paraphrase
+    query: "latency and drop rate are empty while volume reads zero, is that a data error"
+    relevant: [RB-KPI-REFERENCE/what-null-means]
+  - id: p11
+    type: paraphrase
+    query: "availability shows ninety-three percent for one quarter hour then goes back to normal"
+    relevant: [RB-KPI-REFERENCE/harmless-micro-outages]
+  - id: p12
+    type: paraphrase
+    query: "the cells kept serving for hours after the first warning and only died once the reserve was spent"
+    relevant: [RB-POWER-FAILURE/overview, RB-POWER-FAILURE/signature-in-the-data]
+  - id: p13
+    type: paraphrase
+    query: "every link under one router is affected, what is the common parent"
+    relevant: [RB-TOPOLOGY/blast-radius-rules, RB-FIBER-CUT/differential-diagnosis]
+  - id: p14
+    type: paraphrase
+    query: "how long can a cell site keep running after the grid drops out"
+    relevant: [RB-POWER-FAILURE/overview]
+  - id: p15
+    type: paraphrase
+    query: "delays rose across the whole country and the load on the radio side went down, not up"
+    relevant: [RB-DNS-DEGRADATION/differential-diagnosis, RB-DNS-DEGRADATION/signature-in-the-data]
+  - id: p16
+    type: paraphrase
+    query: "the outage kept going after the booked works were supposed to be over"
+    relevant: [RB-PLANNED-MAINTENANCE/differential-diagnosis]
+  - id: p17
+    type: paraphrase
+    query: "who repairs a broken optical cable and what do they need from me"
+    relevant: [RB-FIBER-CUT/recommended-actions, RB-ESCALATION/who-owns-what]
+  - id: p18
+    type: paraphrase
+    query: "what to do about a hop that degrades whenever it rains heavily"
+    relevant: [RB-MICROWAVE-DEGRADATION/recommended-actions, RB-MICROWAVE-DEGRADATION/overview]
+
+  # ---- differential questions ---------------------------------------------------------------
+  - id: d01
+    type: differential
+    query: "outage during a maintenance window, is it an incident?"
+    relevant: [RB-PLANNED-MAINTENANCE/differential-diagnosis, RB-FIBER-CUT/differential-diagnosis]
+  - id: d02
+    type: differential
+    query: "a change was logged forty minutes before the sites went dark, was it the cause?"
+    relevant:
+      - RB-CHANGE-CORRELATION/tests-for-naming-a-change-as-the-cause
+      - RB-CHANGE-CORRELATION/setting-a-change-aside
+      - RB-BAD-CHANGE/differential-diagnosis
+  - id: d03
+    type: differential
+    query: "heavy radio load in the evening close to the venue, congestion or just the match?"
+    relevant: [RB-CONGESTION/differential-diagnosis, RB-EXPECTED-EVENTS/differential-diagnosis]
+  - id: d04
+    type: differential
+    query: "traffic is down everywhere, holiday or a core problem?"
+    relevant: [RB-EXPECTED-EVENTS/differential-diagnosis, RB-DNS-DEGRADATION/differential-diagnosis]
+  - id: d05
+    type: differential
+    query: "a minor degraded-link alarm but the traffic of the sites is unchanged, can I ignore it"
+    relevant: [RB-MICROWAVE-DEGRADATION/differential-diagnosis, RB-ALARM-REFERENCE/transport-alarms]
+  - id: d06
+    type: differential
+    query: "one site is dead but its neighbours on the same link are fine, link or power?"
+    relevant: [RB-POWER-FAILURE/differential-diagnosis, RB-TOPOLOGY/blast-radius-rules]
+  - id: d07
+    type: differential
+    query: "connection success fell and latency is flat, configuration or load?"
+    relevant: [RB-BAD-CHANGE/differential-diagnosis, RB-CONGESTION/differential-diagnosis]
+  - id: d08
+    type: differential
+    query: "a lot of alarms from a single site, real outage or noise?"
+    relevant: [RB-NUISANCE-ALARMS/differential-diagnosis]
+  - id: d09
+    type: differential
+    query: "a harmless patch on one site shortly before several sites failed together"
+    relevant: [RB-FIBER-CUT/differential-diagnosis, RB-CHANGE-CORRELATION/setting-a-change-aside]
+  - id: d10
+    type: differential
+    query: "slow data nationwide, name resolution or the registration function?"
+    relevant: [RB-DNS-DEGRADATION/differential-diagnosis, RB-AMF-SIGNALLING-STORM/differential-diagnosis]
+  - id: d11
+    type: differential
+    query: "site is dead inside a booked window whose notes say no impact expected"
+    relevant: [RB-PLANNED-MAINTENANCE/differential-diagnosis]
+  - id: d12
+    type: differential
+    query: "volume down and latency up for sites sharing a link, availability fine: saturation or backhaul?"
+    relevant: [RB-MICROWAVE-DEGRADATION/differential-diagnosis, RB-CONGESTION/differential-diagnosis]
+  - id: d13
+    type: differential
+    query: "high temperature warnings came before the site died, was it overheating?"
+    relevant: [RB-POWER-FAILURE/differential-diagnosis, RB-NUISANCE-ALARMS/differential-diagnosis]
+  - id: d14
+    type: differential
+    query: "an event record exists but it is dated the day before the surge"
+    relevant: [RB-EXPECTED-EVENTS/differential-diagnosis]
+  - id: d15
+    type: differential
+    query: "the alarm arrived forty minutes after the metrics moved, which one dates the incident?"
+    relevant: [RB-ALARM-REFERENCE/reading-alarm-timing, RB-REPORT-WRITING/root-cause-versus-symptom]
+
+  # ---- procedure and reference questions ------------------------------------------------------
+  - id: r01
+    type: procedure
+    query: "a user says traffic dropped, what do I look at first"
+    relevant:
+      - RB-TRIAGE/step-1-define-the-symptom
+      - RB-TRIAGE/step-3-classify-by-the-shape-of-the-effect
+      - RB-TRIAGE/overview
+  - id: r02
+    type: procedure
+    query: "list every site underneath a given link in the database"
+    relevant: [RB-TOPOLOGY/finding-downstream-sites]
+  - id: r03
+    type: procedure
+    query: "how do I judge whether tonight's volume is abnormal for this hour"
+    relevant: [RB-KPI-REFERENCE/seasonality-and-baselines]
+  - id: r04
+    type: procedure
+    query: "how serious is it and who gets paged"
+    relevant:
+      - RB-ESCALATION/severity-levels
+      - RB-ESCALATION/who-owns-what
+      - RB-ESCALATION/time-based-escalation
+  - id: r05
+    type: procedure
+    query: "what must every statement in my write-up point back to"
+    relevant: [RB-REPORT-WRITING/cite-every-claim]
+  - id: r06
+    type: procedure
+    query: "how sure can I claim to be when no alarm ever fired"
+    relevant: [RB-REPORT-WRITING/calibrate-confidence]
+  - id: r07
+    type: procedure
+    query: "how do I show that the rollback is what fixed the numbers"
+    relevant:
+      - RB-CHANGE-CORRELATION/tests-for-naming-a-change-as-the-cause
+      - RB-CHANGE-CORRELATION/rollbacks
+      - RB-BAD-CHANGE/verification-steps
+  - id: r08
+    type: procedure
+    query: "in what order should the first quarter hour of an investigation go"
+    relevant: [RB-TRIAGE/overview, RB-TRIAGE/time-budget]
+  - id: r09
+    type: procedure
+    query: "how much weight does a pile of warnings deserve next to one critical alarm"
+    relevant: [RB-ALARM-REFERENCE/severity-levels, RB-NUISANCE-ALARMS/differential-diagnosis]
+  - id: r10
+    type: procedure
+    query: "what are healthy values for latency and dropped sessions on a 4G cell"
+    relevant: [RB-KPI-REFERENCE/cell-kpis]
+  - id: r11
+    type: procedure
+    query: "how are the identifiers of cells, sites and links built"
+    relevant: [RB-TOPOLOGY/node-types-and-id-formats]
+  - id: r12
+    type: procedure
+    query: "what should a hand-off to another team contain"
+    relevant: [RB-ESCALATION/what-to-include-when-escalating]
+  - id: r13
+    type: procedure
+    query: "when is it safe to close the ticket"
+    relevant: [RB-ESCALATION/de-escalation]
+  - id: r14
+    type: procedure
+    query: "the root cause happened hours before anyone saw a symptom, how do I word the timeline"
+    relevant: [RB-REPORT-WRITING/root-cause-versus-symptom, RB-REPORT-WRITING/structure]
+
+  # ---- queries whose best answer is a distractor runbook --------------------------------------
+  - id: x01
+    type: distractor
+    query: "one sector has had no users all day yet its availability reads one hundred percent"
+    relevant: [RB-SLEEPING-CELL/signature-in-the-data]
+  - id: x02
+    type: distractor
+    query: "uplink noise rising on a few sectors in the afternoon, calls dropping, no change logged"
+    relevant: [RB-RF-INTERFERENCE/signature-in-the-data]
+  - id: x03
+    type: distractor
+    query: "flood of registration requests hit the core after the region came back, attach success is low"
+    relevant: [RB-AMF-SIGNALLING-STORM/signature-in-the-data, RB-AMF-SIGNALLING-STORM/overview]
+  - id: x04
+    type: distractor
+    query: "session counts on one user plane node reset to almost nothing and then climb back"
+    relevant: [RB-UPF-FAILOVER/signature-in-the-data]
+  - id: x05
+    type: distractor
+    query: "quality got worse only on the sites that received new software last night"
+    relevant: [RB-RAN-UPGRADE-REGRESSION/signature-in-the-data]
+  - id: x06
+    type: distractor
+    query: "neighbouring cells slowly degrade after the satellite clock reference was lost"
+    relevant: [RB-SYNC-LOSS/signature-in-the-data, RB-SYNC-LOSS/overview]
+  - id: x07
+    type: distractor
+    query: "how do I bring back a cell that attracts no traffic"
+    relevant: [RB-SLEEPING-CELL/recommended-actions]
+  - id: x08
+    type: distractor
+    query: "clock reference lost on a cluster of cells, what do we do"
+    relevant: [RB-SYNC-LOSS/recommended-actions]
+  - id: x09
+    type: distractor
+    query: "repeated one-step availability dips after an upgrade restart"
+    relevant: [RB-RAN-UPGRADE-REGRESSION/signature-in-the-data]
+  - id: x10
+    type: distractor
+    query: "which team owns a failed standby takeover on the core user plane"
+    relevant: [RB-UPF-FAILOVER/escalation]

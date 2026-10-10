@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     groq_api_key: SecretStr | None = None
     ollama_base_url: str = "http://localhost:11434"
     database_url: str = DEFAULT_DATABASE_URL
+    # Where fastembed stores the downloaded embedding model.
+    embedding_cache_dir: Path = REPO_ROOT / ".cache" / "fastembed"
 
     # Model roles, as "provider:model" strings.
     agent_model: str = "gemini:gemini-3.5-flash-lite"

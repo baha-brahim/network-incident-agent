@@ -1,26 +1,18 @@
 """Loader tests that need Postgres (`docker compose up -d`)."""
 
 import math
-from collections.abc import Iterator
 from dataclasses import replace
-from pathlib import Path
 
 import pandas as pd
 import pytest
-from alembic import command
-from alembic.config import Config
-from sqlalchemy import Engine, create_engine, text
-from sqlalchemy.engine import make_url
+from sqlalchemy import Engine, text
 from sqlalchemy.exc import ProgrammingError
 
-from incident_agent.config import get_settings
 from incident_agent.db.loader import load_world
 from incident_agent.simulator.world import World
 from tests.fixtures_world import at, make_fixture_world
 
 pytestmark = pytest.mark.db
-
-ALEMBIC_INI = Path(__file__).resolve().parents[1] / "alembic.ini"
 
 
 @pytest.fixture(scope="module")
@@ -28,28 +20,12 @@ def world() -> World:
     return make_fixture_world()
 
 
-@pytest.fixture(scope="module")
-def engine() -> Iterator[Engine]:
-    command.upgrade(Config(str(ALEMBIC_INI)), "head")
-    eng = create_engine(get_settings().database_url)
-    yield eng
-    eng.dispose()
-
-
-@pytest.fixture
-def agent_engine() -> Iterator[Engine]:
-    url = make_url(get_settings().database_url).set(username="agent_ro", password="agent_ro")
-    eng = create_engine(url)
-    yield eng
-    eng.dispose()
-
-
 def expected_counts(world: World) -> dict[str, int]:
     return {name: len(df) for name, df in world.tables().items()}
 
 
-def table_counts(engine: Engine, world: World) -> dict[str, int]:
-    with engine.connect() as conn:
+def table_counts(db_engine: Engine, world: World) -> dict[str, int]:
+    with db_engine.connect() as conn:
         return {
             name: conn.execute(
                 text(f"SELECT count(*) FROM {'gt' if name == 'scenarios' else 'public'}.{name}")
@@ -58,21 +34,21 @@ def table_counts(engine: Engine, world: World) -> dict[str, int]:
         }
 
 
-def test_load_world_counts(engine: Engine, world: World) -> None:
-    counts = load_world(world, engine)
+def test_load_world_counts(db_engine: Engine, world: World) -> None:
+    counts = load_world(world, db_engine)
     assert counts == expected_counts(world)
-    assert table_counts(engine, world) == expected_counts(world)
+    assert table_counts(db_engine, world) == expected_counts(world)
 
 
-def test_reload_is_idempotent(engine: Engine, world: World) -> None:
-    load_world(world, engine)
-    load_world(world, engine)
-    assert table_counts(engine, world) == expected_counts(world)
+def test_reload_is_idempotent(db_engine: Engine, world: World) -> None:
+    load_world(world, db_engine)
+    load_world(world, db_engine)
+    assert table_counts(db_engine, world) == expected_counts(world)
 
 
-def test_values_round_trip(engine: Engine, world: World) -> None:
-    load_world(world, engine)
-    with engine.connect() as conn:
+def test_values_round_trip(db_engine: Engine, world: World) -> None:
+    load_world(world, db_engine)
+    with db_engine.connect() as conn:
         cleared = conn.execute(
             text("SELECT cleared_at FROM alarms WHERE alarm_id = 'ALM-000003'")
         ).scalar_one()
@@ -94,22 +70,25 @@ def test_values_round_trip(engine: Engine, world: World) -> None:
 
 
 def test_agent_ro_can_read_public_but_not_gt(
-    engine: Engine, agent_engine: Engine, world: World
+    db_engine: Engine, agent_ro_engine: Engine, world: World
 ) -> None:
-    load_world(world, engine)
-    with agent_engine.connect() as conn:
+    load_world(world, db_engine)
+    with agent_ro_engine.connect() as conn:
         assert conn.execute(text("SELECT count(*) FROM public.cell_kpis")).scalar_one() > 0
         assert conn.execute(text("SELECT count(*) FROM public.region_kpis_15m")).scalar_one() > 0
-    with agent_engine.connect() as conn, pytest.raises(ProgrammingError, match="permission denied"):
+    with (
+        agent_ro_engine.connect() as conn,
+        pytest.raises(ProgrammingError, match="permission denied"),
+    ):
         conn.execute(text("SELECT * FROM gt.scenarios"))
 
 
-def test_region_kpis_view(engine: Engine, world: World) -> None:
-    load_world(world, engine)
+def test_region_kpis_view(db_engine: Engine, world: World) -> None:
+    load_world(world, db_engine)
     kpis = world.cell_kpis.merge(world.cells, on="cell_id").merge(
         world.nodes[["node_id", "region_id"]], left_on="site_id", right_on="node_id"
     )
-    with engine.connect() as conn:
+    with db_engine.connect() as conn:
         n_rows = conn.execute(text("SELECT count(*) FROM region_kpis_15m")).scalar_one()
         assert n_rows == kpis.groupby(["region_id", "ts"]).ngroups
 
@@ -130,10 +109,10 @@ def test_region_kpis_view(engine: Engine, world: World) -> None:
         assert 99 < row.rrc_success_pct < 100
 
 
-def test_down_cells_have_null_quality_kpis(engine: Engine, world: World) -> None:
-    load_world(world, engine)
+def test_down_cells_have_null_quality_kpis(db_engine: Engine, world: World) -> None:
+    load_world(world, db_engine)
     down = world.cell_kpis["availability_pct"] == 0
-    with engine.connect() as conn:
+    with db_engine.connect() as conn:
         null_rows = conn.execute(
             text(
                 "SELECT count(*) FROM cell_kpis WHERE rrc_success_pct IS NULL "
@@ -154,9 +133,9 @@ def test_down_cells_have_null_quality_kpis(engine: Engine, world: World) -> None
     assert volumes == 0
 
 
-def test_view_handles_a_fully_down_region(engine: Engine, world: World) -> None:
-    load_world(world, engine)
-    with engine.connect() as conn:
+def test_view_handles_a_fully_down_region(db_engine: Engine, world: World) -> None:
+    load_world(world, db_engine)
+    with db_engine.connect() as conn:
         row = conn.execute(
             text(
                 "SELECT dl_volume_mb, cells_down, latency_ms, drop_rate_pct, rrc_success_pct "
@@ -174,9 +153,9 @@ def test_view_handles_a_fully_down_region(engine: Engine, world: World) -> None:
     assert up is not None and not math.isnan(up)
 
 
-def test_loader_rejects_nan_in_non_nullable_float(engine: Engine, world: World) -> None:
+def test_loader_rejects_nan_in_non_nullable_float(db_engine: Engine, world: World) -> None:
     bad = world.cell_kpis.copy()
     bad.loc[0, "dl_volume_mb"] = float("nan")
     broken = replace(world, cell_kpis=bad)
     with pytest.raises(ValueError, match="not nullable"):
-        load_world(broken, engine)
+        load_world(broken, db_engine)
