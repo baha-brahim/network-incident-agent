@@ -24,6 +24,9 @@ SETTINGS_ENV_VARS = [
     "LLM_CACHE_MODE",
     "LLM_CACHE_DIR",
     "LLM_MIN_INTERVAL_SECONDS",
+    "LIVE_ENABLED",
+    "LIVE_DAILY_LIMIT",
+    "CORS_ORIGINS",
 ]
 
 ALEMBIC_INI = Path(__file__).resolve().parents[1] / "alembic.ini"

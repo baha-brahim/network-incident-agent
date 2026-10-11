@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import SecretStr
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import make_url
 
@@ -47,6 +47,12 @@ class Settings(BaseSettings):
     llm_cache_dir: Path = REPO_ROOT / ".llm_cache"
     # Minimum seconds between two calls to the same model (free tiers are rate-limited).
     llm_min_interval_seconds: float = 4.5
+
+    # HTTP API. Live investigations call the model, so they are switchable and limited per day.
+    live_enabled: bool = True
+    live_daily_limit: int = Field(default=20, ge=0)
+    # As an env var, give a JSON list: CORS_ORIGINS='["https://demo.example.org"]'
+    cors_origins: list[str] = ["http://localhost:3000"]
 
     @property
     def agent_db_url(self) -> str:

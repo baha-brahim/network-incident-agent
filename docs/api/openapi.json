@@ -1,0 +1,3180 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Network Incident Agent API",
+    "description": "Investigations of network incidents, streamed as Server-Sent Events, with recorded replays, the detector's alerts, KPI series and the topology.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "summary": "Health",
+        "description": "Liveness. Checks the database, giving up after 3 seconds.",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/meta": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "summary": "Meta",
+        "description": "Facts about the dataset, and whether a live investigation can be started.",
+        "operationId": "meta_api_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Meta"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demos": {
+      "get": {
+        "tags": [
+          "demos"
+        ],
+        "summary": "List Demos",
+        "description": "The recorded investigations.",
+        "operationId": "list_demos_api_demos_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/DemoSummary"
+                  },
+                  "type": "array",
+                  "title": "Response List Demos Api Demos Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demos/{demo_id}": {
+      "get": {
+        "tags": [
+          "demos"
+        ],
+        "summary": "Get Demo",
+        "description": "A whole recording, for an instant view without replay timing.",
+        "operationId": "get_demo_api_demos__demo_id__get",
+        "parameters": [
+          {
+            "name": "demo_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Demo Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recording"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/demos/{demo_id}/stream": {
+      "post": {
+        "tags": [
+          "demos"
+        ],
+        "summary": "Replay Demo",
+        "description": "Replay a recording as events, paced by its recorded timing divided by `speed`.",
+        "operationId": "replay_demo_api_demos__demo_id__stream_post",
+        "parameters": [
+          {
+            "name": "demo_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Demo Id"
+            }
+          },
+          {
+            "name": "speed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "maximum": 20,
+              "minimum": 1,
+              "description": "Replay speed, 1 to 20.",
+              "default": 1.0,
+              "title": "Speed"
+            },
+            "description": "Replay speed, 1 to 20."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Server-Sent Events. Each frame is `event: <type>` and one `data:` line holding a `RunEvent`. Comment lines (`: ...`) are keep-alives.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/investigations/stream": {
+      "post": {
+        "tags": [
+          "investigations"
+        ],
+        "summary": "Stream Investigation",
+        "description": "Run a live investigation and stream its events. Limited per day.",
+        "operationId": "stream_investigation_api_investigations_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LiveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Server-Sent Events. Each frame is `event: <type>` and one `data:` line holding a `RunEvent`. Comment lines (`: ...`) are keep-alives.",
+            "content": {
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/investigations": {
+      "get": {
+        "tags": [
+          "investigations"
+        ],
+        "summary": "List Investigations",
+        "description": "Past live runs, newest first.",
+        "operationId": "list_investigations_api_investigations_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InvestigationSummary"
+                  },
+                  "title": "Response List Investigations Api Investigations Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/investigations/{run_id}": {
+      "get": {
+        "tags": [
+          "investigations"
+        ],
+        "summary": "Get Investigation",
+        "description": "One past run with its event list, in the same form as a recording.",
+        "operationId": "get_investigation_api_investigations__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestigationDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/alerts": {
+      "get": {
+        "tags": [
+          "network"
+        ],
+        "summary": "Alerts",
+        "description": "Detector alerts, newest first.",
+        "operationId": "alerts_api_alerts_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertOut"
+                  },
+                  "title": "Response Alerts Api Alerts Get"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/kpis": {
+      "get": {
+        "tags": [
+          "network"
+        ],
+        "summary": "Kpis",
+        "description": "A KPI series with its baseline, cut at the dataset's now (7 days, 200 points at most).",
+        "operationId": "kpis_api_kpis_get",
+        "parameters": [
+          {
+            "name": "entity_type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "enum": [
+                "cell",
+                "site",
+                "region",
+                "national",
+                "core_node"
+              ],
+              "type": "string",
+              "title": "Entity Type"
+            }
+          },
+          {
+            "name": "metric",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Metric"
+            }
+          },
+          {
+            "name": "entity_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Entity Id"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Default: 24 hours before `end`. No offset means Africa/Tunis.",
+              "title": "Start"
+            },
+            "description": "Default: 24 hours before `end`. No offset means Africa/Tunis."
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Default and maximum: the dataset's now.",
+              "title": "End"
+            },
+            "description": "Default and maximum: the dataset's now."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KpiSeries"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/topology": {
+      "get": {
+        "tags": [
+          "network"
+        ],
+        "summary": "Topology",
+        "description": "A node, its chain up to the core, and its siblings and children.",
+        "operationId": "topology_api_topology_get",
+        "parameters": [
+          {
+            "name": "node_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Node Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Topology"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlertOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "start_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start At"
+          },
+          "end_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End At"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "region_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Region Ids"
+          },
+          "entity_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Entity Ids"
+          },
+          "metrics": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Metrics"
+          },
+          "n_anomalies": {
+            "type": "integer",
+            "title": "N Anomalies"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "start_at",
+          "end_at",
+          "severity",
+          "score",
+          "summary",
+          "region_ids",
+          "entity_ids",
+          "metrics",
+          "n_anomalies",
+          "status"
+        ],
+        "title": "AlertOut"
+      },
+      "DemoCounts": {
+        "properties": {
+          "events": {
+            "type": "integer",
+            "title": "Events"
+          },
+          "llm_calls": {
+            "type": "integer",
+            "title": "Llm Calls"
+          },
+          "tool_calls": {
+            "type": "integer",
+            "title": "Tool Calls"
+          }
+        },
+        "type": "object",
+        "required": [
+          "events",
+          "llm_calls",
+          "tool_calls"
+        ],
+        "title": "DemoCounts"
+      },
+      "DemoSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "teaser": {
+            "type": "string",
+            "title": "Teaser"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "asked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Asked At"
+          },
+          "duration_ms": {
+            "type": "integer",
+            "title": "Duration Ms",
+            "description": "Length of the replay at speed 1."
+          },
+          "counts": {
+            "$ref": "#/components/schemas/DemoCounts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "teaser",
+          "question",
+          "asked_at",
+          "duration_ms",
+          "counts"
+        ],
+        "title": "DemoSummary"
+      },
+      "DismissedSignal": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ref",
+          "reason"
+        ],
+        "title": "DismissedSignal"
+      },
+      "ErrorBody": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "fields": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fields"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit"
+          },
+          "remaining": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remaining"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorBody"
+      },
+      "ErrorData": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "where": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Where"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ErrorData"
+      },
+      "ErrorEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "error",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ErrorData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "ErrorEvent"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse"
+      },
+      "EvidenceEntry": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "alert",
+              "anomaly",
+              "alarm",
+              "change",
+              "maintenance",
+              "event",
+              "runbook",
+              "node",
+              "call"
+            ],
+            "title": "Kind"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "kind",
+          "summary"
+        ],
+        "title": "EvidenceEntry"
+      },
+      "EvidenceItem": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "alert",
+              "anomaly",
+              "alarm",
+              "change",
+              "maintenance",
+              "event",
+              "runbook",
+              "node",
+              "call"
+            ],
+            "title": "Kind"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ref",
+          "kind",
+          "summary"
+        ],
+        "title": "EvidenceItem",
+        "description": "A citable piece of evidence: what a citation chip points to."
+      },
+      "Finding": {
+        "properties": {
+          "claim": {
+            "type": "string",
+            "title": "Claim"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "inferred"
+            ],
+            "title": "Basis",
+            "description": "observed: a cited tool result shows it. inferred: your reasoning from it."
+          },
+          "refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Refs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "claim",
+          "basis",
+          "refs"
+        ],
+        "title": "Finding"
+      },
+      "GateData": {
+        "properties": {
+          "missing": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Missing"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "missing",
+          "message"
+        ],
+        "title": "GateData"
+      },
+      "GateEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "gate",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GateData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "GateEvent"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "title": "Status"
+          },
+          "database": {
+            "type": "boolean",
+            "title": "Database"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "database"
+        ],
+        "title": "Health"
+      },
+      "HypothesisEntry": {
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "transport_failure",
+              "power_failure",
+              "bad_change",
+              "core_degradation",
+              "capacity",
+              "transport_degradation",
+              "planned_maintenance",
+              "expected_event",
+              "no_impact",
+              "unknown"
+            ],
+            "title": "Category"
+          },
+          "node_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Node Id"
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "confirmed",
+              "rejected",
+              "unresolved"
+            ],
+            "title": "Verdict"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Refs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "category",
+          "node_id",
+          "verdict",
+          "reason",
+          "refs"
+        ],
+        "title": "HypothesisEntry"
+      },
+      "InvestigationDetail": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "asked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Asked At"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Started At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "trigger": {
+            "type": "string",
+            "title": "Trigger"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verdict",
+            "description": "The report's classification."
+          },
+          "cause": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cause",
+            "description": "The report's root cause category."
+          },
+          "node_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Node Id"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "llm_calls": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Calls"
+          },
+          "tool_calls": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Calls"
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Tokens"
+          },
+          "output_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Tokens"
+          },
+          "seconds": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seconds"
+          },
+          "models_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Models Used"
+          },
+          "report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Report"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "markdown": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markdown"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Issues"
+          },
+          "events": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/RunStartedEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ScopeEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/LlmCallEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ToolCallEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ToolResultEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/NoteEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/GateEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ReportEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ErrorEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/RunFinishedEvent"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "error": "#/components/schemas/ErrorEvent",
+                  "gate": "#/components/schemas/GateEvent",
+                  "llm_call": "#/components/schemas/LlmCallEvent",
+                  "note": "#/components/schemas/NoteEvent",
+                  "report": "#/components/schemas/ReportEvent",
+                  "run_finished": "#/components/schemas/RunFinishedEvent",
+                  "run_started": "#/components/schemas/RunStartedEvent",
+                  "scope": "#/components/schemas/ScopeEvent",
+                  "tool_call": "#/components/schemas/ToolCallEvent",
+                  "tool_result": "#/components/schemas/ToolResultEvent"
+                }
+              }
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "question",
+          "asked_at",
+          "started_at",
+          "status",
+          "trigger",
+          "events"
+        ],
+        "title": "InvestigationDetail"
+      },
+      "InvestigationSummary": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "asked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Asked At"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Started At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "trigger": {
+            "type": "string",
+            "title": "Trigger"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verdict",
+            "description": "The report's classification."
+          },
+          "cause": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cause",
+            "description": "The report's root cause category."
+          },
+          "node_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Node Id"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "llm_calls": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Calls"
+          },
+          "tool_calls": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Calls"
+          },
+          "input_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Tokens"
+          },
+          "output_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Tokens"
+          },
+          "seconds": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seconds"
+          },
+          "models_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Models Used"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "question",
+          "asked_at",
+          "started_at",
+          "status",
+          "trigger"
+        ],
+        "title": "InvestigationSummary"
+      },
+      "KpiDeviation": {
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": [
+              "below",
+              "above"
+            ],
+            "title": "Direction"
+          },
+          "onset": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Onset"
+          },
+          "recovery": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recovery",
+            "description": "Null while the deviation is still running."
+          },
+          "ongoing": {
+            "type": "boolean",
+            "title": "Ongoing"
+          },
+          "began_before_window": {
+            "type": "boolean",
+            "title": "Began Before Window"
+          }
+        },
+        "type": "object",
+        "required": [
+          "direction",
+          "onset",
+          "recovery",
+          "ongoing",
+          "began_before_window"
+        ],
+        "title": "KpiDeviation"
+      },
+      "KpiSeries": {
+        "properties": {
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "metric": {
+            "type": "string",
+            "title": "Metric"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "Time of the first value; later values follow evenly."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End",
+            "description": "End of the window used, after cutting at the dataset's now."
+          },
+          "step_minutes": {
+            "type": "integer",
+            "title": "Step Minutes"
+          },
+          "values": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Values",
+            "description": "Null where no cell reported."
+          },
+          "baseline": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Baseline",
+            "description": "Same length as values; null where unknown."
+          },
+          "baseline_available": {
+            "type": "boolean",
+            "title": "Baseline Available"
+          },
+          "deviation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/KpiDeviation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "clamped_to_now": {
+            "type": "boolean",
+            "title": "Clamped To Now"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "entity_type",
+          "entity_id",
+          "metric",
+          "unit",
+          "start",
+          "end",
+          "step_minutes",
+          "values",
+          "baseline",
+          "baseline_available",
+          "clamped_to_now"
+        ],
+        "title": "KpiSeries"
+      },
+      "LiveRequest": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "title": "Question",
+            "description": "8 to 300 printable characters."
+          },
+          "asked_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asked At",
+            "description": "The investigation's 'now'. Defaults to the dataset's now; cannot be later."
+          }
+        },
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "title": "LiveRequest"
+      },
+      "LlmCallData": {
+        "properties": {
+          "node": {
+            "type": "string",
+            "title": "Node"
+          },
+          "purpose": {
+            "type": "string",
+            "title": "Purpose"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "served_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Served Model"
+          },
+          "input_tokens": {
+            "type": "integer",
+            "title": "Input Tokens"
+          },
+          "output_tokens": {
+            "type": "integer",
+            "title": "Output Tokens"
+          },
+          "latency_ms": {
+            "type": "integer",
+            "title": "Latency Ms"
+          },
+          "wall_ms": {
+            "type": "integer",
+            "title": "Wall Ms"
+          },
+          "fell_back": {
+            "type": "boolean",
+            "title": "Fell Back"
+          },
+          "cached": {
+            "type": "boolean",
+            "title": "Cached"
+          },
+          "attempts": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Attempts"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "node",
+          "purpose",
+          "provider",
+          "model",
+          "input_tokens",
+          "output_tokens",
+          "latency_ms",
+          "wall_ms",
+          "fell_back",
+          "cached",
+          "attempts"
+        ],
+        "title": "LlmCallData"
+      },
+      "LlmCallEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "llm_call",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LlmCallData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "LlmCallEvent"
+      },
+      "Meta": {
+        "properties": {
+          "dataset_now": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Dataset Now",
+            "description": "The dataset's 'now': nothing after it is visible."
+          },
+          "window_start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Window Start"
+          },
+          "window_end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Window End"
+          },
+          "step_minutes": {
+            "type": "integer",
+            "title": "Step Minutes"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "regions": {
+            "items": {
+              "$ref": "#/components/schemas/RegionInfo"
+            },
+            "type": "array",
+            "title": "Regions"
+          },
+          "live_enabled": {
+            "type": "boolean",
+            "title": "Live Enabled"
+          },
+          "live_daily_limit": {
+            "type": "integer",
+            "title": "Live Daily Limit"
+          },
+          "live_remaining": {
+            "type": "integer",
+            "title": "Live Remaining",
+            "description": "Live investigations left today (UTC day)."
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "The model a live investigation starts with."
+          }
+        },
+        "type": "object",
+        "required": [
+          "dataset_now",
+          "window_start",
+          "window_end",
+          "step_minutes",
+          "timezone",
+          "regions",
+          "live_enabled",
+          "live_daily_limit",
+          "live_remaining",
+          "model"
+        ],
+        "title": "Meta"
+      },
+      "NoteData": {
+        "properties": {
+          "iteration": {
+            "type": "integer",
+            "title": "Iteration"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "iteration",
+          "text"
+        ],
+        "title": "NoteData"
+      },
+      "NoteEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "note",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/NoteData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "NoteEvent"
+      },
+      "Recording": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "teaser": {
+            "type": "string",
+            "title": "Teaser"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "asked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Asked At"
+          },
+          "duration_ms": {
+            "type": "integer",
+            "title": "Duration Ms",
+            "description": "Length of the replay at speed 1."
+          },
+          "counts": {
+            "$ref": "#/components/schemas/DemoCounts"
+          },
+          "schema_version": {
+            "type": "integer",
+            "const": 1,
+            "title": "Schema Version",
+            "default": 1
+          },
+          "events": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/RunStartedEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ScopeEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/LlmCallEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ToolCallEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ToolResultEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/NoteEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/GateEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ReportEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/ErrorEvent"
+                },
+                {
+                  "$ref": "#/components/schemas/RunFinishedEvent"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "error": "#/components/schemas/ErrorEvent",
+                  "gate": "#/components/schemas/GateEvent",
+                  "llm_call": "#/components/schemas/LlmCallEvent",
+                  "note": "#/components/schemas/NoteEvent",
+                  "report": "#/components/schemas/ReportEvent",
+                  "run_finished": "#/components/schemas/RunFinishedEvent",
+                  "run_started": "#/components/schemas/RunStartedEvent",
+                  "scope": "#/components/schemas/ScopeEvent",
+                  "tool_call": "#/components/schemas/ToolCallEvent",
+                  "tool_result": "#/components/schemas/ToolResultEvent"
+                }
+              }
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "teaser",
+          "question",
+          "asked_at",
+          "duration_ms",
+          "counts",
+          "events"
+        ],
+        "title": "Recording"
+      },
+      "RegionInfo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "RegionInfo"
+      },
+      "Report": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "incident",
+              "planned_maintenance",
+              "expected_event",
+              "no_impact",
+              "inconclusive"
+            ],
+            "title": "Classification"
+          },
+          "root_cause_category": {
+            "type": "string",
+            "enum": [
+              "transport_failure",
+              "power_failure",
+              "bad_change",
+              "core_degradation",
+              "capacity",
+              "transport_degradation",
+              "planned_maintenance",
+              "expected_event",
+              "no_impact",
+              "unknown"
+            ],
+            "title": "Root Cause Category"
+          },
+          "root_cause_node_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Root Cause Node Id"
+          },
+          "root_cause_summary": {
+            "type": "string",
+            "title": "Root Cause Summary"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Confidence"
+          },
+          "confidence_reason": {
+            "type": "string",
+            "title": "Confidence Reason",
+            "description": "What supports the confidence level, or limits it."
+          },
+          "impact_summary": {
+            "type": "string",
+            "title": "Impact Summary"
+          },
+          "impact_start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Impact Start",
+            "description": "Local time, YYYY-MM-DD HH:MM"
+          },
+          "impact_end": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Impact End",
+            "description": "Local time the impact stopped; null if ongoing or unknown"
+          },
+          "root_cause_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Root Cause Time",
+            "description": "Local time of the cause, if known"
+          },
+          "affected_node_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Affected Node Ids"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineEntry"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "type": "array",
+            "title": "Findings"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/HypothesisEntry"
+            },
+            "type": "array",
+            "title": "Hypotheses",
+            "description": "Ranked, most likely first"
+          },
+          "dismissed_signals": {
+            "items": {
+              "$ref": "#/components/schemas/DismissedSignal"
+            },
+            "type": "array",
+            "title": "Dismissed Signals"
+          },
+          "recommended_actions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommended Actions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "classification",
+          "root_cause_category",
+          "root_cause_node_id",
+          "root_cause_summary",
+          "confidence",
+          "confidence_reason",
+          "impact_summary",
+          "impact_start",
+          "impact_end",
+          "root_cause_time",
+          "affected_node_ids",
+          "timeline",
+          "findings",
+          "hypotheses",
+          "dismissed_signals",
+          "recommended_actions"
+        ],
+        "title": "Report"
+      },
+      "ReportData": {
+        "properties": {
+          "report": {
+            "$ref": "#/components/schemas/Report"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Issues"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "report",
+          "issues"
+        ],
+        "title": "ReportData"
+      },
+      "ReportEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "report",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ReportData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "ReportEvent"
+      },
+      "RunFinishedData": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "finished",
+              "error"
+            ],
+            "title": "Status"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/UsageTotals"
+          },
+          "models_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Models Used"
+          },
+          "fell_back": {
+            "type": "boolean",
+            "title": "Fell Back"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Issues"
+          },
+          "report": {
+            "$ref": "#/components/schemas/Report"
+          },
+          "markdown": {
+            "type": "string",
+            "title": "Markdown"
+          },
+          "evidence": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/EvidenceEntry"
+            },
+            "type": "object",
+            "title": "Evidence",
+            "description": "Every reference of the run, by reference."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "status",
+          "usage",
+          "models_used",
+          "fell_back",
+          "issues",
+          "report",
+          "markdown"
+        ],
+        "title": "RunFinishedData"
+      },
+      "RunFinishedEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "run_finished",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RunFinishedData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "RunFinishedEvent"
+      },
+      "RunStartedData": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "asked_at": {
+            "type": "string",
+            "title": "Asked At"
+          },
+          "trigger": {
+            "type": "string",
+            "title": "Trigger"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "question",
+          "asked_at",
+          "trigger"
+        ],
+        "title": "RunStartedData"
+      },
+      "RunStartedEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "run_started",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RunStartedData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "RunStartedEvent"
+      },
+      "ScopeData": {
+        "properties": {
+          "symptom": {
+            "type": "string",
+            "title": "Symptom"
+          },
+          "window_start": {
+            "type": "string",
+            "title": "Window Start"
+          },
+          "window_end": {
+            "type": "string",
+            "title": "Window End"
+          },
+          "region_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Region Ids"
+          },
+          "node_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Node Ids"
+          },
+          "nationwide": {
+            "type": "boolean",
+            "title": "Nationwide"
+          },
+          "ongoing": {
+            "type": "boolean",
+            "title": "Ongoing"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "model",
+              "default"
+            ],
+            "title": "Source"
+          },
+          "unknown_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unknown Ids"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "symptom",
+          "window_start",
+          "window_end",
+          "region_ids",
+          "node_ids",
+          "nationwide",
+          "ongoing",
+          "source",
+          "unknown_ids"
+        ],
+        "title": "ScopeData"
+      },
+      "ScopeEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "scope",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ScopeData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "ScopeEvent"
+      },
+      "TimelineEntry": {
+        "properties": {
+          "time": {
+            "type": "string",
+            "title": "Time",
+            "description": "Local time, YYYY-MM-DD HH:MM"
+          },
+          "event": {
+            "type": "string",
+            "title": "Event"
+          },
+          "refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Refs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "time",
+          "event",
+          "refs"
+        ],
+        "title": "TimelineEntry"
+      },
+      "ToolCallData": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "tool": {
+            "type": "string",
+            "title": "Tool"
+          },
+          "args": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Args"
+          },
+          "node": {
+            "type": "string",
+            "title": "Node"
+          },
+          "iteration": {
+            "type": "integer",
+            "title": "Iteration"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ref",
+          "tool",
+          "args",
+          "node",
+          "iteration"
+        ],
+        "title": "ToolCallData"
+      },
+      "ToolCallEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "tool_call",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ToolCallData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "ToolCallEvent"
+      },
+      "ToolResultData": {
+        "properties": {
+          "ref": {
+            "type": "string",
+            "title": "Ref"
+          },
+          "tool": {
+            "type": "string",
+            "title": "Tool"
+          },
+          "headline": {
+            "type": "string",
+            "title": "Headline"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "n_refs": {
+            "type": "integer",
+            "title": "N Refs"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated"
+          },
+          "wall_ms": {
+            "type": "integer",
+            "title": "Wall Ms"
+          },
+          "args": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Args",
+            "description": "Arguments as the tool saw them."
+          },
+          "body": {
+            "type": "string",
+            "title": "Body",
+            "description": "The compact text the model saw.",
+            "default": ""
+          },
+          "refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceItem"
+            },
+            "type": "array",
+            "title": "Refs"
+          },
+          "data": {
+            "title": "Data",
+            "description": "Structured payload of the tool, when it has one."
+          },
+          "data_truncated": {
+            "type": "boolean",
+            "title": "Data Truncated",
+            "default": false
+          },
+          "duplicate_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duplicate Of",
+            "description": "Set when the call repeated an earlier one and was not run."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ref",
+          "tool",
+          "headline",
+          "n_refs",
+          "truncated",
+          "wall_ms"
+        ],
+        "title": "ToolResultData"
+      },
+      "ToolResultEvent": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seq",
+            "description": "Position in the run, starting at 0."
+          },
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "t_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "T Ms",
+            "description": "Milliseconds since the run started."
+          },
+          "type": {
+            "type": "string",
+            "const": "tool_result",
+            "title": "Type"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ToolResultData"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "run_id",
+          "t_ms",
+          "type",
+          "data"
+        ],
+        "title": "ToolResultEvent"
+      },
+      "TopoNode": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "region_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Region Id"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "attrs": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Attrs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "name",
+          "region_id",
+          "parent_id",
+          "attrs"
+        ],
+        "title": "TopoNode"
+      },
+      "Topology": {
+        "properties": {
+          "node": {
+            "$ref": "#/components/schemas/TopoNode"
+          },
+          "chain": {
+            "items": {
+              "$ref": "#/components/schemas/TopoNode"
+            },
+            "type": "array",
+            "title": "Chain",
+            "description": "The node, then its parents up to the core."
+          },
+          "shared_core": {
+            "items": {
+              "$ref": "#/components/schemas/TopoNode"
+            },
+            "type": "array",
+            "title": "Shared Core",
+            "description": "Core services every site also depends on."
+          },
+          "siblings": {
+            "items": {
+              "$ref": "#/components/schemas/TopoNode"
+            },
+            "type": "array",
+            "title": "Siblings"
+          },
+          "n_siblings": {
+            "type": "integer",
+            "title": "N Siblings"
+          },
+          "children": {
+            "items": {
+              "$ref": "#/components/schemas/TopoNode"
+            },
+            "type": "array",
+            "title": "Children"
+          },
+          "n_children": {
+            "type": "integer",
+            "title": "N Children"
+          },
+          "n_sites_below": {
+            "type": "integer",
+            "title": "N Sites Below"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "node",
+          "chain",
+          "shared_core",
+          "siblings",
+          "n_siblings",
+          "children",
+          "n_children",
+          "n_sites_below"
+        ],
+        "title": "Topology"
+      },
+      "UsageTotals": {
+        "properties": {
+          "llm_calls": {
+            "type": "integer",
+            "title": "Llm Calls",
+            "default": 0
+          },
+          "cached_calls": {
+            "type": "integer",
+            "title": "Cached Calls",
+            "default": 0
+          },
+          "tool_calls": {
+            "type": "integer",
+            "title": "Tool Calls",
+            "default": 0
+          },
+          "input_tokens": {
+            "type": "integer",
+            "title": "Input Tokens",
+            "default": 0
+          },
+          "output_tokens": {
+            "type": "integer",
+            "title": "Output Tokens",
+            "default": 0
+          },
+          "wall_seconds": {
+            "type": "number",
+            "title": "Wall Seconds",
+            "default": 0.0
+          },
+          "live_requests": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Live Requests"
+          }
+        },
+        "type": "object",
+        "title": "UsageTotals"
+      }
+    }
+  }
+}
