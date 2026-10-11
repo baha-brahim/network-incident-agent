@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. A neutral base with one accent (blue). Other colours carry meaning only:
+ * danger = incident / failure, warn = maintenance / caution, event = expected event, ok = no impact / healthy.
+ */
+:root {
+  color-scheme: light dark;
+
+  --bg: oklch(0.985 0.002 250);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.965 0.003 250);
+  --line: oklch(0.91 0.004 250);
+  --line-strong: oklch(0.82 0.007 250);
+  --fg: oklch(0.22 0.012 255);
+  --muted: oklch(0.47 0.013 255);
+
+  --accent: oklch(0.5 0.18 262);
+  --accent-soft: oklch(0.955 0.03 262);
+  --accent-fg: oklch(1 0 0);
+
+  --danger: oklch(0.5 0.19 25);
+  --danger-soft: oklch(0.96 0.025 25);
+  --warn: oklch(0.47 0.11 65);
+  --warn-soft: oklch(0.96 0.045 85);
+  --ok: oklch(0.44 0.12 155);
+  --ok-soft: oklch(0.955 0.035 155);
+  --event: oklch(0.47 0.17 300);
+  --event-soft: oklch(0.955 0.03 300);
+
+  --shadow-pop: 0 6px 24px oklch(0.2 0.02 255 / 0.14), 0 1px 3px oklch(0.2 0.02 255 / 0.1);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --header-h: 3.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: oklch(0.165 0.008 255);
+    --surface: oklch(0.2 0.009 255);
+    --surface-2: oklch(0.245 0.01 255);
+    --line: oklch(0.3 0.01 255);
+    --line-strong: oklch(0.4 0.012 255);
+    --fg: oklch(0.95 0.005 255);
+    --muted: oklch(0.73 0.012 255);
+
+    --accent: oklch(0.74 0.13 262);
+    --accent-soft: oklch(0.29 0.06 262);
+    --accent-fg: oklch(0.16 0.01 262);
+
+    --danger: oklch(0.78 0.12 25);
+    --danger-soft: oklch(0.29 0.06 25);
+    --warn: oklch(0.82 0.11 85);
+    --warn-soft: oklch(0.29 0.05 85);
+    --ok: oklch(0.8 0.12 155);
+    --ok-soft: oklch(0.28 0.05 155);
+    --event: oklch(0.78 0.12 300);
+    --event-soft: oklch(0.29 0.06 300);
+
+    --shadow-pop: 0 8px 28px oklch(0 0 0 / 0.5), 0 0 0 1px oklch(1 0 0 / 0.06);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-event: var(--event);
+  --color-event-soft: var(--event-soft);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --shadow-pop: var(--shadow-pop);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: none;
+  scroll-padding-top: calc(var(--header-h) + 4.5rem);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  min-height: 100dvh;
+  font-feature-settings: "cv11", "ss01";
+  text-rendering: optimizeLegibility;
+}
+
+/* Touch: 16px inputs avoid the page zoom on focus; controls do not select their label on long-press. */
+input,
+textarea,
+select {
+  font-size: 1rem;
+}
+
+button,
+a,
+[role="button"],
+[role="tab"] {
+  touch-action: manipulation;
+}
+
+button,
+[role="button"],
+[role="tab"] {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 28%, transparent);
+}
+
+/* Press feedback for everything pressable. */
+.press {
+  transition:
+    transform 140ms var(--ease-out),
+    background-color 140ms ease,
+    border-color 140ms ease,
+    color 140ms ease;
+}
+.press:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* List rows are moved through with the keyboard, so their selection changes instantly; only the press is felt. */
+.press-row {
+  transition: transform 140ms var(--ease-out);
+}
+.press-row:active {
+  transform: scale(0.985);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hover-surface:hover {
+    background-color: var(--surface-2);
+  }
+  .hover-border:hover {
+    border-color: var(--line-strong);
+  }
+}
+
+/* A step arriving in the timeline: a short rise and fade. Only for steps that arrive while watching. */
+.step-enter {
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* The report arriving. */
+.report-enter {
+  transition:
+    opacity 260ms var(--ease-out),
+    transform 260ms var(--ease-out);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* A step the reader was sent to from a citation. Restarts on every click, by design. */
+@keyframes flash {
+  from {
+    background-color: color-mix(in oklab, var(--accent) 24%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+.flash {
+  animation: flash 1100ms var(--ease-out);
+}
+
+/* Constant motion: a running tool call. */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.45;
+  }
+}
+.skeleton {
+  background: var(--surface-2);
+  border-radius: 6px;
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+/* Tooltips */
+.tip {
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+  transition:
+    opacity 125ms var(--ease-out),
+    transform 125ms var(--ease-out);
+}
+.tip[data-state="delayed-open"],
+.tip[data-state="instant-open"] {
+  opacity: 1;
+  transform: scale(1);
+  @starting-style {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+.tip[data-state="instant-open"] {
+  transition-duration: 0ms;
+}
+
+/* Reduced motion: no movement; short fades and colour changes stay because they carry state. */
+@media (prefers-reduced-motion: reduce) {
+  .press:active:not(:disabled),
+  .press-row:active {
+    transform: none;
+  }
+  .step-enter,
+  .report-enter {
+    transition: opacity 160ms ease;
+    @starting-style {
+      opacity: 0;
+      transform: none;
+    }
+  }
+  .tip {
+    transition: opacity 125ms ease;
+  }
+  .tip[data-state="delayed-open"],
+  .tip[data-state="instant-open"] {
+    @starting-style {
+      opacity: 0;
+      transform: none;
+    }
+  }
+  .flash {
+    animation: flash-still 1100ms steps(1, end);
+  }
+  .spinner {
+    animation: none;
+    border-style: dashed;
+  }
+  .skeleton {
+    animation: none;
+  }
+}
+@keyframes flash-still {
+  from,
+  to {
+    background-color: color-mix(in oklab, var(--accent) 16%, transparent);
+  }
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+/* Keeps long IDs and unbroken text inside their box. */
+.break-anywhere {
+  overflow-wrap: anywhere;
+}

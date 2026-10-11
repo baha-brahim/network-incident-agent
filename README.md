@@ -40,3 +40,15 @@ uv run uvicorn incident_agent.api.app:app --reload     # http://localhost:8000, 
 - Live runs call the model, so they are limited per day (`LIVE_DAILY_LIMIT`, default 20) and can be switched off (`LIVE_ENABLED=false`). `CORS_ORIGINS` is a JSON list of allowed web origins.
 - To re-record the demos from cached model responses, with no provider call: `LLM_CACHE_MODE=replay uv run python -m incident_agent.api.record --all`.
 - The contract is `docs/api/openapi.json`. After changing an endpoint or a model, regenerate it with `uv run python -m incident_agent.api.openapi`; a test fails when it is out of date.
+
+## Run the web interface
+
+With the API running (see above), from `frontend/` (Node 22):
+
+```
+cd frontend
+npm install
+npm run dev          # http://localhost:3000
+```
+
+It reads the API at `NEXT_PUBLIC_API_URL` (default `http://localhost:8000`); set `NEXT_PUBLIC_REPO_URL` to show a link to this repository. To explore it without ever calling a model, start the API with `LLM_CACHE_MODE=replay`: recorded replays never call one. Checks: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`. More in [`frontend/README.md`](frontend/README.md).
