@@ -1,0 +1,40 @@
+{
+  "case_id": "s7-SCN-022-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2778,
+      "live_tokens": 2954,
+      "output_tokens": 176
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "T3 confirms the alarms and T4 confirms no KPI deviation, supporting the conclusion of transient warnings with zero service impact.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence shows the last alarm cleared at 21:51, not 08:26; the claim extends the time window incorrectly.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 reports a +3% deviation in drop_rate_pct, contradicting the claim of 'zero deviation'.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 2,
+      "reason": "T1 confirms no anomaly alerts and T5 confirms no maintenance for the specified nodes and window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

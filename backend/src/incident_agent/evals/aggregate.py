@@ -174,5 +174,16 @@ def difficulty_of_case(s: CaseScore) -> str:
     return s.difficulty
 
 
+NO_TRAP = "no trap"
+
+
+def trap_of_case(s: CaseScore) -> str:
+    return s.trap or NO_TRAP
+
+
+def has_traps(scores: Sequence[CaseScore]) -> bool:
+    return any(s.trap for s in scores)
+
+
 def class_of_case(s: CaseScore) -> str:
     return "real incident" if s.is_incident else "red herring"

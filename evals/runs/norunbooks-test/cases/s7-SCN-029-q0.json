@@ -1,0 +1,732 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-27T08:57:00Z",
+    "case_id": "s7-SCN-029-q0",
+    "question": "Why is S-SAH-011 struggling yesterday afternoon? Latency is high and throughput is poor.",
+    "question_index": 0,
+    "scenario_id": "SCN-029",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:34:13.408938Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-27T08:57:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-27 09:57",
+          "entity_id": "S-SAH-011",
+          "region_id": null,
+          "start": "2026-09-26 10:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-26 10:00 to 2026-09-27 09:57.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0037 medium ended, 2026-09-26 18:00 to 2026-09-26 21:30 (3.5 h): RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 2 sites in SAH (S-SAH-003, S-SAH-011) for 3.5 h\n  active_users spike on 1 entity: worst S-SAH-011 z 9.0, 202 -> 424, 2026-09-26 18:00 to 2026-09-26 21:30\n  dl_volume_mb spike on 1 entity: worst S-SAH-011 z 17.9, 29249 -> 107314, 2026-09-26 18:00 to 2026-09-26 21:30\n  drop_rate_pct spike on 1 entity: worst S-SAH-011 z 20.3, 0.56 -> 4.01, 2026-09-26 18:00 to 2026-09-26 21:30\n  +3 more metric group(s): latency_ms spike, prb_util_pct spike, rrc_success_pct drop",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-26 10:00 to 2026-09-27 09:57.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0037",
+          "ANM-000396",
+          "ANM-000397",
+          "ANM-000398"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-011"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-011 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-011: site, SAH, Khenis, urban.\nCells: C-SAH-011-1, C-SAH-011-2, C-SAH-011-3.\nSiblings under LNK-SAH-02-A: S-SAH-004, S-SAH-005.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-011 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-011",
+          "LNK-SAH-02-A",
+          "AGG-SAH-02",
+          "CORE-UPF-01",
+          "S-SAH-004",
+          "S-SAH-005"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-26 23:59",
+          "entity_ids": [
+            "S-SAH-011",
+            "S-SAH-003"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "dl_volume_mb",
+            "prb_util_pct",
+            "active_users"
+          ],
+          "start": "2026-09-26 12:00"
+        },
+        "body": "Deviation in 8 of 8 series. Earliest onset 2026-09-26 17:45: S-SAH-011 dl_volume_mb above baseline.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-27 09:57). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 3 earlier Saturdays with data; treat small deviations with caution.\nS-SAH-011 dl_volume_mb: mean 59774 vs 41225 (+45%); above baseline from 2026-09-26 17:45, recovered 2026-09-26 21:30.\nS-SAH-011 prb_util_pct: mean 54.8 vs 38.1 (+44%); above baseline from 2026-09-26 17:45, recovered 2026-09-26 21:30.\nS-SAH-011 latency_ms: mean 45.1 vs 21.9 (+106%); above baseline from 2026-09-26 18:00, recovered 2026-09-26 21:30.\nS-SAH-011 active_users: mean 381 vs 288 (+32%); above baseline from 2026-09-26 18:00, recovered 2026-09-26 21:30.\nS-SAH-003 latency_ms: mean 43.8 vs 19.7 (+123%); above baseline from 2026-09-26 18:00, recovered 2026-09-26 21:30.\nS-SAH-003 dl_volume_mb: mean 61007 vs 42390 (+44%); above baseline from 2026-09-26 18:00, recovered 2026-09-26 22:30.\nS-SAH-003 prb_util_pct: mean 57.3 vs 39.6 (+45%); above baseline from 2026-09-26 18:00, recovered 2026-09-26 21:30.\nS-SAH-003 active_users: mean 394 vs 281 (+40%); above baseline from 2026-09-26 18:00, recovered 2026-09-26 21:30.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 8 of 8 series. Earliest onset 2026-09-26 17:45: S-SAH-011 dl_volume_mb above baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 146
+      },
+      {
+        "args": {
+          "end": "2026-09-26 23:59",
+          "region_id": "SAH",
+          "start": "2026-09-26 12:00"
+        },
+        "body": "No external events for region SAH (and nationwide) between 2026-09-26 12:00 and 2026-09-26 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SAH (and nationwide) between 2026-09-26 12:00 and 2026-09-26 23:59.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-26 23:59",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SAH-011",
+            "LNK-SAH-02-A",
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-26 12:00"
+        },
+        "body": "2 alarm(s) on S-SAH-011, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57).\nNo critical or major alarm in this window.\n2026-09-26 18:01 ALM-000584 warning HIGH_PRB S-SAH-011: cleared 2026-09-26 21:41\n2026-09-26 18:09 ALM-000585 warning HIGH_PRB S-SAH-003 (below AGG-SAH-02): cleared 2026-09-26 21:47",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on S-SAH-011, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "ALM-000584",
+          "ALM-000585"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-26 23:59",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-26 12:00"
+        },
+        "body": "2 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57).\nNo critical or major alarm in this window.\n2026-09-26 18:01 ALM-000584 warning HIGH_PRB S-SAH-011 (below AGG-SAH-02): cleared 2026-09-26 21:41\n2026-09-26 18:09 ALM-000585 warning HIGH_PRB S-SAH-003 (below AGG-SAH-02): cleared 2026-09-26 21:47",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000584",
+          "ALM-000585"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-26 23:59",
+          "region_id": "TUN"
+        },
+        "body": "Invalid arguments - start: Field required",
+        "duplicate_of": null,
+        "error": "Invalid arguments - start: Field required",
+        "headline": "get_external_events error: Invalid arguments - start: Field required",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "end": "2026-09-26 23:59",
+          "entity_ids": [
+            "S-SAH-004",
+            "S-SAH-005"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "active_users",
+            "prb_util_pct",
+            "latency_ms"
+          ],
+          "start": "2026-09-26 12:00"
+        },
+        "body": "Deviation in 1 of 8 series. Earliest onset 2026-09-26 22:15: S-SAH-005 active_users above baseline.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-27 09:57). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 3 earlier Saturdays with data; treat small deviations with caution.\nS-SAH-005 active_users: mean 43.4 vs baseline 42.3 (+3%); min 28.5 at 2026-09-26 16:30, max 73.6 at 2026-09-26 21:30.\nDeviation above baseline: onset 2026-09-26 22:15; worst 66.3 vs 57 at 2026-09-26 22:15; recovery 2026-09-26 22:45.\nS-SAH-004 active_users: mean 103 vs baseline 97.3 (+6%); min 61.4 at 2026-09-26 17:00, max 182 at 2026-09-26 21:45.\nNo sustained deviation from baseline in the steps that reported.\nS-SAH-004 prb_util_pct: mean 19 vs baseline 18 (+6%); min 11 at 2026-09-26 17:30, max 33 at 2026-09-26 22:15.\nNo sustained deviation from baseline in the steps that reported.\nS-SAH-004 dl_volume_mb: mean 7232 vs baseline 6854 (+6%); min 4171 at 2026-09-26 17:30, max 12542 at 2026-09-26 22:15.\nNo sustained deviation from baseline in the steps that reported.\nS-SAH-005 prb_util_pct: mean 8.32 vs baseline 8.09 (+3%); min 5.24 at 2026-09-26 16:30, max 14.6 at 2026-09-26 21:30.\nNo sustained deviation from baseline in the steps that reported.\nS-SAH-005 dl_volume_mb: mean 3129 vs baseline 3052 (+3%); min 1973 at 2026-09-26 16:30, max 5510 at 2026-09-26 21:30.\nNo sustained deviation from baseline in the steps that reported.\nS-SAH-004 latency_ms: mean 32.8 vs baseline 33.3 (-2%); min 30.4 at 2026-09-26 17:45, max 35.9 at 2026-09-26 22:15.\nNo sustained deviation from baseline in the steps that reported.\nS-SAH-005 latency_ms: mean 42.8 vs baseline 42.8 (+0%); min 40.6 at 2026-09-26 14:15, max 46.4 at 2026-09-26 17:30.\nNo sustained deviation from baseline in the steps that reported.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 1 of 8 series. Earliest onset 2026-09-26 22:15: S-SAH-005 active_users above baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 128
+      },
+      {
+        "args": {
+          "end": "2026-09-26 23:59",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-011",
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-26 12:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-26 23:59",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-011",
+            "AGG-SAH-02"
+          ],
+          "region_id": "SAH",
+          "start": "2026-09-26 12:00"
+        },
+        "body": "No changes on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T10",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-02": {
+        "kind": "node",
+        "ref": "AGG-SAH-02",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000584": {
+        "kind": "alarm",
+        "ref": "ALM-000584",
+        "summary": "warning HIGH_PRB on S-SAH-011, raised 2026-09-26 18:01, cleared 2026-09-26 21:41"
+      },
+      "ALM-000585": {
+        "kind": "alarm",
+        "ref": "ALM-000585",
+        "summary": "warning HIGH_PRB on S-SAH-003, raised 2026-09-26 18:09, cleared 2026-09-26 21:47"
+      },
+      "ALR-0037": {
+        "kind": "alert",
+        "ref": "ALR-0037",
+        "summary": "ended alert from 2026-09-26 18:00: 2 site(s) (S-SAH-003, S-SAH-011); region-level SAH; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rr..."
+      },
+      "ANM-000396": {
+        "kind": "anomaly",
+        "ref": "ANM-000396",
+        "summary": "S-SAH-011 active_users spike, z 9.0, baseline 202 -> 424"
+      },
+      "ANM-000397": {
+        "kind": "anomaly",
+        "ref": "ANM-000397",
+        "summary": "S-SAH-011 dl_volume_mb spike, z 17.9, baseline 29249 -> 107314"
+      },
+      "ANM-000398": {
+        "kind": "anomaly",
+        "ref": "ANM-000398",
+        "summary": "S-SAH-011 drop_rate_pct spike, z 20.3, baseline 0.56 -> 4.01"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-02-A": {
+        "kind": "node",
+        "ref": "LNK-SAH-02-A",
+        "summary": "fiber link, SAH, 16.6 km, 10.0 Gbps"
+      },
+      "S-SAH-004": {
+        "kind": "node",
+        "ref": "S-SAH-004",
+        "summary": "site, SAH, Monastir, suburban; sibling of S-SAH-011"
+      },
+      "S-SAH-005": {
+        "kind": "node",
+        "ref": "S-SAH-005",
+        "summary": "site, SAH, Mahdia, rural; sibling of S-SAH-011"
+      },
+      "S-SAH-011": {
+        "kind": "node",
+        "ref": "S-SAH-011",
+        "summary": "site, SAH, Khenis, urban; chain: S-SAH-011 -> LNK-SAH-02-A -> AGG-SAH-02 -> CORE-UPF-01"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-26 10:00, end=2026-09-27 09:57, entity_id=S-SAH-011) -> 1 detector alert(s) overlap 2026-09-26 10:00 to 2026-09-27 09:57."
+      },
+      "T10": {
+        "kind": "call",
+        "ref": "T10",
+        "summary": "get_changes(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['S-SAH-011', 'AGG-SAH-02'], region_id=SAH, include_ancestors=True) -> No changes on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-011, include=all) -> Depends on (child -> parent -> core): S-SAH-011 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-011', 'S-SAH-003'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct', 'active_users'], start=2026 -> Deviation in 8 of 8 series. Earliest onset 2026-09-26 17:45: S-SAH-011 dl_volume_mb above baseline."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_external_events(start=2026-09-26 12:00, end=2026-09-26 23:59, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-26 12:00 and 2026-09-26 23:59."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_alarms(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['S-SAH-011', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_descendants=True) -> 2 alarm(s) on S-SAH-011, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['AGG-SAH-02'], include_descendants=True, min_severity=warning) -> 2 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_external_events(end=2026-09-26 23:59, region_id=TUN) -> get_external_events error: Invalid arguments - start: Field required"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-004', 'S-SAH-005'], metrics=['dl_volume_mb', 'active_users', 'prb_util_pct', 'latency_ms'], start=2026 -> Deviation in 1 of 8 series. Earliest onset 2026-09-26 22:15: S-SAH-005 active_users above baseline."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_maintenance(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['S-SAH-011', 'AGG-SAH-02'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Incident Report: High Latency and Poor Throughput on S-SAH-011\n\n- **Classification:** incident\n- **Root cause:** capacity at `S-SAH-011`\n- **Confidence:** high (Directly evidenced by high PRB utilization alarms, traffic volume spikes, and active user spikes on the site during the incident window. Maintenance, external events, changes, and transport failures were checked and ruled out.)\n- **Impact:** 2026-09-26 18:00 to 2026-09-26 21:47\n- **Cause time:** 2026-09-26 18:00\n- **Affected:** S-SAH-011, S-SAH-003\n\n## Summary\n\nLocalized traffic congestion and capacity overload driven by a sudden surge in active users and download traffic volume.\n\nS-SAH-011 experienced high latency and poor throughput due to localized traffic congestion and high PRB utilization from late afternoon to evening on 2026-09-26, fully recovering after the traffic surge subsided.\n\n## Timeline\n\n- 2026-09-26 17:45: Earliest onset of KPI deviation recorded with S-SAH-011 dl_volume_mb rising above baseline. [T3]\n- 2026-09-26 18:00: Detector alert ALR-0037 begins, showing traffic, active users, drop rate, latency, and PRB utilization spiking on S-SAH-011 and S-SAH-003. [T1, ALR-0037]\n- 2026-09-26 18:01: Warning alarm ALM-000584 for high PRB utilization raised on S-SAH-011. [T5, ALM-000584]\n- 2026-09-26 18:09: Warning alarm ALM-000585 for high PRB utilization raised on S-SAH-003. [T5, ALM-000585]\n- 2026-09-26 21:41: High PRB utilization alarm ALM-000584 cleared on S-SAH-011. [ALM-000584]\n- 2026-09-26 21:47: High PRB utilization alarm ALM-000585 cleared on S-SAH-003, and alert ALR-0037 ended. [T1, ALR-0037, ALM-000585]\n\n## Evidence\n\n- S-SAH-011 and S-SAH-003 experienced an anomaly alert from 18:00 to 21:30 featuring spikes in active users, download volume, drop rate, and latency. [T1, ALR-0037]\n- S-SAH-011 encountered high PRB utilization alarms (ALM-000584 and ALM-000585) between 18:01 and 21:47. [T5, T6, ALM-000584, ALM-000585]\n- No external events, transport failures, critical/major alarms, maintenance windows, or configuration changes occurred on S-SAH-011 or its aggregation parent during the window. [T4, T5, T9, T10]\n- Sibling sites S-SAH-004 and S-SAH-005 did not show widespread simultaneous capacity congestion during the main window. [T8]\n\n## Inferences\n\n- The event was caused by a localized surge in user traffic and active users rather than a network infrastructure fault. [T1, T3, T5]\n\n## Hypotheses\n\n1. **capacity** at S-SAH-011: confirmed. Direct evidence of extreme spikes in download volume, active users, and high PRB utilization warnings during the window, with no changes or external faults. [T1, T3, T5, ALM-000584]\n2. **transport_failure** at LNK-SAH-02-A: rejected. No major or critical alarms were raised on the fiber link or aggregation router, and external events or transport errors were absent. [T4, T5]\n3. **bad_change** at S-SAH-011: rejected. Change log checks confirmed zero configuration changes were performed on S-SAH-011 or its parent aggregation router during the incident period. [T10]\n\n## Ruled out\n\n- T4: No external events were recorded for the SAH region during the time window.\n- T9: No maintenance windows were scheduled on S-SAH-011 or its parent nodes during the incident window.\n- T10: No configuration changes were applied to S-SAH-011 or its parent nodes during the incident window.\n\n## Recommended actions\n\n- Monitor traffic growth trends on S-SAH-011 and S-SAH-003 to evaluate if capacity expansion or carrier additions are required for urban peak hours.\n\n## Sources\n\n- `T3`: query_kpis(entity_type=site, entity_ids=['S-SAH-011', 'S-SAH-003'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct', 'active_users'], start=2026 -> Deviation in 8 of 8 series. Earliest onset 2026-09-26 17:45: S-SAH-011 dl_volume_mb above baseline.\n- `T1`: get_anomalies(start=2026-09-26 10:00, end=2026-09-27 09:57, entity_id=S-SAH-011) -> 1 detector alert(s) overlap 2026-09-26 10:00 to 2026-09-27 09:57.\n- `ALR-0037`: ended alert from 2026-09-26 18:00: 2 site(s) (S-SAH-003, S-SAH-011); region-level SAH; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rr...\n- `T5`: get_alarms(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['S-SAH-011', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_descendants=True) -> 2 alarm(s) on S-SAH-011, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57).\n- `ALM-000584`: warning HIGH_PRB on S-SAH-011, raised 2026-09-26 18:01, cleared 2026-09-26 21:41\n- `ALM-000585`: warning HIGH_PRB on S-SAH-003, raised 2026-09-26 18:09, cleared 2026-09-26 21:47\n- `T6`: get_alarms(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['AGG-SAH-02'], include_descendants=True, min_severity=warning) -> 2 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-26 12:00 to 2026-09-26 23:59: 2 warning; 0 active at asked_at (2026-09-27 09:57).\n- `T4`: get_external_events(start=2026-09-26 12:00, end=2026-09-26 23:59, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-26 12:00 and 2026-09-26 23:59.\n- `T9`: get_maintenance(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['S-SAH-011', 'AGG-SAH-02'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.\n- `T10`: get_changes(start=2026-09-26 12:00, end=2026-09-26 23:59, node_ids=['S-SAH-011', 'AGG-SAH-02'], region_id=SAH, include_ancestors=True) -> No changes on S-SAH-011, AGG-SAH-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.\n- `T8`: query_kpis(entity_type=site, entity_ids=['S-SAH-004', 'S-SAH-005'], metrics=['dl_volume_mb', 'active_users', 'prb_util_pct', 'latency_ms'], start=2026 -> Deviation in 1 of 8 series. Earliest onset 2026-09-26 22:15: S-SAH-005 active_users above baseline.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why is S-SAH-011 struggling yesterday afternoon? Latency is high and throughput is poor.",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-011",
+        "S-SAH-003"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by high PRB utilization alarms, traffic volume spikes, and active user spikes on the site during the incident window. Maintenance, external events, changes, and transport failures were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "No external events were recorded for the SAH region during the time window.",
+          "ref": "T4"
+        },
+        {
+          "reason": "No maintenance windows were scheduled on S-SAH-011 or its parent nodes during the incident window.",
+          "ref": "T9"
+        },
+        {
+          "reason": "No configuration changes were applied to S-SAH-011 or its parent nodes during the incident window.",
+          "ref": "T10"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SAH-011 and S-SAH-003 experienced an anomaly alert from 18:00 to 21:30 featuring spikes in active users, download volume, drop rate, and latency.",
+          "refs": [
+            "T1",
+            "ALR-0037"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SAH-011 encountered high PRB utilization alarms (ALM-000584 and ALM-000585) between 18:01 and 21:47.",
+          "refs": [
+            "T5",
+            "T6",
+            "ALM-000584",
+            "ALM-000585"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events, transport failures, critical/major alarms, maintenance windows, or configuration changes occurred on S-SAH-011 or its aggregation parent during the window.",
+          "refs": [
+            "T4",
+            "T5",
+            "T9",
+            "T10"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sibling sites S-SAH-004 and S-SAH-005 did not show widespread simultaneous capacity congestion during the main window.",
+          "refs": [
+            "T8"
+          ]
+        },
+        {
+          "basis": "inferred",
+          "claim": "The event was caused by a localized surge in user traffic and active users rather than a network infrastructure fault.",
+          "refs": [
+            "T1",
+            "T3",
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "capacity",
+          "node_id": "S-SAH-011",
+          "reason": "Direct evidence of extreme spikes in download volume, active users, and high PRB utilization warnings during the window, with no changes or external faults.",
+          "refs": [
+            "T1",
+            "T3",
+            "T5",
+            "ALM-000584"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-SAH-02-A",
+          "reason": "No major or critical alarms were raised on the fiber link or aggregation router, and external events or transport errors were absent.",
+          "refs": [
+            "T4",
+            "T5"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SAH-011",
+          "reason": "Change log checks confirmed zero configuration changes were performed on S-SAH-011 or its parent aggregation router during the incident period.",
+          "refs": [
+            "T10"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-26 21:47",
+      "impact_start": "2026-09-26 18:00",
+      "impact_summary": "S-SAH-011 experienced high latency and poor throughput due to localized traffic congestion and high PRB utilization from late afternoon to evening on 2026-09-26, fully recovering after the traffic surge subsided.",
+      "recommended_actions": [
+        "Monitor traffic growth trends on S-SAH-011 and S-SAH-003 to evaluate if capacity expansion or carrier additions are required for urban peak hours."
+      ],
+      "root_cause_category": "capacity",
+      "root_cause_node_id": "S-SAH-011",
+      "root_cause_summary": "Localized traffic congestion and capacity overload driven by a sudden surge in active users and download traffic volume.",
+      "root_cause_time": "2026-09-26 18:00",
+      "timeline": [
+        {
+          "event": "Earliest onset of KPI deviation recorded with S-SAH-011 dl_volume_mb rising above baseline.",
+          "refs": [
+            "T3"
+          ],
+          "time": "2026-09-26 17:45"
+        },
+        {
+          "event": "Detector alert ALR-0037 begins, showing traffic, active users, drop rate, latency, and PRB utilization spiking on S-SAH-011 and S-SAH-003.",
+          "refs": [
+            "T1",
+            "ALR-0037"
+          ],
+          "time": "2026-09-26 18:00"
+        },
+        {
+          "event": "Warning alarm ALM-000584 for high PRB utilization raised on S-SAH-011.",
+          "refs": [
+            "T5",
+            "ALM-000584"
+          ],
+          "time": "2026-09-26 18:01"
+        },
+        {
+          "event": "Warning alarm ALM-000585 for high PRB utilization raised on S-SAH-003.",
+          "refs": [
+            "T5",
+            "ALM-000585"
+          ],
+          "time": "2026-09-26 18:09"
+        },
+        {
+          "event": "High PRB utilization alarm ALM-000584 cleared on S-SAH-011.",
+          "refs": [
+            "ALM-000584"
+          ],
+          "time": "2026-09-26 21:41"
+        },
+        {
+          "event": "High PRB utilization alarm ALM-000585 cleared on S-SAH-003, and alert ALR-0037 ended.",
+          "refs": [
+            "T1",
+            "ALR-0037",
+            "ALM-000585"
+          ],
+          "time": "2026-09-26 21:47"
+        }
+      ],
+      "title": "Incident Report: High Latency and Poor Throughput on S-SAH-011"
+    },
+    "run_id": "RUN-5a51921db3",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-011"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "high latency and poor throughput",
+      "unknown_ids": [],
+      "window_end": "2026-09-26T17:00:00Z",
+      "window_start": "2026-09-26T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 388,
+        "latency_ms": 925,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3192,
+        "latency_ms": 1865,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 453,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1868
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4814,
+        "latency_ms": 1205,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 241,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3678
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5897,
+        "latency_ms": 1213,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 179,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4372
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5233,
+        "latency_ms": 1038,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 177,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4322
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5650,
+        "latency_ms": 1048,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 122,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4488
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3126,
+        "latency_ms": 4546,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1840,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8006
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 28300,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 7,
+      "output_tokens": 3133,
+      "tool_calls": 10,
+      "wall_seconds": 27.09
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-003",
+      "S-SAH-011"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-26T20:38:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000585",
+        "table": "alarms",
+        "visible_from": "2026-09-26T17:09:00+00:00"
+      },
+      {
+        "id": "ALM-000584",
+        "table": "alarms",
+        "visible_from": "2026-09-26T17:01:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "get_external_events",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-26T16:50:00Z",
+    "is_incident": true,
+    "kind": "congestion",
+    "notes": "Demand surge saturated the radio resources of S-SAH-003, S-SAH-011; there was no external event to explain it. Overlaps in time with group 'evening'.",
+    "root_cause_category": "capacity",
+    "root_cause_node_id": "S-SAH-003",
+    "severity": "medium",
+    "start_at": "2026-09-26T16:50:00Z"
+  },
+  "variant": "no-runbooks"
+}

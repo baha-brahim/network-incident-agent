@@ -1,0 +1,346 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-29T08:13:00Z",
+    "case_id": "s7-SCN-033-q0",
+    "question": "Traffic at S-TUN-002 was far above normal yesterday evening. Is something wrong?",
+    "question_index": 0,
+    "scenario_id": "SCN-033",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:26:40.216411Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-29T08:13:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-29 09:13",
+          "entity_id": "S-TUN-002",
+          "region_id": null,
+          "start": "2026-09-28 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-28 16:00 to 2026-09-29 09:13.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0040 medium ended, 2026-09-28 19:15 to 2026-09-28 22:30 (3.2 h): Traffic, active users, latency, PRB utilisation and UPF throughput spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) and on CORE-UPF-01 for 3 h\n  active_users spike on 1 entity: worst S-TUN-002 z 19.4, 368 -> 903, 2026-09-28 19:15 to 2026-09-28 22:30\n  dl_volume_mb spike on 1 entity: worst S-TUN-002 z 20.4, 51356 -> 137887, 2026-09-28 19:15 to 2026-09-28 22:30\n  latency_ms spike on 1 entity: worst S-TUN-002 z 22.9, 22.2 -> 55.1, 2026-09-28 20:45 to 2026-09-28 22:15\n  +2 more metric group(s): prb_util_pct spike, throughput_gbps spike",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-28 16:00 to 2026-09-29 09:13.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0040",
+          "ANM-000423",
+          "ANM-000424",
+          "ANM-000435"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-002"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-002: site, TUN, La Marsa, urban, near a venue.\nCells: C-TUN-002-1, C-TUN-002-2, C-TUN-002-3.\nSiblings under LNK-TUN-01-B: S-TUN-001, S-TUN-013.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-002",
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-001",
+          "S-TUN-013"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALR-0040": {
+        "kind": "alert",
+        "ref": "ALR-0040",
+        "summary": "ended alert from 2026-09-28 19:15: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); core CORE-UPF-01; region-level TUN; metrics: active_users, dl_volume_mb, latency_ms, pr..."
+      },
+      "ANM-000423": {
+        "kind": "anomaly",
+        "ref": "ANM-000423",
+        "summary": "S-TUN-002 active_users spike, z 19.4, baseline 368 -> 903"
+      },
+      "ANM-000424": {
+        "kind": "anomaly",
+        "ref": "ANM-000424",
+        "summary": "S-TUN-002 dl_volume_mb spike, z 20.4, baseline 51356 -> 137887"
+      },
+      "ANM-000435": {
+        "kind": "anomaly",
+        "ref": "ANM-000435",
+        "summary": "S-TUN-002 latency_ms spike, z 22.9, baseline 22.2 -> 55.1"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-B": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-B",
+        "summary": "microwave link, TUN, 17.3 km, 1.0 Gbps"
+      },
+      "S-TUN-001": {
+        "kind": "node",
+        "ref": "S-TUN-001",
+        "summary": "site, TUN, Ariana, urban, near a venue; sibling of S-TUN-002"
+      },
+      "S-TUN-002": {
+        "kind": "node",
+        "ref": "S-TUN-002",
+        "summary": "site, TUN, La Marsa, urban, near a venue; chain: S-TUN-002 -> LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-013": {
+        "kind": "node",
+        "ref": "S-TUN-013",
+        "summary": "site, TUN, Lac 1, suburban; sibling of S-TUN-002"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-28 16:00, end=2026-09-29 09:13, entity_id=S-TUN-002) -> 1 detector alert(s) overlap 2026-09-28 16:00 to 2026-09-29 09:13."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-002, include=all) -> Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Abnormally High Traffic at S-TUN-002\n\n- **Classification:** expected_event\n- **Root cause:** expected_event at `S-TUN-002`\n- **Confidence:** low (Plausible fit based on site location near a venue, but external events and maintenance calendar were not checked.)\n- **Impact:** 2026-09-28 19:15 to 2026-09-28 22:30\n- **Cause time:** 2026-09-28 19:15\n- **Affected:** S-TUN-002, S-TUN-001, S-TUN-003, CORE-UPF-01\n\n## Summary\n\nTraffic and user surge driven by proximity to a venue near urban sites S-TUN-001, S-TUN-002, and S-TUN-003.\n\nTraffic, active users, latency, PRB utilisation, and UPF throughput spiked across 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) and CORE-UPF-01 between 2026-09-28 19:15 and 2026-09-28 22:30.\n\n## Timeline\n\n- 2026-09-28 19:15: Medium anomaly alert ALR-0040 started, showing spikes in active users, download volume, latency, PRB utilisation, and UPF throughput on S-TUN-001, S-TUN-002, S-TUN-003, and CORE-UPF-01. [T1, ALR-0040]\n- 2026-09-28 22:30: Medium anomaly alert ALR-0040 ended. [T1, ALR-0040]\n\n## Evidence\n\n- S-TUN-002 experienced an active users spike from 368 to 903 and a download volume spike from 51356 to 137887 between 19:15 and 22:30 on 2026-09-28. [T1, ALR-0040, ANM-000423, ANM-000424]\n- S-TUN-002 experienced a latency spike from 22.2 to 55.1 ms between 20:45 and 22:15 on 2026-09-28. [T1, ALR-0040, ANM-000435]\n- S-TUN-002 is located in an urban area near a venue. [T2, S-TUN-002]\n\n## Hypotheses\n\n1. **expected_event** at S-TUN-002: unresolved. Traffic spike aligns with urban site near a venue, but external events were not checked. [T1, T2]\n\n## Recommended actions\n\n- Check external event calendars (stadium matches or concerts) near La Marsa for 2026-09-28 evening.\n- Review change logs and maintenance calendars for any concurrent activities.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-28 16:00, end=2026-09-29 09:13, entity_id=S-TUN-002) -> 1 detector alert(s) overlap 2026-09-28 16:00 to 2026-09-29 09:13.\n- `ALR-0040`: ended alert from 2026-09-28 19:15: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); core CORE-UPF-01; region-level TUN; metrics: active_users, dl_volume_mb, latency_ms, pr...\n- `ANM-000423`: S-TUN-002 active_users spike, z 19.4, baseline 368 -> 903\n- `ANM-000424`: S-TUN-002 dl_volume_mb spike, z 20.4, baseline 51356 -> 137887\n- `ANM-000435`: S-TUN-002 latency_ms spike, z 22.9, baseline 22.2 -> 55.1\n- `T2`: get_topology(node_id=S-TUN-002, include=all) -> Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `S-TUN-002`: site, TUN, La Marsa, urban, near a venue; chain: S-TUN-002 -> LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Traffic at S-TUN-002 was far above normal yesterday evening. Is something wrong?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-002",
+        "S-TUN-001",
+        "S-TUN-003",
+        "CORE-UPF-01"
+      ],
+      "classification": "expected_event",
+      "confidence": "low",
+      "confidence_reason": "Plausible fit based on site location near a venue, but external events and maintenance calendar were not checked.",
+      "dismissed_signals": [],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-TUN-002 experienced an active users spike from 368 to 903 and a download volume spike from 51356 to 137887 between 19:15 and 22:30 on 2026-09-28.",
+          "refs": [
+            "T1",
+            "ALR-0040",
+            "ANM-000423",
+            "ANM-000424"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-TUN-002 experienced a latency spike from 22.2 to 55.1 ms between 20:45 and 22:15 on 2026-09-28.",
+          "refs": [
+            "T1",
+            "ALR-0040",
+            "ANM-000435"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-TUN-002 is located in an urban area near a venue.",
+          "refs": [
+            "T2",
+            "S-TUN-002"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "expected_event",
+          "node_id": "S-TUN-002",
+          "reason": "Traffic spike aligns with urban site near a venue, but external events were not checked.",
+          "refs": [
+            "T1",
+            "T2"
+          ],
+          "verdict": "unresolved"
+        }
+      ],
+      "impact_end": "2026-09-28 22:30",
+      "impact_start": "2026-09-28 19:15",
+      "impact_summary": "Traffic, active users, latency, PRB utilisation, and UPF throughput spiked across 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) and CORE-UPF-01 between 2026-09-28 19:15 and 2026-09-28 22:30.",
+      "recommended_actions": [
+        "Check external event calendars (stadium matches or concerts) near La Marsa for 2026-09-28 evening.",
+        "Review change logs and maintenance calendars for any concurrent activities."
+      ],
+      "root_cause_category": "expected_event",
+      "root_cause_node_id": "S-TUN-002",
+      "root_cause_summary": "Traffic and user surge driven by proximity to a venue near urban sites S-TUN-001, S-TUN-002, and S-TUN-003.",
+      "root_cause_time": "2026-09-28 19:15",
+      "timeline": [
+        {
+          "event": "Medium anomaly alert ALR-0040 started, showing spikes in active users, download volume, latency, PRB utilisation, and UPF throughput on S-TUN-001, S-TUN-002, S-TUN-003, and CORE-UPF-01.",
+          "refs": [
+            "T1",
+            "ALR-0040"
+          ],
+          "time": "2026-09-28 19:15"
+        },
+        {
+          "event": "Medium anomaly alert ALR-0040 ended.",
+          "refs": [
+            "T1",
+            "ALR-0040"
+          ],
+          "time": "2026-09-28 22:30"
+        }
+      ],
+      "title": "Abnormally High Traffic at S-TUN-002"
+    },
+    "run_id": "RUN-5173dd625a",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-002"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "abnormally high traffic",
+      "unknown_ids": [],
+      "window_end": "2026-09-28T22:59:00Z",
+      "window_start": "2026-09-28T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 385,
+        "latency_ms": 882,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3292,
+        "latency_ms": 1040,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2012,
+        "latency_ms": 3067,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1080,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3387
+      }
+    ],
+    "usage": {
+      "cached_calls": 2,
+      "input_tokens": 5689,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 3,
+      "output_tokens": 1316,
+      "tool_calls": 2,
+      "wall_seconds": 3.44
+    }
+  },
+  "run_name": "nogate-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-28T21:37:00Z",
+    "evidence": [
+      {
+        "id": "EVT-004",
+        "table": "external_events",
+        "visible_from": "2026-09-28T17:56:00+00:00"
+      },
+      {
+        "id": "ALM-000633",
+        "table": "alarms",
+        "visible_from": "2026-09-28T18:58:00+00:00"
+      },
+      {
+        "id": "ALM-000634",
+        "table": "alarms",
+        "visible_from": "2026-09-28T19:14:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_external_events"
+    ],
+    "impact_start_at": "2026-09-28T17:56:00Z",
+    "is_incident": false,
+    "kind": "stadium_event",
+    "notes": "Traffic surge around the stadium caused by a scheduled event; not an incident.",
+    "root_cause_category": "expected_event",
+    "root_cause_node_id": "S-TUN-001",
+    "severity": "low",
+    "start_at": "2026-09-28T17:56:00Z"
+  },
+  "variant": "no-gate"
+}

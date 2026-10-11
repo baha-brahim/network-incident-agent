@@ -1,0 +1,612 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-13T07:13:00Z",
+    "case_id": "s7-SCN-013-q0",
+    "question": "Customers around S-TUN-005 complain about very slow speeds yesterday evening. Why?",
+    "question_index": 0,
+    "scenario_id": "SCN-013",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:22:09.458403Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-13T07:13:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-13 08:13",
+          "entity_id": "S-TUN-005",
+          "region_id": null,
+          "start": "2026-09-12 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-12 16:00 to 2026-09-13 08:13.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0021 medium ended, 2026-09-12 19:30 to 2026-09-12 22:45 (3.2 h): RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in TUN (S-TUN-005) for 3 h\n  active_users spike on 1 entity: worst S-TUN-005 z 23.4, 215 -> 565, 2026-09-12 19:30 to 2026-09-12 22:45\n  dl_volume_mb spike on 1 entity: worst S-TUN-005 z 12.2, 15809 -> 36591, 2026-09-12 19:30 to 2026-09-12 22:45\n  drop_rate_pct spike on 1 entity: worst S-TUN-005 z 22.0, 0.5 -> 3.78, 2026-09-12 19:45 to 2026-09-12 22:30\n  +3 more metric group(s): latency_ms spike, prb_util_pct spike, rrc_success_pct drop",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-12 16:00 to 2026-09-13 08:13.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0021",
+          "ANM-000168",
+          "ANM-000169",
+          "ANM-000171"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-005"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-005 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-005: site, TUN, Manouba, urban.\nCells: C-TUN-005-1, C-TUN-005-2, C-TUN-005-3.\nSiblings under LNK-TUN-01-C: S-TUN-003, S-TUN-006.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-005 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-005",
+          "LNK-TUN-01-C",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-003",
+          "S-TUN-006"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-13T00:00:00",
+          "entity_ids": [
+            "S-TUN-005"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "ul_volume_mb",
+            "latency_ms",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-12T17:00:00"
+        },
+        "body": "Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, search_runbooks, run_sql.",
+        "duplicate_of": null,
+        "error": "Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, search_runbooks, run_sql.",
+        "headline": "get_kpis error: Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, sear",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "get_kpis",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-13T00:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-005",
+            "LNK-TUN-01-C",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-12T17:00:00"
+        },
+        "body": "1 alarm(s) on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and nodes below, 2026-09-12 17:00 to 2026-09-13 00:00: 1 warning; 0 active at asked_at (2026-09-13 08:13).\nNo critical or major alarm in this window.\n2026-09-12 19:46 ALM-000233 warning HIGH_PRB S-TUN-005: cleared 2026-09-12 22:50",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and nodes below, 2026-09-12 17:00 to 2026-09-13 00:00: 1 warning; 0 active at asked_at (2026-09-13 08:13).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000233"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-13T00:00:00",
+          "region_id": "TUN",
+          "start": "2026-09-12T17:00:00"
+        },
+        "body": "No external events for region TUN (and nationwide) between 2026-09-12 17:00 and 2026-09-13 00:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region TUN (and nationwide) between 2026-09-12 17:00 and 2026-09-13 00:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-13T00:00:00",
+          "entity_ids": [
+            "S-TUN-005"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "latency_ms",
+            "prb_util_pct",
+            "active_users"
+          ],
+          "start": "2026-09-12T17:00:00"
+        },
+        "body": "No baseline available for 2026-09-12 17:00 to 2026-09-13 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-13 08:13). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-005 dl_volume_mb: mean 20348; min 6952 at 2026-09-13 00:00, max 36621 at 2026-09-12 20:45; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (45 min buckets from 2026-09-12 17:00): 7317 7370 8989 22286 36308 36531 36521 25042 11118 7822\nS-TUN-005 latency_ms: mean 67.7; min 32.7 at 2026-09-12 23:45, max 128 at 2026-09-12 20:45; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (45 min buckets from 2026-09-12 17:00): 34.9 33.7 35.5 63.5 119 124 122 63.4 35 33.5\nS-TUN-005 prb_util_pct: mean 55.3; min 18.8 at 2026-09-13 00:00, max 99.4 at 2026-09-12 20:45; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (45 min buckets from 2026-09-12 17:00): 19.9 20 24.4 60.5 98.6 99.2 99.2 68.1 30.3 21.2\nS-TUN-005 active_users: mean 287; min 95.8 at 2026-09-13 00:00, max 565 at 2026-09-12 21:30; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (45 min buckets from 2026-09-12 17:00): 105 108 128 283 497 545 543 341 151 107",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-12 17:00 to 2026-09-13 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 64
+      },
+      {
+        "args": {
+          "end": "2026-09-13T00:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-005",
+            "LNK-TUN-01-C",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-12T17:00:00"
+        },
+        "body": "No changes on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-13T00:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-005",
+            "LNK-TUN-01-C",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-12T17:00:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000233": {
+        "kind": "alarm",
+        "ref": "ALM-000233",
+        "summary": "warning HIGH_PRB on S-TUN-005, raised 2026-09-12 19:46, cleared 2026-09-12 22:50"
+      },
+      "ALR-0021": {
+        "kind": "alert",
+        "ref": "ALR-0021",
+        "summary": "ended alert from 2026-09-12 19:30: 1 site(s) (S-TUN-005); region-level TUN; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rrc_success_pct"
+      },
+      "ANM-000168": {
+        "kind": "anomaly",
+        "ref": "ANM-000168",
+        "summary": "S-TUN-005 active_users spike, z 23.4, baseline 215 -> 565"
+      },
+      "ANM-000169": {
+        "kind": "anomaly",
+        "ref": "ANM-000169",
+        "summary": "S-TUN-005 dl_volume_mb spike, z 12.2, baseline 15809 -> 36591"
+      },
+      "ANM-000171": {
+        "kind": "anomaly",
+        "ref": "ANM-000171",
+        "summary": "S-TUN-005 drop_rate_pct spike, z 22.0, baseline 0.5 -> 3.78"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-C": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-C",
+        "summary": "fiber link, TUN, 18.1 km, 10.0 Gbps"
+      },
+      "S-TUN-003": {
+        "kind": "node",
+        "ref": "S-TUN-003",
+        "summary": "site, TUN, Carthage, suburban, near a venue; sibling of S-TUN-005"
+      },
+      "S-TUN-005": {
+        "kind": "node",
+        "ref": "S-TUN-005",
+        "summary": "site, TUN, Manouba, urban; chain: S-TUN-005 -> LNK-TUN-01-C -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-006": {
+        "kind": "node",
+        "ref": "S-TUN-006",
+        "summary": "site, TUN, Ben Arous, suburban; sibling of S-TUN-005"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-12 16:00, end=2026-09-13 08:13, entity_id=S-TUN-005) -> 1 detector alert(s) overlap 2026-09-12 16:00 to 2026-09-13 08:13."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-005, include=all) -> Depends on (child -> parent -> core): S-TUN-005 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_kpis(metrics=['dl_volume_mb', 'ul_volume_mb', 'latency_ms', 'prb_util_pct'], end=2026-09-13T00:00:00, entity_ids=['S-TUN-005'], start=2026-09-12T1 -> get_kpis error: Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, sear"
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, node_ids=['S-TUN-005', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_descendants=True) -> 1 alarm(s) on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and nodes below, 2026-09-12 17:00 to 2026-09-13 00:00: 1 warning; 0 active at asked_at (2026-09-13 08:13)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_external_events(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-12 17:00 and 2026-09-13 00:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-005'], metrics=['dl_volume_mb', 'latency_ms', 'prb_util_pct', 'active_users'], start=2026-09-12T17:00: -> No baseline available for 2026-09-12 17:00 to 2026-09-13 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, node_ids=['S-TUN-005', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_ancestors=True) -> No changes on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_maintenance(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, node_ids=['S-TUN-005', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Incident Report: Customer Speed Degradation on S-TUN-005\n\n- **Classification:** incident\n- **Root cause:** capacity at `S-TUN-005`\n- **Confidence:** high (Directly evidenced by detector alerts, KPI spikes in active users and PRB utilization, and a HIGH_PRB alarm on S-TUN-005. Changes, maintenance, and external events were checked and ruled out.)\n- **Impact:** 2026-09-12 19:30 to 2026-09-12 22:45\n- **Cause time:** 2026-09-12 19:30\n- **Affected:** S-TUN-005\n\n## Summary\n\nTraffic congestion and high PRB utilization due to a sharp surge in active users and data volume on site S-TUN-005.\n\nCustomers experienced very slow speeds and increased latency on site S-TUN-005 from 19:30 to 22:45 on 2026-09-12.\n\n## Timeline\n\n- 2026-09-12 19:30: Anomaly ALR-0021 starts, showing active users and PRB utilization spiking on S-TUN-005. [T1, ALR-0021, ANM-000168, ANM-000169]\n- 2026-09-12 19:46: Warning alarm ALM-000233 (HIGH_PRB) raised on S-TUN-005. [T4, ALM-000233]\n- 2026-09-12 22:45: Anomaly ALR-0021 ends as metrics return to normal levels. [T1, ALR-0021]\n- 2026-09-12 22:50: Warning alarm ALM-000233 on S-TUN-005 clears. [T4, ALM-000233]\n\n## Evidence\n\n- Active users on S-TUN-005 spiked from 215 to 565 during the incident window. [T1, ANM-000168]\n- DL volume on S-TUN-005 increased significantly from 15,809 to 36,591. [T1, ANM-000169]\n- PRB utilization reached a peak of 99.4% at 20:45. [T6]\n- Latency increased up to 128 ms during peak congestion. [T6]\n- No changes or maintenance windows were scheduled on S-TUN-005 or its parent nodes during the incident. [T7, T8]\n\n## Hypotheses\n\n1. **capacity** at S-TUN-005: confirmed. Directly evidenced by high PRB utilization alarms, massive user count spikes, and corresponding latency increases during the reported timeframe. [T1, T4, T6, ALR-0021, ALM-000233]\n2. **bad_change** at S-TUN-005: rejected. No changes were recorded on S-TUN-005 or its parents during the window. [T7]\n3. **transport_failure** at LNK-TUN-01-C: rejected. No critical or major transport alarms were present on the link or aggregation router. [T4]\n\n## Ruled out\n\n- T7: Checked for changes on S-TUN-005, LNK-TUN-01-C, and AGG-TUN-01, but none were found.\n- T8: Checked for maintenance windows on S-TUN-005 and its parent chain, but none were scheduled.\n- T5: Checked for external events in region TUN, but none were reported.\n\n## Recommended actions\n\n- Monitor user traffic patterns on S-TUN-005 during peak hours to evaluate if permanent capacity upgrades are needed.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-12 16:00, end=2026-09-13 08:13, entity_id=S-TUN-005) -> 1 detector alert(s) overlap 2026-09-12 16:00 to 2026-09-13 08:13.\n- `ALR-0021`: ended alert from 2026-09-12 19:30: 1 site(s) (S-TUN-005); region-level TUN; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rrc_success_pct\n- `ANM-000168`: S-TUN-005 active_users spike, z 23.4, baseline 215 -> 565\n- `ANM-000169`: S-TUN-005 dl_volume_mb spike, z 12.2, baseline 15809 -> 36591\n- `T4`: get_alarms(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, node_ids=['S-TUN-005', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_descendants=True) -> 1 alarm(s) on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and nodes below, 2026-09-12 17:00 to 2026-09-13 00:00: 1 warning; 0 active at asked_at (2026-09-13 08:13).\n- `ALM-000233`: warning HIGH_PRB on S-TUN-005, raised 2026-09-12 19:46, cleared 2026-09-12 22:50\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-TUN-005'], metrics=['dl_volume_mb', 'latency_ms', 'prb_util_pct', 'active_users'], start=2026-09-12T17:00: -> No baseline available for 2026-09-12 17:00 to 2026-09-13 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only.\n- `T7`: get_changes(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, node_ids=['S-TUN-005', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_ancestors=True) -> No changes on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00.\n- `T8`: get_maintenance(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, node_ids=['S-TUN-005', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-005, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-12 17:00 and 2026-09-13 00:00.\n- `T5`: get_external_events(start=2026-09-12T17:00:00, end=2026-09-13T00:00:00, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-12 17:00 and 2026-09-13 00:00.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Customers around S-TUN-005 complain about very slow speeds yesterday evening. Why?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-005"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by detector alerts, KPI spikes in active users and PRB utilization, and a HIGH_PRB alarm on S-TUN-005. Changes, maintenance, and external events were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Checked for changes on S-TUN-005, LNK-TUN-01-C, and AGG-TUN-01, but none were found.",
+          "ref": "T7"
+        },
+        {
+          "reason": "Checked for maintenance windows on S-TUN-005 and its parent chain, but none were scheduled.",
+          "ref": "T8"
+        },
+        {
+          "reason": "Checked for external events in region TUN, but none were reported.",
+          "ref": "T5"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Active users on S-TUN-005 spiked from 215 to 565 during the incident window.",
+          "refs": [
+            "T1",
+            "ANM-000168"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "DL volume on S-TUN-005 increased significantly from 15,809 to 36,591.",
+          "refs": [
+            "T1",
+            "ANM-000169"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "PRB utilization reached a peak of 99.4% at 20:45.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Latency increased up to 128 ms during peak congestion.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes or maintenance windows were scheduled on S-TUN-005 or its parent nodes during the incident.",
+          "refs": [
+            "T7",
+            "T8"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "capacity",
+          "node_id": "S-TUN-005",
+          "reason": "Directly evidenced by high PRB utilization alarms, massive user count spikes, and corresponding latency increases during the reported timeframe.",
+          "refs": [
+            "T1",
+            "T4",
+            "T6",
+            "ALR-0021",
+            "ALM-000233"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-TUN-005",
+          "reason": "No changes were recorded on S-TUN-005 or its parents during the window.",
+          "refs": [
+            "T7"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-TUN-01-C",
+          "reason": "No critical or major transport alarms were present on the link or aggregation router.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-12 22:45",
+      "impact_start": "2026-09-12 19:30",
+      "impact_summary": "Customers experienced very slow speeds and increased latency on site S-TUN-005 from 19:30 to 22:45 on 2026-09-12.",
+      "recommended_actions": [
+        "Monitor user traffic patterns on S-TUN-005 during peak hours to evaluate if permanent capacity upgrades are needed."
+      ],
+      "root_cause_category": "capacity",
+      "root_cause_node_id": "S-TUN-005",
+      "root_cause_summary": "Traffic congestion and high PRB utilization due to a sharp surge in active users and data volume on site S-TUN-005.",
+      "root_cause_time": "2026-09-12 19:30",
+      "timeline": [
+        {
+          "event": "Anomaly ALR-0021 starts, showing active users and PRB utilization spiking on S-TUN-005.",
+          "refs": [
+            "T1",
+            "ALR-0021",
+            "ANM-000168",
+            "ANM-000169"
+          ],
+          "time": "2026-09-12 19:30"
+        },
+        {
+          "event": "Warning alarm ALM-000233 (HIGH_PRB) raised on S-TUN-005.",
+          "refs": [
+            "T4",
+            "ALM-000233"
+          ],
+          "time": "2026-09-12 19:46"
+        },
+        {
+          "event": "Anomaly ALR-0021 ends as metrics return to normal levels.",
+          "refs": [
+            "T1",
+            "ALR-0021"
+          ],
+          "time": "2026-09-12 22:45"
+        },
+        {
+          "event": "Warning alarm ALM-000233 on S-TUN-005 clears.",
+          "refs": [
+            "T4",
+            "ALM-000233"
+          ],
+          "time": "2026-09-12 22:50"
+        }
+      ],
+      "title": "Incident Report: Customer Speed Degradation on S-TUN-005"
+    },
+    "run_id": "RUN-1c701d968a",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-005"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "very slow speeds",
+      "unknown_ids": [],
+      "window_end": "2026-09-12T22:59:00Z",
+      "window_start": "2026-09-12T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 384,
+        "latency_ms": 1035,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 117,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1632
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3273,
+        "latency_ms": 1173,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 283,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4613
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4012,
+        "latency_ms": 1457,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 312,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4772
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5389,
+        "latency_ms": 1165,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 153,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4136
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4171,
+        "latency_ms": 4064,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1495,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7398
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 17229,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 5,
+      "output_tokens": 2360,
+      "tool_calls": 8,
+      "wall_seconds": 22.67
+    }
+  },
+  "run_name": "baseline-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-005"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-12T21:43:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000233",
+        "table": "alarms",
+        "visible_from": "2026-09-12T18:46:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "get_external_events",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-12T18:32:00Z",
+    "is_incident": true,
+    "kind": "congestion",
+    "notes": "Demand surge saturated the radio resources of S-TUN-005; there was no external event to explain it.",
+    "root_cause_category": "capacity",
+    "root_cause_node_id": "S-TUN-005",
+    "severity": "medium",
+    "start_at": "2026-09-12T18:32:00Z"
+  },
+  "variant": "default"
+}

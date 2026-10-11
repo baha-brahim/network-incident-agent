@@ -1,0 +1,662 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-09T08:04:00Z",
+    "case_id": "s7-SCN-008-q0",
+    "question": "S-TUN-015 has been down since 17:35, what happened?",
+    "question_index": 0,
+    "scenario_id": "SCN-008",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:31:57.470376Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-09T08:04:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-09 09:04",
+          "entity_id": "S-TUN-015",
+          "region_id": null,
+          "start": "2026-09-08 15:35"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-08 15:35 to 2026-09-09 09:04.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0015 high ended, 2026-09-08 17:30 to 2026-09-08 22:00 (4.5 h): Traffic, active users and availability drop on 1 site in TUN (S-TUN-015) for 4.5 h\n  active_users drop on 1 entity: worst S-TUN-015 z -10.4, 123 -> 0, 2026-09-08 17:30 to 2026-09-08 22:00\n  availability_pct drop on 1 entity: worst S-TUN-015 z -100.0, 100 -> 0, 2026-09-08 17:30 to 2026-09-08 22:00\n  dl_volume_mb drop on 1 entity: worst S-TUN-015 z -11.1, 9253 -> 0, 2026-09-08 17:30 to 2026-09-08 22:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-08 15:35 to 2026-09-09 09:04.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0015",
+          "ANM-000123",
+          "ANM-000124",
+          "ANM-000125"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-015"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-015 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-015: site, TUN, Le Kram, suburban.\nCells: C-TUN-015-1, C-TUN-015-2, C-TUN-015-3.\nSiblings under LNK-TUN-02-A: S-TUN-004, S-TUN-009.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-015 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-015",
+          "LNK-TUN-02-A",
+          "AGG-TUN-02",
+          "CORE-UPF-01",
+          "S-TUN-004",
+          "S-TUN-009"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-09 09:04",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-015",
+            "LNK-TUN-02-A",
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-08 16:00"
+        },
+        "body": "9 alarm(s) on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-08 16:00 to 2026-09-09 09:04: 5 critical, 2 major, 2 minor; 0 active at asked_at (2026-09-09 09:04).\nEarliest critical/major: 2026-09-08 14:16 MAINS_FAILURE on S-TUN-015 (ALM-000142).\n2026-09-08 14:16 ALM-000142 major MAINS_FAILURE S-TUN-015: cleared 2026-09-08 21:58\n2026-09-08 17:21 ALM-000147 major BATTERY_LOW S-TUN-015: cleared 2026-09-08 21:58\n2026-09-08 17:36 ALM-000148 critical SITE_DOWN S-TUN-015: cleared 2026-09-08 21:58\n2026-09-09 02:26 ALM-000159 critical LINK_LOS LNK-TUN-02-C (below AGG-TUN-02): cleared 2026-09-09 05:41\n2026-09-09 02:27 ALM-000160 critical SITE_DOWN S-TUN-007 (below AGG-TUN-02): cleared 2026-09-09 05:41\n2026-09-09 02:27 ALM-000161 critical SITE_DOWN S-TUN-010 (below AGG-TUN-02): cleared 2026-09-09 05:42\n2026-09-09 02:27 ALM-000162 critical SITE_DOWN S-TUN-014 (below AGG-TUN-02): cleared 2026-09-09 05:41\n2026-09-09 06:14 ALM-000163 minor VSWR_HIGH S-TUN-008 (below AGG-TUN-02): cleared 2026-09-09 06:18\n2026-09-09 06:31 ALM-000164 minor VSWR_HIGH S-TUN-008 (below AGG-TUN-02): cleared 2026-09-09 06:47",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "9 alarm(s) on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-08 16:00 to 2026-09-09 09:04: 5 critical, 2 major, 2 minor; 0 active at asked_at (2026-09-09 09:04).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000142",
+          "ALM-000147",
+          "ALM-000148",
+          "ALM-000159",
+          "ALM-000160",
+          "ALM-000161",
+          "ALM-000162",
+          "ALM-000163",
+          "ALM-000164"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-09 09:04",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-015",
+            "LNK-TUN-02-A",
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-08 16:00"
+        },
+        "body": "1 change(s) on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and its parents, 2026-09-08 16:00 to 2026-09-09 09:04 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-09 09:04).\n2026-09-09 04:31 CHG-2026-0023 software_upgrade on CORE-UPF-01 (ancestor of S-TUN-015): Security hotfix installed on CORE-UPF-01",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and its parents, 2026-09-08 16:00 to 2026-09-09 09:04 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-09 09:04).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "CHG-2026-0023"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-09 09:04",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-015",
+            "LNK-TUN-02-A",
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-08 16:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-08 16:00 and 2026-09-09 09:04.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-08 16:00 and 2026-09-09 09:04.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-08 22:30",
+          "include_descendants": false,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-015"
+          ],
+          "region_id": null,
+          "start": "2026-09-08 14:00"
+        },
+        "body": "3 alarm(s) on S-TUN-015, 2026-09-08 14:00 to 2026-09-08 22:30: 1 critical, 2 major; 0 active at asked_at (2026-09-09 09:04).\nEarliest critical/major: 2026-09-08 14:16 MAINS_FAILURE on S-TUN-015 (ALM-000142).\n2026-09-08 14:16 ALM-000142 major MAINS_FAILURE S-TUN-015: cleared 2026-09-08 21:58\n2026-09-08 17:21 ALM-000147 major BATTERY_LOW S-TUN-015: cleared 2026-09-08 21:58\n2026-09-08 17:36 ALM-000148 critical SITE_DOWN S-TUN-015: cleared 2026-09-08 21:58",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on S-TUN-015, 2026-09-08 14:00 to 2026-09-08 22:30: 1 critical, 2 major; 0 active at asked_at (2026-09-09 09:04).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000142",
+          "ALM-000147",
+          "ALM-000148"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-09 09:04",
+          "region_id": "TUN",
+          "start": "2026-09-08 16:00"
+        },
+        "body": "No external events for region TUN (and nationwide) between 2026-09-08 16:00 and 2026-09-09 09:04.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region TUN (and nationwide) between 2026-09-08 16:00 and 2026-09-09 09:04.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-02": {
+        "kind": "node",
+        "ref": "AGG-TUN-02",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000142": {
+        "kind": "alarm",
+        "ref": "ALM-000142",
+        "summary": "major MAINS_FAILURE on S-TUN-015, raised 2026-09-08 14:16, cleared 2026-09-08 21:58"
+      },
+      "ALM-000147": {
+        "kind": "alarm",
+        "ref": "ALM-000147",
+        "summary": "major BATTERY_LOW on S-TUN-015, raised 2026-09-08 17:21, cleared 2026-09-08 21:58"
+      },
+      "ALM-000148": {
+        "kind": "alarm",
+        "ref": "ALM-000148",
+        "summary": "critical SITE_DOWN on S-TUN-015, raised 2026-09-08 17:36, cleared 2026-09-08 21:58"
+      },
+      "ALM-000159": {
+        "kind": "alarm",
+        "ref": "ALM-000159",
+        "summary": "critical LINK_LOS on LNK-TUN-02-C, raised 2026-09-09 02:26, cleared 2026-09-09 05:41"
+      },
+      "ALM-000160": {
+        "kind": "alarm",
+        "ref": "ALM-000160",
+        "summary": "critical SITE_DOWN on S-TUN-007, raised 2026-09-09 02:27, cleared 2026-09-09 05:41"
+      },
+      "ALM-000161": {
+        "kind": "alarm",
+        "ref": "ALM-000161",
+        "summary": "critical SITE_DOWN on S-TUN-010, raised 2026-09-09 02:27, cleared 2026-09-09 05:42"
+      },
+      "ALM-000162": {
+        "kind": "alarm",
+        "ref": "ALM-000162",
+        "summary": "critical SITE_DOWN on S-TUN-014, raised 2026-09-09 02:27, cleared 2026-09-09 05:41"
+      },
+      "ALM-000163": {
+        "kind": "alarm",
+        "ref": "ALM-000163",
+        "summary": "minor VSWR_HIGH on S-TUN-008, raised 2026-09-09 06:14, cleared 2026-09-09 06:18"
+      },
+      "ALM-000164": {
+        "kind": "alarm",
+        "ref": "ALM-000164",
+        "summary": "minor VSWR_HIGH on S-TUN-008, raised 2026-09-09 06:31, cleared 2026-09-09 06:47"
+      },
+      "ALR-0015": {
+        "kind": "alert",
+        "ref": "ALR-0015",
+        "summary": "ended alert from 2026-09-08 17:30: 1 site(s) (S-TUN-015); region-level TUN; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000123": {
+        "kind": "anomaly",
+        "ref": "ANM-000123",
+        "summary": "S-TUN-015 active_users drop, z -10.4, baseline 123 -> 0"
+      },
+      "ANM-000124": {
+        "kind": "anomaly",
+        "ref": "ANM-000124",
+        "summary": "S-TUN-015 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000125": {
+        "kind": "anomaly",
+        "ref": "ANM-000125",
+        "summary": "S-TUN-015 dl_volume_mb drop, z -11.1, baseline 9253 -> 0"
+      },
+      "CHG-2026-0023": {
+        "kind": "change",
+        "ref": "CHG-2026-0023",
+        "summary": "software_upgrade on CORE-UPF-01 at 2026-09-09 04:31: Security hotfix installed on CORE-UPF-01"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-02-A": {
+        "kind": "node",
+        "ref": "LNK-TUN-02-A",
+        "summary": "microwave link, TUN, 7.8 km, 1.0 Gbps"
+      },
+      "S-TUN-004": {
+        "kind": "node",
+        "ref": "S-TUN-004",
+        "summary": "site, TUN, Bardo, urban; sibling of S-TUN-015"
+      },
+      "S-TUN-009": {
+        "kind": "node",
+        "ref": "S-TUN-009",
+        "summary": "site, TUN, Megrine, urban; sibling of S-TUN-015"
+      },
+      "S-TUN-015": {
+        "kind": "node",
+        "ref": "S-TUN-015",
+        "summary": "site, TUN, Le Kram, suburban; chain: S-TUN-015 -> LNK-TUN-02-A -> AGG-TUN-02 -> CORE-UPF-01"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-08 15:35, end=2026-09-09 09:04, entity_id=S-TUN-015) -> 1 detector alert(s) overlap 2026-09-08 15:35 to 2026-09-09 09:04."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-015, include=all) -> Depends on (child -> parent -> core): S-TUN-015 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-08 16:00, end=2026-09-09 09:04, node_ids=['S-TUN-015', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_descendants=True) -> 9 alarm(s) on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-08 16:00 to 2026-09-09 09:04: 5 critical, 2 major, 2 minor; 0 active at asked_at (2026-09-09 09:04)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-08 16:00, end=2026-09-09 09:04, node_ids=['S-TUN-015', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_ancestors=True) -> 1 change(s) on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and its parents, 2026-09-08 16:00 to 2026-09-09 09:04 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-09 09:04)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-08 16:00, end=2026-09-09 09:04, node_ids=['S-TUN-015', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-015, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-08 16:00 and 2026-09-09 09:04."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-08 14:00, end=2026-09-08 22:30, node_ids=['S-TUN-015'], include_descendants=False) -> 3 alarm(s) on S-TUN-015, 2026-09-08 14:00 to 2026-09-08 22:30: 1 critical, 2 major; 0 active at asked_at (2026-09-09 09:04)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_external_events(start=2026-09-08 16:00, end=2026-09-09 09:04, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-08 16:00 and 2026-09-09 09:04."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Incident Report: S-TUN-015 Power Failure Outage\n\n- **Classification:** incident\n- **Root cause:** power_failure at `S-TUN-015`\n- **Confidence:** high (Direct alarms for mains failure and battery low are present on S-TUN-015, perfectly matching the anomaly timing, and maintenance, external events, and coincident changes were checked and ruled out.)\n- **Impact:** 2026-09-08 17:30 to 2026-09-08 21:58\n- **Cause time:** 2026-09-08 14:16\n- **Affected:** S-TUN-015\n\n## Summary\n\nSite S-TUN-015 experienced a mains power failure, leading to battery exhaustion and site outage.\n\nSite S-TUN-015 was down from 2026-09-08 17:30 until power and site operations were fully restored at 2026-09-08 21:58.\n\n## Timeline\n\n- 2026-09-08 14:16: Major MAINS_FAILURE alarm raised on S-TUN-015 [ALM-000142]\n- 2026-09-08 17:21: Major BATTERY_LOW alarm raised on S-TUN-015 [ALM-000147]\n- 2026-09-08 17:30: Traffic and availability anomaly started on S-TUN-015 [ALR-0015]\n- 2026-09-08 17:36: Critical SITE_DOWN alarm raised on S-TUN-015 [ALM-000148]\n- 2026-09-08 21:58: Mains power restored, clearing MAINS_FAILURE, BATTERY_LOW, and SITE_DOWN alarms on S-TUN-015 [ALM-000142, ALM-000147, ALM-000148]\n\n## Evidence\n\n- S-TUN-015 suffered a mains failure starting at 2026-09-08 14:16. [ALM-000142]\n- Backup batteries depleted leading to a low battery warning at 2026-09-08 17:21. [ALM-000147]\n- Site traffic and availability dropped completely starting at 2026-09-08 17:30. [ALR-0015, ANM-000123, ANM-000124, ANM-000125]\n- Critical site down alarm raised on S-TUN-015 at 2026-09-08 17:36. [ALM-000148]\n- All power alarms cleared and the site recovered at 2026-09-08 21:58. [ALM-000142, ALM-000147, ALM-000148]\n\n## Hypotheses\n\n1. **power_failure** at S-TUN-015: confirmed. Direct evidence of mains failure, subsequent battery depletion, and site down alarms matching the outage window. [ALM-000142, ALM-000147, ALM-000148, ALR-0015]\n\n## Ruled out\n\n- CHG-2026-0023: Software upgrade on CORE-UPF-01 occurred on 2026-09-09 04:31, which is after the site outage and recovery on 2026-09-08.\n- ALM-000159: Link loss on LNK-TUN-02-C occurred on 2026-09-09 02:26, unrelated to the earlier S-TUN-015 power outage.\n\n## Recommended actions\n\n- Inspect the local power supply and mains connection at S-TUN-015.\n- Verify battery backup health and autonomy duration.\n\n## Sources\n\n- `ALM-000142`: major MAINS_FAILURE on S-TUN-015, raised 2026-09-08 14:16, cleared 2026-09-08 21:58\n- `ALM-000147`: major BATTERY_LOW on S-TUN-015, raised 2026-09-08 17:21, cleared 2026-09-08 21:58\n- `ALR-0015`: ended alert from 2026-09-08 17:30: 1 site(s) (S-TUN-015); region-level TUN; metrics: active_users, availability_pct, dl_volume_mb\n- `ALM-000148`: critical SITE_DOWN on S-TUN-015, raised 2026-09-08 17:36, cleared 2026-09-08 21:58\n- `ANM-000123`: S-TUN-015 active_users drop, z -10.4, baseline 123 -> 0\n- `ANM-000124`: S-TUN-015 availability_pct drop, z -100.0, baseline 100 -> 0\n- `ANM-000125`: S-TUN-015 dl_volume_mb drop, z -11.1, baseline 9253 -> 0\n- `CHG-2026-0023`: software_upgrade on CORE-UPF-01 at 2026-09-09 04:31: Security hotfix installed on CORE-UPF-01\n- `ALM-000159`: critical LINK_LOS on LNK-TUN-02-C, raised 2026-09-09 02:26, cleared 2026-09-09 05:41\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-TUN-015 has been down since 17:35, what happened?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-015"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct alarms for mains failure and battery low are present on S-TUN-015, perfectly matching the anomaly timing, and maintenance, external events, and coincident changes were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Software upgrade on CORE-UPF-01 occurred on 2026-09-09 04:31, which is after the site outage and recovery on 2026-09-08.",
+          "ref": "CHG-2026-0023"
+        },
+        {
+          "reason": "Link loss on LNK-TUN-02-C occurred on 2026-09-09 02:26, unrelated to the earlier S-TUN-015 power outage.",
+          "ref": "ALM-000159"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-TUN-015 suffered a mains failure starting at 2026-09-08 14:16.",
+          "refs": [
+            "ALM-000142"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Backup batteries depleted leading to a low battery warning at 2026-09-08 17:21.",
+          "refs": [
+            "ALM-000147"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Site traffic and availability dropped completely starting at 2026-09-08 17:30.",
+          "refs": [
+            "ALR-0015",
+            "ANM-000123",
+            "ANM-000124",
+            "ANM-000125"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical site down alarm raised on S-TUN-015 at 2026-09-08 17:36.",
+          "refs": [
+            "ALM-000148"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "All power alarms cleared and the site recovered at 2026-09-08 21:58.",
+          "refs": [
+            "ALM-000142",
+            "ALM-000147",
+            "ALM-000148"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "power_failure",
+          "node_id": "S-TUN-015",
+          "reason": "Direct evidence of mains failure, subsequent battery depletion, and site down alarms matching the outage window.",
+          "refs": [
+            "ALM-000142",
+            "ALM-000147",
+            "ALM-000148",
+            "ALR-0015"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-08 21:58",
+      "impact_start": "2026-09-08 17:30",
+      "impact_summary": "Site S-TUN-015 was down from 2026-09-08 17:30 until power and site operations were fully restored at 2026-09-08 21:58.",
+      "recommended_actions": [
+        "Inspect the local power supply and mains connection at S-TUN-015.",
+        "Verify battery backup health and autonomy duration."
+      ],
+      "root_cause_category": "power_failure",
+      "root_cause_node_id": "S-TUN-015",
+      "root_cause_summary": "Site S-TUN-015 experienced a mains power failure, leading to battery exhaustion and site outage.",
+      "root_cause_time": "2026-09-08 14:16",
+      "timeline": [
+        {
+          "event": "Major MAINS_FAILURE alarm raised on S-TUN-015",
+          "refs": [
+            "ALM-000142"
+          ],
+          "time": "2026-09-08 14:16"
+        },
+        {
+          "event": "Major BATTERY_LOW alarm raised on S-TUN-015",
+          "refs": [
+            "ALM-000147"
+          ],
+          "time": "2026-09-08 17:21"
+        },
+        {
+          "event": "Traffic and availability anomaly started on S-TUN-015",
+          "refs": [
+            "ALR-0015"
+          ],
+          "time": "2026-09-08 17:30"
+        },
+        {
+          "event": "Critical SITE_DOWN alarm raised on S-TUN-015",
+          "refs": [
+            "ALM-000148"
+          ],
+          "time": "2026-09-08 17:36"
+        },
+        {
+          "event": "Mains power restored, clearing MAINS_FAILURE, BATTERY_LOW, and SITE_DOWN alarms on S-TUN-015",
+          "refs": [
+            "ALM-000142",
+            "ALM-000147",
+            "ALM-000148"
+          ],
+          "time": "2026-09-08 21:58"
+        }
+      ],
+      "title": "Incident Report: S-TUN-015 Power Failure Outage"
+    },
+    "run_id": "RUN-bc9a68aa48",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-015"
+      ],
+      "ongoing": true,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "site down",
+      "unknown_ids": [],
+      "window_end": "2026-09-09T08:04:00Z",
+      "window_start": "2026-09-08T16:35:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 386,
+        "latency_ms": 779,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 116,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3102,
+        "latency_ms": 1149,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 283,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1777
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4611,
+        "latency_ms": 906,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 74,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4238
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5070,
+        "latency_ms": 1131,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 174,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4714
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5284,
+        "latency_ms": 1361,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 240,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4724
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5625,
+        "latency_ms": 1154,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 175,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4282
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4361,
+        "latency_ms": 3971,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1499,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7323
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 28439,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 7,
+      "output_tokens": 2561,
+      "tool_calls": 7,
+      "wall_seconds": 27.13
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-015"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-08T20:56:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000142",
+        "table": "alarms",
+        "visible_from": "2026-09-08T13:16:00+00:00"
+      },
+      {
+        "id": "ALM-000147",
+        "table": "alarms",
+        "visible_from": "2026-09-08T16:21:00+00:00"
+      },
+      {
+        "id": "ALM-000148",
+        "table": "alarms",
+        "visible_from": "2026-09-08T16:36:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-08T16:36:00Z",
+    "is_incident": true,
+    "kind": "power_outage",
+    "notes": "Mains failure at S-TUN-015; battery lasted 3.3 h, so KPIs were normal until the batteries were exhausted.",
+    "root_cause_category": "power_failure",
+    "root_cause_node_id": "S-TUN-015",
+    "severity": "medium",
+    "start_at": "2026-09-08T13:16:00Z"
+  },
+  "variant": "no-runbooks"
+}

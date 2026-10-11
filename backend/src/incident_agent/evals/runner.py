@@ -31,7 +31,7 @@ from incident_agent.evals.cases import (
     select_cases,
     stratified,
 )
-from incident_agent.evals.prepare import loaded_seed, resolve_targets
+from incident_agent.evals.prepare import loaded_profile, loaded_seed, resolve_targets
 from incident_agent.evals.rundir import RunDir, RunMeta
 from incident_agent.evals.scoring import CaseScore, Topology, score_case
 from incident_agent.evals.types import CaseArtifact
@@ -326,6 +326,7 @@ class RunOptions:
     model: str | None = None  # "provider:model"; default is the configured agent model
     database: str | None = None
     runs_dir: Path | None = None
+    profile: str = "default"  # scenario profile of the world: default | hard
 
 
 def _check_or_create_meta(
@@ -339,7 +340,8 @@ def _check_or_create_meta(
         return RunMeta(
             name=opts.name,
             seed=opts.seed,
-            split=split_of(opts.seed),
+            split=split_of(opts.seed, opts.profile),
+            profile=opts.profile,
             variant=opts.variant,
             agent_model=model,
             questions=opts.questions,
@@ -352,6 +354,7 @@ def _check_or_create_meta(
         f"{what} is {have!r} in the run, {want!r} now"
         for what, have, want in (
             ("seed", existing.seed, opts.seed),
+            ("profile", existing.profile, opts.profile),
             ("variant", existing.variant, opts.variant),
             ("model", existing.agent_model, model),
             ("questions", existing.questions, opts.questions),
@@ -361,7 +364,7 @@ def _check_or_create_meta(
     if mismatch:
         raise ValueError(
             f"run {opts.name!r} already exists with other settings ({'; '.join(mismatch)}). "
-            "Use a new --name: one run is one seed, variant and model."
+            "Use a new --name: one run is one world (seed and profile), variant and model."
         )
     return existing.model_copy(update={"cases_total": total, "updated_at": now})
 
@@ -378,16 +381,19 @@ def execute_run(
     variant = get_variant(opts.variant)
     agent_config_for(variant)  # fail early when the variant cannot run
     model = opts.model or settings.agent_model
-    targets = resolve_targets(opts.seed, database=opts.database, settings=settings)
+    targets = resolve_targets(
+        opts.seed, database=opts.database, settings=settings, profile=opts.profile
+    )
     owner = create_engine(targets.owner_url)
     agent = create_engine(targets.agent_url)
     try:
-        if loaded_seed(owner) != str(opts.seed):
+        flag = f" --profile {opts.profile}" if opts.profile != "default" else ""
+        if loaded_seed(owner) != str(opts.seed) or loaded_profile(owner) != opts.profile:
             raise RuntimeError(
-                f"{targets.name} does not hold the world of seed {opts.seed}; "
-                f"run `evals prepare --seed {opts.seed}` first."
+                f"{targets.name} does not hold the {opts.profile} world of seed {opts.seed}; "
+                f"run `evals prepare --seed {opts.seed}{flag}` first."
             )
-        everything = load_planned_cases(owner, opts.seed, opts.questions)
+        everything = load_planned_cases(owner, opts.seed, opts.questions, opts.profile)
         topology = load_topology(owner)
         chosen = select_cases(stratified(everything), opts.only)
         run = RunDir(opts.name, opts.runs_dir)
@@ -398,7 +404,8 @@ def execute_run(
             "agent", chain=[model], cache_mode=opts.cache_mode, settings=settings
         )
         log(
-            f"run {opts.name}: seed {opts.seed}, variant {opts.variant}, model {model}, "
+            f"run {opts.name}: seed {opts.seed} ({opts.profile}), variant {opts.variant}, "
+            f"model {model}, "
             f"cache {opts.cache_mode}, {len(chosen)} of {len(everything)} cases selected"
         )
 

@@ -12,6 +12,7 @@ from sqlalchemy import create_engine
 from incident_agent.agent.config import AgentConfig
 from incident_agent.agent.state import LLMStep
 from incident_agent.agent.types import ToolContext
+from incident_agent.config import Settings
 from incident_agent.evals.cases import (
     PlannedCase,
     interleave,
@@ -21,12 +22,15 @@ from incident_agent.evals.cases import (
     split_of,
     stratified,
 )
+from incident_agent.evals.prepare import resolve_targets
 from incident_agent.evals.report import write_report
 from incident_agent.evals.rundir import RunDir, RunMeta
 from incident_agent.evals.runner import (
     VARIANTS,
     QuotaExhausted,
+    RunOptions,
     VariantUnavailable,
+    _check_or_create_meta,
     agent_config_for,
     executor_for,
     get_variant,
@@ -35,6 +39,7 @@ from incident_agent.evals.runner import (
     run_batch,
     run_case,
 )
+from incident_agent.evals.summary import load_scored_run, summary_json, summary_lines
 from incident_agent.evals.types import CaseArtifact, FindingGrade, ReportGrade
 from incident_agent.llm.testing import RecordedCall, ScriptedRunner
 from incident_agent.llm.types import MalformedOutput, ToolCall
@@ -567,3 +572,107 @@ def test_report_with_test_dev_ablation_and_grades(tmp_path: Path) -> None:
 def test_report_needs_runs_that_exist(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError):
         write_report([RunDir("missing", tmp_path)], tmp_path / "out")
+
+
+# --- hard-profile worlds ----------------------------------------------------------------------
+
+
+def test_hard_worlds_have_their_own_ids_split_and_database() -> None:
+    assert make_case_id(101, "SCN-012", 0, "hard") == "h101-SCN-012-q0"
+    assert make_case_id(42, "SCN-012", 0) == "s42-SCN-012-q0"
+    assert split_of(101, "hard") == "test" and split_of(42, "hard") == "test"
+    settings = Settings(  # type: ignore[call-arg]
+        _env_file=None, database_url="postgresql+psycopg://u:p@localhost:5433/incident_agent"
+    )
+    hard = resolve_targets(101, settings=settings, profile="hard")
+    assert hard.name == "incident_agent_eval_hard_s101"
+    assert resolve_targets(42, settings=settings, profile="hard").name.endswith("hard_s42")
+    assert resolve_targets(7, settings=settings).name == "incident_agent_eval_s7"
+    assert resolve_targets(42, settings=settings).name == "incident_agent"
+    assert hard.agent_url.username == "agent_ro" and hard.agent_url.database == hard.name
+
+
+def test_a_run_name_cannot_mix_profiles(tmp_path: Path) -> None:
+    run = RunDir("mix", tmp_path)
+    hard = RunOptions(name="mix", seed=101, profile="hard")
+    meta = _check_or_create_meta(run, hard, "m", 34, "incident_agent_eval_hard_s101")
+    assert meta.profile == "hard" and meta.split == "test"
+    run.write_meta(meta)
+    assert run.read_meta() == meta
+    assert json.loads(run.meta_path.read_text(encoding="utf-8"))["profile"] == "hard"
+    _check_or_create_meta(run, hard, "m", 34, "incident_agent_eval_hard_s101")  # the same world
+    with pytest.raises(ValueError, match="profile is 'hard' in the run, 'default' now"):
+        _check_or_create_meta(run, RunOptions(name="mix", seed=101), "m", 34, "db")
+
+
+def test_runs_recorded_before_profiles_existed_still_load(tmp_path: Path) -> None:
+    run = _write_run(tmp_path, "old", 7, _artifacts(7, "default"), total=3)
+    data = json.loads(run.meta_path.read_text(encoding="utf-8"))
+    del data["profile"]
+    run.meta_path.write_text(json.dumps(data), encoding="utf-8")
+    meta = run.read_meta()
+    assert meta is not None and meta.profile == "default"
+    write_report([run], tmp_path / "out")  # scores and reports as before
+    md = (tmp_path / "out" / "evaluation.md").read_text(encoding="utf-8")
+    assert "By trap" not in md and "hard-profile" not in md
+
+
+def test_the_report_breaks_results_down_by_trap_only_when_there_are_traps(tmp_path: Path) -> None:
+    ok = make_result(make_report(**RIGHT))
+    bad = make_result(make_report(root_cause_category="bad_change", **RIGHT))
+    trap = "trap=change_on_root_node; Fibre cut."
+    arts = [
+        make_artifact(ok, scenario_id="SCN-001", seed=101, truth=make_truth(notes=trap)),
+        make_artifact(bad, scenario_id="SCN-002", seed=101, truth=make_truth(notes=trap)),
+        make_artifact(
+            ok,
+            scenario_id="SCN-003",
+            seed=101,
+            truth=make_truth(notes="trap=missing_alarm; Fibre cut."),
+        ),
+        make_artifact(ok, scenario_id="SCN-004", seed=101),
+    ]
+    run = RunDir("hard-run", tmp_path / "runs")
+    run.write_meta(
+        RunMeta(
+            name="hard-run",
+            seed=101,
+            split="test",
+            profile="hard",
+            variant="default",
+            agent_model="gemini:gemini-3.5-flash-lite",
+            questions="first",
+            cases_total=4,
+            database="incident_agent_eval_hard_s101",
+            created_at="2026-10-10T00:00:00+00:00",
+            updated_at="2026-10-10T00:00:00+00:00",
+        )
+    )
+    run.write_topology(TOPOLOGY)
+    for a in arts:
+        run.save_artifact(a)
+    scored = load_scored_run(run)
+    assert [s.trap for s in scored.scores] == [
+        "change_on_root_node",
+        "change_on_root_node",
+        "missing_alarm",
+        None,
+    ]
+    summary = summary_json(scored)
+    assert summary["by_trap"]["change_on_root_node"]["rca_lenient"]["k"] == 1
+    assert summary["by_trap"]["change_on_root_node"]["n_cases"] == 2
+    assert summary["by_trap"]["no trap"]["n_cases"] == 1
+    assert (
+        summary["cases"][0]["trap"] == "change_on_root_node" and "trap" not in summary["cases"][3]
+    )
+    assert any("change_on_root_node" in line for line in summary_lines(scored))
+    out = tmp_path / "out"
+    write_report([run], out)
+    md = (out / "evaluation.md").read_text(encoding="utf-8")
+    assert "**By trap**" in md and "change_on_root_node" in md and "seed 101 (hard, test)" in md
+    data = json.loads((out / "evaluation.json").read_text(encoding="utf-8"))
+    assert set(data["runs"][0]["by_trap"]) == {"change_on_root_node", "missing_alarm", "no trap"}
+    # Worlds without traps keep the old layout.
+    plain = load_scored_run(_write_run(tmp_path / "p", "plain", 7, _artifacts(7, "default")))
+    assert "by_trap" not in summary_json(plain)
+    assert all("trap" not in c for c in summary_json(plain)["cases"])

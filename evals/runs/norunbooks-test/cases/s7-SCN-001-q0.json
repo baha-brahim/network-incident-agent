@@ -1,0 +1,686 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-04T07:09:00Z",
+    "case_id": "s7-SCN-001-q0",
+    "question": "RRC success rate fell across several sites in Sfax yesterday morning. Why?",
+    "question_index": 0,
+    "scenario_id": "SCN-001",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:37:13.909123Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-04T07:09:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-04 08:09",
+          "entity_id": null,
+          "region_id": "SFX",
+          "start": "2026-09-03 04:00"
+        },
+        "body": "2 detector alert(s) overlap 2026-09-03 04:00 to 2026-09-04 08:09.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0005 medium ended, 2026-09-03 09:00 to 2026-09-03 20:45 (11.8 h): RRC success drops; drop rate spikes on 6 sites in SFX (S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007, S-SFX-008 and 1 more) for 12 h\n  drop_rate_pct spike on 7 entities: worst S-SFX-004 z 23.7, 0.75 -> 4.87, 2026-09-03 09:00 to 2026-09-03 20:45\n  rrc_success_pct drop on 7 entities: worst S-SFX-007 z -26.7, 99.2 -> 95.4, 2026-09-03 09:00 to 2026-09-03 20:45\nALR-0006 low ended, 2026-09-03 21:00 to 2026-09-03 21:45 (45 min): Latency spikes on 1 site in SFX (S-SFX-010) for 45 min\n  latency_ms spike on 1 entity: worst S-SFX-010 z 5.0, 23.1 -> 34.2, 2026-09-03 21:00 to 2026-09-03 21:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 detector alert(s) overlap 2026-09-03 04:00 to 2026-09-04 08:09.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0005",
+          "ANM-000010",
+          "ANM-000015",
+          "ALR-0006",
+          "ANM-000022"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-03 12:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SFX-001",
+            "S-SFX-004",
+            "S-SFX-005",
+            "S-SFX-007",
+            "S-SFX-008"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 06:00:00"
+        },
+        "body": "No alarms on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and nodes below between 2026-09-03 06:00 and 2026-09-03 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No alarms on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and nodes below between 2026-09-03 06:00 and 2026-09-03 12:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-03 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-001",
+            "S-SFX-004",
+            "S-SFX-005",
+            "S-SFX-007",
+            "S-SFX-008"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 06:00:00"
+        },
+        "body": "2 change(s) on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents, 2026-09-03 06:00 to 2026-09-03 12:00 (1 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09).\n2026-09-03 07:39 CHG-2026-0007 software_upgrade on S-SFX-005: Minor firmware patch on S-SFX-005 baseband unit\n2026-09-03 09:02 CHG-2026-0008 parameter_tuning on AGG-SFX-01 (ancestor of S-SFX-001): Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01 -> ROLLED BACK by CHG-2026-0010 at 2026-09-03 20:37",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents, 2026-09-03 06:00 to 2026-09-03 12:00 (1 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "CHG-2026-0007",
+          "CHG-2026-0008"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-03 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-001",
+            "S-SFX-004",
+            "S-SFX-005",
+            "S-SFX-007",
+            "S-SFX-008"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 06:00:00"
+        },
+        "body": "No maintenance window scheduled on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents between 2026-09-03 06:00 and 2026-09-03 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents between 2026-09-03 06:00 and 2026-09-03 12:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-03 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-001",
+            "S-SFX-004",
+            "S-SFX-005",
+            "S-SFX-007",
+            "S-SFX-008"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 06:00:00"
+        },
+        "body": "2 change(s) on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents, 2026-09-03 06:00 to 2026-09-03 12:00 (1 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09).\n2026-09-03 07:39 CHG-2026-0007 software_upgrade on S-SFX-005: Minor firmware patch on S-SFX-005 baseband unit\n2026-09-03 09:02 CHG-2026-0008 parameter_tuning on AGG-SFX-01 (ancestor of S-SFX-001): Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01 -> ROLLED BACK by CHG-2026-0010 at 2026-09-03 20:37",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents, 2026-09-03 06:00 to 2026-09-03 12:00 (1 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "CHG-2026-0007",
+          "CHG-2026-0008"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "AGG-SFX-01"
+        },
+        "body": "Depends on (child -> parent -> core): AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nAGG-SFX-01: agg router, SFX.\nChildren: LNK-SFX-01-A, LNK-SFX-01-B.\n6 sites in total depend on AGG-SFX-01.\nSiblings under CORE-UPF-02: AGG-SFX-02, AGG-SUD-01, AGG-SUD-02.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "AGG-SFX-01",
+          "CORE-UPF-02",
+          "AGG-SFX-02",
+          "AGG-SUD-01",
+          "AGG-SUD-02",
+          "LNK-SFX-01-A",
+          "LNK-SFX-01-B"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-03 12:00:00",
+          "entity_ids": [
+            "S-SFX-001",
+            "S-SFX-004",
+            "S-SFX-005",
+            "S-SFX-007",
+            "S-SFX-008"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct"
+          ],
+          "start": "2026-09-03 06:00:00"
+        },
+        "body": "Deviation in 10 of 10 series. Earliest onset 2026-09-03 09:00: S-SFX-001 rrc_success_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-04 08:09). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier weekdays with data; treat small deviations with caution.\nS-SFX-001 rrc_success_pct: mean 97.4 vs 99.1 (-2%); below baseline from 2026-09-03 09:00, not recovered.\nS-SFX-001 drop_rate_pct: mean 1.85 vs 0.62 (+198%); above baseline from 2026-09-03 09:00, not recovered.\nS-SFX-004 rrc_success_pct: mean 97.4 vs 99.3 (-2%); below baseline from 2026-09-03 09:00, not recovered.\nS-SFX-004 drop_rate_pct: mean 2.45 vs 0.74 (+232%); above baseline from 2026-09-03 09:00, not recovered.\nS-SFX-005 rrc_success_pct: mean 97.7 vs 99.4 (-2%); below baseline from 2026-09-03 09:00, not recovered.\nS-SFX-005 drop_rate_pct: mean 1.36 vs 0.54 (+153%); above baseline from 2026-09-03 09:00, not recovered.\nS-SFX-007 rrc_success_pct: mean 97.2 vs 99.2 (-2%); below baseline from 2026-09-03 09:00, not recovered.\nS-SFX-007 drop_rate_pct: mean 2.25 vs 0.74 (+205%); above baseline from 2026-09-03 09:00, not recovered.\nS-SFX-008 rrc_success_pct: mean 97.6 vs 99.4 (-2%); below baseline from 2026-09-03 09:00, not recovered.\nS-SFX-008 drop_rate_pct: mean 1.89 vs 0.76 (+147%); above baseline from 2026-09-03 09:00, not recovered.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 10 of 10 series. Earliest onset 2026-09-03 09:00: S-SFX-001 rrc_success_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 74
+      },
+      {
+        "args": {
+          "end": "2026-09-03 21:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-SFX-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 08:00:00"
+        },
+        "body": "2 change(s) on AGG-SFX-01 and its parents, 2026-09-03 08:00 to 2026-09-03 21:00 (0 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09).\n2026-09-03 09:02 CHG-2026-0008 parameter_tuning on AGG-SFX-01: Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01 -> ROLLED BACK by CHG-2026-0010 at 2026-09-03 20:37\n2026-09-03 20:37 CHG-2026-0010 rollback of CHG-2026-0008 on AGG-SFX-01: Rollback of RT-2.5 on AGG-SFX-01 after KPI regression escalated by NOC",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on AGG-SFX-01 and its parents, 2026-09-03 08:00 to 2026-09-03 21:00 (0 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "CHG-2026-0008",
+          "CHG-2026-0010"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-03 12:00:00",
+          "region_id": "SFX",
+          "start": "2026-09-03 06:00:00"
+        },
+        "body": "No external events for region SFX (and nationwide) between 2026-09-03 06:00 and 2026-09-03 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SFX (and nationwide) between 2026-09-03 06:00 and 2026-09-03 12:00.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-01": {
+        "kind": "node",
+        "ref": "AGG-SFX-01",
+        "summary": "agg router, SFX; chain: AGG-SFX-01 -> CORE-UPF-02; 6 sites below"
+      },
+      "AGG-SFX-02": {
+        "kind": "node",
+        "ref": "AGG-SFX-02",
+        "summary": "agg router, SFX; sibling of AGG-SFX-01"
+      },
+      "AGG-SUD-01": {
+        "kind": "node",
+        "ref": "AGG-SUD-01",
+        "summary": "agg router, SUD; sibling of AGG-SFX-01"
+      },
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD; sibling of AGG-SFX-01"
+      },
+      "ALR-0005": {
+        "kind": "alert",
+        "ref": "ALR-0005",
+        "summary": "ended alert from 2026-09-03 09:00: 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +2 more); region-level SFX; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ALR-0006": {
+        "kind": "alert",
+        "ref": "ALR-0006",
+        "summary": "ended alert from 2026-09-03 21:00: 1 site(s) (S-SFX-010); metrics: latency_ms"
+      },
+      "ANM-000010": {
+        "kind": "anomaly",
+        "ref": "ANM-000010",
+        "summary": "S-SFX-004 drop_rate_pct spike, z 23.7, baseline 0.75 -> 4.87"
+      },
+      "ANM-000015": {
+        "kind": "anomaly",
+        "ref": "ANM-000015",
+        "summary": "S-SFX-007 rrc_success_pct drop, z -26.7, baseline 99.2 -> 95.4"
+      },
+      "ANM-000022": {
+        "kind": "anomaly",
+        "ref": "ANM-000022",
+        "summary": "S-SFX-010 latency_ms spike, z 5.0, baseline 23.1 -> 34.2"
+      },
+      "CHG-2026-0007": {
+        "kind": "change",
+        "ref": "CHG-2026-0007",
+        "summary": "software_upgrade on S-SFX-005 at 2026-09-03 07:39: Minor firmware patch on S-SFX-005 baseband unit"
+      },
+      "CHG-2026-0008": {
+        "kind": "change",
+        "ref": "CHG-2026-0008",
+        "summary": "parameter_tuning on AGG-SFX-01 at 2026-09-03 09:02: Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01 [ROLLED BACK by CHG-2026-0010 at 2026-09-03 20:37]"
+      },
+      "CHG-2026-0010": {
+        "kind": "change",
+        "ref": "CHG-2026-0010",
+        "summary": "rollback of CHG-2026-0008 on AGG-SFX-01 at 2026-09-03 20:37: Rollback of RT-2.5 on AGG-SFX-01 after KPI regression escalated by NOC"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-01-A": {
+        "kind": "node",
+        "ref": "LNK-SFX-01-A",
+        "summary": "microwave link, SFX, 14.4 km, 1.0 Gbps; under AGG-SFX-01"
+      },
+      "LNK-SFX-01-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-01-B",
+        "summary": "fiber link, SFX, 18.3 km, 10.0 Gbps; under AGG-SFX-01"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-03 04:00, end=2026-09-04 08:09, region_id=SFX) -> 2 detector alert(s) overlap 2026-09-03 04:00 to 2026-09-04 08:09."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, node_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], include_des -> No alarms on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and nodes below between 2026-09-03 06:00 and 2026-09-03 12:00."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, node_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], include_an -> 2 change(s) on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents, 2026-09-03 06:00 to 2026-09-03 12:00 (1 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, node_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], includ -> No maintenance window scheduled on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents between 2026-09-03 06:00 and 2026-09-03 12:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, node_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], include_an -> 2 change(s) on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents, 2026-09-03 06:00 to 2026-09-03 12:00 (1 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_topology(node_id=AGG-SFX-01, include=all) -> Depends on (child -> parent -> core): AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], metrics=['rrc_success_pct', 'drop_rate_pct' -> Deviation in 10 of 10 series. Earliest onset 2026-09-03 09:00: S-SFX-001 rrc_success_pct below baseline."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_changes(start=2026-09-03 08:00:00, end=2026-09-03 21:00:00, node_ids=['AGG-SFX-01'], include_ancestors=True) -> 2 change(s) on AGG-SFX-01 and its parents, 2026-09-03 08:00 to 2026-09-03 21:00 (0 on upstream nodes, 1 rolled back by asked_at 2026-09-04 08:09)."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_external_events(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-03 06:00 and 2026-09-03 12:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# RRC Success Rate Degradation Across Sfax Sites Due to Parameter Tuning\n\n- **Classification:** incident\n- **Root cause:** bad_change at `AGG-SFX-01`\n- **Confidence:** high (Direct evidence of parameter tuning change matching the exact KPI onset time on the aggregation router serving all affected sites, with no competing external events or maintenance windows. Tool calls marked NOT CHECKED: none.)\n- **Impact:** 2026-09-03 09:00 to 2026-09-03 20:37\n- **Cause time:** 2026-09-03 09:02\n- **Affected:** S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007, S-SFX-008\n\n## Summary\n\nScheduled parameter optimisation batch RT-2.5 applied to aggregation router AGG-SFX-01 caused RRC success rate degradation and drop rate spikes across connected sites.\n\nRRC success rate fell and drop rate spiked across 10 series in Sfax starting at 2026-09-03 09:00 and recovered after rollback at 2026-09-03 20:37.\n\n## Timeline\n\n- 2026-09-03 07:39: Minor firmware patch on S-SFX-005 baseband unit applied [CHG-2026-0007]\n- 2026-09-03 09:00: Earliest KPI onset: S-SFX-001 rrc_success_pct below baseline and drop_rate_pct above baseline, affecting multiple sites across Sfax [T7, ALR-0005]\n- 2026-09-03 09:02: Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01 [CHG-2026-0008]\n- 2026-09-03 20:37: Rollback of RT-2.5 on AGG-SFX-01 after KPI regression escalated by NOC [CHG-2026-0010]\n\n## Evidence\n\n- RRC success rate fell and drop rate spiked across multiple sites in Sfax starting at 2026-09-03 09:00. [T1, T7, ALR-0005]\n- Parameter optimisation batch RT-2.5 was applied to aggregation router AGG-SFX-01 at 2026-09-03 09:02. [CHG-2026-0008]\n- The parameter tuning change on AGG-SFX-01 was rolled back at 2026-09-03 20:37. [CHG-2026-0010]\n- No external events or maintenance windows occurred in region SFX during the incident window. [T4, T9]\n\n## Hypotheses\n\n1. **bad_change** at AGG-SFX-01: confirmed. Parameter tuning change CHG-2026-0008 applied to AGG-SFX-01 precisely matches the onset of KPI degradation across all dependent sites, and rollback successfully resolved the issue. [CHG-2026-0008, CHG-2026-0010, T7]\n2. **bad_change** at S-SFX-005: rejected. Minor firmware patch on S-SFX-005 occurred at 07:39, but the KPI degradation affected all 10 series across multiple sites simultaneously starting at 09:00, pointing to the aggregation router level. [CHG-2026-0007, T7]\n\n## Ruled out\n\n- CHG-2026-0007: Occurred at 07:39 on a single site (S-SFX-005), whereas the KPI regression started simultaneously at 09:00 across multiple sites sharing aggregation router AGG-SFX-01.\n- ALR-0006: Refers to a latency spike on site S-SFX-010 starting at 21:00, which is outside the scope and timeframe of the Sfax RRC success rate incident.\n\n## Recommended actions\n\n- Review parameter optimisation batch RT-2.5 settings before future deployment on aggregation routers.\n- Improve pre-deployment validation for router configuration changes to prevent widespread RRC success rate regressions.\n\n## Sources\n\n- `CHG-2026-0007`: software_upgrade on S-SFX-005 at 2026-09-03 07:39: Minor firmware patch on S-SFX-005 baseband unit\n- `T7`: query_kpis(entity_type=site, entity_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], metrics=['rrc_success_pct', 'drop_rate_pct' -> Deviation in 10 of 10 series. Earliest onset 2026-09-03 09:00: S-SFX-001 rrc_success_pct below baseline.\n- `ALR-0005`: ended alert from 2026-09-03 09:00: 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +2 more); region-level SFX; metrics: drop_rate_pct, rrc_success_pct\n- `CHG-2026-0008`: parameter_tuning on AGG-SFX-01 at 2026-09-03 09:02: Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01 [ROLLED BACK by CHG-2026-0010 at 2026-09-03 20:37]\n- `CHG-2026-0010`: rollback of CHG-2026-0008 on AGG-SFX-01 at 2026-09-03 20:37: Rollback of RT-2.5 on AGG-SFX-01 after KPI regression escalated by NOC\n- `T1`: get_anomalies(start=2026-09-03 04:00, end=2026-09-04 08:09, region_id=SFX) -> 2 detector alert(s) overlap 2026-09-03 04:00 to 2026-09-04 08:09.\n- `T4`: get_maintenance(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, node_ids=['S-SFX-001', 'S-SFX-004', 'S-SFX-005', 'S-SFX-007', 'S-SFX-008'], includ -> No maintenance window scheduled on S-SFX-001, S-SFX-004, S-SFX-005, S-SFX-007 +1 more and its parents between 2026-09-03 06:00 and 2026-09-03 12:00.\n- `T9`: get_external_events(start=2026-09-03 06:00:00, end=2026-09-03 12:00:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-03 06:00 and 2026-09-03 12:00.\n- `ALR-0006`: ended alert from 2026-09-03 21:00: 1 site(s) (S-SFX-010); metrics: latency_ms\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "RRC success rate fell across several sites in Sfax yesterday morning. Why?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-001",
+        "S-SFX-004",
+        "S-SFX-005",
+        "S-SFX-007",
+        "S-SFX-008"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of parameter tuning change matching the exact KPI onset time on the aggregation router serving all affected sites, with no competing external events or maintenance windows. Tool calls marked NOT CHECKED: none.",
+      "dismissed_signals": [
+        {
+          "reason": "Occurred at 07:39 on a single site (S-SFX-005), whereas the KPI regression started simultaneously at 09:00 across multiple sites sharing aggregation router AGG-SFX-01.",
+          "ref": "CHG-2026-0007"
+        },
+        {
+          "reason": "Refers to a latency spike on site S-SFX-010 starting at 21:00, which is outside the scope and timeframe of the Sfax RRC success rate incident.",
+          "ref": "ALR-0006"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "RRC success rate fell and drop rate spiked across multiple sites in Sfax starting at 2026-09-03 09:00.",
+          "refs": [
+            "T1",
+            "T7",
+            "ALR-0005"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Parameter optimisation batch RT-2.5 was applied to aggregation router AGG-SFX-01 at 2026-09-03 09:02.",
+          "refs": [
+            "CHG-2026-0008"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "The parameter tuning change on AGG-SFX-01 was rolled back at 2026-09-03 20:37.",
+          "refs": [
+            "CHG-2026-0010"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events or maintenance windows occurred in region SFX during the incident window.",
+          "refs": [
+            "T4",
+            "T9"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "AGG-SFX-01",
+          "reason": "Parameter tuning change CHG-2026-0008 applied to AGG-SFX-01 precisely matches the onset of KPI degradation across all dependent sites, and rollback successfully resolved the issue.",
+          "refs": [
+            "CHG-2026-0008",
+            "CHG-2026-0010",
+            "T7"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SFX-005",
+          "reason": "Minor firmware patch on S-SFX-005 occurred at 07:39, but the KPI degradation affected all 10 series across multiple sites simultaneously starting at 09:00, pointing to the aggregation router level.",
+          "refs": [
+            "CHG-2026-0007",
+            "T7"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-03 20:37",
+      "impact_start": "2026-09-03 09:00",
+      "impact_summary": "RRC success rate fell and drop rate spiked across 10 series in Sfax starting at 2026-09-03 09:00 and recovered after rollback at 2026-09-03 20:37.",
+      "recommended_actions": [
+        "Review parameter optimisation batch RT-2.5 settings before future deployment on aggregation routers.",
+        "Improve pre-deployment validation for router configuration changes to prevent widespread RRC success rate regressions."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "AGG-SFX-01",
+      "root_cause_summary": "Scheduled parameter optimisation batch RT-2.5 applied to aggregation router AGG-SFX-01 caused RRC success rate degradation and drop rate spikes across connected sites.",
+      "root_cause_time": "2026-09-03 09:02",
+      "timeline": [
+        {
+          "event": "Minor firmware patch on S-SFX-005 baseband unit applied",
+          "refs": [
+            "CHG-2026-0007"
+          ],
+          "time": "2026-09-03 07:39"
+        },
+        {
+          "event": "Earliest KPI onset: S-SFX-001 rrc_success_pct below baseline and drop_rate_pct above baseline, affecting multiple sites across Sfax",
+          "refs": [
+            "T7",
+            "ALR-0005"
+          ],
+          "time": "2026-09-03 09:00"
+        },
+        {
+          "event": "Scheduled parameter optimisation batch RT-2.5 applied to AGG-SFX-01",
+          "refs": [
+            "CHG-2026-0008"
+          ],
+          "time": "2026-09-03 09:02"
+        },
+        {
+          "event": "Rollback of RT-2.5 on AGG-SFX-01 after KPI regression escalated by NOC",
+          "refs": [
+            "CHG-2026-0010"
+          ],
+          "time": "2026-09-03 20:37"
+        }
+      ],
+      "title": "RRC Success Rate Degradation Across Sfax Sites Due to Parameter Tuning"
+    },
+    "run_id": "RUN-cc1d2310b6",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "RRC success rate fell",
+      "unknown_ids": [],
+      "window_end": "2026-09-03T11:00:00Z",
+      "window_start": "2026-09-03T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 381,
+        "latency_ms": 769,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 106,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2961,
+        "latency_ms": 1346,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 373,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2318
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4036,
+        "latency_ms": 1272,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 293,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4400
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5634,
+        "latency_ms": 1567,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 355,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4694
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5937,
+        "latency_ms": 1103,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 152,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4028
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4010,
+        "latency_ms": 3968,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1542,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7354
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 22959,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2821,
+      "tool_calls": 9,
+      "wall_seconds": 22.95
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SFX-001",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0007",
+        "table": "changes",
+        "visible_from": "2026-09-03T06:39:00+00:00",
+        "why": "Harmless software_upgrade on S-SFX-005 completed 83 min before the incident; the KPI impact has a different cause."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-03T19:36:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0008",
+        "table": "changes",
+        "visible_from": "2026-09-03T08:02:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0010",
+        "table": "changes",
+        "visible_from": "2026-09-03T19:37:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-03T08:02:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "Change RT-2.5 pushed to the aggregation router (AGG-SFX-01) regressed RRC success and drop rate until it was rolled back. ",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "AGG-SFX-01",
+    "severity": "high",
+    "start_at": "2026-09-03T08:02:00Z"
+  },
+  "variant": "no-runbooks"
+}

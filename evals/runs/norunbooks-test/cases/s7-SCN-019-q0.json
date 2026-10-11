@@ -1,0 +1,667 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-19T07:00:00Z",
+    "case_id": "s7-SCN-019-q0",
+    "question": "Why was latency high in parts of Sfax yesterday evening?",
+    "question_index": 0,
+    "scenario_id": "SCN-019",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:37:36.035734Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-19T07:00:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-19 08:00",
+          "entity_id": null,
+          "region_id": "SFX",
+          "start": "2026-09-18 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-18 16:00 to 2026-09-19 08:00.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0028 medium ended, 2026-09-18 18:30 to 2026-09-18 22:00 (3.5 h): RRC success drops; traffic, active users, drop rate, latency, PRB utilisation and UPF sessions spike on 2 sites in SFX (S-SFX-002, S-SFX-010) and on CORE-UPF-02 for 3.5 h\n  active_users spike on 3 entities: worst S-SFX-002 z 16.0, 319 -> 695, 2026-09-18 18:30 to 2026-09-18 22:00\n  dl_volume_mb spike on 3 entities: worst S-SFX-002 z 11.7, 23438 -> 67001, 2026-09-18 18:30 to 2026-09-18 22:00\n  drop_rate_pct spike on 3 entities: worst S-SFX-002 z 19.5, 0.64 -> 4.18, 2026-09-18 18:30 to 2026-09-18 22:00\n  +4 more metric group(s): latency_ms spike, rrc_success_pct drop, prb_util_pct spike, session_count spike",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-18 16:00 to 2026-09-19 08:00.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0028",
+          "ANM-000204",
+          "ANM-000205",
+          "ANM-000206"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-19 08:00",
+          "region_id": "SFX",
+          "start": "2026-09-18 16:00"
+        },
+        "body": "No external events for region SFX (and nationwide) between 2026-09-18 16:00 and 2026-09-19 08:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SFX (and nationwide) between 2026-09-18 16:00 and 2026-09-19 08:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-19 08:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-002",
+            "S-SFX-010",
+            "CORE-UPF-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 16:00"
+        },
+        "body": "No maintenance window scheduled on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents between 2026-09-18 16:00 and 2026-09-19 08:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents between 2026-09-18 16:00 and 2026-09-19 08:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-19 08:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "S-SFX-002",
+            "S-SFX-010",
+            "CORE-UPF-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 16:00"
+        },
+        "body": "No alarms on S-SFX-002, S-SFX-010, CORE-UPF-02 and nodes below between 2026-09-18 16:00 and 2026-09-19 08:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No alarms on S-SFX-002, S-SFX-010, CORE-UPF-02 and nodes below between 2026-09-18 16:00 and 2026-09-19 08:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-002"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-002 (site) -> LNK-SFX-02-A (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-002: site, SFX, Sfax Sud, urban.\nCells: C-SFX-002-1, C-SFX-002-2, C-SFX-002-3.\nSiblings under LNK-SFX-02-A: S-SFX-006.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-002 (site) -> LNK-SFX-02-A (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "S-SFX-002",
+          "LNK-SFX-02-A",
+          "AGG-SFX-02",
+          "CORE-UPF-02",
+          "S-SFX-006"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-010"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-010 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-010: site, SFX, Agareb, urban.\nCells: C-SFX-010-1, C-SFX-010-2, C-SFX-010-3.\nSiblings under LNK-SFX-02-B: S-SFX-003.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-010 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "S-SFX-010",
+          "LNK-SFX-02-B",
+          "AGG-SFX-02",
+          "CORE-UPF-02",
+          "S-SFX-003"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-19 08:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-002",
+            "S-SFX-010",
+            "CORE-UPF-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 16:00:00"
+        },
+        "body": "2 change(s) on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00).\n2026-09-18 16:58 CHG-2026-0050 parameter_tuning on S-SFX-002: Scheduler weight tuning on S-SFX-002\n2026-09-19 04:12 CHG-2026-0051 config_push on CORE-UPF-02: Licence file renewed on CORE-UPF-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "CHG-2026-0050",
+          "CHG-2026-0051"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-19 08:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 16:00:00"
+        },
+        "body": "1 change(s) on AGG-SFX-02 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00).\n2026-09-19 04:12 CHG-2026-0051 config_push on CORE-UPF-02 (ancestor of AGG-SFX-02): Licence file renewed on CORE-UPF-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on AGG-SFX-02 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "CHG-2026-0051"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-18 23:59:00",
+          "entity_ids": [
+            "S-SFX-002",
+            "S-SFX-010"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "prb_util_pct",
+            "active_users"
+          ],
+          "start": "2026-09-18 16:00:00"
+        },
+        "body": "Deviation in 6 of 6 series. Earliest onset 2026-09-18 18:30: S-SFX-002 latency_ms above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-19 08:00). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SFX-002 latency_ms: mean 63.5 vs baseline 25 (+154%); min 22.3 at 2026-09-18 23:45, max 123 at 2026-09-18 21:15.\nDeviation above baseline: onset 2026-09-18 18:30; worst 123 vs 26.3 at 2026-09-18 21:15; recovery 2026-09-18 22:00.\nS-SFX-002 prb_util_pct: mean 59.5 vs baseline 36 (+65%); min 19.9 at 2026-09-18 23:45, max 100 at 2026-09-18 21:00.\nDeviation above baseline: onset 2026-09-18 18:30; worst 100 vs 49.2 at 2026-09-18 21:00; recovery 2026-09-18 22:00.\nS-SFX-002 active_users: mean 359 vs baseline 233 (+54%); min 131 at 2026-09-18 23:45, max 695 at 2026-09-18 21:00.\nDeviation above baseline: onset 2026-09-18 18:30; worst 695 vs 325 at 2026-09-18 21:00; recovery 2026-09-18 22:00.\nS-SFX-010 latency_ms: mean 59.6 vs baseline 21.3 (+180%); min 18.8 at 2026-09-18 17:15, max 119 at 2026-09-18 21:30.\nDeviation above baseline: onset 2026-09-18 18:30; worst 119 vs 22.9 at 2026-09-18 21:30; recovery 2026-09-18 22:00.\nS-SFX-010 prb_util_pct: mean 62.2 vs baseline 41 (+52%); min 25.8 at 2026-09-18 17:15, max 100 at 2026-09-18 21:30.\nDeviation above baseline: onset 2026-09-18 18:30; worst 100 vs 55.5 at 2026-09-18 21:30; recovery 2026-09-18 22:00.\nS-SFX-010 active_users: mean 471 vs baseline 309 (+52%); min 193 at 2026-09-18 17:15, max 921 at 2026-09-18 21:15.\nDeviation above baseline: onset 2026-09-18 18:30; worst 921 vs 438 at 2026-09-18 21:15; recovery 2026-09-18 22:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 6 of 6 series. Earliest onset 2026-09-18 18:30: S-SFX-002 latency_ms above baseline.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 82
+      },
+      {
+        "args": {
+          "end": "2026-09-19 08:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 16:00:00"
+        },
+        "body": "1 change(s) on S-SFX-010 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00).\n2026-09-19 04:12 CHG-2026-0051 config_push on CORE-UPF-02 (ancestor of S-SFX-010): Licence file renewed on CORE-UPF-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SFX-010 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T10",
+        "row_refs": [
+          "CHG-2026-0051"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-02": {
+        "kind": "node",
+        "ref": "AGG-SFX-02",
+        "summary": "agg router, SFX"
+      },
+      "ALR-0028": {
+        "kind": "alert",
+        "ref": "ALR-0028",
+        "summary": "ended alert from 2026-09-18 18:30: 2 site(s) (S-SFX-002, S-SFX-010); core CORE-UPF-02; region-level SFX; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms..."
+      },
+      "ANM-000204": {
+        "kind": "anomaly",
+        "ref": "ANM-000204",
+        "summary": "S-SFX-002 active_users spike, z 16.0, baseline 319 -> 695"
+      },
+      "ANM-000205": {
+        "kind": "anomaly",
+        "ref": "ANM-000205",
+        "summary": "S-SFX-002 dl_volume_mb spike, z 11.7, baseline 23438 -> 67001"
+      },
+      "ANM-000206": {
+        "kind": "anomaly",
+        "ref": "ANM-000206",
+        "summary": "S-SFX-002 drop_rate_pct spike, z 19.5, baseline 0.64 -> 4.18"
+      },
+      "CHG-2026-0050": {
+        "kind": "change",
+        "ref": "CHG-2026-0050",
+        "summary": "parameter_tuning on S-SFX-002 at 2026-09-18 16:58: Scheduler weight tuning on S-SFX-002"
+      },
+      "CHG-2026-0051": {
+        "kind": "change",
+        "ref": "CHG-2026-0051",
+        "summary": "config_push on CORE-UPF-02 at 2026-09-19 04:12: Licence file renewed on CORE-UPF-02"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-02-A": {
+        "kind": "node",
+        "ref": "LNK-SFX-02-A",
+        "summary": "fiber link, SFX, 13.9 km, 10.0 Gbps"
+      },
+      "LNK-SFX-02-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-02-B",
+        "summary": "fiber link, SFX, 26.6 km, 10.0 Gbps"
+      },
+      "S-SFX-002": {
+        "kind": "node",
+        "ref": "S-SFX-002",
+        "summary": "site, SFX, Sfax Sud, urban; chain: S-SFX-002 -> LNK-SFX-02-A -> AGG-SFX-02 -> CORE-UPF-02"
+      },
+      "S-SFX-003": {
+        "kind": "node",
+        "ref": "S-SFX-003",
+        "summary": "site, SFX, Sakiet Ezzit, suburban; sibling of S-SFX-010"
+      },
+      "S-SFX-006": {
+        "kind": "node",
+        "ref": "S-SFX-006",
+        "summary": "site, SFX, Gremda, urban; sibling of S-SFX-002"
+      },
+      "S-SFX-010": {
+        "kind": "node",
+        "ref": "S-SFX-010",
+        "summary": "site, SFX, Agareb, urban; chain: S-SFX-010 -> LNK-SFX-02-B -> AGG-SFX-02 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-18 16:00, end=2026-09-19 08:00, region_id=SFX) -> 1 detector alert(s) overlap 2026-09-18 16:00 to 2026-09-19 08:00."
+      },
+      "T10": {
+        "kind": "call",
+        "ref": "T10",
+        "summary": "get_changes(start=2026-09-18 16:00:00, end=2026-09-19 08:00:00, node_ids=['S-SFX-010'], include_ancestors=True) -> 1 change(s) on S-SFX-010 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00)."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_external_events(start=2026-09-18 16:00, end=2026-09-19 08:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-18 16:00 and 2026-09-19 08:00."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_maintenance(start=2026-09-18 16:00, end=2026-09-19 08:00, node_ids=['S-SFX-002', 'S-SFX-010', 'CORE-UPF-02'], include_ancestors=True) -> No maintenance window scheduled on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents between 2026-09-18 16:00 and 2026-09-19 08:00."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-18 16:00, end=2026-09-19 08:00, node_ids=['S-SFX-002', 'S-SFX-010', 'CORE-UPF-02'], include_descendants=True, min_severity=mi -> No alarms on S-SFX-002, S-SFX-010, CORE-UPF-02 and nodes below between 2026-09-18 16:00 and 2026-09-19 08:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_topology(node_id=S-SFX-002, include=all) -> Depends on (child -> parent -> core): S-SFX-002 (site) -> LNK-SFX-02-A (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_topology(node_id=S-SFX-010, include=all) -> Depends on (child -> parent -> core): S-SFX-010 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-18 16:00:00, end=2026-09-19 08:00:00, node_ids=['S-SFX-002', 'S-SFX-010', 'CORE-UPF-02'], include_ancestors=True) -> 2 change(s) on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_changes(start=2026-09-18 16:00:00, end=2026-09-19 08:00:00, node_ids=['AGG-SFX-02'], include_ancestors=True) -> 1 change(s) on AGG-SFX-02 and its parents, 2026-09-18 16:00 to 2026-09-19 08:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-19 08:00)."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-002', 'S-SFX-010'], metrics=['latency_ms', 'prb_util_pct', 'active_users'], start=2026-09-18 16:00:00, -> Deviation in 6 of 6 series. Earliest onset 2026-09-18 18:30: S-SFX-002 latency_ms above baseline."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# High Latency and Congestion in Sfax Sites\n\n- **Classification:** incident\n- **Root cause:** capacity at `S-SFX-002`\n- **Confidence:** high (Direct KPI deviations observed on the affected sites matching the congestion period. Maintenance, external events, and alarms were checked and ruled out. Checks marked NOT CHECKED: none.)\n- **Impact:** 2026-09-18 18:30 to 2026-09-18 22:00\n- **Cause time:** 2026-09-18 18:30\n- **Affected:** S-SFX-002, S-SFX-010\n\n## Summary\n\nHigh traffic volume and active user spikes caused capacity exhaustion, high PRB utilization, and increased latency on S-SFX-002 and S-SFX-010.\n\nHigh latency and increased PRB utilization occurred on S-SFX-002 and S-SFX-010 between 2026-09-18 18:30 and 2026-09-18 22:00.\n\n## Timeline\n\n- 2026-09-18 16:58: Parameter tuning change executed on S-SFX-002 [CHG-2026-0050]\n- 2026-09-18 18:30: Onset of high latency and PRB utilization deviation on S-SFX-002 and S-SFX-010 [T9, ALR-0028]\n- 2026-09-18 22:00: Recovery of latency and PRB utilization metrics on S-SFX-002 and S-SFX-010 [T9]\n\n## Evidence\n\n- S-SFX-002 and S-SFX-010 exhibited latency and PRB utilization above baseline starting at 2026-09-18 18:30 and recovering at 2026-09-18 22:00. [T9]\n- No external events, maintenance windows, or active alarms were present on the affected sites or their ancestors during the incident window. [T2, T3, T4]\n- Active users and data volume spiked significantly on S-SFX-002 during the evening peak. [ANM-000204, ANM-000205, ANM-000206]\n\n## Hypotheses\n\n1. **capacity** at S-SFX-002: confirmed. PRB utilization reached 100 percent concurrently with active user and traffic volume spikes, perfectly explaining the high latency. [T9, ANM-000204, ANM-000205]\n2. **bad_change** at S-SFX-002: rejected. Change CHG-2026-0050 was scheduler weight tuning, but the issue correlates directly with traffic and PRB saturation rather than a configuration error. [CHG-2026-0050, T9]\n\n## Ruled out\n\n- CHG-2026-0051: Occurred on 2026-09-19 04:12, well after the incident recovery at 22:00.\n\n## Recommended actions\n\n- Monitor traffic growth on S-SFX-002 and S-SFX-010 to determine if capacity expansion is required for future peak periods.\n\n## Sources\n\n- `CHG-2026-0050`: parameter_tuning on S-SFX-002 at 2026-09-18 16:58: Scheduler weight tuning on S-SFX-002\n- `T9`: query_kpis(entity_type=site, entity_ids=['S-SFX-002', 'S-SFX-010'], metrics=['latency_ms', 'prb_util_pct', 'active_users'], start=2026-09-18 16:00:00, -> Deviation in 6 of 6 series. Earliest onset 2026-09-18 18:30: S-SFX-002 latency_ms above baseline.\n- `ALR-0028`: ended alert from 2026-09-18 18:30: 2 site(s) (S-SFX-002, S-SFX-010); core CORE-UPF-02; region-level SFX; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms...\n- `T2`: get_external_events(start=2026-09-18 16:00, end=2026-09-19 08:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-18 16:00 and 2026-09-19 08:00.\n- `T3`: get_maintenance(start=2026-09-18 16:00, end=2026-09-19 08:00, node_ids=['S-SFX-002', 'S-SFX-010', 'CORE-UPF-02'], include_ancestors=True) -> No maintenance window scheduled on S-SFX-002, S-SFX-010, CORE-UPF-02 and its parents between 2026-09-18 16:00 and 2026-09-19 08:00.\n- `T4`: get_alarms(start=2026-09-18 16:00, end=2026-09-19 08:00, node_ids=['S-SFX-002', 'S-SFX-010', 'CORE-UPF-02'], include_descendants=True, min_severity=mi -> No alarms on S-SFX-002, S-SFX-010, CORE-UPF-02 and nodes below between 2026-09-18 16:00 and 2026-09-19 08:00.\n- `ANM-000204`: S-SFX-002 active_users spike, z 16.0, baseline 319 -> 695\n- `ANM-000205`: S-SFX-002 dl_volume_mb spike, z 11.7, baseline 23438 -> 67001\n- `ANM-000206`: S-SFX-002 drop_rate_pct spike, z 19.5, baseline 0.64 -> 4.18\n- `CHG-2026-0051`: config_push on CORE-UPF-02 at 2026-09-19 04:12: Licence file renewed on CORE-UPF-02\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why was latency high in parts of Sfax yesterday evening?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-002",
+        "S-SFX-010"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct KPI deviations observed on the affected sites matching the congestion period. Maintenance, external events, and alarms were checked and ruled out. Checks marked NOT CHECKED: none.",
+      "dismissed_signals": [
+        {
+          "reason": "Occurred on 2026-09-19 04:12, well after the incident recovery at 22:00.",
+          "ref": "CHG-2026-0051"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SFX-002 and S-SFX-010 exhibited latency and PRB utilization above baseline starting at 2026-09-18 18:30 and recovering at 2026-09-18 22:00.",
+          "refs": [
+            "T9"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events, maintenance windows, or active alarms were present on the affected sites or their ancestors during the incident window.",
+          "refs": [
+            "T2",
+            "T3",
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Active users and data volume spiked significantly on S-SFX-002 during the evening peak.",
+          "refs": [
+            "ANM-000204",
+            "ANM-000205",
+            "ANM-000206"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "capacity",
+          "node_id": "S-SFX-002",
+          "reason": "PRB utilization reached 100 percent concurrently with active user and traffic volume spikes, perfectly explaining the high latency.",
+          "refs": [
+            "T9",
+            "ANM-000204",
+            "ANM-000205"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SFX-002",
+          "reason": "Change CHG-2026-0050 was scheduler weight tuning, but the issue correlates directly with traffic and PRB saturation rather than a configuration error.",
+          "refs": [
+            "CHG-2026-0050",
+            "T9"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-18 22:00",
+      "impact_start": "2026-09-18 18:30",
+      "impact_summary": "High latency and increased PRB utilization occurred on S-SFX-002 and S-SFX-010 between 2026-09-18 18:30 and 2026-09-18 22:00.",
+      "recommended_actions": [
+        "Monitor traffic growth on S-SFX-002 and S-SFX-010 to determine if capacity expansion is required for future peak periods."
+      ],
+      "root_cause_category": "capacity",
+      "root_cause_node_id": "S-SFX-002",
+      "root_cause_summary": "High traffic volume and active user spikes caused capacity exhaustion, high PRB utilization, and increased latency on S-SFX-002 and S-SFX-010.",
+      "root_cause_time": "2026-09-18 18:30",
+      "timeline": [
+        {
+          "event": "Parameter tuning change executed on S-SFX-002",
+          "refs": [
+            "CHG-2026-0050"
+          ],
+          "time": "2026-09-18 16:58"
+        },
+        {
+          "event": "Onset of high latency and PRB utilization deviation on S-SFX-002 and S-SFX-010",
+          "refs": [
+            "T9",
+            "ALR-0028"
+          ],
+          "time": "2026-09-18 18:30"
+        },
+        {
+          "event": "Recovery of latency and PRB utilization metrics on S-SFX-002 and S-SFX-010",
+          "refs": [
+            "T9"
+          ],
+          "time": "2026-09-18 22:00"
+        }
+      ],
+      "title": "High Latency and Congestion in Sfax Sites"
+    },
+    "run_id": "RUN-bb747cfc39",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "high latency",
+      "unknown_ids": [],
+      "window_end": "2026-09-18T22:59:00Z",
+      "window_start": "2026-09-18T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 377,
+        "latency_ms": 900,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2906,
+        "latency_ms": 1270,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 262,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1790
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3533,
+        "latency_ms": 1111,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 151,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4318
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4471,
+        "latency_ms": 1219,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 261,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4580
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 6262,
+        "latency_ms": 1099,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 151,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4274
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4366,
+        "latency_ms": 3589,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1222,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6987
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 21915,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2150,
+      "tool_calls": 10,
+      "wall_seconds": 22.12
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SFX-002",
+      "S-SFX-010"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0050",
+        "table": "changes",
+        "visible_from": "2026-09-18T15:58:00+00:00",
+        "why": "Harmless scheduler parameter tuning on S-SFX-002 88 min before the congestion; the cause is a demand surge, not this change."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-18T21:04:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000392",
+        "table": "alarms",
+        "visible_from": "2026-09-18T17:37:00+00:00"
+      },
+      {
+        "id": "ALM-000391",
+        "table": "alarms",
+        "visible_from": "2026-09-18T17:36:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "get_external_events",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-18T17:26:00Z",
+    "is_incident": true,
+    "kind": "congestion",
+    "notes": "Demand surge saturated the radio resources of S-SFX-002, S-SFX-010; there was no external event to explain it.",
+    "root_cause_category": "capacity",
+    "root_cause_node_id": "S-SFX-002",
+    "severity": "medium",
+    "start_at": "2026-09-18T17:26:00Z"
+  },
+  "variant": "no-runbooks"
+}

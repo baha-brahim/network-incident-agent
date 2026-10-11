@@ -1,0 +1,715 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-05T07:48:00Z",
+    "case_id": "s7-SCN-003-q0",
+    "question": "Customers served by S-SAH-005 have no service last night. Can you find out why?",
+    "question_index": 0,
+    "scenario_id": "SCN-003",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:35:03.198407Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-05T07:48:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-05 08:48",
+          "entity_id": "S-SAH-005",
+          "region_id": null,
+          "start": "2026-09-04 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-04 16:00 to 2026-09-05 08:48.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0007 high ended, 2026-09-04 22:45 to 2026-09-05 03:30 (4.8 h): Traffic, active users and availability drop on 3 sites in SAH (S-SAH-004, S-SAH-005, S-SAH-011) for 5 h\n  active_users drop on 1 entity: worst S-SAH-005 z -8.2, 7.9 -> 0.5, 2026-09-05 02:15 to 2026-09-05 03:30\n  availability_pct drop on 1 entity: worst S-SAH-005 z -100.0, 100 -> 0, 2026-09-04 22:45 to 2026-09-05 03:30\n  dl_volume_mb drop on 1 entity: worst S-SAH-005 z -5.9, 3111 -> 0, 2026-09-04 23:00 to 2026-09-05 00:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-04 16:00 to 2026-09-05 08:48.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0007",
+          "ANM-000035",
+          "ANM-000026",
+          "ANM-000032"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-005"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-005 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-005: site, SAH, Mahdia, rural.\nCells: C-SAH-005-1, C-SAH-005-2, C-SAH-005-3.\nSiblings under LNK-SAH-02-A: S-SAH-004, S-SAH-011.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-005 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-005",
+          "LNK-SAH-02-A",
+          "AGG-SAH-02",
+          "CORE-UPF-01",
+          "S-SAH-004",
+          "S-SAH-011"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-05 06:00:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "S-SAH-005",
+            "LNK-SAH-02-A",
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-04 18:00:00"
+        },
+        "body": "5 alarm(s) on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-04 18:00 to 2026-09-05 06:00: 4 critical, 1 minor; 0 active at asked_at (2026-09-05 08:48).\nEarliest critical/major: 2026-09-04 22:52 LINK_LOS on LNK-SAH-02-A (ALM-000070); within 10 min after: SITE_DOWN x3 (S-SAH-004, S-SAH-005, S-SAH-011).\n2026-09-04 21:58 ALM-000068 minor LINK_DEGRADED LNK-SAH-02-A: cleared 2026-09-04 22:53\n2026-09-04 22:52 ALM-000070 critical LINK_LOS LNK-SAH-02-A: cleared 2026-09-05 03:30\n2026-09-04 22:53 ALM-000071 critical SITE_DOWN S-SAH-004 (below LNK-SAH-02-A): cleared 2026-09-05 03:31\n2026-09-04 22:53 ALM-000072 critical SITE_DOWN S-SAH-005: cleared 2026-09-05 03:33\n2026-09-04 22:53 ALM-000073 critical SITE_DOWN S-SAH-011 (below LNK-SAH-02-A): cleared 2026-09-05 03:33",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-04 18:00 to 2026-09-05 06:00: 4 critical, 1 minor; 0 active at asked_at (2026-09-05 08:48).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000068",
+          "ALM-000070",
+          "ALM-000071",
+          "ALM-000072",
+          "ALM-000073"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-05 06:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-005",
+            "LNK-SAH-02-A",
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-04 18:00:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-05 06:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-005",
+            "LNK-SAH-02-A",
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-04 18:00:00"
+        },
+        "body": "No changes on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-05T06:00:00",
+          "entity_ids": [
+            "S-SAH-005",
+            "S-SAH-004",
+            "S-SAH-011"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "active_users",
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-04T18:00:00"
+        },
+        "body": "Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, search_runbooks, run_sql.",
+        "duplicate_of": null,
+        "error": "Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, search_runbooks, run_sql.",
+        "headline": "get_kpis error: Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, sear",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_kpis",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "end": "2026-09-05T06:00:00",
+          "entity_ids": [
+            "S-SAH-005",
+            "S-SAH-004",
+            "S-SAH-011"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "active_users",
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-04T18:00:00"
+        },
+        "body": "Deviation in 9 of 9 series. Earliest onset 2026-09-04 22:45: S-SAH-005 availability_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-05 08:48). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 3 earlier weekdays with data; treat small deviations with caution.\nS-SAH-005 availability_pct: mean 62.3 vs 100 (-19%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-005 active_users: mean 25.6 vs 52.8 (-8%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-005 dl_volume_mb: mean 1831 vs 3776 (-8%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-004 availability_pct: mean 62.3 vs 100 (-19%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-004 active_users: mean 54.8 vs 117 (-12%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-004 dl_volume_mb: mean 3854 vs 8323 (-13%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-011 availability_pct: mean 62.3 vs 100 (-19%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-011 active_users: mean 169 vs 388 (-18%); below baseline from 2026-09-04 22:45, not recovered.\nS-SAH-011 dl_volume_mb: mean 23942 vs 55462 (-19%); below baseline from 2026-09-04 22:45, not recovered.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 9 of 9 series. Earliest onset 2026-09-04 22:45: S-SAH-005 availability_pct below baseline.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 81
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-05T06:00:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "AGG-SAH-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-04T18:00:00"
+        },
+        "body": "5 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-04 18:00 to 2026-09-05 06:00: 4 critical, 1 minor; 0 active at asked_at (2026-09-05 08:48).\nEarliest critical/major: 2026-09-04 22:52 LINK_LOS on LNK-SAH-02-A (ALM-000070); within 10 min after: SITE_DOWN x3 (S-SAH-004, S-SAH-005, S-SAH-011).\n2026-09-04 21:58 ALM-000068 minor LINK_DEGRADED LNK-SAH-02-A (below AGG-SAH-02): cleared 2026-09-04 22:53\n2026-09-04 22:52 ALM-000070 critical LINK_LOS LNK-SAH-02-A (below AGG-SAH-02): cleared 2026-09-05 03:30\n2026-09-04 22:53 ALM-000071 critical SITE_DOWN S-SAH-004 (below AGG-SAH-02): cleared 2026-09-05 03:31\n2026-09-04 22:53 ALM-000072 critical SITE_DOWN S-SAH-005 (below AGG-SAH-02): cleared 2026-09-05 03:33\n2026-09-04 22:53 ALM-000073 critical SITE_DOWN S-SAH-011 (below AGG-SAH-02): cleared 2026-09-05 03:33",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-04 18:00 to 2026-09-05 06:00: 4 critical, 1 minor; 0 active at asked_at (2026-09-05 08:48).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "ALM-000068",
+          "ALM-000070",
+          "ALM-000071",
+          "ALM-000072",
+          "ALM-000073"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 9
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-02": {
+        "kind": "node",
+        "ref": "AGG-SAH-02",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000068": {
+        "kind": "alarm",
+        "ref": "ALM-000068",
+        "summary": "minor LINK_DEGRADED on LNK-SAH-02-A, raised 2026-09-04 21:58, cleared 2026-09-04 22:53"
+      },
+      "ALM-000070": {
+        "kind": "alarm",
+        "ref": "ALM-000070",
+        "summary": "critical LINK_LOS on LNK-SAH-02-A, raised 2026-09-04 22:52, cleared 2026-09-05 03:30"
+      },
+      "ALM-000071": {
+        "kind": "alarm",
+        "ref": "ALM-000071",
+        "summary": "critical SITE_DOWN on S-SAH-004, raised 2026-09-04 22:53, cleared 2026-09-05 03:31"
+      },
+      "ALM-000072": {
+        "kind": "alarm",
+        "ref": "ALM-000072",
+        "summary": "critical SITE_DOWN on S-SAH-005, raised 2026-09-04 22:53, cleared 2026-09-05 03:33"
+      },
+      "ALM-000073": {
+        "kind": "alarm",
+        "ref": "ALM-000073",
+        "summary": "critical SITE_DOWN on S-SAH-011, raised 2026-09-04 22:53, cleared 2026-09-05 03:33"
+      },
+      "ALR-0007": {
+        "kind": "alert",
+        "ref": "ALR-0007",
+        "summary": "ended alert from 2026-09-04 22:45: 3 site(s) (S-SAH-004, S-SAH-005, S-SAH-011); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000026": {
+        "kind": "anomaly",
+        "ref": "ANM-000026",
+        "summary": "S-SAH-005 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000032": {
+        "kind": "anomaly",
+        "ref": "ANM-000032",
+        "summary": "S-SAH-005 dl_volume_mb drop, z -5.9, baseline 3111 -> 0"
+      },
+      "ANM-000035": {
+        "kind": "anomaly",
+        "ref": "ANM-000035",
+        "summary": "S-SAH-005 active_users drop, z -8.2, baseline 7.9 -> 0.5"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-02-A": {
+        "kind": "node",
+        "ref": "LNK-SAH-02-A",
+        "summary": "fiber link, SAH, 16.6 km, 10.0 Gbps"
+      },
+      "S-SAH-004": {
+        "kind": "node",
+        "ref": "S-SAH-004",
+        "summary": "site, SAH, Monastir, suburban; sibling of S-SAH-005"
+      },
+      "S-SAH-005": {
+        "kind": "node",
+        "ref": "S-SAH-005",
+        "summary": "site, SAH, Mahdia, rural; chain: S-SAH-005 -> LNK-SAH-02-A -> AGG-SAH-02 -> CORE-UPF-01"
+      },
+      "S-SAH-011": {
+        "kind": "node",
+        "ref": "S-SAH-011",
+        "summary": "site, SAH, Khenis, urban; sibling of S-SAH-005"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-04 16:00, end=2026-09-05 08:48, entity_id=S-SAH-005) -> 1 detector alert(s) overlap 2026-09-04 16:00 to 2026-09-05 08:48."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-005, include=all) -> Depends on (child -> parent -> core): S-SAH-005 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-04 18:00:00, end=2026-09-05 06:00:00, node_ids=['S-SAH-005', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_descendants=True, min_sev -> 5 alarm(s) on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and nodes below, 2026-09-04 18:00 to 2026-09-05 06:00: 4 critical, 1 minor; 0 active at asked_at (2026-09-05 08:48)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-04 18:00:00, end=2026-09-05 06:00:00, node_ids=['S-SAH-005', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-04 18:00:00, end=2026-09-05 06:00:00, node_ids=['S-SAH-005', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_ancestors=True) -> No changes on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_kpis(start=2026-09-04T18:00:00, entity_ids=['S-SAH-005', 'S-SAH-004', 'S-SAH-011'], entity_type=site, metrics=['availability_pct', 'active_users', -> get_kpis error: Unknown tool 'get_kpis'. Tools: get_anomalies, query_kpis, get_topology, get_alarms, get_changes, get_maintenance, get_external_events, sear"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-005', 'S-SAH-004', 'S-SAH-011'], metrics=['availability_pct', 'active_users', 'dl_volume_mb'], start=2 -> Deviation in 9 of 9 series. Earliest onset 2026-09-04 22:45: S-SAH-005 availability_pct below baseline."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_alarms(start=2026-09-04T18:00:00, end=2026-09-05T06:00:00, node_ids=['AGG-SAH-02'], include_descendants=True, min_severity=minor) -> 5 alarm(s) on AGG-SAH-02 and nodes below, 2026-09-04 18:00 to 2026-09-05 06:00: 4 critical, 1 minor; 0 active at asked_at (2026-09-05 08:48)."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Transport Failure Affecting S-SAH-005 and Peer Sites\n\n- **Classification:** incident\n- **Root cause:** transport_failure at `LNK-SAH-02-A`\n- **Confidence:** medium (Direct alarm evidence (ALM-000070) on the shared transport link perfectly matches the KPI onset time and site-down alarms. Maintenance windows and configuration changes were checked and ruled out. External events were not checked.)\n- **Impact:** 2026-09-04 22:45 to 2026-09-05 03:33\n- **Cause time:** 2026-09-04 22:52\n- **Affected:** S-SAH-005, S-SAH-004, S-SAH-011, LNK-SAH-02-A\n\n## Summary\n\nFiber link loss on LNK-SAH-02-A caused a total loss of service for S-SAH-005 and peer sites S-SAH-004 and S-SAH-011.\n\nCustomers served by S-SAH-005 experienced a total loss of service starting around 22:45 on 2026-09-04 due to a transport failure, which recovered at 03:33 on 2026-09-05 when the link and sites cleared their alarms.\n\n## Timeline\n\n- 2026-09-04 21:58: Minor LINK_DEGRADED alarm raised on LNK-SAH-02-A [ALM-000068]\n- 2026-09-04 22:45: Earliest KPI deviation onset for S-SAH-005 availability_pct, active_users, and dl_volume_mb [T7, ALR-0007]\n- 2026-09-04 22:52: Critical LINK_LOS alarm raised on LNK-SAH-02-A [ALM-000070]\n- 2026-09-04 22:53: Critical SITE_DOWN alarms raised on S-SAH-004, S-SAH-005, and S-SAH-011 [ALM-000071, ALM-000072, ALM-000073]\n- 2026-09-05 03:30: LINK_LOS alarm cleared on LNK-SAH-02-A [ALM-000070]\n- 2026-09-05 03:33: SITE_DOWN alarms cleared on S-SAH-005 and S-SAH-011 [ALM-000072, ALM-000073]\n\n## Evidence\n\n- S-SAH-005 and its sibling sites S-SAH-004 and S-SAH-011 suffered a drop in availability, active users, and download volume starting at 2026-09-04 22:45. [T7, ALR-0007]\n- A minor LINK_DEGRADED alarm occurred on LNK-SAH-02-A at 2026-09-04 21:58 and cleared at 22:53. [ALM-000068]\n- A critical LINK_LOS alarm occurred on LNK-SAH-02-A at 2026-09-04 22:52 and cleared at 2026-09-05 03:30. [ALM-000070]\n- Critical SITE_DOWN alarms were triggered for S-SAH-004, S-SAH-005, and S-SAH-011 immediately following the fiber link loss. [ALM-000071, ALM-000072, ALM-000073]\n- No maintenance windows or configuration changes were scheduled on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02, or parent nodes during the incident window. [T4, T5]\n\n## Hypotheses\n\n1. **transport_failure** at LNK-SAH-02-A: confirmed. Direct evidence of fiber link loss (LINK_LOS) on LNK-SAH-02-A directly preceded and caused the SITE_DOWN alarms and KPI degradation on S-SAH-005 and peer sites. [ALM-000070, ALM-000072, T2]\n2. **bad_change**: rejected. No changes were recorded on the affected nodes and their ancestors during the incident window. [T5]\n3. **planned_maintenance**: rejected. No maintenance windows were scheduled on the affected nodes and their ancestors during the incident window. [T4]\n\n## Ruled out\n\n- ALM-000068: Minor LINK_DEGRADED alarm on LNK-SAH-02-A preceded the complete link failure but cleared around the time the critical LINK_LOS alarm and site outages resolved/progressed.\n\n## Recommended actions\n\n- Investigate the physical fiber route for LNK-SAH-02-A to determine the root cause of the link loss.\n- Check external events log to fully rule out any external factors.\n\n## Sources\n\n- `ALM-000068`: minor LINK_DEGRADED on LNK-SAH-02-A, raised 2026-09-04 21:58, cleared 2026-09-04 22:53\n- `T7`: query_kpis(entity_type=site, entity_ids=['S-SAH-005', 'S-SAH-004', 'S-SAH-011'], metrics=['availability_pct', 'active_users', 'dl_volume_mb'], start=2 -> Deviation in 9 of 9 series. Earliest onset 2026-09-04 22:45: S-SAH-005 availability_pct below baseline.\n- `ALR-0007`: ended alert from 2026-09-04 22:45: 3 site(s) (S-SAH-004, S-SAH-005, S-SAH-011); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb\n- `ALM-000070`: critical LINK_LOS on LNK-SAH-02-A, raised 2026-09-04 22:52, cleared 2026-09-05 03:30\n- `ALM-000071`: critical SITE_DOWN on S-SAH-004, raised 2026-09-04 22:53, cleared 2026-09-05 03:31\n- `ALM-000072`: critical SITE_DOWN on S-SAH-005, raised 2026-09-04 22:53, cleared 2026-09-05 03:33\n- `ALM-000073`: critical SITE_DOWN on S-SAH-011, raised 2026-09-04 22:53, cleared 2026-09-05 03:33\n- `T4`: get_maintenance(start=2026-09-04 18:00:00, end=2026-09-05 06:00:00, node_ids=['S-SAH-005', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00.\n- `T5`: get_changes(start=2026-09-04 18:00:00, end=2026-09-05 06:00:00, node_ids=['S-SAH-005', 'LNK-SAH-02-A', 'AGG-SAH-02'], include_ancestors=True) -> No changes on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02 and its parents between 2026-09-04 18:00 and 2026-09-05 06:00.\n- `T2`: get_topology(node_id=S-SAH-005, include=all) -> Depends on (child -> parent -> core): S-SAH-005 (site) -> LNK-SAH-02-A (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Customers served by S-SAH-005 have no service last night. Can you find out why?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-005",
+        "S-SAH-004",
+        "S-SAH-011",
+        "LNK-SAH-02-A"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct alarm evidence (ALM-000070) on the shared transport link perfectly matches the KPI onset time and site-down alarms. Maintenance windows and configuration changes were checked and ruled out. External events were not checked.",
+      "dismissed_signals": [
+        {
+          "reason": "Minor LINK_DEGRADED alarm on LNK-SAH-02-A preceded the complete link failure but cleared around the time the critical LINK_LOS alarm and site outages resolved/progressed.",
+          "ref": "ALM-000068"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SAH-005 and its sibling sites S-SAH-004 and S-SAH-011 suffered a drop in availability, active users, and download volume starting at 2026-09-04 22:45.",
+          "refs": [
+            "T7",
+            "ALR-0007"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A minor LINK_DEGRADED alarm occurred on LNK-SAH-02-A at 2026-09-04 21:58 and cleared at 22:53.",
+          "refs": [
+            "ALM-000068"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A critical LINK_LOS alarm occurred on LNK-SAH-02-A at 2026-09-04 22:52 and cleared at 2026-09-05 03:30.",
+          "refs": [
+            "ALM-000070"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical SITE_DOWN alarms were triggered for S-SAH-004, S-SAH-005, and S-SAH-011 immediately following the fiber link loss.",
+          "refs": [
+            "ALM-000071",
+            "ALM-000072",
+            "ALM-000073"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows or configuration changes were scheduled on S-SAH-005, LNK-SAH-02-A, AGG-SAH-02, or parent nodes during the incident window.",
+          "refs": [
+            "T4",
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-SAH-02-A",
+          "reason": "Direct evidence of fiber link loss (LINK_LOS) on LNK-SAH-02-A directly preceded and caused the SITE_DOWN alarms and KPI degradation on S-SAH-005 and peer sites.",
+          "refs": [
+            "ALM-000070",
+            "ALM-000072",
+            "T2"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "No changes were recorded on the affected nodes and their ancestors during the incident window.",
+          "refs": [
+            "T5"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": null,
+          "reason": "No maintenance windows were scheduled on the affected nodes and their ancestors during the incident window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-05 03:33",
+      "impact_start": "2026-09-04 22:45",
+      "impact_summary": "Customers served by S-SAH-005 experienced a total loss of service starting around 22:45 on 2026-09-04 due to a transport failure, which recovered at 03:33 on 2026-09-05 when the link and sites cleared their alarms.",
+      "recommended_actions": [
+        "Investigate the physical fiber route for LNK-SAH-02-A to determine the root cause of the link loss.",
+        "Check external events log to fully rule out any external factors."
+      ],
+      "root_cause_category": "transport_failure",
+      "root_cause_node_id": "LNK-SAH-02-A",
+      "root_cause_summary": "Fiber link loss on LNK-SAH-02-A caused a total loss of service for S-SAH-005 and peer sites S-SAH-004 and S-SAH-011.",
+      "root_cause_time": "2026-09-04 22:52",
+      "timeline": [
+        {
+          "event": "Minor LINK_DEGRADED alarm raised on LNK-SAH-02-A",
+          "refs": [
+            "ALM-000068"
+          ],
+          "time": "2026-09-04 21:58"
+        },
+        {
+          "event": "Earliest KPI deviation onset for S-SAH-005 availability_pct, active_users, and dl_volume_mb",
+          "refs": [
+            "T7",
+            "ALR-0007"
+          ],
+          "time": "2026-09-04 22:45"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on LNK-SAH-02-A",
+          "refs": [
+            "ALM-000070"
+          ],
+          "time": "2026-09-04 22:52"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-SAH-004, S-SAH-005, and S-SAH-011",
+          "refs": [
+            "ALM-000071",
+            "ALM-000072",
+            "ALM-000073"
+          ],
+          "time": "2026-09-04 22:53"
+        },
+        {
+          "event": "LINK_LOS alarm cleared on LNK-SAH-02-A",
+          "refs": [
+            "ALM-000070"
+          ],
+          "time": "2026-09-05 03:30"
+        },
+        {
+          "event": "SITE_DOWN alarms cleared on S-SAH-005 and S-SAH-011",
+          "refs": [
+            "ALM-000072",
+            "ALM-000073"
+          ],
+          "time": "2026-09-05 03:33"
+        }
+      ],
+      "title": "Transport Failure Affecting S-SAH-005 and Peer Sites"
+    },
+    "run_id": "RUN-918111bd28",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-005"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "no service",
+      "unknown_ids": [],
+      "window_end": "2026-09-05T05:00:00Z",
+      "window_start": "2026-09-04T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 388,
+        "latency_ms": 874,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3141,
+        "latency_ms": 1309,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 318,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2157
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4353,
+        "latency_ms": 1069,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 126,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4228
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4572,
+        "latency_ms": 1145,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 214,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4570
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 6020,
+        "latency_ms": 1083,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 169,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4352
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5840,
+        "latency_ms": 1056,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 159,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4465
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4160,
+        "latency_ms": 4745,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1884,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8188
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 28474,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 7,
+      "output_tokens": 2988,
+      "tool_calls": 8,
+      "wall_seconds": 28.12
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SAH-02-A",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-011"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-05T02:29:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000068",
+        "table": "alarms",
+        "visible_from": "2026-09-04T20:58:00+00:00"
+      },
+      {
+        "id": "ALM-000070",
+        "table": "alarms",
+        "visible_from": "2026-09-04T21:52:00+00:00"
+      },
+      {
+        "id": "ALM-000071",
+        "table": "alarms",
+        "visible_from": "2026-09-04T21:53:00+00:00"
+      },
+      {
+        "id": "ALM-000072",
+        "table": "alarms",
+        "visible_from": "2026-09-04T21:53:00+00:00"
+      },
+      {
+        "id": "ALM-000073",
+        "table": "alarms",
+        "visible_from": "2026-09-04T21:53:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "get_topology",
+      "query_kpis",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-04T21:52:00Z",
+    "is_incident": true,
+    "kind": "fiber_cut",
+    "notes": "Fibre cut on LNK-SAH-02-A; all 3 downstream sites lost service until repair. Overlaps in time with group 'night'.",
+    "root_cause_category": "transport_failure",
+    "root_cause_node_id": "LNK-SAH-02-A",
+    "severity": "medium",
+    "start_at": "2026-09-04T21:52:00Z"
+  },
+  "variant": "no-runbooks"
+}

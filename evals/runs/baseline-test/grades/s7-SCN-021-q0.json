@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-021-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3134,
+      "live_tokens": 3359,
+      "output_tokens": 225
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the alarm and latency deviation, but does not prove the link degradation caused the reduced traffic capacity or the specific root cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alarm record and tool output explicitly state the alarm type, node, start time, and end time.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The KPI query output explicitly states the latency deviation onset at 2026-09-20 04:30 for S-TUN-009.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs explicitly report no maintenance windows or changes for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The topology output explicitly lists S-TUN-009 as depending on LNK-TUN-02-A.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

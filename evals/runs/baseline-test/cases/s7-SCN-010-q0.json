@@ -1,0 +1,788 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-11T08:35:00Z",
+    "case_id": "s7-SCN-010-q0",
+    "question": "Call setup failures and dropped sessions rose at S-SUD-008 last night. What is behind it?",
+    "question_index": 0,
+    "scenario_id": "SCN-010",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:13:17.278205Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-11T08:35:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-11 09:35",
+          "entity_id": "S-SUD-008",
+          "region_id": null,
+          "start": "2026-09-10 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-10 16:00 to 2026-09-11 09:35 (1 still ongoing at asked_at 2026-09-11 09:35).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0017 ONGOING since 2026-09-11 02:15 (7.3 h so far); 11 anomalies so far on 4 site(s) (S-SUD-002, S-SUD-005, S-SUD-006, S-SUD-008); region-level SUD; severity not final\n  drop_rate_pct spike on 1 entity: ongoing, e.g. S-SUD-008 since 2026-09-11 02:30, so far 2.35 vs baseline 0.46 (+405%)\n  rrc_success_pct drop on 1 entity: ongoing, e.g. S-SUD-008 since 2026-09-11 02:15, so far 94.1 vs baseline 99.3 (-5%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-10 16:00 to 2026-09-11 09:35 (1 still ongoing at asked_at 2026-09-11 09:35).",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0017",
+          "ANM-000145",
+          "ANM-000140"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 48
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-008"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-008: site, SUD, Ben Gardane, urban.\nCells: C-SUD-008-1, C-SUD-008-2, C-SUD-008-3.\nSiblings under LNK-SUD-01-B: S-SUD-002.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SUD-008",
+          "LNK-SUD-01-B",
+          "AGG-SUD-01",
+          "CORE-UPF-02",
+          "S-SUD-002"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-11 09:35etry",
+          "entity_ids": [
+            "S-SUD-008"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct",
+            "latency_ms",
+            "availability_pct"
+          ],
+          "start": "2026-09-10 18:00"
+        },
+        "body": "Cannot parse end='2026-09-11 09:35etry'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'.",
+        "duplicate_of": null,
+        "error": "Cannot parse end='2026-09-11 09:35etry'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'.",
+        "headline": "query_kpis error: Cannot parse end='2026-09-11 09:35etry'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-11 09:35",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SUD-008",
+            "LNK-SUD-01-B",
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 18:00"
+        },
+        "body": "5 alarm(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and nodes below, 2026-09-10 18:00 to 2026-09-11 09:35: 5 minor; 2 active at asked_at (2026-09-11 09:35).\nNo critical or major alarm in this window.\n2026-09-10 22:03 ALM-000189 minor VSWR_HIGH S-SUD-005 (below AGG-SUD-01): cleared 2026-09-10 22:13\n2026-09-10 22:35 ALM-000190 minor VSWR_HIGH S-SUD-005 (below AGG-SUD-01): cleared 2026-09-10 22:47\n2026-09-10 23:01 ALM-000191 minor VSWR_HIGH S-SUD-005 (below AGG-SUD-01): cleared 2026-09-10 23:19\n2026-09-11 02:57 ALM-000192 minor RRC_FAILURE_RATE_HIGH S-SUD-002 (below LNK-SUD-01-B): active\n2026-09-11 03:07 ALM-000193 minor RRC_FAILURE_RATE_HIGH S-SUD-008: active",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and nodes below, 2026-09-10 18:00 to 2026-09-11 09:35: 5 minor; 2 active at asked_at (2026-09-11 09:35).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000189",
+          "ALM-000190",
+          "ALM-000191",
+          "ALM-000192",
+          "ALM-000193"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "end": "2026-09-11 09:35",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-008",
+            "LNK-SUD-01-B",
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 18:00"
+        },
+        "body": "1 change(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35).\n2026-09-11 02:27 CHG-2026-0025 config_push on AGG-SUD-01: Push RAN parameter template OPT-17 to AGG-SUD-01 (admission control, RRC timers) -> in effect (not rolled back)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "CHG-2026-0025"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-11 09:35",
+          "entity_ids": [
+            "S-SUD-008",
+            "S-SUD-002"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct",
+            "latency_ms",
+            "availability_pct"
+          ],
+          "start": "2026-09-10 18:00"
+        },
+        "body": "Deviation in 4 of 8 series. Earliest onset 2026-09-11 02:15: S-SUD-008 rrc_success_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-11 09:35). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-008 rrc_success_pct: mean 96.9 vs 99.3 (-2%); below baseline from 2026-09-11 02:15, not recovered.\nS-SUD-002 rrc_success_pct: mean 97 vs 99.2 (-2%); below baseline from 2026-09-11 02:15, not recovered.\nS-SUD-008 drop_rate_pct: mean 1.1 vs 0.48 (+129%); above baseline from 2026-09-11 02:30, not recovered.\nS-SUD-002 drop_rate_pct: mean 1.09 vs 0.51 (+112%); above baseline from 2026-09-11 02:30, not recovered.\nS-SUD-002 latency_ms: mean 34.8 vs 35.5 (-2%); no deviation.\nS-SUD-008 latency_ms: mean 24.4 vs 24.5 (-1%); no deviation.\nS-SUD-008 availability_pct: mean 100 vs 100 (+0%); no deviation.\nS-SUD-002 availability_pct: mean 100 vs 100 (+0%); no deviation.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 4 of 8 series. Earliest onset 2026-09-11 02:15: S-SUD-008 rrc_success_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 93
+      },
+      {
+        "args": {
+          "end": "2026-09-11 09:35",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 18:00"
+        },
+        "body": "1 change(s) on AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35).\n2026-09-11 02:27 CHG-2026-0025 config_push on AGG-SUD-01: Push RAN parameter template OPT-17 to AGG-SUD-01 (admission control, RRC timers) -> in effect (not rolled back)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "CHG-2026-0025"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "OPT-17 admission control RRC timers"
+        },
+        "body": "4 runbook chunk(s) for 'OPT-17 admission control RRC timers', best first (excerpts):\n[RB-RF-INTERFERENCE#03] RF interference > Differential diagnosis: Versus a bad change A configuration regression is a clean step at the time of a change record, over a whole router or site group. Interference has no change record, hits individual sectors, and follows time of day. Versus congestion ... Interference has normal PRB and normal users. ... DNS trouble is nationwide and leaves RRC success unaffected. Interference lowers RRC succes...\n[RB-ALARM-REFERENCE#05] Alarm reference > Radio and accessibility alarms: `HIGH_PRB` (warning, on a site). PRB utilisation above 85 or 90 percent. Raised during congestion and during large events. It does not say which. `RRC_FAILURE_RATE_HIGH` (minor, on a site). RRC setup failure rate above the threshold. Seen on some sites after a bad change, 15 to 45 minutes late. Few sites raise it even when many are affected. `VSWR_HIGH` (minor, on a site). ...\n[RB-AMF-SIGNALLING-STORM#05] Signalling storm on the AMF > Recommended actions: Core operations apply overload control: throttle or reject low-priority registrations, enable back-off timers on devices, and raise the AMF capacity if possible. Identify the offending device group and block or rate-limit it. Review the capacity of the signalling plane.\n[RB-BAD-CHANGE#05] Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start time. 2. `get_topology`: find the common ancestor of the affected sites (aggregation router or link). 3. ... 4. `query_kpis`: confirm availability is 100 % and the RRC step is aligned with the change. Use sites outside the changed subtree as a control group; they must be normal. 5. ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'OPT-17 admission control RRC timers', best first (excerpts):",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "RB-RF-INTERFERENCE#03",
+          "RB-ALARM-REFERENCE#05",
+          "RB-AMF-SIGNALLING-STORM#05",
+          "RB-BAD-CHANGE#05"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 11
+      },
+      {
+        "args": {
+          "end": "2026-09-11 09:35",
+          "entity_ids": [
+            "S-SUD-001"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct"
+          ],
+          "start": "2026-09-10 18:00"
+        },
+        "body": "No series deviates from its baseline between 2026-09-10 18:00 and 2026-09-11 09:35.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-11 09:35). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-001 drop_rate_pct: mean 0.67 vs baseline 0.66 (+2%); min 0.52 at 2026-09-10 21:15, max 0.87 at 2026-09-11 00:15.\nNo sustained deviation from baseline in the steps that reported.\nseries (1.5 h buckets from 2026-09-10 18:00): 0.6 0.73 0.63 0.72 0.72 0.73 0.65 0.63 0.65 0.68 0.67\nbaseline: 0.65 0.65 0.66 0.67 0.66 0.67 0.68 0.67 0.64 0.66 0.68\nS-SUD-001 rrc_success_pct: mean 99.1 vs baseline 99.1 (+0%); min 99 at 2026-09-11 05:45, max 99.2 at 2026-09-11 05:15.\nNo sustained deviation from baseline in the steps that reported.\nseries (1.5 h buckets from 2026-09-10 18:00): 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99\nbaseline: 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1 99.1",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No series deviates from its baseline between 2026-09-10 18:00 and 2026-09-11 09:35.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 36
+      },
+      {
+        "args": {
+          "end": "2026-09-11 06:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-008",
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 18:00"
+        },
+        "body": "No maintenance window scheduled on S-SUD-008, AGG-SUD-01 and its parents between 2026-09-10 18:00 and 2026-09-11 06:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SUD-008, AGG-SUD-01 and its parents between 2026-09-10 18:00 and 2026-09-11 06:00.",
+        "iteration": 5,
+        "node": "investigate",
+        "ref": "T10",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-11 06:00",
+          "region_id": "SUD",
+          "start": "2026-09-10 18:00"
+        },
+        "body": "No external events for region SUD (and nationwide) between 2026-09-10 18:00 and 2026-09-11 06:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SUD (and nationwide) between 2026-09-10 18:00 and 2026-09-11 06:00.",
+        "iteration": 5,
+        "node": "investigate",
+        "ref": "T11",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-01": {
+        "kind": "node",
+        "ref": "AGG-SUD-01",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000189": {
+        "kind": "alarm",
+        "ref": "ALM-000189",
+        "summary": "minor VSWR_HIGH on S-SUD-005, raised 2026-09-10 22:03, cleared 2026-09-10 22:13"
+      },
+      "ALM-000190": {
+        "kind": "alarm",
+        "ref": "ALM-000190",
+        "summary": "minor VSWR_HIGH on S-SUD-005, raised 2026-09-10 22:35, cleared 2026-09-10 22:47"
+      },
+      "ALM-000191": {
+        "kind": "alarm",
+        "ref": "ALM-000191",
+        "summary": "minor VSWR_HIGH on S-SUD-005, raised 2026-09-10 23:01, cleared 2026-09-10 23:19"
+      },
+      "ALM-000192": {
+        "kind": "alarm",
+        "ref": "ALM-000192",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SUD-002, raised 2026-09-11 02:57, active"
+      },
+      "ALM-000193": {
+        "kind": "alarm",
+        "ref": "ALM-000193",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SUD-008, raised 2026-09-11 03:07, active"
+      },
+      "ALR-0017": {
+        "kind": "alert",
+        "ref": "ALR-0017",
+        "summary": "ongoing alert from 2026-09-11 02:15: 4 site(s) (S-SUD-002, S-SUD-005, S-SUD-006, S-SUD-008); region-level SUD; metrics: dl_volume_mb, drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000140": {
+        "kind": "anomaly",
+        "ref": "ANM-000140",
+        "summary": "S-SUD-008 rrc_success_pct drop, ongoing since 2026-09-11 02:15"
+      },
+      "ANM-000145": {
+        "kind": "anomaly",
+        "ref": "ANM-000145",
+        "summary": "S-SUD-008 drop_rate_pct spike, ongoing since 2026-09-11 02:30"
+      },
+      "CHG-2026-0025": {
+        "kind": "change",
+        "ref": "CHG-2026-0025",
+        "summary": "config_push on AGG-SUD-01 at 2026-09-11 02:27: Push RAN parameter template OPT-17 to AGG-SUD-01 (admission control, RRC timers) [in effect (not rolled back)]"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-01-B": {
+        "kind": "node",
+        "ref": "LNK-SUD-01-B",
+        "summary": "fiber link, SUD, 27.8 km, 10.0 Gbps"
+      },
+      "RB-ALARM-REFERENCE#05": {
+        "kind": "runbook",
+        "ref": "RB-ALARM-REFERENCE#05",
+        "summary": "Alarm reference > Radio and accessibility alarms: - **`HIGH_PRB`** (warning, on a site). PRB utilisation above 85 or 90 percent. Raised during congestion and..."
+      },
+      "RB-AMF-SIGNALLING-STORM#05": {
+        "kind": "runbook",
+        "ref": "RB-AMF-SIGNALLING-STORM#05",
+        "summary": "Signalling storm on the AMF > Recommended actions: Core operations apply overload control: throttle or reject low-priority registrations, enable back-off tim..."
+      },
+      "RB-BAD-CHANGE#05": {
+        "kind": "runbook",
+        "ref": "RB-BAD-CHANGE#05",
+        "summary": "Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start..."
+      },
+      "RB-RF-INTERFERENCE#03": {
+        "kind": "runbook",
+        "ref": "RB-RF-INTERFERENCE#03",
+        "summary": "RF interference > Differential diagnosis: ### Versus a bad change A configuration regression is a clean step at the time of a change record, over a whole rou..."
+      },
+      "S-SUD-002": {
+        "kind": "node",
+        "ref": "S-SUD-002",
+        "summary": "site, SUD, Medenine, suburban; sibling of S-SUD-008"
+      },
+      "S-SUD-008": {
+        "kind": "node",
+        "ref": "S-SUD-008",
+        "summary": "site, SUD, Ben Gardane, urban; chain: S-SUD-008 -> LNK-SUD-01-B -> AGG-SUD-01 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-10 16:00, end=2026-09-11 09:35, entity_id=S-SUD-008) -> 1 detector alert(s) overlap 2026-09-10 16:00 to 2026-09-11 09:35 (1 still ongoing at asked_at 2026-09-11 09:35)."
+      },
+      "T10": {
+        "kind": "call",
+        "ref": "T10",
+        "summary": "get_maintenance(start=2026-09-10 18:00, end=2026-09-11 06:00, node_ids=['S-SUD-008', 'AGG-SUD-01'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-008, AGG-SUD-01 and its parents between 2026-09-10 18:00 and 2026-09-11 06:00."
+      },
+      "T11": {
+        "kind": "call",
+        "ref": "T11",
+        "summary": "get_external_events(start=2026-09-10 18:00, end=2026-09-11 06:00, region_id=SUD) -> No external events for region SUD (and nationwide) between 2026-09-10 18:00 and 2026-09-11 06:00."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SUD-008, include=all) -> Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-008'], metrics=['rrc_success_pct', 'drop_rate_pct', 'latency_ms', 'availability_pct'], start=2026-09-1 -> query_kpis error: Cannot parse end='2026-09-11 09:35etry'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-10 18:00, end=2026-09-11 09:35, node_ids=['S-SUD-008', 'LNK-SUD-01-B', 'AGG-SUD-01'], include_descendants=True) -> 5 alarm(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and nodes below, 2026-09-10 18:00 to 2026-09-11 09:35: 5 minor; 2 active at asked_at (2026-09-11 09:35)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-10 18:00, end=2026-09-11 09:35, node_ids=['S-SUD-008', 'LNK-SUD-01-B', 'AGG-SUD-01'], include_ancestors=True) -> 1 change(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-008', 'S-SUD-002'], metrics=['rrc_success_pct', 'drop_rate_pct', 'latency_ms', 'availability_pct'], st -> Deviation in 4 of 8 series. Earliest onset 2026-09-11 02:15: S-SUD-008 rrc_success_pct below baseline."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-10 18:00, end=2026-09-11 09:35, node_ids=['AGG-SUD-01'], include_ancestors=True) -> 1 change(s) on AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "search_runbooks(query=OPT-17 admission control RRC timers, k=4) -> 4 runbook chunk(s) for 'OPT-17 admission control RRC timers', best first (excerpts):"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-001'], metrics=['rrc_success_pct', 'drop_rate_pct'], start=2026-09-10 18:00, end=2026-09-11 09:35) -> No series deviates from its baseline between 2026-09-10 18:00 and 2026-09-11 09:35."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Incident Report: Call Setup Failures and Dropped Sessions at S-SUD-008\n\n- **Classification:** incident\n- **Root cause:** bad_change at `AGG-SUD-01`\n- **Confidence:** high (Direct evidence of a configuration push on AGG-SUD-01 immediately preceding the RRC success drop and drop rate increase on S-SUD-008 and peer sites. Maintenance schedules and external events were checked and ruled out, and control site S-SUD-001 remained unaffected.)\n- **Impact:** 2026-09-11 02:15 to not established or ongoing\n- **Cause time:** 2026-09-11 02:27\n- **Affected:** S-SUD-008, S-SUD-002, AGG-SUD-01\n\n## Summary\n\nA configuration push (CHG-2026-0025) applying RAN parameter template OPT-17 (admission control, RRC timers) to aggregation router AGG-SUD-01 at 02:27.\n\nCall setup failures and dropped sessions rose at S-SUD-008 and sibling sites starting around 02:15 to 02:30 on 2026-09-11 and remained ongoing.\n\n## Timeline\n\n- 2026-09-11 02:15: S-SUD-008 rrc_success_pct drop onset detected. [ANM-000140, T6]\n- 2026-09-11 02:27: Config push CHG-2026-0025 executed on AGG-SUD-01. [CHG-2026-0025, T7]\n- 2026-09-11 02:30: S-SUD-008 drop_rate_pct spike ongoing. [ANM-000145, T6]\n- 2026-09-11 03:07: Minor RRC_FAILURE_RATE_HIGH alarm raised on S-SUD-008. [ALM-000193, T4]\n\n## Evidence\n\n- S-SUD-008 experienced an rrc_success_pct drop starting at 2026-09-11 02:15 and a drop_rate_pct spike ongoing since 2026-09-11 02:30. [ANM-000140, ANM-000145, T6]\n- Configuration push CHG-2026-0025 applied RAN parameter template OPT-17 to aggregation router AGG-SUD-01 at 2026-09-11 02:27. [CHG-2026-0025, T7]\n- Control site S-SUD-001 showed no deviation in KPI series from baseline. [T9]\n- No maintenance windows were scheduled on S-SUD-008, AGG-SUD-01, or their parents between 2026-09-10 18:00 and 2026-09-11 06:00. [T10]\n- No external events were recorded for region SUD between 2026-09-10 18:00 and 2026-09-11 06:00. [T11]\n\n## Hypotheses\n\n1. **bad_change** at AGG-SUD-01: confirmed. Configuration push CHG-2026-0025 on AGG-SUD-01 closely preceded the KPI degradation on connected sites S-SUD-008 and S-SUD-002, while control site S-SUD-001 remained normal and no other maintenance or external events occurred. [CHG-2026-0025, T6, T7, T9, RB-BAD-CHANGE#05]\n\n## Ruled out\n\n- ALM-000189: Minor VSWR_HIGH alarms on S-SUD-005 cleared hours before the incident window and occurred on a different site.\n- ALM-000190: Minor VSWR_HIGH alarms on S-SUD-005 cleared hours before the incident window and occurred on a different site.\n- ALM-000191: Minor VSWR_HIGH alarms on S-SUD-005 cleared hours before the incident window and occurred on a different site.\n\n## Recommended actions\n\n- Roll back configuration change CHG-2026-0025 on AGG-SUD-01 to restore normal RRC success rates and drop rates on S-SUD-008 and affected peer sites.\n\n## Sources\n\n- `ANM-000140`: S-SUD-008 rrc_success_pct drop, ongoing since 2026-09-11 02:15\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-SUD-008', 'S-SUD-002'], metrics=['rrc_success_pct', 'drop_rate_pct', 'latency_ms', 'availability_pct'], st -> Deviation in 4 of 8 series. Earliest onset 2026-09-11 02:15: S-SUD-008 rrc_success_pct below baseline.\n- `CHG-2026-0025`: config_push on AGG-SUD-01 at 2026-09-11 02:27: Push RAN parameter template OPT-17 to AGG-SUD-01 (admission control, RRC timers) [in effect (not rolled back)]\n- `T7`: get_changes(start=2026-09-10 18:00, end=2026-09-11 09:35, node_ids=['AGG-SUD-01'], include_ancestors=True) -> 1 change(s) on AGG-SUD-01 and its parents, 2026-09-10 18:00 to 2026-09-11 09:35 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-11 09:35).\n- `ANM-000145`: S-SUD-008 drop_rate_pct spike, ongoing since 2026-09-11 02:30\n- `ALM-000193`: minor RRC_FAILURE_RATE_HIGH on S-SUD-008, raised 2026-09-11 03:07, active\n- `T4`: get_alarms(start=2026-09-10 18:00, end=2026-09-11 09:35, node_ids=['S-SUD-008', 'LNK-SUD-01-B', 'AGG-SUD-01'], include_descendants=True) -> 5 alarm(s) on S-SUD-008, LNK-SUD-01-B, AGG-SUD-01 and nodes below, 2026-09-10 18:00 to 2026-09-11 09:35: 5 minor; 2 active at asked_at (2026-09-11 09:35).\n- `T9`: query_kpis(entity_type=site, entity_ids=['S-SUD-001'], metrics=['rrc_success_pct', 'drop_rate_pct'], start=2026-09-10 18:00, end=2026-09-11 09:35) -> No series deviates from its baseline between 2026-09-10 18:00 and 2026-09-11 09:35.\n- `T10`: get_maintenance(start=2026-09-10 18:00, end=2026-09-11 06:00, node_ids=['S-SUD-008', 'AGG-SUD-01'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-008, AGG-SUD-01 and its parents between 2026-09-10 18:00 and 2026-09-11 06:00.\n- `T11`: get_external_events(start=2026-09-10 18:00, end=2026-09-11 06:00, region_id=SUD) -> No external events for region SUD (and nationwide) between 2026-09-10 18:00 and 2026-09-11 06:00.\n- `RB-BAD-CHANGE#05`: Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start...\n- `ALM-000189`: minor VSWR_HIGH on S-SUD-005, raised 2026-09-10 22:03, cleared 2026-09-10 22:13\n- `ALM-000190`: minor VSWR_HIGH on S-SUD-005, raised 2026-09-10 22:35, cleared 2026-09-10 22:47\n- `ALM-000191`: minor VSWR_HIGH on S-SUD-005, raised 2026-09-10 23:01, cleared 2026-09-10 23:19\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Call setup failures and dropped sessions rose at S-SUD-008 last night. What is behind it?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-008",
+        "S-SUD-002",
+        "AGG-SUD-01"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of a configuration push on AGG-SUD-01 immediately preceding the RRC success drop and drop rate increase on S-SUD-008 and peer sites. Maintenance schedules and external events were checked and ruled out, and control site S-SUD-001 remained unaffected.",
+      "dismissed_signals": [
+        {
+          "reason": "Minor VSWR_HIGH alarms on S-SUD-005 cleared hours before the incident window and occurred on a different site.",
+          "ref": "ALM-000189"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarms on S-SUD-005 cleared hours before the incident window and occurred on a different site.",
+          "ref": "ALM-000190"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarms on S-SUD-005 cleared hours before the incident window and occurred on a different site.",
+          "ref": "ALM-000191"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SUD-008 experienced an rrc_success_pct drop starting at 2026-09-11 02:15 and a drop_rate_pct spike ongoing since 2026-09-11 02:30.",
+          "refs": [
+            "ANM-000140",
+            "ANM-000145",
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Configuration push CHG-2026-0025 applied RAN parameter template OPT-17 to aggregation router AGG-SUD-01 at 2026-09-11 02:27.",
+          "refs": [
+            "CHG-2026-0025",
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Control site S-SUD-001 showed no deviation in KPI series from baseline.",
+          "refs": [
+            "T9"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on S-SUD-008, AGG-SUD-01, or their parents between 2026-09-10 18:00 and 2026-09-11 06:00.",
+          "refs": [
+            "T10"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events were recorded for region SUD between 2026-09-10 18:00 and 2026-09-11 06:00.",
+          "refs": [
+            "T11"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "AGG-SUD-01",
+          "reason": "Configuration push CHG-2026-0025 on AGG-SUD-01 closely preceded the KPI degradation on connected sites S-SUD-008 and S-SUD-002, while control site S-SUD-001 remained normal and no other maintenance or external events occurred.",
+          "refs": [
+            "CHG-2026-0025",
+            "T6",
+            "T7",
+            "T9",
+            "RB-BAD-CHANGE#05"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-11 02:15",
+      "impact_summary": "Call setup failures and dropped sessions rose at S-SUD-008 and sibling sites starting around 02:15 to 02:30 on 2026-09-11 and remained ongoing.",
+      "recommended_actions": [
+        "Roll back configuration change CHG-2026-0025 on AGG-SUD-01 to restore normal RRC success rates and drop rates on S-SUD-008 and affected peer sites."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "AGG-SUD-01",
+      "root_cause_summary": "A configuration push (CHG-2026-0025) applying RAN parameter template OPT-17 (admission control, RRC timers) to aggregation router AGG-SUD-01 at 02:27.",
+      "root_cause_time": "2026-09-11 02:27",
+      "timeline": [
+        {
+          "event": "S-SUD-008 rrc_success_pct drop onset detected.",
+          "refs": [
+            "ANM-000140",
+            "T6"
+          ],
+          "time": "2026-09-11 02:15"
+        },
+        {
+          "event": "Config push CHG-2026-0025 executed on AGG-SUD-01.",
+          "refs": [
+            "CHG-2026-0025",
+            "T7"
+          ],
+          "time": "2026-09-11 02:27"
+        },
+        {
+          "event": "S-SUD-008 drop_rate_pct spike ongoing.",
+          "refs": [
+            "ANM-000145",
+            "T6"
+          ],
+          "time": "2026-09-11 02:30"
+        },
+        {
+          "event": "Minor RRC_FAILURE_RATE_HIGH alarm raised on S-SUD-008.",
+          "refs": [
+            "ALM-000193",
+            "T4"
+          ],
+          "time": "2026-09-11 03:07"
+        }
+      ],
+      "title": "Incident Report: Call Setup Failures and Dropped Sessions at S-SUD-008"
+    },
+    "run_id": "RUN-83e2de2b85",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SUD-008"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "Call setup failures and dropped sessions",
+      "unknown_ids": [],
+      "window_end": "2026-09-11T05:00:00Z",
+      "window_start": "2026-09-10T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 840,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 122,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1985
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3219,
+        "latency_ms": 1292,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 303,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4888
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4481,
+        "latency_ms": 1132,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 216,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4324
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5609,
+        "latency_ms": 908,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 95,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4144
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5611,
+        "latency_ms": 1138,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 156,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4687
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5170,
+        "latency_ms": 991,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 147,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4355
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5411,
+        "latency_ms": 1222,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 185,
+        "provider": "gemini",
+        "purpose": "investigate turn 6",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4710
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3997,
+        "latency_ms": 4143,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1624,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7418
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 33887,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 8
+      },
+      "llm_calls": 8,
+      "output_tokens": 2848,
+      "tool_calls": 11,
+      "wall_seconds": 36.78
+    }
+  },
+  "run_name": "baseline-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SUD-002",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-008"
+    ],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-11T12:29:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0025",
+        "table": "changes",
+        "visible_from": "2026-09-11T01:27:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0027",
+        "table": "changes",
+        "visible_from": "2026-09-11T12:29:00+00:00"
+      },
+      {
+        "id": "ALM-000193",
+        "table": "alarms",
+        "visible_from": "2026-09-11T02:07:00+00:00"
+      },
+      {
+        "id": "ALM-000192",
+        "table": "alarms",
+        "visible_from": "2026-09-11T01:57:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-11T01:27:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "Change OPT-17 pushed to the aggregation router (AGG-SUD-01) regressed RRC success and drop rate until it was rolled back. ",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "AGG-SUD-01",
+    "severity": "high",
+    "start_at": "2026-09-11T01:27:00Z"
+  },
+  "variant": "default"
+}

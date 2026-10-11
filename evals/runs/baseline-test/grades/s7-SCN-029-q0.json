@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-029-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3615,
+      "live_tokens": 3836,
+      "output_tokens": 221
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the symptoms (high PRB, latency, users) and matches the runbook signature for congestion, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T5 shows S-SAH-003 metrics started at 18:00, not 17:45, contradicting the claim that both started at 17:45.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 and the alarm references confirm warning HIGH_PRB alarms on both sites during the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 explicitly reports no changes on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 explicitly reports no maintenance windows on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

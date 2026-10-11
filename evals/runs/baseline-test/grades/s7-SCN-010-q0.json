@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-010-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3170,
+      "live_tokens": 3433,
+      "output_tokens": 263
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change details, KPI deviations on affected sites, normal control site, and runbook verification steps, supporting the inference of a bad change.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ANM-000140 and ANM-000145 explicitly state the anomalies and start times, and T6 confirms the deviations and onset times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "CHG-2026-0025 and T7 both explicitly state the change ID, template, node, and timestamp.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T9 explicitly states that no series deviates from baseline for S-SUD-001.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T10 explicitly reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T11 explicitly reports no external events for region SUD in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

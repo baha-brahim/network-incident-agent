@@ -4,6 +4,7 @@ The only outside knowledge needed is the parent of every node (`Topology`), to d
 named node is the planted one, a peer the label could equally have named, or a neighbour.
 """
 
+import re
 from collections.abc import Iterable
 from datetime import datetime
 from typing import Any, Literal
@@ -32,6 +33,14 @@ CONFOUNDER_ORDER: tuple[ConfounderOutcome, ...] = (
 )
 
 CONFIDENCE_LEVELS = ("low", "medium", "high")
+
+_TRAP_RE = re.compile(r"^trap=([a-z0-9_]+);")
+
+
+def trap_of(notes: str | None) -> str | None:
+    """The trap name a hard-profile scenario puts at the start of its notes, if any."""
+    found = _TRAP_RE.match(notes or "")
+    return found.group(1) if found else None
 
 
 class Topology(BaseModel):
@@ -212,6 +221,7 @@ class CaseScore(BaseModel):
     kind: str
     difficulty: str
     is_incident: bool
+    trap: str | None = None  # hard profile: the trap planted in the scenario
     status: Literal["scored", "error"]
     error: str | None = None
 
@@ -263,6 +273,7 @@ def score_case(artifact: CaseArtifact, topology: Topology) -> CaseScore:
         kind=truth.kind,
         difficulty=truth.difficulty,
         is_incident=truth.is_incident,
+        trap=trap_of(truth.notes),
         status="scored",
         truth_classification=truth_classification(truth),
         truth_category=truth.root_cause_category,
@@ -324,6 +335,15 @@ def score_case(artifact: CaseArtifact, topology: Topology) -> CaseScore:
             "clean": clean,
         }
     )
+
+
+def dump_score(score: CaseScore) -> dict[str, Any]:
+    """JSON form of a score. `trap` is left out when empty, so default-profile files keep
+    their layout."""
+    out = score.model_dump(mode="json")
+    if out.get("trap") is None:
+        out.pop("trap", None)
+    return out
 
 
 # --- faithfulness (from a grade file, when the grading part has produced one) -----------------

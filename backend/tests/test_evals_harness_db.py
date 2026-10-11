@@ -11,7 +11,13 @@ from sqlalchemy.exc import ProgrammingError
 
 from incident_agent.config import Settings
 from incident_agent.evals.cases import load_planned_cases, load_topology
-from incident_agent.evals.prepare import DbTargets, loaded_seed, prepare_database, resolve_targets
+from incident_agent.evals.prepare import (
+    DbTargets,
+    loaded_profile,
+    loaded_seed,
+    prepare_database,
+    resolve_targets,
+)
 from incident_agent.evals.rundir import RunDir
 from incident_agent.evals.runner import RunOptions, execute_run
 from incident_agent.llm.testing import ScriptedRunner
@@ -105,6 +111,21 @@ def test_prepare_is_repeatable_and_does_not_reload(targets: DbTargets, prepared:
 def test_prepare_refuses_to_replace_another_seed(targets: DbTargets, prepared: Engine) -> None:
     with pytest.raises(RuntimeError, match="holds the world of seed 0"):
         prepare_database(targets, 5, embedder=EMB, log=lambda _m: None)
+
+
+def test_prepare_refuses_to_mix_profiles_in_one_database(
+    targets: DbTargets, prepared: Engine
+) -> None:
+    assert loaded_profile(prepared) == "default"
+    with pytest.raises(RuntimeError, match="holds the default world of seed 0, not the hard world"):
+        prepare_database(
+            targets,
+            SEED,
+            profile="hard",
+            world_builder=lambda _seed: pytest.fail("rebuilt"),
+            embedder=EMB,
+            log=lambda _m: None,
+        )
 
 
 def test_cases_carry_when_their_evidence_became_visible(prepared: Engine) -> None:

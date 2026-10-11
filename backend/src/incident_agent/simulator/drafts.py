@@ -60,6 +60,7 @@ class ScenarioDraft:
     block_nodes: list[str] = field(default_factory=list)  # nodes noise must avoid around it
     group: str | None = None
     affected_sites: list[str] = field(default_factory=list)  # used for question text
+    trap: str | None = None  # hard profile: machine-readable trap name, prefixed to the notes
 
 
 @dataclass(frozen=True)
@@ -67,4 +68,5 @@ class ScenarioKind:
     name: str
     is_incident: bool
     sample: Callable[[Ctx, str], Params]
-    apply: Callable[[Ctx, Params, pd.Timestamp], ScenarioDraft]
+    # A composite scenario of the hard profile returns more than one draft.
+    apply: Callable[[Ctx, Params, pd.Timestamp], ScenarioDraft | list[ScenarioDraft]]

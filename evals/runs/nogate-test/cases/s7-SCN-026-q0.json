@@ -1,0 +1,531 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-23T08:29:00Z",
+    "case_id": "s7-SCN-026-q0",
+    "question": "Total traffic was noticeably lower across the country today. Anything to worry about?",
+    "question_index": 0,
+    "scenario_id": "SCN-026",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:25:53.299334Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-23T08:29:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-22 22:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-22 22:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0034 ONGOING since 2026-09-23 09:15 (14 min so far); 3 anomalies so far on 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SAH-001 since 2026-09-23 09:15, so far 142 vs baseline 202 (-30%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-22 22:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0034",
+          "ANM-000271"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 36
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "region_id": null,
+          "start": "2026-09-23 00:00"
+        },
+        "body": "1 external event(s) for all regions, 2026-09-23 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29).\nEVT-003 public_holiday (nationwide) since 2026-09-23 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for all regions, 2026-09-23 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "EVT-003"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "entity_ids": [],
+          "entity_type": "national",
+          "metrics": [
+            "dl_volume_mb",
+            "ul_volume_mb",
+            "active_users"
+          ],
+          "start": "2026-09-23 00:00"
+        },
+        "body": "Deviation in 3 of 3 series. Earliest onset 2026-09-23 08:15: NATIONAL active_users below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-23 09:29). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nNATIONAL active_users: mean 2676 vs baseline 3072 (-13%); min 1080 at 2026-09-23 04:00, max 5522 at 2026-09-23 09:15.\nDeviation below baseline: onset 2026-09-23 08:15; worst 4840 vs 5796 at 2026-09-23 08:15; not recovered by the last step (2026-09-23 09:15).\nseries (60 min buckets from 2026-09-23 00:00): 4112 2371 1456 1119 1124 1494 2349 3716 4947 5472\nbaseline: 4486 2596 1565 1211 1237 1698 2737 4337 5950 6739\nNATIONAL dl_volume_mb: mean 302392 vs baseline 353149 (-14%); min 120435 at 2026-09-23 03:45, max 629811 at 2026-09-23 09:15.\nDeviation below baseline: onset 2026-09-23 08:30; worst 586581 vs 727962 at 2026-09-23 08:30; not recovered by the last step (2026-09-23 09:15).\nseries (60 min buckets from 2026-09-23 00:00): 455050 263009 161354 124339 126235 168531 266465 427377 567491 625736\nbaseline: 502268 292120 175705 134671 140123 193449 314693 507578 696998 794628\nNATIONAL ul_volume_mb: mean 45872 vs baseline 53577 (-14%); min 18191 at 2026-09-23 03:45, max 96210 at 2026-09-23 09:15.\nDeviation below baseline: onset 2026-09-23 08:30; worst 89013 vs 110534 at 2026-09-23 08:30; not recovered by the last step (2026-09-23 09:15).\nseries (60 min buckets from 2026-09-23 00:00): 68728 39703 24421 18794 19157 25624 40408 65193 86047 95415\nbaseline: 76077 44253 26602 20453 21255 29439 47726 77063 105795 120630",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 3 of 3 series. Earliest onset 2026-09-23 08:15: NATIONAL active_users below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 156
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "entity_id": null,
+          "region_id": "SAH",
+          "start": "2026-09-23 00:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0034 ONGOING since 2026-09-23 09:15 (14 min so far); 3 anomalies so far on 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SAH-001 since 2026-09-23 09:15, so far 142 vs baseline 202 (-30%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALR-0034",
+          "ANM-000271"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 37
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "region_id": null,
+          "start": "2026-09-22 00:00"
+        },
+        "body": "1 external event(s) for all regions, 2026-09-22 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29).\nEVT-003 public_holiday (nationwide) since 2026-09-23 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for all regions, 2026-09-22 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "EVT-003"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "entity_id": null,
+          "region_id": "TUN",
+          "start": "2026-09-23 00:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0034 ONGOING since 2026-09-23 09:15 (14 min so far); 3 anomalies so far on 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SAH-001 since 2026-09-23 09:15, so far 142 vs baseline 202 (-30%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALR-0034",
+          "ANM-000271"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 34
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "entity_id": null,
+          "region_id": "SFX",
+          "start": "2026-09-23 00:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0034 ONGOING since 2026-09-23 09:15 (14 min so far); 3 anomalies so far on 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SAH-001 since 2026-09-23 09:15, so far 142 vs baseline 202 (-30%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "ALR-0034",
+          "ANM-000271"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 32
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:29",
+          "entity_id": null,
+          "region_id": "SUD",
+          "start": "2026-09-23 00:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0034 ONGOING since 2026-09-23 09:15 (14 min so far); 3 anomalies so far on 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SAH-001 since 2026-09-23 09:15, so far 142 vs baseline 202 (-30%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "ALR-0034",
+          "ANM-000271"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 33
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALR-0034": {
+        "kind": "alert",
+        "ref": "ALR-0034",
+        "summary": "ongoing alert from 2026-09-23 09:15: 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); metrics: active_users"
+      },
+      "ANM-000271": {
+        "kind": "anomaly",
+        "ref": "ANM-000271",
+        "summary": "S-SAH-001 active_users drop, ongoing since 2026-09-23 09:15"
+      },
+      "EVT-003": {
+        "kind": "event",
+        "ref": "EVT-003",
+        "summary": "public_holiday (nationwide) since 2026-09-23 00:00, in progress: National public holiday: government offices and most businesses closed"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-22 22:00, end=2026-09-23 09:29) -> 1 detector alert(s) overlap 2026-09-22 22:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29)."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_external_events(start=2026-09-23 00:00, end=2026-09-23 09:29) -> 1 external event(s) for all regions, 2026-09-23 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-23 00:00, end=2026-09-23 09:29) -> Deviation in 3 of 3 series. Earliest onset 2026-09-23 08:15: NATIONAL active_users below baseline."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_anomalies(start=2026-09-23 00:00, end=2026-09-23 09:29, region_id=SAH) -> 1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_external_events(start=2026-09-22 00:00, end=2026-09-23 09:29) -> 1 external event(s) for all regions, 2026-09-22 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_anomalies(start=2026-09-23 00:00, end=2026-09-23 09:29, region_id=TUN) -> 1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_anomalies(start=2026-09-23 00:00, end=2026-09-23 09:29, region_id=SFX) -> 1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_anomalies(start=2026-09-23 00:00, end=2026-09-23 09:29, region_id=SUD) -> 1 detector alert(s) overlap 2026-09-23 00:00 to 2026-09-23 09:29 (1 still ongoing at asked_at 2026-09-23 09:29)."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide Traffic Lower Due to Public Holiday\n\n- **Classification:** expected_event\n- **Root cause:** expected_event\n- **Confidence:** high (Direct evidence of a nationwide public holiday (EVT-003) explaining reduced usage across the country. The maintenance calendar and change log were not checked.)\n- **Impact:** 2026-09-23 00:00 to not established or ongoing\n- **Cause time:** 2026-09-23 00:00\n\n## Summary\n\nNational public holiday with government offices and most businesses closed.\n\nNationwide traffic and active users lower than normal weekday baselines throughout the day due to holiday behavior.\n\n## Timeline\n\n- 2026-09-23 00:00: National public holiday started nationwide. [EVT-003]\n- 2026-09-23 08:15: Earliest national KPI deviation observed: active_users below baseline. [T3]\n\n## Evidence\n\n- A national public holiday is in progress nationwide since 2026-09-23 00:00. [T2, EVT-003]\n- National active_users, dl_volume_mb, and ul_volume_mb are below baseline. [T3]\n\n## Hypotheses\n\n1. **expected_event**: confirmed. Nationwide traffic reduction corresponds directly to the national public holiday where government offices and most businesses are closed. [T2, EVT-003]\n\n## Recommended actions\n\n- Monitor traffic levels for recovery after the public holiday concludes.\n\n## Sources\n\n- `EVT-003`: public_holiday (nationwide) since 2026-09-23 00:00, in progress: National public holiday: government offices and most businesses closed\n- `T3`: query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-23 00:00, end=2026-09-23 09:29) -> Deviation in 3 of 3 series. Earliest onset 2026-09-23 08:15: NATIONAL active_users below baseline.\n- `T2`: get_external_events(start=2026-09-23 00:00, end=2026-09-23 09:29) -> 1 external event(s) for all regions, 2026-09-23 00:00 to 2026-09-23 09:29; 1 in progress at asked_at (2026-09-23 09:29).\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Total traffic was noticeably lower across the country today. Anything to worry about?",
+    "report": {
+      "affected_node_ids": [],
+      "classification": "expected_event",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of a nationwide public holiday (EVT-003) explaining reduced usage across the country. The maintenance calendar and change log were not checked.",
+      "dismissed_signals": [],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "A national public holiday is in progress nationwide since 2026-09-23 00:00.",
+          "refs": [
+            "T2",
+            "EVT-003"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "National active_users, dl_volume_mb, and ul_volume_mb are below baseline.",
+          "refs": [
+            "T3"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "expected_event",
+          "node_id": null,
+          "reason": "Nationwide traffic reduction corresponds directly to the national public holiday where government offices and most businesses are closed.",
+          "refs": [
+            "T2",
+            "EVT-003"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-23 00:00",
+      "impact_summary": "Nationwide traffic and active users lower than normal weekday baselines throughout the day due to holiday behavior.",
+      "recommended_actions": [
+        "Monitor traffic levels for recovery after the public holiday concludes."
+      ],
+      "root_cause_category": "expected_event",
+      "root_cause_node_id": null,
+      "root_cause_summary": "National public holiday with government offices and most businesses closed.",
+      "root_cause_time": "2026-09-23 00:00",
+      "timeline": [
+        {
+          "event": "National public holiday started nationwide.",
+          "refs": [
+            "EVT-003"
+          ],
+          "time": "2026-09-23 00:00"
+        },
+        {
+          "event": "Earliest national KPI deviation observed: active_users below baseline.",
+          "refs": [
+            "T3"
+          ],
+          "time": "2026-09-23 08:15"
+        }
+      ],
+      "title": "Nationwide Traffic Lower Due to Public Holiday"
+    },
+    "run_id": "RUN-8e4fca2f76",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": true,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "Total traffic noticeably lower",
+      "unknown_ids": [],
+      "window_end": "2026-09-23T08:29:00Z",
+      "window_start": "2026-09-22T23:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 380,
+        "latency_ms": 758,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 97,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2837,
+        "latency_ms": 1072,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 202,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4592,
+        "latency_ms": 797,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 54,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4841,
+        "latency_ms": 1023,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 188,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5935,
+        "latency_ms": 1141,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 99,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 15
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4170,
+        "latency_ms": 2210,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 622,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2216
+      }
+    ],
+    "usage": {
+      "cached_calls": 5,
+      "input_tokens": 22755,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 6,
+      "output_tokens": 1262,
+      "tool_calls": 8,
+      "wall_seconds": 2.63
+    }
+  },
+  "run_name": "nogate-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-23T23:00:00Z",
+    "evidence": [
+      {
+        "id": "EVT-003",
+        "table": "external_events",
+        "visible_from": "2026-09-22T23:00:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_external_events"
+    ],
+    "impact_start_at": "2026-09-22T23:00:00Z",
+    "is_incident": false,
+    "kind": "public_holiday",
+    "notes": "Nationwide public holiday: business-area traffic down, residential up.",
+    "root_cause_category": "expected_event",
+    "root_cause_node_id": null,
+    "severity": "low",
+    "start_at": "2026-09-22T23:00:00Z"
+  },
+  "variant": "no-gate"
+}

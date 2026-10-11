@@ -20,6 +20,7 @@ from incident_agent.evals.scoring import (
     score_case,
     time_error_min,
     tool_overlap,
+    trap_of,
     verification_counts,
     visible_at,
     worst_outcome,
@@ -463,3 +464,16 @@ def test_percentile_and_mean() -> None:
     assert percentile([1, 2, 3, 4], 50) == 2.5
     assert percentile([5], 95) == 5
     assert mean([1, 2, 3]) == 2
+
+
+def test_the_trap_is_read_from_the_start_of_the_notes() -> None:
+    assert trap_of("trap=change_on_root_node; A software upgrade ran before.") == (
+        "change_on_root_node"
+    )
+    assert trap_of("Fibre cut. trap=missing_alarm;") is None
+    assert trap_of("") is None and trap_of(None) is None
+    plain = score_case(make_artifact(make_result(make_report(**RIGHT))), TOPOLOGY)
+    assert plain.trap is None
+    truth = make_truth(notes="trap=near_miss_maintenance; Window on another link.")
+    trapped = score_case(make_artifact(make_result(make_report(**RIGHT)), truth=truth), TOPOLOGY)
+    assert trapped.trap == "near_miss_maintenance"

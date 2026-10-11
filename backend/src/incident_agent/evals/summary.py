@@ -10,10 +10,12 @@ from incident_agent.evals.aggregate import (
     class_of_case,
     difficulty_of_case,
     group_by,
+    has_traps,
     kind_of_case,
+    trap_of_case,
 )
 from incident_agent.evals.rundir import RunDir, RunMeta
-from incident_agent.evals.scoring import CaseScore, faithfulness, score_case
+from incident_agent.evals.scoring import CaseScore, dump_score, faithfulness, score_case
 from incident_agent.evals.types import CaseArtifact, ReportGrade
 
 
@@ -68,7 +70,8 @@ def summary_lines(scored: ScoredRun) -> list[str]:
     agg = scored.overall
     m = scored.meta
     lines = [
-        f"run {m.name}: seed {m.seed} ({m.split}), variant {m.variant}, model {m.agent_model}",
+        f"run {m.name}: seed {m.seed} ({world_label(m)}), variant {m.variant}, "
+        f"model {m.agent_model}",
         f"cases scored {agg.n_cases} of {m.cases_total}"
         + (f"; {agg.n_errors} infrastructure errors (not scored)" if agg.n_errors else "")
         + ("  [PARTIAL RUN]" if scored.partial else ""),
@@ -86,7 +89,16 @@ def summary_lines(scored: ScoredRun) -> list[str]:
         f"p95 {_num(agg.total_tokens.p95)}",
         f"  node matches           {agg.node_counts}",
     ]
+    if has_traps(scored.scores):
+        lines.append("  by trap (rca lenient):")
+        for trap, agg_t in group_by(scored.scores, trap_of_case).items():
+            lines.append(f"    {trap:<34} {_rate(agg_t.rca_lenient)}")
     return lines
+
+
+def world_label(meta: RunMeta) -> str:
+    """'test', 'dev' or 'hard, test': the split, and the profile when it is not default."""
+    return meta.split if meta.profile == "default" else f"{meta.profile}, {meta.split}"
 
 
 def _num(value: float | None) -> str:
@@ -112,6 +124,16 @@ def _frac(value: float | None) -> str:
 
 def summary_json(scored: ScoredRun) -> dict[str, Any]:
     """What `score` writes to `summary.json`."""
+    by_trap = (
+        {
+            "by_trap": {
+                k: v.model_dump(mode="json")
+                for k, v in group_by(scored.scores, trap_of_case).items()
+            }
+        }
+        if has_traps(scored.scores)
+        else {}
+    )
     return {
         "run": scored.meta.model_dump(mode="json", exclude={"invocations"}),
         "partial": scored.partial,
@@ -126,5 +148,6 @@ def summary_json(scored: ScoredRun) -> dict[str, Any]:
         "by_class": {
             k: v.model_dump(mode="json") for k, v in group_by(scored.scores, class_of_case).items()
         },
-        "cases": [s.model_dump(mode="json") for s in scored.scores],
+        **by_trap,
+        "cases": [dump_score(s) for s in scored.scores],
     }

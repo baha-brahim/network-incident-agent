@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-024-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3094,
+      "live_tokens": 3291,
+      "output_tokens": 197
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows temporal correlation and rollback, but does not explicitly prove causality or that KPIs were restored.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly lists the anomalies and alert for S-TUN-013 starting at 02:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited evidence confirms the change ID, node, time, and upstream relationship.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited evidence confirms the rollback time but does not state that KPIs were restored.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool outputs explicitly report no external events or maintenance windows in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

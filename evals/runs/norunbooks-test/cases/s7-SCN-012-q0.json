@@ -1,0 +1,578 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-13T07:49:00Z",
+    "case_id": "s7-SCN-012-q0",
+    "question": "Traffic is down and latency is up at S-SUD-001 yesterday morning. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-012",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:38:44.104104Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-13T07:49:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-13 08:49",
+          "entity_id": "S-SUD-001",
+          "region_id": null,
+          "start": "2026-09-12 04:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-12 04:00 to 2026-09-13 08:49.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0020 low ended, 2026-09-12 10:30 to 2026-09-12 15:15 (4.8 h): Traffic drops; latency spikes on 2 sites in SUD (S-SUD-001, S-SUD-003) for 5 h\n  dl_volume_mb drop on 1 entity: worst S-SUD-001 z -5.2, 2131 -> 1396, 2026-09-12 14:00 to 2026-09-12 15:15\n  latency_ms spike on 1 entity: worst S-SUD-001 z 9.7, 39.4 -> 62.3, 2026-09-12 10:30 to 2026-09-12 15:15",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-12 04:00 to 2026-09-13 08:49.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0020",
+          "ANM-000167",
+          "ANM-000162"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-001"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-001: site, SUD, Gabes, rural.\nCells: C-SUD-001-1, C-SUD-001-2, C-SUD-001-3.\nSiblings under LNK-SUD-02-B: S-SUD-003.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SUD-001",
+          "LNK-SUD-02-B",
+          "AGG-SUD-02",
+          "CORE-UPF-02",
+          "S-SUD-003"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-12 16:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "S-SUD-001",
+            "S-SUD-003",
+            "LNK-SUD-02-B",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-12 09:00"
+        },
+        "body": "1 alarm(s) on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and nodes below, 2026-09-12 09:00 to 2026-09-12 16:00: 1 major; 0 active at asked_at (2026-09-13 08:49).\nEarliest critical/major: 2026-09-12 10:31 LINK_DEGRADED on LNK-SUD-02-B (ALM-000224).\n2026-09-12 10:31 ALM-000224 major LINK_DEGRADED LNK-SUD-02-B: cleared 2026-09-12 15:33",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and nodes below, 2026-09-12 09:00 to 2026-09-12 16:00: 1 major; 0 active at asked_at (2026-09-13 08:49).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000224"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-12 16:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-001",
+            "S-SUD-003",
+            "LNK-SUD-02-B",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-12 09:00"
+        },
+        "body": "No changes on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-12 16:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-001",
+            "S-SUD-003",
+            "LNK-SUD-02-B",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-12 09:00"
+        },
+        "body": "No maintenance window scheduled on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-12 18:00",
+          "entity_ids": [
+            "S-SUD-001",
+            "S-SUD-003"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "latency_ms"
+          ],
+          "start": "2026-09-12 06:00"
+        },
+        "body": "No baseline available for 2026-09-12 06:00 to 2026-09-12 18:00: fewer than 2 earlier Saturdays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-13 08:49). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-001 dl_volume_mb: mean 1757; min 759 at 2026-09-12 06:00, max 2704 at 2026-09-12 18:00; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (75 min buckets from 2026-09-12 06:00): 951 1598 2107 2003 1489 1370 1428 1912 2336 2527\nS-SUD-001 latency_ms: mean 49.9; min 39.8 at 2026-09-12 06:45, max 68.4 at 2026-09-12 13:30; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (75 min buckets from 2026-09-12 06:00): 40.3 41.6 43.7 49.5 63.8 61.9 63.8 49.1 42.1 41.8\nS-SUD-003 dl_volume_mb: mean 4136; min 2467 at 2026-09-12 06:00, max 5706 at 2026-09-12 18:00; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (75 min buckets from 2026-09-12 06:00): 3128 4485 5132 4455 3455 3618 3460 4153 4470 5220\nS-SUD-003 latency_ms: mean 40.6; min 33.9 at 2026-09-12 06:00, max 51.5 at 2026-09-12 11:00; baseline unavailable (need 2+ earlier same-type days, have 1).\nseries (75 min buckets from 2026-09-12 06:00): 35.5 35.6 35.8 40.3 49.6 46.3 49.2 40.8 36.6 35.8",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-12 06:00 to 2026-09-12 18:00: fewer than 2 earlier Saturdays with data. Raw statistics only.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 42
+      },
+      {
+        "args": {
+          "end": "2026-09-12 18:00",
+          "region_id": "SUD",
+          "start": "2026-09-12 06:00"
+        },
+        "body": "No external events for region SUD (and nationwide) between 2026-09-12 06:00 and 2026-09-12 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SUD (and nationwide) between 2026-09-12 06:00 and 2026-09-12 18:00.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000224": {
+        "kind": "alarm",
+        "ref": "ALM-000224",
+        "summary": "major LINK_DEGRADED on LNK-SUD-02-B, raised 2026-09-12 10:31, cleared 2026-09-12 15:33"
+      },
+      "ALR-0020": {
+        "kind": "alert",
+        "ref": "ALR-0020",
+        "summary": "ended alert from 2026-09-12 10:30: 2 site(s) (S-SUD-001, S-SUD-003); metrics: dl_volume_mb, latency_ms"
+      },
+      "ANM-000162": {
+        "kind": "anomaly",
+        "ref": "ANM-000162",
+        "summary": "S-SUD-001 latency_ms spike, z 9.7, baseline 39.4 -> 62.3"
+      },
+      "ANM-000167": {
+        "kind": "anomaly",
+        "ref": "ANM-000167",
+        "summary": "S-SUD-001 dl_volume_mb drop, z -5.2, baseline 2131 -> 1396"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-02-B": {
+        "kind": "node",
+        "ref": "LNK-SUD-02-B",
+        "summary": "microwave link, SUD, 11.3 km, 1.0 Gbps"
+      },
+      "S-SUD-001": {
+        "kind": "node",
+        "ref": "S-SUD-001",
+        "summary": "site, SUD, Gabes, rural; chain: S-SUD-001 -> LNK-SUD-02-B -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "S-SUD-003": {
+        "kind": "node",
+        "ref": "S-SUD-003",
+        "summary": "site, SUD, Houmt Souk, suburban; sibling of S-SUD-001"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-12 04:00, end=2026-09-13 08:49, entity_id=S-SUD-001) -> 1 detector alert(s) overlap 2026-09-12 04:00 to 2026-09-13 08:49."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SUD-001, include=all) -> Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-12 09:00, end=2026-09-12 16:00, node_ids=['S-SUD-001', 'S-SUD-003', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_descendants=True,  -> 1 alarm(s) on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and nodes below, 2026-09-12 09:00 to 2026-09-12 16:00: 1 major; 0 active at asked_at (2026-09-13 08:49)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-12 09:00, end=2026-09-12 16:00, node_ids=['S-SUD-001', 'S-SUD-003', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=True) -> No changes on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-12 09:00, end=2026-09-12 16:00, node_ids=['S-SUD-001', 'S-SUD-003', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=Tru -> No maintenance window scheduled on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-001', 'S-SUD-003'], metrics=['dl_volume_mb', 'latency_ms'], start=2026-09-12 06:00, end=2026-09-12 18: -> No baseline available for 2026-09-12 06:00 to 2026-09-12 18:00: fewer than 2 earlier Saturdays with data. Raw statistics only."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_external_events(start=2026-09-12 06:00, end=2026-09-12 18:00, region_id=SUD) -> No external events for region SUD (and nationwide) between 2026-09-12 06:00 and 2026-09-12 18:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Transport Degradation on Microwave Link LNK-SUD-02-B Causing Traffic Drop and Latency Spike at S-SUD-001\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-SUD-02-B`\n- **Confidence:** high (Direct evidence of a major LINK_DEGRADED alarm on the shared microwave link perfectly matches the timing of the traffic drop and latency spike. Changes, maintenance, and external events were checked and ruled out.)\n- **Impact:** 2026-09-12 10:30 to 2026-09-12 15:33\n- **Cause time:** 2026-09-12 10:31\n- **Affected:** S-SUD-001, S-SUD-003, LNK-SUD-02-B\n\n## Summary\n\nA major link degraded alarm occurred on the microwave link serving S-SUD-001 and S-SUD-003, causing traffic drops and latency increases.\n\nTraffic volume dropped and latency spiked on sites S-SUD-001 and S-SUD-003 between 2026-09-12 10:30 and 2026-09-12 15:33.\n\n## Timeline\n\n- 2026-09-12 10:30: Anomaly ALR-0020 started, showing traffic drops and latency spikes on S-SUD-001 and S-SUD-003. [T1, ALR-0020]\n- 2026-09-12 10:31: Major alarm ALM-000224 (LINK_DEGRADED) raised on microwave link LNK-SUD-02-B. [T3, ALM-000224]\n- 2026-09-12 15:33: Major alarm ALM-000224 cleared on LNK-SUD-02-B, ending the transport degradation impact. [T3, ALM-000224]\n\n## Evidence\n\n- An anomaly detector alert ALR-0020 indicates traffic drops and latency spikes affecting S-SUD-001 and S-SUD-003 between 2026-09-12 10:30 and 2026-09-12 15:15. [T1, ALR-0020]\n- Topology shows S-SUD-001 and sibling S-SUD-003 both depend on microwave link LNK-SUD-02-B. [T2]\n- A major LINK_DEGRADED alarm (ALM-000224) was active on LNK-SUD-02-B from 2026-09-12 10:31 to 2026-09-12 15:33. [T3, ALM-000224]\n- No configuration changes or maintenance windows were scheduled during the incident window on the affected nodes or their ancestors. [T4, T5]\n- No external events were recorded for the SUD region during the incident window. [T7]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-SUD-02-B: confirmed. The major LINK_DEGRADED alarm on LNK-SUD-02-B directly coincides with the traffic drop and latency spike observed on S-SUD-001 and S-SUD-003. [T1, T3, ALM-000224]\n2. **bad_change** at S-SUD-001: rejected. No changes were recorded on the affected nodes or their parent chain during the incident window. [T4]\n3. **planned_maintenance** at S-SUD-001: rejected. No maintenance windows were scheduled on the affected nodes or their parent chain during the incident window. [T5]\n\n## Ruled out\n\n- T4: No changes were executed on S-SUD-001, S-SUD-003, LNK-SUD-02-B, or AGG-SUD-02 during the window.\n- T5: No maintenance windows were scheduled on S-SUD-001, S-SUD-003, LNK-SUD-02-B, or AGG-SUD-02 during the window.\n- T7: No external events were reported in region SUD during the incident window.\n\n## Recommended actions\n\n- Inspect microwave link LNK-SUD-02-B for radio interference, alignment issues, or hardware degradation.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-12 04:00, end=2026-09-13 08:49, entity_id=S-SUD-001) -> 1 detector alert(s) overlap 2026-09-12 04:00 to 2026-09-13 08:49.\n- `ALR-0020`: ended alert from 2026-09-12 10:30: 2 site(s) (S-SUD-001, S-SUD-003); metrics: dl_volume_mb, latency_ms\n- `T3`: get_alarms(start=2026-09-12 09:00, end=2026-09-12 16:00, node_ids=['S-SUD-001', 'S-SUD-003', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_descendants=True,  -> 1 alarm(s) on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and nodes below, 2026-09-12 09:00 to 2026-09-12 16:00: 1 major; 0 active at asked_at (2026-09-13 08:49).\n- `ALM-000224`: major LINK_DEGRADED on LNK-SUD-02-B, raised 2026-09-12 10:31, cleared 2026-09-12 15:33\n- `T2`: get_topology(node_id=S-SUD-001, include=all) -> Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\n- `T4`: get_changes(start=2026-09-12 09:00, end=2026-09-12 16:00, node_ids=['S-SUD-001', 'S-SUD-003', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=True) -> No changes on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00.\n- `T5`: get_maintenance(start=2026-09-12 09:00, end=2026-09-12 16:00, node_ids=['S-SUD-001', 'S-SUD-003', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=Tru -> No maintenance window scheduled on S-SUD-001, S-SUD-003, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-12 09:00 and 2026-09-12 16:00.\n- `T7`: get_external_events(start=2026-09-12 06:00, end=2026-09-12 18:00, region_id=SUD) -> No external events for region SUD (and nationwide) between 2026-09-12 06:00 and 2026-09-12 18:00.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Traffic is down and latency is up at S-SUD-001 yesterday morning. What is going on?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-001",
+        "S-SUD-003",
+        "LNK-SUD-02-B"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of a major LINK_DEGRADED alarm on the shared microwave link perfectly matches the timing of the traffic drop and latency spike. Changes, maintenance, and external events were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "No changes were executed on S-SUD-001, S-SUD-003, LNK-SUD-02-B, or AGG-SUD-02 during the window.",
+          "ref": "T4"
+        },
+        {
+          "reason": "No maintenance windows were scheduled on S-SUD-001, S-SUD-003, LNK-SUD-02-B, or AGG-SUD-02 during the window.",
+          "ref": "T5"
+        },
+        {
+          "reason": "No external events were reported in region SUD during the incident window.",
+          "ref": "T7"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "An anomaly detector alert ALR-0020 indicates traffic drops and latency spikes affecting S-SUD-001 and S-SUD-003 between 2026-09-12 10:30 and 2026-09-12 15:15.",
+          "refs": [
+            "T1",
+            "ALR-0020"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Topology shows S-SUD-001 and sibling S-SUD-003 both depend on microwave link LNK-SUD-02-B.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A major LINK_DEGRADED alarm (ALM-000224) was active on LNK-SUD-02-B from 2026-09-12 10:31 to 2026-09-12 15:33.",
+          "refs": [
+            "T3",
+            "ALM-000224"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No configuration changes or maintenance windows were scheduled during the incident window on the affected nodes or their ancestors.",
+          "refs": [
+            "T4",
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events were recorded for the SUD region during the incident window.",
+          "refs": [
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-SUD-02-B",
+          "reason": "The major LINK_DEGRADED alarm on LNK-SUD-02-B directly coincides with the traffic drop and latency spike observed on S-SUD-001 and S-SUD-003.",
+          "refs": [
+            "T1",
+            "T3",
+            "ALM-000224"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SUD-001",
+          "reason": "No changes were recorded on the affected nodes or their parent chain during the incident window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": "S-SUD-001",
+          "reason": "No maintenance windows were scheduled on the affected nodes or their parent chain during the incident window.",
+          "refs": [
+            "T5"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-12 15:33",
+      "impact_start": "2026-09-12 10:30",
+      "impact_summary": "Traffic volume dropped and latency spiked on sites S-SUD-001 and S-SUD-003 between 2026-09-12 10:30 and 2026-09-12 15:33.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-SUD-02-B for radio interference, alignment issues, or hardware degradation."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-SUD-02-B",
+      "root_cause_summary": "A major link degraded alarm occurred on the microwave link serving S-SUD-001 and S-SUD-003, causing traffic drops and latency increases.",
+      "root_cause_time": "2026-09-12 10:31",
+      "timeline": [
+        {
+          "event": "Anomaly ALR-0020 started, showing traffic drops and latency spikes on S-SUD-001 and S-SUD-003.",
+          "refs": [
+            "T1",
+            "ALR-0020"
+          ],
+          "time": "2026-09-12 10:30"
+        },
+        {
+          "event": "Major alarm ALM-000224 (LINK_DEGRADED) raised on microwave link LNK-SUD-02-B.",
+          "refs": [
+            "T3",
+            "ALM-000224"
+          ],
+          "time": "2026-09-12 10:31"
+        },
+        {
+          "event": "Major alarm ALM-000224 cleared on LNK-SUD-02-B, ending the transport degradation impact.",
+          "refs": [
+            "T3",
+            "ALM-000224"
+          ],
+          "time": "2026-09-12 15:33"
+        }
+      ],
+      "title": "Transport Degradation on Microwave Link LNK-SUD-02-B Causing Traffic Drop and Latency Spike at S-SUD-001"
+    },
+    "run_id": "RUN-986f866838",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SUD-001"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "traffic down and latency up",
+      "unknown_ids": [],
+      "window_end": "2026-09-12T11:00:00Z",
+      "window_start": "2026-09-12T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 902,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3056,
+        "latency_ms": 1317,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 333,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1602
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4031,
+        "latency_ms": 1201,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 210,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4360
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4281,
+        "latency_ms": 1154,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 166,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4454
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5355,
+        "latency_ms": 1112,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 166,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4412
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4204,
+        "latency_ms": 4158,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1635,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7540
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 21316,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2631,
+      "tool_calls": 7,
+      "wall_seconds": 22.47
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SUD-02-B",
+      "S-SUD-003",
+      "S-SUD-001"
+    ],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-12T14:25:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000224",
+        "table": "alarms",
+        "visible_from": "2026-09-12T09:31:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-12T09:29:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "Rain fade on microwave link LNK-SUD-02-B: throughput limited, sites stayed up.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-SUD-02-B",
+    "severity": "medium",
+    "start_at": "2026-09-12T09:29:00Z"
+  },
+  "variant": "no-runbooks"
+}

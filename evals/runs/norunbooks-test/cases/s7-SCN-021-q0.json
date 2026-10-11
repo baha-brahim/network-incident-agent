@@ -1,0 +1,636 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-20T08:29:00Z",
+    "case_id": "s7-SCN-021-q0",
+    "question": "Traffic is down and latency is up at S-TUN-009 last night. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-021",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:35:21.540721Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-20T08:29:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-20 09:29",
+          "entity_id": "S-TUN-009",
+          "region_id": null,
+          "start": "2026-09-19 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-19 16:00 to 2026-09-20 09:29.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0030 low ended, 2026-09-20 04:30 to 2026-09-20 06:00 (1.5 h): Latency spikes on 3 sites in TUN (S-TUN-004, S-TUN-009, S-TUN-015) for 1.5 h\n  latency_ms spike on 1 entity: worst S-TUN-009 z 9.2, 25 -> 44.1, 2026-09-20 04:30 to 2026-09-20 06:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-19 16:00 to 2026-09-20 09:29.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0030",
+          "ANM-000234"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 11
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-009"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-009 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-009: site, TUN, Megrine, urban.\nCells: C-TUN-009-1, C-TUN-009-2, C-TUN-009-3.\nSiblings under LNK-TUN-02-A: S-TUN-004, S-TUN-015.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-009 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-009",
+          "LNK-TUN-02-A",
+          "AGG-TUN-02",
+          "CORE-UPF-01",
+          "S-TUN-004",
+          "S-TUN-015"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-20 08:00",
+          "entity_ids": [
+            "S-TUN-009"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "latency_ms",
+            "availability_pct"
+          ],
+          "start": "2026-09-19 18:00"
+        },
+        "body": "Deviation in 1 of 3 series. Earliest onset 2026-09-20 04:30: S-TUN-009 latency_ms above baseline.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-20 09:29). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier Saturdays with data; treat small deviations with caution.\nS-TUN-009 latency_ms: mean 27.1 vs baseline 24.9 (+9%); min 22.4 at 2026-09-19 19:30, max 47.6 at 2026-09-20 05:00.\nDeviation above baseline: onset 2026-09-20 04:30; worst 47.6 vs 26.4 at 2026-09-20 05:00; recovery 2026-09-20 06:00.\nseries (75 min buckets from 2026-09-19 18:00): 25.6 23.9 25.4 25.5 25.5 24.4 23.8 24.5 36.5 37.8 26.1 26.6\nbaseline: 24.2 24.7 26 24.1 24.1 24.4 25.3 25.1 26.1 25.4 25.1 24.6\nS-TUN-009 dl_volume_mb: mean 12240 vs baseline 12455 (-2%); min 2126 at 2026-09-20 04:30, max 28065 at 2026-09-19 21:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-19 18:00): 13387 19186 26598 23768 17582 8690 4336 2781 2442 4261 10426 15207\nbaseline: 14458 20181 23728 25916 18121 8617 4202 2899 3174 4951 9805 14842\nS-TUN-009 availability_pct: mean 99.9 vs baseline 100 (+0%); min 97.8 at 2026-09-20 05:15, max 100 at 2026-09-19 18:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-19 18:00): 100 100 100 100 100 100 100 100 99.5 99.3 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100 100 100",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 1 of 3 series. Earliest onset 2026-09-20 04:30: S-TUN-009 latency_ms above baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 56
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-20 08:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-009",
+            "LNK-TUN-02-A",
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "5 alarm(s) on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-19 18:00 to 2026-09-20 08:00: 1 major, 4 minor; 0 active at asked_at (2026-09-20 09:29).\nEarliest critical/major: 2026-09-20 04:27 LINK_DEGRADED on LNK-TUN-02-A (ALM-000414).\n2026-09-19 23:26 ALM-000410 minor VSWR_HIGH S-TUN-015 (below LNK-TUN-02-A): cleared 2026-09-19 23:41\n2026-09-20 00:03 ALM-000411 minor VSWR_HIGH S-TUN-015 (below LNK-TUN-02-A): cleared 2026-09-20 00:19\n2026-09-20 00:31 ALM-000412 minor VSWR_HIGH S-TUN-015 (below LNK-TUN-02-A): cleared 2026-09-20 00:34\n2026-09-20 01:06 ALM-000413 minor VSWR_HIGH S-TUN-015 (below LNK-TUN-02-A): cleared 2026-09-20 01:25\n2026-09-20 04:27 ALM-000414 major LINK_DEGRADED LNK-TUN-02-A: cleared 2026-09-20 06:12",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-19 18:00 to 2026-09-20 08:00: 1 major, 4 minor; 0 active at asked_at (2026-09-20 09:29).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000410",
+          "ALM-000411",
+          "ALM-000412",
+          "ALM-000413",
+          "ALM-000414"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-20 08:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-009"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-009 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-009 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-20 08:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-009",
+            "LNK-TUN-02-A",
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "No changes on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-20 08:00",
+          "entity_ids": [
+            "S-TUN-004",
+            "S-TUN-015"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-19 18:00"
+        },
+        "body": "Deviation in 2 of 4 series. Earliest onset 2026-09-20 04:30: S-TUN-004 latency_ms above baseline.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-20 09:29). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier Saturdays with data; treat small deviations with caution.\nS-TUN-004 latency_ms: mean 26.1 vs baseline 23.8 (+9%); min 21.7 at 2026-09-20 06:45, max 44.3 at 2026-09-20 05:00.\nDeviation above baseline: onset 2026-09-20 04:30; worst 44.3 vs 24 at 2026-09-20 05:00; recovery 2026-09-20 06:00.\nseries (75 min buckets from 2026-09-19 18:00): 23.9 24.2 24.4 24 25 23.9 23.6 24.4 35.8 35.2 23.4 24.7\nbaseline: 24.6 24.8 25.2 24.1 23.5 23.3 23.8 23 23.8 23 23.4 23.2\nS-TUN-015 latency_ms: mean 35.9 vs baseline 33.4 (+7%); min 30.3 at 2026-09-20 03:15, max 58.5 at 2026-09-20 04:30.\nDeviation above baseline: onset 2026-09-20 04:30; worst 58.5 vs 33.7 at 2026-09-20 04:30; recovery 2026-09-20 06:00.\nseries (75 min buckets from 2026-09-19 18:00): 32.9 32.6 33.9 34.3 33 34.4 32.8 31.3 48.3 48.5 33.3 33.8\nbaseline: 33.8 34.5 34.5 33.2 33.2 31.8 32.3 32.7 33.5 33.4 34 34.7\nS-TUN-004 dl_volume_mb: mean 11956 vs baseline 12493 (-4%); min 2126 at 2026-09-20 04:30, max 25972 at 2026-09-19 21:30.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-19 18:00): 13917 19146 24655 23978 16750 8054 4217 2783 2407 4254 10347 14479\nbaseline: 14293 20091 25213 24509 17030 8503 4397 3052 3130 5349 10971 14705\nS-TUN-015 dl_volume_mb: mean 4605 vs baseline 4589 (+0%); min 830 at 2026-09-20 04:30, max 10665 at 2026-09-19 21:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-19 18:00): 5408 8453 10456 9149 6132 3263 1715 1228 965 1349 2920 3641\nbaseline: 5168 7771 10049 9600 6537 3269 1676 1105 1138 1694 2844 3663",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 4 series. Earliest onset 2026-09-20 04:30: S-TUN-004 latency_ms above baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 60
+      },
+      {
+        "args": {
+          "end": "2026-09-20 08:00",
+          "region_id": "TUN",
+          "start": "2026-09-19 18:00"
+        },
+        "body": "1 external event(s) for region TUN (and nationwide), 2026-09-19 18:00 to 2026-09-20 08:00; 0 in progress at asked_at (2026-09-20 09:29).\nEVT-002 stadium_event (TUN, near S-TUN-001) 2026-09-19 18:12 -> 2026-09-19 22:02: Event at Rades Olympic complex",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for region TUN (and nationwide), 2026-09-19 18:00 to 2026-09-20 08:00; 0 in progress at asked_at (2026-09-20 09:29).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "EVT-002"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-02": {
+        "kind": "node",
+        "ref": "AGG-TUN-02",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000410": {
+        "kind": "alarm",
+        "ref": "ALM-000410",
+        "summary": "minor VSWR_HIGH on S-TUN-015, raised 2026-09-19 23:26, cleared 2026-09-19 23:41"
+      },
+      "ALM-000411": {
+        "kind": "alarm",
+        "ref": "ALM-000411",
+        "summary": "minor VSWR_HIGH on S-TUN-015, raised 2026-09-20 00:03, cleared 2026-09-20 00:19"
+      },
+      "ALM-000412": {
+        "kind": "alarm",
+        "ref": "ALM-000412",
+        "summary": "minor VSWR_HIGH on S-TUN-015, raised 2026-09-20 00:31, cleared 2026-09-20 00:34"
+      },
+      "ALM-000413": {
+        "kind": "alarm",
+        "ref": "ALM-000413",
+        "summary": "minor VSWR_HIGH on S-TUN-015, raised 2026-09-20 01:06, cleared 2026-09-20 01:25"
+      },
+      "ALM-000414": {
+        "kind": "alarm",
+        "ref": "ALM-000414",
+        "summary": "major LINK_DEGRADED on LNK-TUN-02-A, raised 2026-09-20 04:27, cleared 2026-09-20 06:12"
+      },
+      "ALR-0030": {
+        "kind": "alert",
+        "ref": "ALR-0030",
+        "summary": "ended alert from 2026-09-20 04:30: 3 site(s) (S-TUN-004, S-TUN-009, S-TUN-015); metrics: latency_ms"
+      },
+      "ANM-000234": {
+        "kind": "anomaly",
+        "ref": "ANM-000234",
+        "summary": "S-TUN-009 latency_ms spike, z 9.2, baseline 25 -> 44.1"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "EVT-002": {
+        "kind": "event",
+        "ref": "EVT-002",
+        "summary": "stadium_event (TUN, near S-TUN-001) 2026-09-19 18:12 -> 2026-09-19 22:02: Event at Rades Olympic complex"
+      },
+      "LNK-TUN-02-A": {
+        "kind": "node",
+        "ref": "LNK-TUN-02-A",
+        "summary": "microwave link, TUN, 7.8 km, 1.0 Gbps"
+      },
+      "S-TUN-004": {
+        "kind": "node",
+        "ref": "S-TUN-004",
+        "summary": "site, TUN, Bardo, urban; sibling of S-TUN-009"
+      },
+      "S-TUN-009": {
+        "kind": "node",
+        "ref": "S-TUN-009",
+        "summary": "site, TUN, Megrine, urban; chain: S-TUN-009 -> LNK-TUN-02-A -> AGG-TUN-02 -> CORE-UPF-01"
+      },
+      "S-TUN-015": {
+        "kind": "node",
+        "ref": "S-TUN-015",
+        "summary": "site, TUN, Le Kram, suburban; sibling of S-TUN-009"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-19 16:00, end=2026-09-20 09:29, entity_id=S-TUN-009) -> 1 detector alert(s) overlap 2026-09-19 16:00 to 2026-09-20 09:29."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-009, include=all) -> Depends on (child -> parent -> core): S-TUN-009 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-009'], metrics=['dl_volume_mb', 'latency_ms', 'availability_pct'], start=2026-09-19 18:00, end=2026-09 -> Deviation in 1 of 3 series. Earliest onset 2026-09-20 04:30: S-TUN-009 latency_ms above baseline."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-19 18:00, end=2026-09-20 08:00, node_ids=['S-TUN-009', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_descendants=True) -> 5 alarm(s) on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-19 18:00 to 2026-09-20 08:00: 1 major, 4 minor; 0 active at asked_at (2026-09-20 09:29)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-19 18:00, end=2026-09-20 08:00, node_ids=['S-TUN-009'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-009 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-19 18:00, end=2026-09-20 08:00, node_ids=['S-TUN-009', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_ancestors=True) -> No changes on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-004', 'S-TUN-015'], metrics=['latency_ms', 'dl_volume_mb'], start=2026-09-19 18:00, end=2026-09-20 08: -> Deviation in 2 of 4 series. Earliest onset 2026-09-20 04:30: S-TUN-004 latency_ms above baseline."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_external_events(start=2026-09-19 18:00, end=2026-09-20 08:00, region_id=TUN) -> 1 external event(s) for region TUN (and nationwide), 2026-09-19 18:00 to 2026-09-20 08:00; 0 in progress at asked_at (2026-09-20 09:29)."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Transport degradation on LNK-TUN-02-A affecting S-TUN-009\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-TUN-02-A`\n- **Confidence:** high (Direct alarm evidence on the shared microwave link matches the exact timing of KPI deviations, and maintenance/changes were checked and ruled out.)\n- **Impact:** 2026-09-20 04:30 to 2026-09-20 06:00\n- **Cause time:** 2026-09-20 04:27\n- **Affected:** S-TUN-009, S-TUN-004, S-TUN-015\n\n## Summary\n\nMicrowave link degradation on LNK-TUN-02-A caused latency increase and traffic impact on S-TUN-009 and peer sites.\n\nLatency increased and traffic dropped at S-TUN-009 and sibling sites between 2026-09-20 04:30 and 2026-09-20 06:00.\n\n## Timeline\n\n- 2026-09-20 04:27: Major alarm LINK_DEGRADED raised on microwave link LNK-TUN-02-A [ALM-000414]\n- 2026-09-20 04:30: Latency spike and volume deviation detected across affected sites [T3, T7, ALR-0030, ANM-000234]\n- 2026-09-20 06:00: Impact recovery observed as latency and volume returned to baseline [T3, T7]\n- 2026-09-20 06:12: LINK_DEGRADED alarm cleared on LNK-TUN-02-A [ALM-000414]\n\n## Evidence\n\n- S-TUN-009 experienced a latency spike and anomaly starting at 2026-09-20 04:30. [T1, T3, ANM-000234]\n- S-TUN-009, S-TUN-004, and S-TUN-015 all share the microwave link LNK-TUN-02-A and aggregation router AGG-TUN-02. [T2]\n- Major alarm LINK_DEGRADED occurred on LNK-TUN-02-A starting at 2026-09-20 04:27 and cleared at 2026-09-20 06:12. [T4, ALM-000414]\n- Sibling sites S-TUN-004 and S-TUN-015 also showed latency deviations starting at 2026-09-20 04:30. [T7]\n- No maintenance windows or configuration changes were scheduled or performed on S-TUN-009 or its parents during the incident window. [T5, T6]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-TUN-02-A: confirmed. Directly supported by the major LINK_DEGRADED alarm on the shared link matching the onset and duration of the site latency spikes. [T2, T4, ALM-000414]\n2. **bad_change** at S-TUN-009: rejected. No changes were recorded on S-TUN-009 or its parent nodes during the relevant time window. [T6]\n3. **planned_maintenance** at S-TUN-009: rejected. No maintenance was scheduled on S-TUN-009 or its parent nodes during the relevant time window. [T5]\n\n## Ruled out\n\n- EVT-002: Stadium event occurred earlier in the evening (18:12 to 22:02 on 2026-09-19) near S-TUN-001 and is unrelated to the 04:30 latency spike.\n- ALM-000410: Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.\n- ALM-000411: Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.\n- ALM-000412: Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.\n- ALM-000413: Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.\n\n## Recommended actions\n\n- Inspect microwave link LNK-TUN-02-A radio hardware and path fading telemetry to determine the root cause of the degradation.\n\n## Sources\n\n- `ALM-000414`: major LINK_DEGRADED on LNK-TUN-02-A, raised 2026-09-20 04:27, cleared 2026-09-20 06:12\n- `T3`: query_kpis(entity_type=site, entity_ids=['S-TUN-009'], metrics=['dl_volume_mb', 'latency_ms', 'availability_pct'], start=2026-09-19 18:00, end=2026-09 -> Deviation in 1 of 3 series. Earliest onset 2026-09-20 04:30: S-TUN-009 latency_ms above baseline.\n- `T7`: query_kpis(entity_type=site, entity_ids=['S-TUN-004', 'S-TUN-015'], metrics=['latency_ms', 'dl_volume_mb'], start=2026-09-19 18:00, end=2026-09-20 08: -> Deviation in 2 of 4 series. Earliest onset 2026-09-20 04:30: S-TUN-004 latency_ms above baseline.\n- `ALR-0030`: ended alert from 2026-09-20 04:30: 3 site(s) (S-TUN-004, S-TUN-009, S-TUN-015); metrics: latency_ms\n- `ANM-000234`: S-TUN-009 latency_ms spike, z 9.2, baseline 25 -> 44.1\n- `T1`: get_anomalies(start=2026-09-19 16:00, end=2026-09-20 09:29, entity_id=S-TUN-009) -> 1 detector alert(s) overlap 2026-09-19 16:00 to 2026-09-20 09:29.\n- `T2`: get_topology(node_id=S-TUN-009, include=all) -> Depends on (child -> parent -> core): S-TUN-009 (site) -> LNK-TUN-02-A (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\n- `T4`: get_alarms(start=2026-09-19 18:00, end=2026-09-20 08:00, node_ids=['S-TUN-009', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_descendants=True) -> 5 alarm(s) on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and nodes below, 2026-09-19 18:00 to 2026-09-20 08:00: 1 major, 4 minor; 0 active at asked_at (2026-09-20 09:29).\n- `T5`: get_maintenance(start=2026-09-19 18:00, end=2026-09-20 08:00, node_ids=['S-TUN-009'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-009 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00.\n- `T6`: get_changes(start=2026-09-19 18:00, end=2026-09-20 08:00, node_ids=['S-TUN-009', 'LNK-TUN-02-A', 'AGG-TUN-02'], include_ancestors=True) -> No changes on S-TUN-009, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-19 18:00 and 2026-09-20 08:00.\n- `EVT-002`: stadium_event (TUN, near S-TUN-001) 2026-09-19 18:12 -> 2026-09-19 22:02: Event at Rades Olympic complex\n- `ALM-000410`: minor VSWR_HIGH on S-TUN-015, raised 2026-09-19 23:26, cleared 2026-09-19 23:41\n- `ALM-000411`: minor VSWR_HIGH on S-TUN-015, raised 2026-09-20 00:03, cleared 2026-09-20 00:19\n- `ALM-000412`: minor VSWR_HIGH on S-TUN-015, raised 2026-09-20 00:31, cleared 2026-09-20 00:34\n- `ALM-000413`: minor VSWR_HIGH on S-TUN-015, raised 2026-09-20 01:06, cleared 2026-09-20 01:25\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Traffic is down and latency is up at S-TUN-009 last night. What is going on?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-009",
+        "S-TUN-004",
+        "S-TUN-015"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct alarm evidence on the shared microwave link matches the exact timing of KPI deviations, and maintenance/changes were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Stadium event occurred earlier in the evening (18:12 to 22:02 on 2026-09-19) near S-TUN-001 and is unrelated to the 04:30 latency spike.",
+          "ref": "EVT-002"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.",
+          "ref": "ALM-000410"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.",
+          "ref": "ALM-000411"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.",
+          "ref": "ALM-000412"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarm on S-TUN-015 cleared hours before the incident window started.",
+          "ref": "ALM-000413"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-TUN-009 experienced a latency spike and anomaly starting at 2026-09-20 04:30.",
+          "refs": [
+            "T1",
+            "T3",
+            "ANM-000234"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-TUN-009, S-TUN-004, and S-TUN-015 all share the microwave link LNK-TUN-02-A and aggregation router AGG-TUN-02.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Major alarm LINK_DEGRADED occurred on LNK-TUN-02-A starting at 2026-09-20 04:27 and cleared at 2026-09-20 06:12.",
+          "refs": [
+            "T4",
+            "ALM-000414"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sibling sites S-TUN-004 and S-TUN-015 also showed latency deviations starting at 2026-09-20 04:30.",
+          "refs": [
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows or configuration changes were scheduled or performed on S-TUN-009 or its parents during the incident window.",
+          "refs": [
+            "T5",
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-TUN-02-A",
+          "reason": "Directly supported by the major LINK_DEGRADED alarm on the shared link matching the onset and duration of the site latency spikes.",
+          "refs": [
+            "T2",
+            "T4",
+            "ALM-000414"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-TUN-009",
+          "reason": "No changes were recorded on S-TUN-009 or its parent nodes during the relevant time window.",
+          "refs": [
+            "T6"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": "S-TUN-009",
+          "reason": "No maintenance was scheduled on S-TUN-009 or its parent nodes during the relevant time window.",
+          "refs": [
+            "T5"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-20 06:00",
+      "impact_start": "2026-09-20 04:30",
+      "impact_summary": "Latency increased and traffic dropped at S-TUN-009 and sibling sites between 2026-09-20 04:30 and 2026-09-20 06:00.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-TUN-02-A radio hardware and path fading telemetry to determine the root cause of the degradation."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-TUN-02-A",
+      "root_cause_summary": "Microwave link degradation on LNK-TUN-02-A caused latency increase and traffic impact on S-TUN-009 and peer sites.",
+      "root_cause_time": "2026-09-20 04:27",
+      "timeline": [
+        {
+          "event": "Major alarm LINK_DEGRADED raised on microwave link LNK-TUN-02-A",
+          "refs": [
+            "ALM-000414"
+          ],
+          "time": "2026-09-20 04:27"
+        },
+        {
+          "event": "Latency spike and volume deviation detected across affected sites",
+          "refs": [
+            "T3",
+            "T7",
+            "ALR-0030",
+            "ANM-000234"
+          ],
+          "time": "2026-09-20 04:30"
+        },
+        {
+          "event": "Impact recovery observed as latency and volume returned to baseline",
+          "refs": [
+            "T3",
+            "T7"
+          ],
+          "time": "2026-09-20 06:00"
+        },
+        {
+          "event": "LINK_DEGRADED alarm cleared on LNK-TUN-02-A",
+          "refs": [
+            "ALM-000414"
+          ],
+          "time": "2026-09-20 06:12"
+        }
+      ],
+      "title": "Transport degradation on LNK-TUN-02-A affecting S-TUN-009"
+    },
+    "run_id": "RUN-df61befe3a",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-009"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "Traffic down and latency up",
+      "unknown_ids": [],
+      "window_end": "2026-09-20T05:00:00Z",
+      "window_start": "2026-09-19T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 388,
+        "latency_ms": 822,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 119,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2976,
+        "latency_ms": 1417,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 265,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1420
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4859,
+        "latency_ms": 1320,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 257,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4324
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 6468,
+        "latency_ms": 1315,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 190,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4439
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4550,
+        "latency_ms": 4797,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1714,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7975
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 19241,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 4
+      },
+      "llm_calls": 5,
+      "output_tokens": 2545,
+      "tool_calls": 8,
+      "wall_seconds": 18.34
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-TUN-02-A",
+      "S-TUN-009",
+      "S-TUN-004",
+      "S-TUN-015"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-20T05:10:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000414",
+        "table": "alarms",
+        "visible_from": "2026-09-20T03:27:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-20T03:23:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "Rain fade on microwave link LNK-TUN-02-A: throughput limited, sites stayed up.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-TUN-02-A",
+    "severity": "medium",
+    "start_at": "2026-09-20T03:23:00Z"
+  },
+  "variant": "no-runbooks"
+}

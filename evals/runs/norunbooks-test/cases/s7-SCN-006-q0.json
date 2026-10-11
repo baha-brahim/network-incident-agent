@@ -1,0 +1,619 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-07T07:21:00Z",
+    "case_id": "s7-SCN-006-q0",
+    "question": "Traffic is down and latency is up at S-SFX-007 yesterday afternoon. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-006",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:30:08.429227Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-07T07:21:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-07 08:21",
+          "entity_id": "S-SFX-007",
+          "region_id": null,
+          "start": "2026-09-06 10:00"
+        },
+        "body": "2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:21.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0010 high ended, 2026-09-06 14:15 to 2026-09-06 16:00 (1.8 h): Nationwide: traffic and DNS query success drop; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 43 more) and on CORE-DNS-01 for 2 h\n  latency_ms spike on 1 entity: worst S-SFX-007 z 10.4, 36.8 -> 61, 2026-09-06 14:30 to 2026-09-06 16:00\nALR-0011 low ended, 2026-09-06 17:45 to 2026-09-06 22:15 (4.5 h): Traffic drops; latency spikes on 3 sites in SFX (S-SFX-005, S-SFX-007, S-SFX-008) for 4.5 h\n  latency_ms spike on 1 entity: worst S-SFX-007 z 10.8, 36.3 -> 59.1, 2026-09-06 17:45 to 2026-09-06 22:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:21.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0010",
+          "ANM-000083",
+          "ALR-0011",
+          "ANM-000108"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-007"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-007 (site) -> LNK-SFX-01-A (microwave link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-007: site, SFX, Mahres, suburban.\nCells: C-SFX-007-1, C-SFX-007-2, C-SFX-007-3.\nSiblings under LNK-SFX-01-A: S-SFX-005, S-SFX-008.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-007 (site) -> LNK-SFX-01-A (microwave link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SFX-007",
+          "LNK-SFX-01-A",
+          "AGG-SFX-01",
+          "CORE-UPF-02",
+          "S-SFX-005",
+          "S-SFX-008"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-06 19:00",
+          "entity_ids": [
+            "S-SFX-007",
+            "S-SFX-005",
+            "S-SFX-008"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "latency_ms",
+            "availability_pct"
+          ],
+          "start": "2026-09-06 12:00"
+        },
+        "body": "No baseline available for 2026-09-06 12:00 to 2026-09-06 19:00: fewer than 2 earlier Sundays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-07 08:21). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SFX-007 dl_volume_mb: mean 4920; min 3075 at 2026-09-06 17:45, max 6684 at 2026-09-06 13:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-007 latency_ms: mean 45.6; min 32.3 at 2026-09-06 12:30, max 63.1 at 2026-09-06 15:15; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-007 availability_pct: mean 99.9; min 98.5 at 2026-09-06 18:15, max 100 at 2026-09-06 12:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-005 dl_volume_mb: mean 5027; min 3272 at 2026-09-06 18:00, max 6713 at 2026-09-06 12:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-005 latency_ms: mean 44.6; min 32.8 at 2026-09-06 17:30, max 65.1 at 2026-09-06 14:30; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-005 availability_pct: mean 99.9; min 98.4 at 2026-09-06 17:45, max 100 at 2026-09-06 12:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-008 dl_volume_mb: mean 2637; min 1736 at 2026-09-06 14:45, max 3666 at 2026-09-06 17:30; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-008 latency_ms: mean 56.6; min 40.6 at 2026-09-06 16:15, max 79.7 at 2026-09-06 15:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nS-SFX-008 availability_pct: mean 99.9; min 99.3 at 2026-09-06 18:45, max 100 at 2026-09-06 12:00; baseline unavailable (need 2+ earlier same-type days, have 0).",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-06 12:00 to 2026-09-06 19:00: fewer than 2 earlier Sundays with data. Raw statistics only.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 35
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-06 19:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SFX-007",
+            "LNK-SFX-01-A",
+            "AGG-SFX-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 12:00"
+        },
+        "body": "5 alarm(s) on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 1 major, 1 minor, 3 warning; 0 active at asked_at (2026-09-07 08:21).\nEarliest critical/major: 2026-09-06 17:41 LINK_DEGRADED on LNK-SFX-01-A (ALM-000107).\n2026-09-06 13:54 ALM-000098 warning TEMP_HIGH S-SFX-007: cleared 2026-09-06 14:08\n2026-09-06 14:44 ALM-000100 warning TEMP_HIGH S-SFX-007: cleared 2026-09-06 14:47\n2026-09-06 14:58 ALM-000101 minor VSWR_HIGH S-SFX-008 (below LNK-SFX-01-A): cleared 2026-09-06 15:03\n2026-09-06 15:21 ALM-000102 warning TEMP_HIGH S-SFX-007: cleared 2026-09-06 15:29\n2026-09-06 17:41 ALM-000107 major LINK_DEGRADED LNK-SFX-01-A: cleared 2026-09-06 22:19",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 1 major, 1 minor, 3 warning; 0 active at asked_at (2026-09-07 08:21).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000098",
+          "ALM-000100",
+          "ALM-000101",
+          "ALM-000102",
+          "ALM-000107"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-06 19:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-007",
+            "LNK-SFX-01-A",
+            "AGG-SFX-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 12:00"
+        },
+        "body": "No changes on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-06 19:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "CORE-DNS-01",
+            "AGG-SFX-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 12:00"
+        },
+        "body": "3 alarm(s) on CORE-DNS-01, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 2 major, 1 minor; 0 active at asked_at (2026-09-07 08:21).\nEarliest critical/major: 2026-09-06 14:38 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000099).\n2026-09-06 14:38 ALM-000099 major DNS_TIMEOUT_RATE CORE-DNS-01: cleared 2026-09-06 16:11\n2026-09-06 14:58 ALM-000101 minor VSWR_HIGH S-SFX-008 (below AGG-SFX-01): cleared 2026-09-06 15:03\n2026-09-06 17:41 ALM-000107 major LINK_DEGRADED LNK-SFX-01-A (below AGG-SFX-01): cleared 2026-09-06 22:19",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on CORE-DNS-01, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 2 major, 1 minor; 0 active at asked_at (2026-09-07 08:21).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000099",
+          "ALM-000101",
+          "ALM-000107"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-06 19:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-007",
+            "LNK-SFX-01-A",
+            "AGG-SFX-01",
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 12:00"
+        },
+        "body": "No maintenance window scheduled on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01, CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01, CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-06 19:00",
+          "region_id": "SFX",
+          "start": "2026-09-06 12:00"
+        },
+        "body": "No external events for region SFX (and nationwide) between 2026-09-06 12:00 and 2026-09-06 19:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SFX (and nationwide) between 2026-09-06 12:00 and 2026-09-06 19:00.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      }
+    ],
+    "error": "conclude failed: AllModelsFailed: All models failed: gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic Drop and Latency Spike at S-SFX-007\", \"classification\": \"incident\", \"root_cause_category\": \"transport_degradation\", \"root_cause_node_id\": \"LNK-SFX-01-A\", \"root_cause_summary\": \"C...)",
+    "evidence": {
+      "AGG-SFX-01": {
+        "kind": "node",
+        "ref": "AGG-SFX-01",
+        "summary": "agg router, SFX"
+      },
+      "ALM-000098": {
+        "kind": "alarm",
+        "ref": "ALM-000098",
+        "summary": "warning TEMP_HIGH on S-SFX-007, raised 2026-09-06 13:54, cleared 2026-09-06 14:08"
+      },
+      "ALM-000099": {
+        "kind": "alarm",
+        "ref": "ALM-000099",
+        "summary": "major DNS_TIMEOUT_RATE on CORE-DNS-01, raised 2026-09-06 14:38, cleared 2026-09-06 16:11"
+      },
+      "ALM-000100": {
+        "kind": "alarm",
+        "ref": "ALM-000100",
+        "summary": "warning TEMP_HIGH on S-SFX-007, raised 2026-09-06 14:44, cleared 2026-09-06 14:47"
+      },
+      "ALM-000101": {
+        "kind": "alarm",
+        "ref": "ALM-000101",
+        "summary": "minor VSWR_HIGH on S-SFX-008, raised 2026-09-06 14:58, cleared 2026-09-06 15:03"
+      },
+      "ALM-000102": {
+        "kind": "alarm",
+        "ref": "ALM-000102",
+        "summary": "warning TEMP_HIGH on S-SFX-007, raised 2026-09-06 15:21, cleared 2026-09-06 15:29"
+      },
+      "ALM-000107": {
+        "kind": "alarm",
+        "ref": "ALM-000107",
+        "summary": "major LINK_DEGRADED on LNK-SFX-01-A, raised 2026-09-06 17:41, cleared 2026-09-06 22:19"
+      },
+      "ALR-0010": {
+        "kind": "alert",
+        "ref": "ALR-0010",
+        "summary": "ended alert from 2026-09-06 14:15: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: dl_vol..."
+      },
+      "ALR-0011": {
+        "kind": "alert",
+        "ref": "ALR-0011",
+        "summary": "ended alert from 2026-09-06 17:45: 3 site(s) (S-SFX-005, S-SFX-007, S-SFX-008); metrics: dl_volume_mb, latency_ms"
+      },
+      "ANM-000083": {
+        "kind": "anomaly",
+        "ref": "ANM-000083",
+        "summary": "S-SFX-007 latency_ms spike, z 10.4, baseline 36.8 -> 61"
+      },
+      "ANM-000108": {
+        "kind": "anomaly",
+        "ref": "ANM-000108",
+        "summary": "S-SFX-007 latency_ms spike, z 10.8, baseline 36.3 -> 59.1"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-01-A": {
+        "kind": "node",
+        "ref": "LNK-SFX-01-A",
+        "summary": "microwave link, SFX, 14.4 km, 1.0 Gbps"
+      },
+      "S-SFX-005": {
+        "kind": "node",
+        "ref": "S-SFX-005",
+        "summary": "site, SFX, Thyna, suburban; sibling of S-SFX-007"
+      },
+      "S-SFX-007": {
+        "kind": "node",
+        "ref": "S-SFX-007",
+        "summary": "site, SFX, Mahres, suburban; chain: S-SFX-007 -> LNK-SFX-01-A -> AGG-SFX-01 -> CORE-UPF-02"
+      },
+      "S-SFX-008": {
+        "kind": "node",
+        "ref": "S-SFX-008",
+        "summary": "site, SFX, Jebeniana, rural; sibling of S-SFX-007"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-06 10:00, end=2026-09-07 08:21, entity_id=S-SFX-007) -> 2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:21."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SFX-007, include=all) -> Depends on (child -> parent -> core): S-SFX-007 (site) -> LNK-SFX-01-A (microwave link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-007', 'S-SFX-005', 'S-SFX-008'], metrics=['dl_volume_mb', 'latency_ms', 'availability_pct'], start=202 -> No baseline available for 2026-09-06 12:00 to 2026-09-06 19:00: fewer than 2 earlier Sundays with data. Raw statistics only."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['S-SFX-007', 'LNK-SFX-01-A', 'AGG-SFX-01'], include_descendants=True) -> 5 alarm(s) on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 1 major, 1 minor, 3 warning; 0 active at asked_at (2026-09-07 08:21)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['S-SFX-007', 'LNK-SFX-01-A', 'AGG-SFX-01'], include_ancestors=True) -> No changes on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['CORE-DNS-01', 'AGG-SFX-01'], include_descendants=True, min_severity=minor) -> 3 alarm(s) on CORE-DNS-01, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 2 major, 1 minor; 0 active at asked_at (2026-09-07 08:21)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_maintenance(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['S-SFX-007', 'LNK-SFX-01-A', 'AGG-SFX-01', 'CORE-DNS-01'], include_ancestors=T -> No maintenance window scheduled on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01, CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_external_events(start=2026-09-06 12:00, end=2026-09-06 19:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-06 12:00 and 2026-09-06 19:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "conclude failed: AllModelsFailed: All models failed: gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic Drop and Latency Spike at S-SFX-007\", \"classification\": \"incident\", \"root_cause_category\": \"transport_degradation\", \"root_cause_node_id\": \"LNK-SFX-01-A\", \"root_cause_summary\": \"C...)"
+    ],
+    "markdown": "# Investigation incomplete\n\n- **Classification:** inconclusive\n- **Root cause:** unknown\n- **Confidence:** low (The report could not be produced; the notes below are raw call results.)\n- **Impact:** unknown start to not established or ongoing\n\n## Summary\n\nNo conclusion could be written: AllModelsFailed: All models failed: gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic Drop and Latency Spike at S-SFX-007\", \"classification\": \"incident\", \"root_cause_category\": \"transport_degradation\", \"root_cause_node_id\": \"LNK-SFX-01-A\", \"root_cause_summary\": \"C...)\n\nUnknown.\n\n## Evidence\n\n- get_anomalies: 2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:21. [T1]\n- get_topology: Depends on (child -> parent -> core): S-SFX-007 (site) -> LNK-SFX-01-A (microwave link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf) [T2]\n- query_kpis: No baseline available for 2026-09-06 12:00 to 2026-09-06 19:00: fewer than 2 earlier Sundays with data. Raw statistics only. [T3]\n- get_alarms: 5 alarm(s) on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 1 major, 1 minor, 3 warning; 0 active at asked_at (2026-09-07 08:21). [T4]\n- get_changes: No changes on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00. [T5]\n- get_alarms: 3 alarm(s) on CORE-DNS-01, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 2 major, 1 minor; 0 active at asked_at (2026-09-07 08:21). [T6]\n- get_maintenance: No maintenance window scheduled on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01, CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00. [T7]\n- get_external_events: No external events for region SFX (and nationwide) between 2026-09-06 12:00 and 2026-09-06 19:00. [T8]\n\n## Recommended actions\n\n- Re-run the investigation, or review the tool results manually.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-06 10:00, end=2026-09-07 08:21, entity_id=S-SFX-007) -> 2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:21.\n- `T2`: get_topology(node_id=S-SFX-007, include=all) -> Depends on (child -> parent -> core): S-SFX-007 (site) -> LNK-SFX-01-A (microwave link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\n- `T3`: query_kpis(entity_type=site, entity_ids=['S-SFX-007', 'S-SFX-005', 'S-SFX-008'], metrics=['dl_volume_mb', 'latency_ms', 'availability_pct'], start=202 -> No baseline available for 2026-09-06 12:00 to 2026-09-06 19:00: fewer than 2 earlier Sundays with data. Raw statistics only.\n- `T4`: get_alarms(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['S-SFX-007', 'LNK-SFX-01-A', 'AGG-SFX-01'], include_descendants=True) -> 5 alarm(s) on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 1 major, 1 minor, 3 warning; 0 active at asked_at (2026-09-07 08:21).\n- `T5`: get_changes(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['S-SFX-007', 'LNK-SFX-01-A', 'AGG-SFX-01'], include_ancestors=True) -> No changes on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.\n- `T6`: get_alarms(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['CORE-DNS-01', 'AGG-SFX-01'], include_descendants=True, min_severity=minor) -> 3 alarm(s) on CORE-DNS-01, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 2 major, 1 minor; 0 active at asked_at (2026-09-07 08:21).\n- `T7`: get_maintenance(start=2026-09-06 12:00, end=2026-09-06 19:00, node_ids=['S-SFX-007', 'LNK-SFX-01-A', 'AGG-SFX-01', 'CORE-DNS-01'], include_ancestors=T -> No maintenance window scheduled on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01, CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.\n- `T8`: get_external_events(start=2026-09-06 12:00, end=2026-09-06 19:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-06 12:00 and 2026-09-06 19:00.\n\n## Verification notes\n\n- conclude failed: AllModelsFailed: All models failed: gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic Drop and Latency Spike at S-SFX-007\", \"classification\": \"incident\", \"root_cause_category\": \"transport_degradation\", \"root_cause_node_id\": \"LNK-SFX-01-A\", \"root_cause_summary\": \"C...)\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Traffic is down and latency is up at S-SFX-007 yesterday afternoon. What is going on?",
+    "report": {
+      "affected_node_ids": [],
+      "classification": "inconclusive",
+      "confidence": "low",
+      "confidence_reason": "The report could not be produced; the notes below are raw call results.",
+      "dismissed_signals": [],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "get_anomalies: 2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:21.",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "get_topology: Depends on (child -> parent -> core): S-SFX-007 (site) -> LNK-SFX-01-A (microwave link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "query_kpis: No baseline available for 2026-09-06 12:00 to 2026-09-06 19:00: fewer than 2 earlier Sundays with data. Raw statistics only.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "get_alarms: 5 alarm(s) on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 1 major, 1 minor, 3 warning; 0 active at asked_at (2026-09-07 08:21).",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "get_changes: No changes on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.",
+          "refs": [
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "get_alarms: 3 alarm(s) on CORE-DNS-01, AGG-SFX-01 and nodes below, 2026-09-06 12:00 to 2026-09-06 19:00: 2 major, 1 minor; 0 active at asked_at (2026-09-07 08:21).",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "get_maintenance: No maintenance window scheduled on S-SFX-007, LNK-SFX-01-A, AGG-SFX-01, CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 19:00.",
+          "refs": [
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "get_external_events: No external events for region SFX (and nationwide) between 2026-09-06 12:00 and 2026-09-06 19:00.",
+          "refs": [
+            "T8"
+          ]
+        }
+      ],
+      "hypotheses": [],
+      "impact_end": null,
+      "impact_start": null,
+      "impact_summary": "Unknown.",
+      "recommended_actions": [
+        "Re-run the investigation, or review the tool results manually."
+      ],
+      "root_cause_category": "unknown",
+      "root_cause_node_id": null,
+      "root_cause_summary": "No conclusion could be written: AllModelsFailed: All models failed: gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic Drop and Latency Spike at S-SFX-007\", \"classification\": \"incident\", \"root_cause_category\": \"transport_degradation\", \"root_cause_node_id\": \"LNK-SFX-01-A\", \"root_cause_summary\": \"C...)",
+      "root_cause_time": null,
+      "timeline": [],
+      "title": "Investigation incomplete"
+    },
+    "run_id": "RUN-30d2154ab2",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SFX-007"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "Traffic down and latency up",
+      "unknown_ids": [],
+      "window_end": "2026-09-06T17:00:00Z",
+      "window_start": "2026-09-06T11:00:00Z"
+    },
+    "status": "error",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 860,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3215,
+        "latency_ms": 1229,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 315,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1232
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5181,
+        "latency_ms": 934,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 91,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4141
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5701,
+        "latency_ms": 1248,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 175,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4799
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5921,
+        "latency_ms": 1218,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 169,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4472
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5882,
+        "latency_ms": 1220,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 160,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4489
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic D)"
+        ],
+        "cached": false,
+        "error": "AllModelsFailed: All models failed: gemini:gemini-3.5-flash-lite: error (MalformedOutput: structured output invalid: Failed to parse Report from completion {\"title\": \"Incident Report: Traffic Drop and Latency Spike at S-SFX-007\", \"classification\": \"incident\", \"root_cause_category\": \"transport_degradation\", \"root_cause_node_id\": \"LNK-SFX-01-A\", \"root_cause_summary\": \"C...)",
+        "fell_back": false,
+        "input_tokens": 0,
+        "latency_ms": 0,
+        "model": "-",
+        "node": "conclude",
+        "output_tokens": 0,
+        "provider": "-",
+        "purpose": "conclude",
+        "served_model": null,
+        "wall_ms": 7806
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 26289,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 6,
+      "output_tokens": 1031,
+      "tool_calls": 8,
+      "wall_seconds": 27.05
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SFX-01-A",
+      "S-SFX-008",
+      "S-SFX-007",
+      "S-SFX-005"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-06T21:15:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000107",
+        "table": "alarms",
+        "visible_from": "2026-09-06T16:41:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-06T16:37:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "Rain fade on microwave link LNK-SFX-01-A: throughput limited, sites stayed up.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-SFX-01-A",
+    "severity": "medium",
+    "start_at": "2026-09-06T16:37:00Z"
+  },
+  "variant": "no-runbooks"
+}

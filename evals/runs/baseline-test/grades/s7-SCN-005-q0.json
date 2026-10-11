@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-005-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3589,
+      "live_tokens": 3890,
+      "output_tokens": 301
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows the alarm and latency spikes, but does not prove the DNS timeout caused the nationwide latency or that it resulted in complaints.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly states the alarm was raised at 14:38 and cleared at 16:11 on CORE-DNS-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T8 shows latency peaks for all four regions occurred between 14:30 and 15:30 (e.g., SUD max at 14:30, SAH/SFX max at 14:45).",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2 explicitly reports no changes on CORE-DNS-01 and its parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T3 explicitly reports no maintenance windows scheduled on CORE-DNS-01 and its parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T9 explicitly reports no external events for all regions between 12:00 and 18:00, covering the incident window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

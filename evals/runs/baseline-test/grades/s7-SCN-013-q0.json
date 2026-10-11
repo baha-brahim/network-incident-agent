@@ -1,0 +1,52 @@
+{
+  "case_id": "s7-SCN-013-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "ALR-0021"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3350,
+      "live_tokens": 3648,
+      "output_tokens": 298
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the correlation between user/traffic spikes and PRB/latency metrics, supporting the inference of congestion.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and ANM-000168 explicitly state the active users spike on S-TUN-005 from 215 to 565.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T1 and ANM-000169 explicitly state the DL volume spike on S-TUN-005 from 15,809 to 36,591.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 shows the max prb_util_pct is 99.4 at 2026-09-12 20:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 shows the max latency_ms is 128 at 2026-09-12 20:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 and T8 report no changes or maintenance for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

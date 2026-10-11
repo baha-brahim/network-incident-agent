@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 
 from incident_agent.simulator.build import build_world
+from incident_agent.simulator.config import PROFILES
 from incident_agent.simulator.io import read_world, write_world
 
 
@@ -14,7 +15,7 @@ def _dir_size_mb(path: Path) -> float:
 
 def _cmd_build(args: argparse.Namespace) -> None:
     t0 = time.perf_counter()
-    world = build_world(seed=args.seed)
+    world = build_world(seed=args.seed, profile=args.profile)
     t_build = time.perf_counter() - t0
     out = Path(args.out)
     write_world(world, out)
@@ -44,6 +45,12 @@ def main(argv: list[str] | None = None) -> None:
     sub = parser.add_subparsers(dest="command", required=True)
     b = sub.add_parser("build", help="generate the synthetic world")
     b.add_argument("--seed", type=int, default=42)
+    b.add_argument(
+        "--profile",
+        choices=PROFILES,
+        default="default",
+        help="scenario profile: the default world, or the hard one (scenarios built around traps)",
+    )
     b.add_argument("--out", required=True, help="output directory")
     b.add_argument("--load", action="store_true", help="also load into Postgres")
     b.set_defaults(func=_cmd_build)

@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-015-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2629,
+      "live_tokens": 2865,
+      "output_tokens": 236
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the maintenance window, the alarm, and the metric drops, supporting the inference that the planned maintenance caused the outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly lists active_users, availability_pct, and dl_volume_mb dropping to 0 within the specified time range.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited evidence confirms a critical SITE_DOWN alarm on S-SFX-005 raised at 02:46 and cleared at 06:18.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited evidence confirms a completed maintenance window for battery replacement and inspection on S-SFX-005 from 02:38 to 06:28.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly states there were no changes on the specified nodes and parents during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,40 @@
+{
+  "case_id": "s7-SCN-001-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3793,
+      "live_tokens": 3994,
+      "output_tokens": 201
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change, rollback, and anomalies, but does not explicitly prove causality or that the change was the root cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1, T6, and ALR-0005 all confirm RRC and drop rate anomalies on the listed sites starting at 09:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T5 and CHG-2026-0008 explicitly state the parameter tuning change on AGG-SFX-01 at 09:02 and its rollback.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2 and T4 explicitly report no alarms or maintenance windows for the specified sites and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

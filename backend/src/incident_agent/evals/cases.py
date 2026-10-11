@@ -15,6 +15,8 @@ from incident_agent.evals.scoring import Topology
 from incident_agent.evals.types import EvalCase, Split, Truth
 
 DEV_SEED = 42  # the world the prompts were developed on
+# Case ids start with the world: s<seed> for the default profile, h<seed> for the hard one.
+PROFILE_PREFIX = {"default": "s", "hard": "h"}
 QuestionMode = Literal["first", "all"]
 
 # Where the time an evidence row comes into view is stored: (id column, time column).
@@ -37,12 +39,13 @@ class PlannedCase:
         return self.case.case_id
 
 
-def split_of(seed: int) -> Split:
-    return "dev" if seed == DEV_SEED else "test"
+def split_of(seed: int, profile: str = "default") -> Split:
+    """A hard world is never a development world, whatever its seed."""
+    return "dev" if seed == DEV_SEED and profile == "default" else "test"
 
 
-def make_case_id(seed: int, scenario_id: str, question_index: int) -> str:
-    return f"s{seed}-{scenario_id}-q{question_index}"
+def make_case_id(seed: int, scenario_id: str, question_index: int, profile: str = "default") -> str:
+    return f"{PROFILE_PREFIX[profile]}{seed}-{scenario_id}-q{question_index}"
 
 
 def _visible_from(conn: Any, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -87,7 +90,7 @@ def _truth(row: Any, conn: Any) -> Truth:
 
 
 def load_planned_cases(
-    engine: Engine, seed: int, questions: QuestionMode = "first"
+    engine: Engine, seed: int, questions: QuestionMode = "first", profile: str = "default"
 ) -> list[PlannedCase]:
     """Every case of the world in scenario order. Evidence rows carry `visible_from`."""
     with engine.connect() as conn:
@@ -100,9 +103,9 @@ def load_planned_cases(
             qs = list(row["questions"])
             for index, q in enumerate(qs[:1] if questions == "first" else qs):
                 case = EvalCase(
-                    case_id=make_case_id(seed, row["scenario_id"], index),
+                    case_id=make_case_id(seed, row["scenario_id"], index, profile),
                     seed=seed,
-                    split=split_of(seed),
+                    split=split_of(seed, profile),
                     scenario_id=row["scenario_id"],
                     question_index=index,
                     question=str(q["text"]),

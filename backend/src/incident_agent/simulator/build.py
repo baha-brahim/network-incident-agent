@@ -4,10 +4,11 @@ from typing import Any
 
 import numpy as np
 
-from incident_agent.simulator.config import SimConfig
+from incident_agent.simulator.config import SimConfig, config_for_profile
 from incident_agent.simulator.drafts import Ctx, ScenarioDraft
 from incident_agent.simulator.events import EventLog, FinalEvents, Handle
 from incident_agent.simulator.frames import rows_to_frame
+from incident_agent.simulator.hard.questions import make_hard_questions
 from incident_agent.simulator.kpis import (
     Effects,
     build_baseline,
@@ -18,7 +19,7 @@ from incident_agent.simulator.kpis import (
 from incident_agent.simulator.noise import Blocklist, add_background_noise
 from incident_agent.simulator.placement import place_scenarios
 from incident_agent.simulator.questions import make_questions
-from incident_agent.simulator.scenarios import SCENARIO_KINDS
+from incident_agent.simulator.registry import scenario_kinds
 from incident_agent.simulator.timeaxis import TimeAxis, local_to_utc
 from incident_agent.simulator.topology import build_topology
 from incident_agent.simulator.world import World
@@ -55,15 +56,17 @@ def _scenario_rows(
                 "expected_tools": d.expected_tools,
                 "questions": qs,
                 "confounders": [{**_ref(ev, h), "why": why} for h, why in d.confounders],
-                "notes": d.notes
+                "notes": (f"trap={d.trap}; " if d.trap else "")
+                + d.notes
                 + (f" Overlaps in time with group '{d.group}'." if d.group else ""),
             }
         )
     return rows
 
 
-def build_world(seed: int = 42, config: SimConfig | None = None) -> World:
-    cfg = config or SimConfig()
+def build_world(seed: int = 42, config: SimConfig | None = None, profile: str = "default") -> World:
+    """The world of a seed. `profile` selects the scenario set when no config is given."""
+    cfg = config or config_for_profile(profile)
     rng = np.random.default_rng(seed)
     axis = TimeAxis.from_config(cfg)
     topo = build_topology(rng, cfg)
@@ -75,11 +78,17 @@ def build_world(seed: int = 42, config: SimConfig | None = None) -> World:
     region_names = dict(zip(topo.regions["region_id"], topo.regions["name"], strict=True))
     drafts: list[ScenarioDraft] = []
     questions: list[list[dict[str, str]]] = []
+    kinds = scenario_kinds(cfg)
     for placed in place_scenarios(ctx):
-        draft = SCENARIO_KINDS[placed.spec.kind].apply(ctx, placed.params, placed.start)
-        draft.group = placed.spec.overlap_group
-        drafts.append(draft)
-        questions.append(make_questions(rng, cfg, axis, draft, region_names))
+        made = kinds[placed.spec.kind].apply(ctx, placed.params, placed.start)
+        for draft in made if isinstance(made, list) else [made]:
+            draft.group = placed.spec.overlap_group
+            drafts.append(draft)
+            questions.append(
+                make_hard_questions(rng, cfg, axis, draft, region_names)
+                if cfg.profile == "hard"
+                else make_questions(rng, cfg, axis, draft, region_names)
+            )
 
     add_background_noise(ctx, Blocklist(drafts))
 
@@ -97,6 +106,8 @@ def build_world(seed: int = 42, config: SimConfig | None = None) -> World:
         "timezone": cfg.timezone_name,
         "version": DATASET_VERSION,
     }
+    if cfg.profile != "default":
+        meta["profile"] = cfg.profile
     world = World(
         regions=topo.regions,
         nodes=topo.nodes,

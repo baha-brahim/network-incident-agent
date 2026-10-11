@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-002-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2569,
+      "live_tokens": 2935,
+      "output_tokens": 366
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert show the sequence of events (mains failure, battery low, site down) but do not explicitly state the causal link between them.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000069 and T3 explicitly state a major MAINS_FAILURE on S-SUD-001 raised at 2026-09-04 22:24.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000077 and ALM-000078 show BATTERY_LOW and SITE_DOWN alarms on S-SUD-001 occurring after the mains failure, supporting the sequence.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALR-0008 and T1 show availability_pct dropping from 100 to 0 on S-SUD-001 between 2026-09-05 01:00 and 03:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 and T5 explicitly report no maintenance windows or changes on S-SUD-001, LNK-SUD-02-B, and parents during the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 explicitly reports no external events for region SUD between 2026-09-05 00:00 and 09:09.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

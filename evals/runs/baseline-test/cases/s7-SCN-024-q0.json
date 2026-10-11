@@ -1,0 +1,699 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-22T08:31:00Z",
+    "case_id": "s7-SCN-024-q0",
+    "question": "Call setup failures and dropped sessions rose at S-TUN-013 last night. What is behind it?",
+    "question_index": 0,
+    "scenario_id": "SCN-024",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:24:06.555087Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-22T08:31:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-22 09:31",
+          "entity_id": "S-TUN-013",
+          "region_id": null,
+          "start": "2026-09-21 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-21 16:00 to 2026-09-22 09:31.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0032 medium ended, 2026-09-22 02:15 to 2026-09-22 07:30 (5.2 h): RRC success drops; drop rate spikes on 9 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003, S-TUN-005, S-TUN-006 and 4 more) for 5 h\n  drop_rate_pct spike on 1 entity: worst S-TUN-013 z 18.1, 0.62 -> 3.2, 2026-09-22 02:15 to 2026-09-22 07:30\n  rrc_success_pct drop on 1 entity: worst S-TUN-013 z -38.7, 99.2 -> 93.7, 2026-09-22 02:15 to 2026-09-22 07:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-21 16:00 to 2026-09-22 09:31.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0032",
+          "ANM-000260",
+          "ANM-000261"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-013"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-013: site, TUN, Lac 1, suburban.\nCells: C-TUN-013-1, C-TUN-013-2, C-TUN-013-3.\nSiblings under LNK-TUN-01-B: S-TUN-001, S-TUN-002.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-013",
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-001",
+          "S-TUN-002"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-22 09:31",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-013",
+            "LNK-TUN-01-B",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 16:00"
+        },
+        "body": "3 alarm(s) on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and nodes below, 2026-09-21 16:00 to 2026-09-22 09:31: 3 minor; 0 active at asked_at (2026-09-22 09:31).\nNo critical or major alarm in this window.\n2026-09-21 22:56 ALM-000479 minor VSWR_HIGH S-TUN-018 (below AGG-TUN-01): cleared 2026-09-21 23:14\n2026-09-21 23:22 ALM-000480 minor VSWR_HIGH S-TUN-018 (below AGG-TUN-01): cleared 2026-09-21 23:39\n2026-09-22 02:34 ALM-000482 minor RRC_FAILURE_RATE_HIGH S-TUN-011 (below AGG-TUN-01): cleared 2026-09-22 07:37",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and nodes below, 2026-09-21 16:00 to 2026-09-22 09:31: 3 minor; 0 active at asked_at (2026-09-22 09:31).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000479",
+          "ALM-000480",
+          "ALM-000482"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-22 09:31",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-013",
+            "LNK-TUN-01-B",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 16:00"
+        },
+        "body": "2 change(s) on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (0 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31).\n2026-09-22 02:14 CHG-2026-0056 parameter_tuning on AGG-TUN-01: Push RAN parameter template RT-2.4 to AGG-TUN-01 (admission control, RRC timers) -> ROLLED BACK by CHG-2026-0057 at 2026-09-22 07:32\n2026-09-22 07:32 CHG-2026-0057 rollback of CHG-2026-0056 on AGG-TUN-01: Rollback of RT-2.4 on AGG-TUN-01 after KPI regression escalated by NOC",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (0 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "CHG-2026-0056",
+          "CHG-2026-0057"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-22 09:31",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-013",
+            "LNK-TUN-01-B",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 16:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents between 2026-09-21 16:00 and 2026-09-22 09:31.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents between 2026-09-21 16:00 and 2026-09-22 09:31.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-22 09:31",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-013"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 16:00"
+        },
+        "body": "2 change(s) on S-TUN-013 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (2 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31).\n2026-09-22 02:14 CHG-2026-0056 parameter_tuning on AGG-TUN-01 (ancestor of S-TUN-013): Push RAN parameter template RT-2.4 to AGG-TUN-01 (admission control, RRC timers) -> ROLLED BACK by CHG-2026-0057 at 2026-09-22 07:32\n2026-09-22 07:32 CHG-2026-0057 rollback of CHG-2026-0056 on AGG-TUN-01 (ancestor of S-TUN-013): Rollback of RT-2.4 on AGG-TUN-01 after KPI regression escalated by NOC",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-TUN-013 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (2 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "CHG-2026-0056",
+          "CHG-2026-0057"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-22 09:31",
+          "entity_ids": [
+            "S-TUN-013"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct"
+          ],
+          "start": "2026-09-21 16:00"
+        },
+        "body": "Deviation in 2 of 2 series. Earliest onset 2026-09-22 02:15: S-TUN-013 rrc_success_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-22 09:31). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-013 rrc_success_pct: mean 97.6 vs baseline 99.2 (-2%); min 93.6 at 2026-09-22 04:15, max 99.3 at 2026-09-22 00:15.\nDeviation below baseline: onset 2026-09-22 02:15; worst 93.6 vs 99.2 at 2026-09-22 04:15; recovery 2026-09-22 07:30.\nseries (1.5 h buckets from 2026-09-21 16:00): 99.2 99.3 99.2 99.2 99.2 99.2 98.2 93.7 93.7 93.8 97.4 99.2\nbaseline: 99.2 99.2 99.2 99.2 99.2 99.2 99.2 99.2 99.2 99.2 99.2 99.2\nS-TUN-013 drop_rate_pct: mean 1.17 vs baseline 0.62 (+90%); min 0.44 at 2026-09-21 16:00, max 3.2 at 2026-09-22 07:15.\nDeviation above baseline: onset 2026-09-22 02:15; worst 3.2 vs 0.63 at 2026-09-22 07:15; recovery 2026-09-22 07:30.\nseries (1.5 h buckets from 2026-09-21 16:00): 0.54 0.59 0.56 0.57 0.59 0.57 0.99 2.55 2.4 2.6 1.43 0.58\nbaseline: 0.62 0.62 0.6 0.6 0.64 0.62 0.61 0.61 0.63 0.62 0.63 0.62",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 2 series. Earliest onset 2026-09-22 02:15: S-TUN-013 rrc_success_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 56
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "RT-2.4 admission control RRC timers"
+        },
+        "body": "4 runbook chunk(s) for 'RT-2.4 admission control RRC timers', best first (excerpts):\n[RB-BAD-CHANGE#05] Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start time. 2. `get_topology`: find the common ancestor of the affected sites (aggregation router or link). 3. ... 4. `query_kpis`: confirm availability is 100 % and the RRC step is aligned with the change. Use sites outside the changed subtree as a control group; they must be normal. 5. ...\n[RB-CHANGE-CORRELATION#03] Change correlation policy > Tests for naming a change as the cause: All of the following should hold. 1. Location. The change is on the affected nodes themselves, or on their common ancestor (the router or link above all of them). A change on an unrelated node is not a cause. 2. Timing. ... 3. Shape. The effect is what a configuration problem looks like: a step in RRC success, drop rate or volume, with availability intact. ... 4. Control g...\n[RB-CONGESTION#05] Radio capacity congestion > Verification steps: 1. `query_kpis` for the site's cells: PRB, active users, latency, volume against the same hour in earlier days. 2. `get_alarms`: `HIGH_PRB` on the site and its start time. 3. `get_external_events` for the region at that time. 4. `get_topology`: is the site flagged as near a venue, and what are its neighbours? 5. `get_changes` for the site in the preceding 24 hours. 6. ...\n[RB-SYNC-LOSS#04] Timing and synchronisation loss > Verification steps: 1. Find a cluster of neighbouring cells with slowly worsening drop rate. 2. Check for GPS or timing alarms in the platform's native alarm list. 3. Check whether the affected sites share a timing source or a transport path carrying PTP. 4. Look at changes to the transport or timing equipment. 5. ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'RT-2.4 admission control RRC timers', best first (excerpts):",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "RB-BAD-CHANGE#05",
+          "RB-CHANGE-CORRELATION#03",
+          "RB-CONGESTION#05",
+          "RB-SYNC-LOSS#04"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 13
+      },
+      {
+        "args": {
+          "end": "2026-09-22 09:31",
+          "region_id": "TUN",
+          "start": "2026-09-21 16:00"
+        },
+        "body": "No external events for region TUN (and nationwide) between 2026-09-21 16:00 and 2026-09-22 09:31.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region TUN (and nationwide) between 2026-09-21 16:00 and 2026-09-22 09:31.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000479": {
+        "kind": "alarm",
+        "ref": "ALM-000479",
+        "summary": "minor VSWR_HIGH on S-TUN-018, raised 2026-09-21 22:56, cleared 2026-09-21 23:14"
+      },
+      "ALM-000480": {
+        "kind": "alarm",
+        "ref": "ALM-000480",
+        "summary": "minor VSWR_HIGH on S-TUN-018, raised 2026-09-21 23:22, cleared 2026-09-21 23:39"
+      },
+      "ALM-000482": {
+        "kind": "alarm",
+        "ref": "ALM-000482",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-TUN-011, raised 2026-09-22 02:34, cleared 2026-09-22 07:37"
+      },
+      "ALR-0032": {
+        "kind": "alert",
+        "ref": "ALR-0032",
+        "summary": "ended alert from 2026-09-22 02:15: 9 site(s) (S-TUN-001, S-TUN-002, S-TUN-003, S-TUN-005 +5 more); region-level TUN; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000260": {
+        "kind": "anomaly",
+        "ref": "ANM-000260",
+        "summary": "S-TUN-013 drop_rate_pct spike, z 18.1, baseline 0.62 -> 3.2"
+      },
+      "ANM-000261": {
+        "kind": "anomaly",
+        "ref": "ANM-000261",
+        "summary": "S-TUN-013 rrc_success_pct drop, z -38.7, baseline 99.2 -> 93.7"
+      },
+      "CHG-2026-0056": {
+        "kind": "change",
+        "ref": "CHG-2026-0056",
+        "summary": "parameter_tuning on AGG-TUN-01 at 2026-09-22 02:14: Push RAN parameter template RT-2.4 to AGG-TUN-01 (admission control, RRC timers) [ROLLED BACK by CHG-2026-0057 at 2026-09-22 07:32]"
+      },
+      "CHG-2026-0057": {
+        "kind": "change",
+        "ref": "CHG-2026-0057",
+        "summary": "rollback of CHG-2026-0056 on AGG-TUN-01 at 2026-09-22 07:32: Rollback of RT-2.4 on AGG-TUN-01 after KPI regression escalated by NOC"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-B": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-B",
+        "summary": "microwave link, TUN, 17.3 km, 1.0 Gbps"
+      },
+      "RB-BAD-CHANGE#05": {
+        "kind": "runbook",
+        "ref": "RB-BAD-CHANGE#05",
+        "summary": "Bad change and configuration regression > Verification steps: 1. `get_anomalies` for `rrc_success_pct` and `drop_rate_pct` on a set of sites; read the start..."
+      },
+      "RB-CHANGE-CORRELATION#03": {
+        "kind": "runbook",
+        "ref": "RB-CHANGE-CORRELATION#03",
+        "summary": "Change correlation policy > Tests for naming a change as the cause: All of the following should hold. 1. **Location.** The change is on the affected nodes th..."
+      },
+      "RB-CONGESTION#05": {
+        "kind": "runbook",
+        "ref": "RB-CONGESTION#05",
+        "summary": "Radio capacity congestion > Verification steps: 1. `query_kpis` for the site's cells: PRB, active users, latency, volume against the same hour in earlier day..."
+      },
+      "RB-SYNC-LOSS#04": {
+        "kind": "runbook",
+        "ref": "RB-SYNC-LOSS#04",
+        "summary": "Timing and synchronisation loss > Verification steps: 1. Find a cluster of neighbouring cells with slowly worsening drop rate. 2. Check for GPS or timing ala..."
+      },
+      "S-TUN-001": {
+        "kind": "node",
+        "ref": "S-TUN-001",
+        "summary": "site, TUN, Ariana, urban, near a venue; sibling of S-TUN-013"
+      },
+      "S-TUN-002": {
+        "kind": "node",
+        "ref": "S-TUN-002",
+        "summary": "site, TUN, La Marsa, urban, near a venue; sibling of S-TUN-013"
+      },
+      "S-TUN-013": {
+        "kind": "node",
+        "ref": "S-TUN-013",
+        "summary": "site, TUN, Lac 1, suburban; chain: S-TUN-013 -> LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-21 16:00, end=2026-09-22 09:31, entity_id=S-TUN-013) -> 1 detector alert(s) overlap 2026-09-21 16:00 to 2026-09-22 09:31."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-013, include=all) -> Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-21 16:00, end=2026-09-22 09:31, node_ids=['S-TUN-013', 'LNK-TUN-01-B', 'AGG-TUN-01'], include_descendants=True) -> 3 alarm(s) on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and nodes below, 2026-09-21 16:00 to 2026-09-22 09:31: 3 minor; 0 active at asked_at (2026-09-22 09:31)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-21 16:00, end=2026-09-22 09:31, node_ids=['S-TUN-013', 'LNK-TUN-01-B', 'AGG-TUN-01'], include_ancestors=True) -> 2 change(s) on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (0 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-21 16:00, end=2026-09-22 09:31, node_ids=['S-TUN-013', 'LNK-TUN-01-B', 'AGG-TUN-01'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents between 2026-09-21 16:00 and 2026-09-22 09:31."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-21 16:00, end=2026-09-22 09:31, node_ids=['S-TUN-013'], include_ancestors=True) -> 2 change(s) on S-TUN-013 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (2 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-013'], metrics=['rrc_success_pct', 'drop_rate_pct'], start=2026-09-21 16:00, end=2026-09-22 09:31) -> Deviation in 2 of 2 series. Earliest onset 2026-09-22 02:15: S-TUN-013 rrc_success_pct below baseline."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "search_runbooks(query=RT-2.4 admission control RRC timers, k=4) -> 4 runbook chunk(s) for 'RT-2.4 admission control RRC timers', best first (excerpts):"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_external_events(start=2026-09-21 16:00, end=2026-09-22 09:31, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-21 16:00 and 2026-09-22 09:31."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Incident Report: Call Setup Failures and Dropped Sessions at S-TUN-013\n\n- **Classification:** incident\n- **Root cause:** bad_change at `AGG-TUN-01`\n- **Confidence:** high (The timing of CHG-2026-0056 perfectly matches the onset of KPI degradation; maintenance, external events, and coincident changes were checked and ruled out via T5 and T9.)\n- **Impact:** 2026-09-22 02:15 to 2026-09-22 07:45\n- **Cause time:** 2026-09-22 02:14\n- **Affected:** S-TUN-013, S-TUN-001, S-TUN-002, S-TUN-003, S-TUN-005\n\n## Summary\n\nA RAN parameter tuning change template RT-2.4 (CHG-2026-0056) pushed to AGG-TUN-01 caused widespread RRC success rate degradation and increased drop rates at S-TUN-013 and other dependent sites.\n\nCall setup failures and dropped sessions rose at S-TUN-013 starting at 2026-09-22 02:15, and fully recovered following the rollback change at 2026-09-22 07:32.\n\n## Timeline\n\n- 2026-09-22 02:14: Parameter tuning change CHG-2026-0056 pushed to AGG-TUN-01 [CHG-2026-0056]\n- 2026-09-22 02:15: Earliest onset of KPI deviation: rrc_success_pct below baseline and drop_rate_pct spike at S-TUN-013 [T7, ANM-000260, ANM-000261, ALR-0032]\n- 2026-09-22 07:32: Rollback change CHG-2026-0057 executed on AGG-TUN-01 [CHG-2026-0057]\n- 2026-09-22 07:45: KPIs fully recovered following the rollback [ALM-000482]\n\n## Evidence\n\n- Detector alert and anomaly anomalies recorded on S-TUN-013 for rrc_success_pct and drop_rate_pct starting at 2026-09-22 02:15. [T1, ANM-000260, ANM-000261, ALR-0032]\n- Parameter tuning change CHG-2026-0056 was applied to AGG-TUN-01 upstream of S-TUN-013 at 2026-09-22 02:14. [CHG-2026-0056, T2, T6]\n- Rollback change CHG-2026-0057 was executed at 2026-09-22 07:32, restoring KPIs. [CHG-2026-0057]\n- No external events or scheduled maintenance windows occurred in the region during the incident window. [T5, T9]\n\n## Hypotheses\n\n1. **bad_change** at AGG-TUN-01: confirmed. Parameter push CHG-2026-0056 at 02:14 directly preceded the KPI degradation at 02:15, affecting S-TUN-013 and 8 other sites, and rollback CHG-2026-0057 restored normal operations. [CHG-2026-0056, CHG-2026-0057, ALR-0032]\n\n## Ruled out\n\n- ALM-000479: Minor VSWR_HIGH on S-TUN-018 occurred earlier on 2026-09-21 and cleared well before the incident window.\n- ALM-000480: Minor VSWR_HIGH on S-TUN-018 occurred earlier on 2026-09-21 and cleared well before the incident window.\n\n## Recommended actions\n\n- Review RAN parameter template RT-2.4 admission control and RRC timer settings prior to future aggregation router deployments.\n\n## Sources\n\n- `CHG-2026-0056`: parameter_tuning on AGG-TUN-01 at 2026-09-22 02:14: Push RAN parameter template RT-2.4 to AGG-TUN-01 (admission control, RRC timers) [ROLLED BACK by CHG-2026-0057 at 2026-09-22 07:32]\n- `T7`: query_kpis(entity_type=site, entity_ids=['S-TUN-013'], metrics=['rrc_success_pct', 'drop_rate_pct'], start=2026-09-21 16:00, end=2026-09-22 09:31) -> Deviation in 2 of 2 series. Earliest onset 2026-09-22 02:15: S-TUN-013 rrc_success_pct below baseline.\n- `ANM-000260`: S-TUN-013 drop_rate_pct spike, z 18.1, baseline 0.62 -> 3.2\n- `ANM-000261`: S-TUN-013 rrc_success_pct drop, z -38.7, baseline 99.2 -> 93.7\n- `ALR-0032`: ended alert from 2026-09-22 02:15: 9 site(s) (S-TUN-001, S-TUN-002, S-TUN-003, S-TUN-005 +5 more); region-level TUN; metrics: drop_rate_pct, rrc_success_pct\n- `CHG-2026-0057`: rollback of CHG-2026-0056 on AGG-TUN-01 at 2026-09-22 07:32: Rollback of RT-2.4 on AGG-TUN-01 after KPI regression escalated by NOC\n- `ALM-000482`: minor RRC_FAILURE_RATE_HIGH on S-TUN-011, raised 2026-09-22 02:34, cleared 2026-09-22 07:37\n- `T1`: get_anomalies(start=2026-09-21 16:00, end=2026-09-22 09:31, entity_id=S-TUN-013) -> 1 detector alert(s) overlap 2026-09-21 16:00 to 2026-09-22 09:31.\n- `T2`: get_topology(node_id=S-TUN-013, include=all) -> Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `T6`: get_changes(start=2026-09-21 16:00, end=2026-09-22 09:31, node_ids=['S-TUN-013'], include_ancestors=True) -> 2 change(s) on S-TUN-013 and its parents, 2026-09-21 16:00 to 2026-09-22 09:31 (2 on upstream nodes, 1 rolled back by asked_at 2026-09-22 09:31).\n- `T5`: get_maintenance(start=2026-09-21 16:00, end=2026-09-22 09:31, node_ids=['S-TUN-013', 'LNK-TUN-01-B', 'AGG-TUN-01'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-013, LNK-TUN-01-B, AGG-TUN-01 and its parents between 2026-09-21 16:00 and 2026-09-22 09:31.\n- `T9`: get_external_events(start=2026-09-21 16:00, end=2026-09-22 09:31, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-21 16:00 and 2026-09-22 09:31.\n- `ALM-000479`: minor VSWR_HIGH on S-TUN-018, raised 2026-09-21 22:56, cleared 2026-09-21 23:14\n- `ALM-000480`: minor VSWR_HIGH on S-TUN-018, raised 2026-09-21 23:22, cleared 2026-09-21 23:39\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Call setup failures and dropped sessions rose at S-TUN-013 last night. What is behind it?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-013",
+        "S-TUN-001",
+        "S-TUN-002",
+        "S-TUN-003",
+        "S-TUN-005"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "The timing of CHG-2026-0056 perfectly matches the onset of KPI degradation; maintenance, external events, and coincident changes were checked and ruled out via T5 and T9.",
+      "dismissed_signals": [
+        {
+          "reason": "Minor VSWR_HIGH on S-TUN-018 occurred earlier on 2026-09-21 and cleared well before the incident window.",
+          "ref": "ALM-000479"
+        },
+        {
+          "reason": "Minor VSWR_HIGH on S-TUN-018 occurred earlier on 2026-09-21 and cleared well before the incident window.",
+          "ref": "ALM-000480"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Detector alert and anomaly anomalies recorded on S-TUN-013 for rrc_success_pct and drop_rate_pct starting at 2026-09-22 02:15.",
+          "refs": [
+            "T1",
+            "ANM-000260",
+            "ANM-000261",
+            "ALR-0032"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Parameter tuning change CHG-2026-0056 was applied to AGG-TUN-01 upstream of S-TUN-013 at 2026-09-22 02:14.",
+          "refs": [
+            "CHG-2026-0056",
+            "T2",
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Rollback change CHG-2026-0057 was executed at 2026-09-22 07:32, restoring KPIs.",
+          "refs": [
+            "CHG-2026-0057"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events or scheduled maintenance windows occurred in the region during the incident window.",
+          "refs": [
+            "T5",
+            "T9"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "AGG-TUN-01",
+          "reason": "Parameter push CHG-2026-0056 at 02:14 directly preceded the KPI degradation at 02:15, affecting S-TUN-013 and 8 other sites, and rollback CHG-2026-0057 restored normal operations.",
+          "refs": [
+            "CHG-2026-0056",
+            "CHG-2026-0057",
+            "ALR-0032"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-22 07:45",
+      "impact_start": "2026-09-22 02:15",
+      "impact_summary": "Call setup failures and dropped sessions rose at S-TUN-013 starting at 2026-09-22 02:15, and fully recovered following the rollback change at 2026-09-22 07:32.",
+      "recommended_actions": [
+        "Review RAN parameter template RT-2.4 admission control and RRC timer settings prior to future aggregation router deployments."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "AGG-TUN-01",
+      "root_cause_summary": "A RAN parameter tuning change template RT-2.4 (CHG-2026-0056) pushed to AGG-TUN-01 caused widespread RRC success rate degradation and increased drop rates at S-TUN-013 and other dependent sites.",
+      "root_cause_time": "2026-09-22 02:14",
+      "timeline": [
+        {
+          "event": "Parameter tuning change CHG-2026-0056 pushed to AGG-TUN-01",
+          "refs": [
+            "CHG-2026-0056"
+          ],
+          "time": "2026-09-22 02:14"
+        },
+        {
+          "event": "Earliest onset of KPI deviation: rrc_success_pct below baseline and drop_rate_pct spike at S-TUN-013",
+          "refs": [
+            "T7",
+            "ANM-000260",
+            "ANM-000261",
+            "ALR-0032"
+          ],
+          "time": "2026-09-22 02:15"
+        },
+        {
+          "event": "Rollback change CHG-2026-0057 executed on AGG-TUN-01",
+          "refs": [
+            "CHG-2026-0057"
+          ],
+          "time": "2026-09-22 07:32"
+        },
+        {
+          "event": "KPIs fully recovered following the rollback",
+          "refs": [
+            "ALM-000482"
+          ],
+          "time": "2026-09-22 07:45"
+        }
+      ],
+      "title": "Incident Report: Call Setup Failures and Dropped Sessions at S-TUN-013"
+    },
+    "run_id": "RUN-d49ce51054",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-013"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "Call setup failures and dropped sessions",
+      "unknown_ids": [],
+      "window_end": "2026-09-22T05:00:00Z",
+      "window_start": "2026-09-21T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 388,
+        "latency_ms": 817,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 120,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1539
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3203,
+        "latency_ms": 1176,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 283,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4835
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4409,
+        "latency_ms": 1413,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 186,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4714
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5756,
+        "latency_ms": 1231,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 168,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4249
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5644,
+        "latency_ms": 800,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 62,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4052
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5516,
+        "latency_ms": 1109,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 131,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4815
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2961,
+        "latency_ms": 4165,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1502,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7547
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 27877,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2452,
+      "tool_calls": 9,
+      "wall_seconds": 31.9
+    }
+  },
+  "run_name": "baseline-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-22T06:30:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0056",
+        "table": "changes",
+        "visible_from": "2026-09-22T01:14:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0057",
+        "table": "changes",
+        "visible_from": "2026-09-22T06:32:00+00:00"
+      },
+      {
+        "id": "ALM-000482",
+        "table": "alarms",
+        "visible_from": "2026-09-22T01:34:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-22T01:14:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "Change RT-2.4 pushed to the aggregation router (AGG-TUN-01) regressed RRC success and drop rate until it was rolled back. ",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "AGG-TUN-01",
+    "severity": "high",
+    "start_at": "2026-09-22T01:14:00Z"
+  },
+  "variant": "default"
+}

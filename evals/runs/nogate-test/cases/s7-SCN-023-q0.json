@@ -1,0 +1,634 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-21T07:26:00Z",
+    "case_id": "s7-SCN-023-q0",
+    "question": "Why did traffic drop in Sahel last night?",
+    "question_index": 0,
+    "scenario_id": "SCN-023",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:27:04.631016Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-21T07:26:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-21 08:26",
+          "entity_id": null,
+          "region_id": "SAH",
+          "start": "2026-09-20 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-20 16:00 to 2026-09-21 08:26.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0031 high ended, 2026-09-21 01:15 to 2026-09-21 04:45 (3.5 h): Traffic, active users and availability drop on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-012) for 3.5 h\n  availability_pct drop on 4 entities: worst S-SAH-001 z -100.0, 100 -> 0, 2026-09-21 01:15 to 2026-09-21 04:45\n  active_users drop on 3 entities: worst S-SAH-002 z -13.6, 8.3 -> 0, 2026-09-21 01:30 to 2026-09-21 04:45\n  dl_volume_mb drop on 3 entities: worst S-SAH-012 z -12.2, 1248 -> 0, 2026-09-21 02:15 to 2026-09-21 04:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-20 16:00 to 2026-09-21 08:26.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0031",
+          "ANM-000236",
+          "ANM-000242",
+          "ANM-000245"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-21 06:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SAH-001",
+            "S-SAH-002",
+            "S-SAH-012"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "3 alarm(s) on S-SAH-001, S-SAH-002, S-SAH-012 and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 3 critical; 0 active at asked_at (2026-09-21 08:26).\nEarliest critical/major: 2026-09-21 01:23 SITE_DOWN on S-SAH-012 (ALM-000455); within 10 min after: SITE_DOWN x2 (S-SAH-002, S-SAH-001).\n2026-09-21 01:23 ALM-000455 critical SITE_DOWN S-SAH-012: cleared 2026-09-21 04:44\n2026-09-21 01:23 ALM-000456 critical SITE_DOWN S-SAH-002: cleared 2026-09-21 04:43\n2026-09-21 01:23 ALM-000457 critical SITE_DOWN S-SAH-001: cleared 2026-09-21 04:43",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on S-SAH-001, S-SAH-002, S-SAH-012 and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 3 critical; 0 active at asked_at (2026-09-21 08:26).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000455",
+          "ALM-000456",
+          "ALM-000457"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-001"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-001 (site) -> LNK-SAH-01-B (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-001: site, SAH, Sousse Centre, urban.\nCells: C-SAH-001-1, C-SAH-001-2, C-SAH-001-3.\nSiblings under LNK-SAH-01-B: S-SAH-002, S-SAH-012.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-001 (site) -> LNK-SAH-01-B (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "S-SAH-001",
+          "LNK-SAH-01-B",
+          "AGG-SAH-01",
+          "CORE-UPF-01",
+          "S-SAH-002",
+          "S-SAH-012"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-21 06:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-001",
+            "S-SAH-002",
+            "S-SAH-012"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "1 maintenance window(s) on S-SAH-001, S-SAH-002, S-SAH-012 and its parents overlap 2026-09-20 18:00 to 2026-09-21 06:00: 1 completed (state as of asked_at 2026-09-21 08:26).\nMW-0007 completed 2026-09-21 01:19 -> 2026-09-21 04:52 on LNK-SAH-01-B (ancestor of S-SAH-001), covers 3 sites below: Routine transport network works; expected impact: Possible short service interruptions",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on S-SAH-001, S-SAH-002, S-SAH-012 and its parents overlap 2026-09-20 18:00 to 2026-09-21 06:00: 1 completed (state as of asked_at 2026-09-21 08:26).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "MW-0007"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-21 06:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-001",
+            "S-SAH-002",
+            "S-SAH-012"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No changes on S-SAH-001, S-SAH-002, S-SAH-012 and its parents between 2026-09-20 18:00 and 2026-09-21 06:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-001, S-SAH-002, S-SAH-012 and its parents between 2026-09-20 18:00 and 2026-09-21 06:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-21T06:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "LNK-SAH-01-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-20T18:00:00"
+        },
+        "body": "4 alarm(s) on LNK-SAH-01-B and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 4 critical; 0 active at asked_at (2026-09-21 08:26).\nEarliest critical/major: 2026-09-21 01:22 LINK_LOS on LNK-SAH-01-B (ALM-000454); within 10 min after: SITE_DOWN x3 (S-SAH-012, S-SAH-002, S-SAH-001).\n2026-09-21 01:22 ALM-000454 critical LINK_LOS LNK-SAH-01-B: cleared 2026-09-21 04:43\n2026-09-21 01:23 ALM-000455 critical SITE_DOWN S-SAH-012 (below LNK-SAH-01-B): cleared 2026-09-21 04:44\n2026-09-21 01:23 ALM-000456 critical SITE_DOWN S-SAH-002 (below LNK-SAH-01-B): cleared 2026-09-21 04:43\n2026-09-21 01:23 ALM-000457 critical SITE_DOWN S-SAH-001 (below LNK-SAH-01-B): cleared 2026-09-21 04:43",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 alarm(s) on LNK-SAH-01-B and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 4 critical; 0 active at asked_at (2026-09-21 08:26).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000454",
+          "ALM-000455",
+          "ALM-000456",
+          "ALM-000457"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-01": {
+        "kind": "node",
+        "ref": "AGG-SAH-01",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000454": {
+        "kind": "alarm",
+        "ref": "ALM-000454",
+        "summary": "critical LINK_LOS on LNK-SAH-01-B, raised 2026-09-21 01:22, cleared 2026-09-21 04:43"
+      },
+      "ALM-000455": {
+        "kind": "alarm",
+        "ref": "ALM-000455",
+        "summary": "critical SITE_DOWN on S-SAH-012, raised 2026-09-21 01:23, cleared 2026-09-21 04:44"
+      },
+      "ALM-000456": {
+        "kind": "alarm",
+        "ref": "ALM-000456",
+        "summary": "critical SITE_DOWN on S-SAH-002, raised 2026-09-21 01:23, cleared 2026-09-21 04:43"
+      },
+      "ALM-000457": {
+        "kind": "alarm",
+        "ref": "ALM-000457",
+        "summary": "critical SITE_DOWN on S-SAH-001, raised 2026-09-21 01:23, cleared 2026-09-21 04:43"
+      },
+      "ALR-0031": {
+        "kind": "alert",
+        "ref": "ALR-0031",
+        "summary": "ended alert from 2026-09-21 01:15: 3 site(s) (S-SAH-001, S-SAH-002, S-SAH-012); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000236": {
+        "kind": "anomaly",
+        "ref": "ANM-000236",
+        "summary": "S-SAH-001 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000242": {
+        "kind": "anomaly",
+        "ref": "ANM-000242",
+        "summary": "S-SAH-002 active_users drop, z -13.6, baseline 8.3 -> 0"
+      },
+      "ANM-000245": {
+        "kind": "anomaly",
+        "ref": "ANM-000245",
+        "summary": "S-SAH-012 dl_volume_mb drop, z -12.2, baseline 1248 -> 0"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-01-B": {
+        "kind": "node",
+        "ref": "LNK-SAH-01-B",
+        "summary": "fiber link, SAH, 16.4 km, 10.0 Gbps"
+      },
+      "MW-0007": {
+        "kind": "maintenance",
+        "ref": "MW-0007",
+        "summary": "completed window 2026-09-21 01:19 -> 2026-09-21 04:52 on LNK-SAH-01-B: Routine transport network works; expected impact: Possible short service interruptions"
+      },
+      "S-SAH-001": {
+        "kind": "node",
+        "ref": "S-SAH-001",
+        "summary": "site, SAH, Sousse Centre, urban; chain: S-SAH-001 -> LNK-SAH-01-B -> AGG-SAH-01 -> CORE-UPF-01"
+      },
+      "S-SAH-002": {
+        "kind": "node",
+        "ref": "S-SAH-002",
+        "summary": "site, SAH, Hammam Sousse, rural; sibling of S-SAH-001"
+      },
+      "S-SAH-012": {
+        "kind": "node",
+        "ref": "S-SAH-012",
+        "summary": "site, SAH, Bekalta, suburban; sibling of S-SAH-001"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:26, region_id=SAH) -> 1 detector alert(s) overlap 2026-09-20 16:00 to 2026-09-21 08:26."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-20 18:00, end=2026-09-21 06:00, node_ids=['S-SAH-001', 'S-SAH-002', 'S-SAH-012'], include_descendants=True) -> 3 alarm(s) on S-SAH-001, S-SAH-002, S-SAH-012 and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 3 critical; 0 active at asked_at (2026-09-21 08:26)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_topology(node_id=S-SAH-001, include=all) -> Depends on (child -> parent -> core): S-SAH-001 (site) -> LNK-SAH-01-B (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-20 18:00, end=2026-09-21 06:00, node_ids=['S-SAH-001', 'S-SAH-002', 'S-SAH-012'], include_ancestors=True) -> 1 maintenance window(s) on S-SAH-001, S-SAH-002, S-SAH-012 and its parents overlap 2026-09-20 18:00 to 2026-09-21 06:00: 1 completed (state as of asked_at 2026-09-21 08:26)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-20 18:00, end=2026-09-21 06:00, node_ids=['S-SAH-001', 'S-SAH-002', 'S-SAH-012'], include_ancestors=True) -> No changes on S-SAH-001, S-SAH-002, S-SAH-012 and its parents between 2026-09-20 18:00 and 2026-09-21 06:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-20T18:00:00, end=2026-09-21T06:00:00, node_ids=['LNK-SAH-01-B'], include_descendants=True) -> 4 alarm(s) on LNK-SAH-01-B and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 4 critical; 0 active at asked_at (2026-09-21 08:26)."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Traffic Drop in Sahel due to Transport Maintenance\n\n- **Classification:** planned_maintenance\n- **Root cause:** planned_maintenance at `LNK-SAH-01-B`\n- **Confidence:** high (Directly evidenced by matching maintenance window MW-0007, link loss alarm ALM-000454, and resulting site down alarms. External events were NOT CHECKED.)\n- **Impact:** 2026-09-21 01:15 to 2026-09-21 04:45\n- **Cause time:** 2026-09-21 01:19\n- **Affected:** S-SAH-001, S-SAH-002, S-SAH-012, LNK-SAH-01-B\n\n## Summary\n\nRoutine transport network works performed on shared fiber link LNK-SAH-01-B resulting in a link loss and subsequent site outages on dependent sites S-SAH-001, S-SAH-002, and S-SAH-012.\n\nComplete traffic, active users, and availability drop across three sites in Sahel (S-SAH-001, S-SAH-002, S-SAH-012) lasting for approximately 3.5 hours, starting around 01:15-01:23 and clearing around 04:43-04:45.\n\n## Timeline\n\n- 2026-09-21 01:15: Traffic, active users and availability drop begins on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-012) [T1, ALR-0031]\n- 2026-09-21 01:19: Maintenance window MW-0007 starts on fiber link LNK-SAH-01-B for routine transport network works [T4, MW-0007]\n- 2026-09-21 01:22: Critical LINK_LOS alarm raised on LNK-SAH-01-B [T6, ALM-000454]\n- 2026-09-21 01:23: Critical SITE_DOWN alarms raised on S-SAH-012, S-SAH-002, and S-SAH-001 [T2, ALM-000455, ALM-000456, ALM-000457]\n- 2026-09-21 04:43: LINK_LOS alarm on LNK-SAH-01-B and SITE_DOWN alarms on S-SAH-002 and S-SAH-001 cleared [T2, T6, ALM-000454, ALM-000456, ALM-000457]\n- 2026-09-21 04:44: SITE_DOWN alarm on S-SAH-012 cleared [T2, ALM-000455]\n- 2026-09-21 04:45: Detector alert ALR-0031 ended [T1, ALR-0031]\n- 2026-09-21 04:52: Maintenance window MW-0007 completed [T4, MW-0007]\n\n## Evidence\n\n- Traffic, active users and availability dropped on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-012) between 2026-09-21 01:15 and 2026-09-21 04:45. [T1, ALR-0031]\n- Routine transport network works maintenance window (MW-0007) took place on LNK-SAH-01-B from 2026-09-21 01:19 to 2026-09-21 04:52. [T4, MW-0007]\n- Critical LINK_LOS alarm occurred on LNK-SAH-01-B starting at 2026-09-21 01:22 and cleared at 2026-09-21 04:43. [T6, ALM-000454]\n- Critical SITE_DOWN alarms occurred on S-SAH-001, S-SAH-002, and S-SAH-012 starting at 2026-09-21 01:23 and cleared around 2026-09-21 04:43-04:44. [T2, ALM-000455, ALM-000456, ALM-000457]\n- No unplanned configuration changes were made on the affected sites or their parents during the window. [T5]\n\n## Hypotheses\n\n1. **planned_maintenance** at LNK-SAH-01-B: confirmed. Maintenance window MW-0007 perfectly overlaps the timeframe of the traffic drop and causes the LINK_LOS and SITE_DOWN alarms on the dependent sites. [T4, T6, MW-0007, ALM-000454]\n\n## Ruled out\n\n- T5: No unplanned configuration changes were detected on the affected sites or their ancestor nodes during the specified window.\n\n## Recommended actions\n\n- Ensure transport maintenance notifications are clearly mapped to expected service interruptions to manage automated alerts properly.\n- Verify redundant paths if available to mitigate complete site isolation during routine transport maintenance.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:26, region_id=SAH) -> 1 detector alert(s) overlap 2026-09-20 16:00 to 2026-09-21 08:26.\n- `ALR-0031`: ended alert from 2026-09-21 01:15: 3 site(s) (S-SAH-001, S-SAH-002, S-SAH-012); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb\n- `T4`: get_maintenance(start=2026-09-20 18:00, end=2026-09-21 06:00, node_ids=['S-SAH-001', 'S-SAH-002', 'S-SAH-012'], include_ancestors=True) -> 1 maintenance window(s) on S-SAH-001, S-SAH-002, S-SAH-012 and its parents overlap 2026-09-20 18:00 to 2026-09-21 06:00: 1 completed (state as of asked_at 2026-09-21 08:26).\n- `MW-0007`: completed window 2026-09-21 01:19 -> 2026-09-21 04:52 on LNK-SAH-01-B: Routine transport network works; expected impact: Possible short service interruptions\n- `T6`: get_alarms(start=2026-09-20T18:00:00, end=2026-09-21T06:00:00, node_ids=['LNK-SAH-01-B'], include_descendants=True) -> 4 alarm(s) on LNK-SAH-01-B and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 4 critical; 0 active at asked_at (2026-09-21 08:26).\n- `ALM-000454`: critical LINK_LOS on LNK-SAH-01-B, raised 2026-09-21 01:22, cleared 2026-09-21 04:43\n- `T2`: get_alarms(start=2026-09-20 18:00, end=2026-09-21 06:00, node_ids=['S-SAH-001', 'S-SAH-002', 'S-SAH-012'], include_descendants=True) -> 3 alarm(s) on S-SAH-001, S-SAH-002, S-SAH-012 and nodes below, 2026-09-20 18:00 to 2026-09-21 06:00: 3 critical; 0 active at asked_at (2026-09-21 08:26).\n- `ALM-000455`: critical SITE_DOWN on S-SAH-012, raised 2026-09-21 01:23, cleared 2026-09-21 04:44\n- `ALM-000456`: critical SITE_DOWN on S-SAH-002, raised 2026-09-21 01:23, cleared 2026-09-21 04:43\n- `ALM-000457`: critical SITE_DOWN on S-SAH-001, raised 2026-09-21 01:23, cleared 2026-09-21 04:43\n- `T5`: get_changes(start=2026-09-20 18:00, end=2026-09-21 06:00, node_ids=['S-SAH-001', 'S-SAH-002', 'S-SAH-012'], include_ancestors=True) -> No changes on S-SAH-001, S-SAH-002, S-SAH-012 and its parents between 2026-09-20 18:00 and 2026-09-21 06:00.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why did traffic drop in Sahel last night?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-001",
+        "S-SAH-002",
+        "S-SAH-012",
+        "LNK-SAH-01-B"
+      ],
+      "classification": "planned_maintenance",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by matching maintenance window MW-0007, link loss alarm ALM-000454, and resulting site down alarms. External events were NOT CHECKED.",
+      "dismissed_signals": [
+        {
+          "reason": "No unplanned configuration changes were detected on the affected sites or their ancestor nodes during the specified window.",
+          "ref": "T5"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Traffic, active users and availability dropped on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-012) between 2026-09-21 01:15 and 2026-09-21 04:45.",
+          "refs": [
+            "T1",
+            "ALR-0031"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Routine transport network works maintenance window (MW-0007) took place on LNK-SAH-01-B from 2026-09-21 01:19 to 2026-09-21 04:52.",
+          "refs": [
+            "T4",
+            "MW-0007"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical LINK_LOS alarm occurred on LNK-SAH-01-B starting at 2026-09-21 01:22 and cleared at 2026-09-21 04:43.",
+          "refs": [
+            "T6",
+            "ALM-000454"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical SITE_DOWN alarms occurred on S-SAH-001, S-SAH-002, and S-SAH-012 starting at 2026-09-21 01:23 and cleared around 2026-09-21 04:43-04:44.",
+          "refs": [
+            "T2",
+            "ALM-000455",
+            "ALM-000456",
+            "ALM-000457"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No unplanned configuration changes were made on the affected sites or their parents during the window.",
+          "refs": [
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "planned_maintenance",
+          "node_id": "LNK-SAH-01-B",
+          "reason": "Maintenance window MW-0007 perfectly overlaps the timeframe of the traffic drop and causes the LINK_LOS and SITE_DOWN alarms on the dependent sites.",
+          "refs": [
+            "T4",
+            "T6",
+            "MW-0007",
+            "ALM-000454"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-21 04:45",
+      "impact_start": "2026-09-21 01:15",
+      "impact_summary": "Complete traffic, active users, and availability drop across three sites in Sahel (S-SAH-001, S-SAH-002, S-SAH-012) lasting for approximately 3.5 hours, starting around 01:15-01:23 and clearing around 04:43-04:45.",
+      "recommended_actions": [
+        "Ensure transport maintenance notifications are clearly mapped to expected service interruptions to manage automated alerts properly.",
+        "Verify redundant paths if available to mitigate complete site isolation during routine transport maintenance."
+      ],
+      "root_cause_category": "planned_maintenance",
+      "root_cause_node_id": "LNK-SAH-01-B",
+      "root_cause_summary": "Routine transport network works performed on shared fiber link LNK-SAH-01-B resulting in a link loss and subsequent site outages on dependent sites S-SAH-001, S-SAH-002, and S-SAH-012.",
+      "root_cause_time": "2026-09-21 01:19",
+      "timeline": [
+        {
+          "event": "Traffic, active users and availability drop begins on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-012)",
+          "refs": [
+            "T1",
+            "ALR-0031"
+          ],
+          "time": "2026-09-21 01:15"
+        },
+        {
+          "event": "Maintenance window MW-0007 starts on fiber link LNK-SAH-01-B for routine transport network works",
+          "refs": [
+            "T4",
+            "MW-0007"
+          ],
+          "time": "2026-09-21 01:19"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on LNK-SAH-01-B",
+          "refs": [
+            "T6",
+            "ALM-000454"
+          ],
+          "time": "2026-09-21 01:22"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-SAH-012, S-SAH-002, and S-SAH-001",
+          "refs": [
+            "T2",
+            "ALM-000455",
+            "ALM-000456",
+            "ALM-000457"
+          ],
+          "time": "2026-09-21 01:23"
+        },
+        {
+          "event": "LINK_LOS alarm on LNK-SAH-01-B and SITE_DOWN alarms on S-SAH-002 and S-SAH-001 cleared",
+          "refs": [
+            "T2",
+            "T6",
+            "ALM-000454",
+            "ALM-000456",
+            "ALM-000457"
+          ],
+          "time": "2026-09-21 04:43"
+        },
+        {
+          "event": "SITE_DOWN alarm on S-SAH-012 cleared",
+          "refs": [
+            "T2",
+            "ALM-000455"
+          ],
+          "time": "2026-09-21 04:44"
+        },
+        {
+          "event": "Detector alert ALR-0031 ended",
+          "refs": [
+            "T1",
+            "ALR-0031"
+          ],
+          "time": "2026-09-21 04:45"
+        },
+        {
+          "event": "Maintenance window MW-0007 completed",
+          "refs": [
+            "T4",
+            "MW-0007"
+          ],
+          "time": "2026-09-21 04:52"
+        }
+      ],
+      "title": "Traffic Drop in Sahel due to Transport Maintenance"
+    },
+    "run_id": "RUN-2e188b6868",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "traffic drop",
+      "unknown_ids": [],
+      "window_end": "2026-09-21T05:00:00Z",
+      "window_start": "2026-09-20T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 374,
+        "latency_ms": 739,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2962,
+        "latency_ms": 1046,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 218,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4162,
+        "latency_ms": 911,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 96,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4392,
+        "latency_ms": 1537,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 304,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5232,
+        "latency_ms": 1135,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 165,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4306,
+        "latency_ms": 4711,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1972,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5141
+      }
+    ],
+    "usage": {
+      "cached_calls": 5,
+      "input_tokens": 21428,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 6,
+      "output_tokens": 2858,
+      "tool_calls": 6,
+      "wall_seconds": 5.25
+    }
+  },
+  "run_name": "nogate-test",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SAH-01-B",
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-012"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "hard",
+    "end_at": "2026-09-21T03:52:00Z",
+    "evidence": [
+      {
+        "id": "MW-0007",
+        "table": "maintenance",
+        "visible_from": null
+      },
+      {
+        "id": "ALM-000454",
+        "table": "alarms",
+        "visible_from": "2026-09-21T00:22:00+00:00"
+      },
+      {
+        "id": "ALM-000455",
+        "table": "alarms",
+        "visible_from": "2026-09-21T00:23:00+00:00"
+      },
+      {
+        "id": "ALM-000456",
+        "table": "alarms",
+        "visible_from": "2026-09-21T00:23:00+00:00"
+      },
+      {
+        "id": "ALM-000457",
+        "table": "alarms",
+        "visible_from": "2026-09-21T00:23:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_maintenance",
+      "get_alarms",
+      "query_kpis"
+    ],
+    "impact_start_at": "2026-09-21T00:22:00Z",
+    "is_incident": false,
+    "kind": "planned_maintenance",
+    "notes": "Sites went down inside the maintenance window on LNK-SAH-01-B; not an incident.",
+    "root_cause_category": "planned_maintenance",
+    "root_cause_node_id": "LNK-SAH-01-B",
+    "severity": "low",
+    "start_at": "2026-09-21T00:19:00Z"
+  },
+  "variant": "no-gate"
+}

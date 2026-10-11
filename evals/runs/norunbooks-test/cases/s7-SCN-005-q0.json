@@ -1,0 +1,647 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-07T07:31:00Z",
+    "case_id": "s7-SCN-005-q0",
+    "question": "Latency complaints across the country yesterday afternoon, any idea?",
+    "question_index": 0,
+    "scenario_id": "SCN-005",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:34:35.072365Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-07T07:31:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-07 08:31",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-06 10:00"
+        },
+        "body": "2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:31.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0010 high ended, 2026-09-06 14:15 to 2026-09-06 16:00 (1.8 h): Nationwide: traffic and DNS query success drop; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 43 more) and on CORE-DNS-01 for 2 h\n  latency_ms spike on 52 entities: worst S-TUN-003 z 18.9, 19.3 -> 34.8, 2026-09-06 14:30 to 2026-09-06 16:00\n  dl_volume_mb drop on 4 entities: worst S-SFX-004 z -5.8, 2388 -> 1601, 2026-09-06 14:45 to 2026-09-06 16:00\n  query_success_pct drop on 1 entity: worst CORE-DNS-01 z -108.6, 99.9 -> 87.7, 2026-09-06 14:15 to 2026-09-06 16:00\n  +1 more metric group(s): resolution_ms spike\nALR-0011 low ended, 2026-09-06 17:45 to 2026-09-06 22:15 (4.5 h): Traffic drops; latency spikes on 3 sites in SFX (S-SFX-005, S-SFX-007, S-SFX-008) for 4.5 h\n  latency_ms spike on 3 entities: worst S-SFX-007 z 10.8, 36.3 -> 59.1, 2026-09-06 17:45 to 2026-09-06 22:00\n  dl_volume_mb drop on 1 entity: worst S-SFX-008 z -6.1, 6304 -> 4032, 2026-09-06 19:45 to 2026-09-06 21:15",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:31.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0010",
+          "ANM-000092",
+          "ANM-000104",
+          "ANM-000049",
+          "ALR-0011",
+          "ANM-000108",
+          "ANM-000110"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-06 17:00",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "CORE-DNS-01",
+            "S-TUN-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 13:00"
+        },
+        "body": "1 alarm(s) on CORE-DNS-01, S-TUN-003 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31).\nEarliest critical/major: 2026-09-06 14:38 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000099).\n2026-09-06 14:38 ALM-000099 major DNS_TIMEOUT_RATE CORE-DNS-01: cleared 2026-09-06 16:11",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on CORE-DNS-01, S-TUN-003 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000099"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "end": "2026-09-06 17:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 13:00"
+        },
+        "body": "No changes on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-06 17:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 13:00"
+        },
+        "body": "No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-06 17:00",
+          "entity_ids": [
+            "CORE-DNS-01"
+          ],
+          "entity_type": "core_node",
+          "metrics": [
+            "query_success_pct",
+            "resolution_ms"
+          ],
+          "start": "2026-09-06 13:00"
+        },
+        "body": "No baseline available for 2026-09-06 13:00 to 2026-09-06 17:00: fewer than 2 earlier Sundays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-07 08:31). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nCORE-DNS-01 query_success_pct: mean 95.4; min 87.3 at 2026-09-06 14:45, max 99.9 at 2026-09-06 14:00; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (30 min buckets from 2026-09-06 13:00): 99.9 99.9 98.1 87.5 88.1 87.8 99.9 99.9 99.9\nCORE-DNS-01 resolution_ms: mean 47.8; min 10.1 at 2026-09-06 13:00, max 115 at 2026-09-06 15:30; baseline unavailable (need 2+ earlier same-type days, have 0).\nseries (30 min buckets from 2026-09-06 13:00): 10.1 11.2 25.8 115 106 111 11 11.2 10.6",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-06 13:00 to 2026-09-06 17:00: fewer than 2 earlier Sundays with data. Raw statistics only.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 22
+      },
+      {
+        "args": {
+          "end": "2026-09-06 18:00",
+          "region_id": null,
+          "start": "2026-09-06 12:00"
+        },
+        "body": "No external events for all regions between 2026-09-06 12:00 and 2026-09-06 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for all regions between 2026-09-06 12:00 and 2026-09-06 18:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      },
+      {
+        "args": {
+          "end": "2026-09-06 17:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 12:00"
+        },
+        "body": "No changes on CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 17:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 17:00.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "query": "SELECT * FROM core_kpis WHERE node_id = 'CORE-DNS-01' AND timestamp >= '2026-09-06 13:00' AND timestamp <= '2026-09-06 17:00'"
+        },
+        "body": "SQL error: column \"timestamp\" does not exist. Columns: core_kpis(ts, node_id, metric, value).",
+        "duplicate_of": null,
+        "error": "SQL error: column \"timestamp\" does not exist. Columns: core_kpis(ts, node_id, metric, value).",
+        "headline": "run_sql error: SQL error: column \"timestamp\" does not exist. Columns: core_kpis(ts, node_id, metric, value).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-06 17:00",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-06 13:00"
+        },
+        "body": "1 alarm(s) on CORE-DNS-01 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31).\nEarliest critical/major: 2026-09-06 14:38 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000099).\n2026-09-06 14:38 ALM-000099 major DNS_TIMEOUT_RATE CORE-DNS-01: cleared 2026-09-06 16:11",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on CORE-DNS-01 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [
+          "ALM-000099"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALM-000099": {
+        "kind": "alarm",
+        "ref": "ALM-000099",
+        "summary": "major DNS_TIMEOUT_RATE on CORE-DNS-01, raised 2026-09-06 14:38, cleared 2026-09-06 16:11"
+      },
+      "ALR-0010": {
+        "kind": "alert",
+        "ref": "ALR-0010",
+        "summary": "ended alert from 2026-09-06 14:15: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: dl_vol..."
+      },
+      "ALR-0011": {
+        "kind": "alert",
+        "ref": "ALR-0011",
+        "summary": "ended alert from 2026-09-06 17:45: 3 site(s) (S-SFX-005, S-SFX-007, S-SFX-008); metrics: dl_volume_mb, latency_ms"
+      },
+      "ANM-000049": {
+        "kind": "anomaly",
+        "ref": "ANM-000049",
+        "summary": "CORE-DNS-01 query_success_pct drop, z -108.6, baseline 99.9 -> 87.7"
+      },
+      "ANM-000092": {
+        "kind": "anomaly",
+        "ref": "ANM-000092",
+        "summary": "S-TUN-003 latency_ms spike, z 18.9, baseline 19.3 -> 34.8"
+      },
+      "ANM-000104": {
+        "kind": "anomaly",
+        "ref": "ANM-000104",
+        "summary": "S-SFX-004 dl_volume_mb drop, z -5.8, baseline 2388 -> 1601"
+      },
+      "ANM-000108": {
+        "kind": "anomaly",
+        "ref": "ANM-000108",
+        "summary": "S-SFX-007 latency_ms spike, z 10.8, baseline 36.3 -> 59.1"
+      },
+      "ANM-000110": {
+        "kind": "anomaly",
+        "ref": "ANM-000110",
+        "summary": "S-SFX-008 dl_volume_mb drop, z -6.1, baseline 6304 -> 4032"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-06 10:00, end=2026-09-07 08:31) -> 2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:31."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01', 'S-TUN-003'], include_descendants=True, min_severity=minor) -> 1 alarm(s) on CORE-DNS-01, S-TUN-003 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "query_kpis(entity_type=core_node, entity_ids=['CORE-DNS-01'], metrics=['query_success_pct', 'resolution_ms'], start=2026-09-06 13:00, end=2026-09-06 1 -> No baseline available for 2026-09-06 13:00 to 2026-09-06 17:00: fewer than 2 earlier Sundays with data. Raw statistics only."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_external_events(start=2026-09-06 12:00, end=2026-09-06 18:00) -> No external events for all regions between 2026-09-06 12:00 and 2026-09-06 18:00."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-06 12:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 17:00."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "run_sql(query=SELECT * FROM core_kpis WHERE node_id = 'CORE-DNS-01' AND timestamp >= '2026-09-06 13:00' AND timestamp <= '2026-09-06 17:00') -> run_sql error: SQL error: column \"timestamp\" does not exist. Columns: core_kpis(ts, node_id, metric, value)."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_alarms(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_descendants=True, min_severity=warning) -> 1 alarm(s) on CORE-DNS-01 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31)."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide Latency and DNS Degradation Incident\n\n- **Classification:** incident\n- **Root cause:** core_degradation at `CORE-DNS-01`\n- **Confidence:** high (Direct evidence of DNS timeout alarms and success rate drops on CORE-DNS-01 matching the nationwide anomaly timing; changes, maintenance, and external events were checked and ruled out.)\n- **Impact:** 2026-09-06 14:15 to 2026-09-06 16:11\n- **Cause time:** 2026-09-06 14:38\n- **Affected:** CORE-DNS-01, S-TUN-003, S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005, S-SFX-004\n\n## Summary\n\nCore DNS degradation resulting in DNS timeout rates and nationwide latency spikes and traffic drops.\n\nNationwide latency complaints, DNS query success drops, and traffic impact spanning 48 sites across 4 regions and CORE-DNS-01 from 2026-09-06 14:15 to 2026-09-06 16:00.\n\n## Timeline\n\n- 2026-09-06 14:15: Nationwide traffic and DNS query success drop anomaly ALR-0010 started. [T1, ALR-0010]\n- 2026-09-06 14:38: Major alarm ALM-000099 (DNS_TIMEOUT_RATE) raised on CORE-DNS-01. [T2, ALM-000099]\n- 2026-09-06 16:00: Nationwide anomaly ALR-0010 ended. [T1, ALR-0010]\n- 2026-09-06 16:11: Major alarm ALM-000099 on CORE-DNS-01 cleared. [T2, ALM-000099]\n\n## Evidence\n\n- Nationwide traffic, DNS query success drop, and latency spike occurred affecting 48 sites and CORE-DNS-01 between 2026-09-06 14:15 and 2026-09-06 16:00. [T1, ALR-0010]\n- Major alarm DNS_TIMEOUT_RATE (ALM-000099) was raised on CORE-DNS-01 at 2026-09-06 14:38 and cleared at 2026-09-06 16:11. [T2, ALM-000099]\n- No changes or maintenance windows were scheduled on CORE-DNS-01 or its parents during the incident window. [T3, T4, T7]\n- No external events were reported across all regions between 2026-09-06 12:00 and 2026-09-06 18:00. [T6]\n\n## Hypotheses\n\n1. **core_degradation** at CORE-DNS-01: confirmed. Directly evidenced by major DNS timeout alarms and severe query success drops on CORE-DNS-01 aligning with nationwide latency complaints and anomalies, with no concurrent changes or external events. [T1, T2, ALR-0010, ALM-000099]\n\n## Ruled out\n\n- ALR-0011: Rule out as unrelated since it occurred later (2026-09-06 17:45 to 22:15) and was localized to 3 sites in SFX rather than nationwide.\n\n## Recommended actions\n\n- Investigate the root cause of the DNS timeout rate spike on CORE-DNS-01 during Sunday afternoon hours.\n- Review DNS resource capacity and redundancy configurations.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-06 10:00, end=2026-09-07 08:31) -> 2 detector alert(s) overlap 2026-09-06 10:00 to 2026-09-07 08:31.\n- `ALR-0010`: ended alert from 2026-09-06 14:15: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: dl_vol...\n- `T2`: get_alarms(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01', 'S-TUN-003'], include_descendants=True, min_severity=minor) -> 1 alarm(s) on CORE-DNS-01, S-TUN-003 and nodes below, 2026-09-06 13:00 to 2026-09-06 17:00: 1 major; 0 active at asked_at (2026-09-07 08:31).\n- `ALM-000099`: major DNS_TIMEOUT_RATE on CORE-DNS-01, raised 2026-09-06 14:38, cleared 2026-09-06 16:11\n- `T3`: get_changes(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00.\n- `T4`: get_maintenance(start=2026-09-06 13:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-06 13:00 and 2026-09-06 17:00.\n- `T7`: get_changes(start=2026-09-06 12:00, end=2026-09-06 17:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> No changes on CORE-DNS-01 and its parents between 2026-09-06 12:00 and 2026-09-06 17:00.\n- `T6`: get_external_events(start=2026-09-06 12:00, end=2026-09-06 18:00) -> No external events for all regions between 2026-09-06 12:00 and 2026-09-06 18:00.\n- `ALR-0011`: ended alert from 2026-09-06 17:45: 3 site(s) (S-SFX-005, S-SFX-007, S-SFX-008); metrics: dl_volume_mb, latency_ms\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Latency complaints across the country yesterday afternoon, any idea?",
+    "report": {
+      "affected_node_ids": [
+        "CORE-DNS-01",
+        "S-TUN-003",
+        "S-SAH-001",
+        "S-SAH-002",
+        "S-SAH-003",
+        "S-SAH-004",
+        "S-SAH-005",
+        "S-SFX-004"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of DNS timeout alarms and success rate drops on CORE-DNS-01 matching the nationwide anomaly timing; changes, maintenance, and external events were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Rule out as unrelated since it occurred later (2026-09-06 17:45 to 22:15) and was localized to 3 sites in SFX rather than nationwide.",
+          "ref": "ALR-0011"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Nationwide traffic, DNS query success drop, and latency spike occurred affecting 48 sites and CORE-DNS-01 between 2026-09-06 14:15 and 2026-09-06 16:00.",
+          "refs": [
+            "T1",
+            "ALR-0010"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Major alarm DNS_TIMEOUT_RATE (ALM-000099) was raised on CORE-DNS-01 at 2026-09-06 14:38 and cleared at 2026-09-06 16:11.",
+          "refs": [
+            "T2",
+            "ALM-000099"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes or maintenance windows were scheduled on CORE-DNS-01 or its parents during the incident window.",
+          "refs": [
+            "T3",
+            "T4",
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events were reported across all regions between 2026-09-06 12:00 and 2026-09-06 18:00.",
+          "refs": [
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "core_degradation",
+          "node_id": "CORE-DNS-01",
+          "reason": "Directly evidenced by major DNS timeout alarms and severe query success drops on CORE-DNS-01 aligning with nationwide latency complaints and anomalies, with no concurrent changes or external events.",
+          "refs": [
+            "T1",
+            "T2",
+            "ALR-0010",
+            "ALM-000099"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-06 16:11",
+      "impact_start": "2026-09-06 14:15",
+      "impact_summary": "Nationwide latency complaints, DNS query success drops, and traffic impact spanning 48 sites across 4 regions and CORE-DNS-01 from 2026-09-06 14:15 to 2026-09-06 16:00.",
+      "recommended_actions": [
+        "Investigate the root cause of the DNS timeout rate spike on CORE-DNS-01 during Sunday afternoon hours.",
+        "Review DNS resource capacity and redundancy configurations."
+      ],
+      "root_cause_category": "core_degradation",
+      "root_cause_node_id": "CORE-DNS-01",
+      "root_cause_summary": "Core DNS degradation resulting in DNS timeout rates and nationwide latency spikes and traffic drops.",
+      "root_cause_time": "2026-09-06 14:38",
+      "timeline": [
+        {
+          "event": "Nationwide traffic and DNS query success drop anomaly ALR-0010 started.",
+          "refs": [
+            "T1",
+            "ALR-0010"
+          ],
+          "time": "2026-09-06 14:15"
+        },
+        {
+          "event": "Major alarm ALM-000099 (DNS_TIMEOUT_RATE) raised on CORE-DNS-01.",
+          "refs": [
+            "T2",
+            "ALM-000099"
+          ],
+          "time": "2026-09-06 14:38"
+        },
+        {
+          "event": "Nationwide anomaly ALR-0010 ended.",
+          "refs": [
+            "T1",
+            "ALR-0010"
+          ],
+          "time": "2026-09-06 16:00"
+        },
+        {
+          "event": "Major alarm ALM-000099 on CORE-DNS-01 cleared.",
+          "refs": [
+            "T2",
+            "ALM-000099"
+          ],
+          "time": "2026-09-06 16:11"
+        }
+      ],
+      "title": "Nationwide Latency and DNS Degradation Incident"
+    },
+    "run_id": "RUN-fb5cc014f2",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "Latency complaints",
+      "unknown_ids": [],
+      "window_end": "2026-09-06T17:00:00Z",
+      "window_start": "2026-09-06T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 377,
+        "latency_ms": 758,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 94,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3144,
+        "latency_ms": 1447,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 221,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1450
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3859,
+        "latency_ms": 1001,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 146,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4035
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4563,
+        "latency_ms": 1187,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 230,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4659
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5199,
+        "latency_ms": 1157,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 166,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4441
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4129,
+        "latency_ms": 3626,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1382,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6960
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 21271,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2239,
+      "tool_calls": 9,
+      "wall_seconds": 21.65
+    }
+  },
+  "run_name": "norunbooks-test",
+  "truth": {
+    "affected_node_ids": [
+      "CORE-DNS-01",
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-06T15:02:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000099",
+        "table": "alarms",
+        "visible_from": "2026-09-06T13:38:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-06T13:21:00Z",
+    "is_incident": true,
+    "kind": "dns_degradation",
+    "notes": "CORE-DNS-01 degraded: query success dropped and resolution time multiplied. Applied nationwide: latency x1.79, DL volume -29%.",
+    "root_cause_category": "core_degradation",
+    "root_cause_node_id": "CORE-DNS-01",
+    "severity": "high",
+    "start_at": "2026-09-06T13:21:00Z"
+  },
+  "variant": "no-runbooks"
+}

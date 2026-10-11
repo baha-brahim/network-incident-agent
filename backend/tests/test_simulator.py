@@ -10,6 +10,7 @@ import pandas as pd
 import pytest
 
 from incident_agent.simulator.build import build_world
+from incident_agent.simulator.digest import table_digests, world_digest
 from incident_agent.simulator.io import read_world, write_world
 from incident_agent.simulator.world import SCHEMA, World
 
@@ -102,6 +103,34 @@ def test_determinism(world: World) -> None:
     again = build_world(seed=42)
     for name, df in world.tables().items():
         pd.testing.assert_frame_equal(df, again.tables()[name], check_exact=True)
+
+
+# Content digests of the default worlds (`simulator.digest`). The seed-42 and seed-7 databases and
+# every recorded evaluation result depend on these exact worlds: a change that moves a digest
+# changes them, so update these values only on purpose.
+DEFAULT_WORLD_DIGESTS = {
+    42: "f0cd559705141ef0e73d725364b8ee5e6d0553d7fb58af419aa1cd2121d3a46a",
+    7: "0924d9858eedd14c73271ad30a25283074e5d3897dfa06f3270d255e7fd87809",
+}
+SEED_42_TABLE_DIGESTS = {
+    "alarms": "c97ce801dd0d2ae7368621fac37257755848ee413839c5ca4c73fd49b5f0b76a",
+    "cell_kpis": "b5855c4d991d678f294056d3e12f6a2d48617057c36c3aaec9f4bad139f9c5a6",
+    "cells": "3ad5f611b9ad3f8e56c39bd5a14897798e7435281259babe2ec3fe105517487d",
+    "changes": "907d1f143ae8e1ff9611917080b9e1a55b185a5ba0ba4b27c2ba838b2798d2ca",
+    "core_kpis": "97e96e940d587164d5bb36cd1410eed12f7b58da96f89e1b6b54026ea94548c1",
+    "dataset_meta": "1ef298b899ef1b1f0f482ed871856448b37c65a85cc82fdf174ab07aaa295f71",
+    "external_events": "f16f1adf60db064341a00351d59b770aa943b2a08b44730ef45a1e1ba2b99371",
+    "maintenance": "7ab2726ab733ea17d8b8f1dbe3d2ee61a6d568772d7b58d2fc91175048f72a9c",
+    "nodes": "5d6fdea9a3b6312eef265e2e9ca6a70cdf8043a1142097c927a6b4779169767f",
+    "regions": "8800348421489837e5aacc19ca5d9c97f89d23b4cfb878a1b22b94f836b6a733",
+    "scenarios": "8ea38dd488f6952d56a1f58f1daed6c49d12f559f892e769c9f7475a659a8b00",
+}
+
+
+def test_default_world_is_pinned(world: World, other_world: World) -> None:
+    assert table_digests(world) == SEED_42_TABLE_DIGESTS
+    assert world_digest(world) == DEFAULT_WORLD_DIGESTS[42]
+    assert world_digest(other_world) == DEFAULT_WORLD_DIGESTS[7]
 
 
 def test_different_seeds_differ(world: World, other_world: World) -> None:

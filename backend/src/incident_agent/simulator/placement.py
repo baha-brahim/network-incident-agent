@@ -10,7 +10,7 @@ import pandas as pd
 
 from incident_agent.simulator.config import ScenarioSpec
 from incident_agent.simulator.drafts import Ctx, Params
-from incident_agent.simulator.scenarios import SCENARIO_KINDS
+from incident_agent.simulator.registry import scenario_kinds
 from incident_agent.simulator.timeaxis import local_to_utc
 
 
@@ -33,8 +33,9 @@ def _conflicts(
 
 def place_scenarios(ctx: Ctx) -> list[Placed]:
     cfg, axis, rng = ctx.cfg, ctx.axis, ctx.rng
+    kinds = scenario_kinds(cfg)
     specs = list(cfg.scenario_plan)
-    params = [SCENARIO_KINDS[s.kind].sample(ctx, s.difficulty) for s in specs]
+    params = [kinds[s.kind].sample(ctx, s.difficulty) for s in specs]
     margin = pd.Timedelta(minutes=cfg.scenario_margin_minutes)
     earliest = axis.at(cfg.first_scenario_day, 0.0)
     latest_end = local_to_utc(cfg.latest_scenario_end_local, cfg.utc_offset_hours)
@@ -127,7 +128,7 @@ def place_scenarios(ctx: Ctx) -> list[Placed]:
             if params[j].regions != params[i].regions and try_place(j, i, starts[i], attempts=20):
                 return True
             unplace(i)
-            params[j] = SCENARIO_KINDS[specs[j].kind].sample(ctx, specs[j].difficulty)
+            params[j] = kinds[specs[j].kind].sample(ctx, specs[j].difficulty)
         return False
 
     for i in order:

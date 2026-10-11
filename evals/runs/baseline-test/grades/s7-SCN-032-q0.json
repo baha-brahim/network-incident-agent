@@ -1,0 +1,42 @@
+{
+  "case_id": "s7-SCN-032-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "RB-CHANGE-CORRELATION#03"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4043,
+      "live_tokens": 4330,
+      "output_tokens": 287
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change, timing, and symptoms, but the runbook text is shortened, omitting the specific criteria (e.g., control group results) needed to fully validate the causal conclusion.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1, T5, and the anomaly records explicitly state that rrc_success_pct and drop_rate_pct anomalies on S-SFX-004 are ongoing since 2026-09-28 01:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "CHG-2026-0071 and T4 both confirm that config_push CHG-2026-0071 was applied to AGG-SFX-01 at 2026-09-28 01:36.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 and T8 list minor RRC_FAILURE_RATE_HIGH alarms on S-SFX-004 and S-SFX-007 raised at 01:54 and 01:57, which follows the 01:36 change.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

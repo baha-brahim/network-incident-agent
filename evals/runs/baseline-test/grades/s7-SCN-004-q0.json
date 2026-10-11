@@ -1,0 +1,40 @@
+{
+  "case_id": "s7-SCN-004-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2979,
+      "live_tokens": 3164,
+      "output_tokens": 185
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the specific metrics (PRB, users, volume) and alarm matching the runbook signature for radio capacity congestion.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and T3 show the anomaly window ending at 22:15, while the alarm cleared at 22:21; the claim extends the congestion to 22:21.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 explicitly reports no external events for region SAH in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 and T8 explicitly report no changes or maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

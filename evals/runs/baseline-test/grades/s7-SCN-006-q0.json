@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-006-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2239,
+      "live_tokens": 2464,
+      "output_tokens": 225
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarm and runbook signature support the inference of microwave link degradation on the specified link.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and tool output explicitly show latency spikes and detector alerts for S-SFX-007.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The alarm record explicitly states the severity, link, start time, and clear time matching the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The tool output confirms no changes on the listed nodes and parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output confirms no maintenance windows on the listed nodes and parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The tool output confirms no external events for region SFX within the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

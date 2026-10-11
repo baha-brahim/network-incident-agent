@@ -1,0 +1,40 @@
+{
+  "case_id": "s7-SCN-014-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2573,
+      "live_tokens": 2754,
+      "output_tokens": 181
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited runbook defines the signature and T3 shows the matching alarm pattern, supporting the inference of a nuisance storm.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly reports 29 alarms (14 minor, 15 warning) on S-SUD-003 in the window, all cleared.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T1 output states no detector alerts for S-SUD-003 or relatives in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 and T6 outputs confirm no maintenance windows or changes on S-SUD-003 or parents in the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

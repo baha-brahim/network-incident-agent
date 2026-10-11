@@ -1,0 +1,40 @@
+{
+  "case_id": "s7-SCN-025-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2095,
+      "live_tokens": 2256,
+      "output_tokens": 161
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert confirm the sequence of power failure, battery low, and site down, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert and anomalies explicitly state availability and active users dropped to 0 during the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarms list the exact timestamps and types for mains failure, low battery, and site down on the node.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs explicitly report no maintenance or changes for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

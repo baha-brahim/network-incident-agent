@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-009-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3157,
+      "live_tokens": 3479,
+      "output_tokens": 322
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The claim states the conclusion is inconclusive due to model failure, which is a meta-statement about the process, not a fact derived from the cited evidence.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence T1 explicitly states '1 detector alert(s) overlap 2026-09-08 16:00 to 2026-09-09 09:07'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited evidence T2 explicitly lists the dependency chain: S-TUN-007 -> LNK-TUN-02-C -> AGG-TUN-02 -> CORE-UPF-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited evidence T3 explicitly states '9 alarm(s)... 5 critical, 2 major, 2 minor; 0 active at asked_at'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited evidence T4 explicitly states '1 change(s)... (1 on upstream nodes, 0 rolled back by asked_at)'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited evidence T5 explicitly states '1 maintenance window(s)... 1 completed (state as of asked_at)'.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

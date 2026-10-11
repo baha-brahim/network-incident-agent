@@ -17,6 +17,7 @@ from incident_agent.evals.cases import (
 from incident_agent.evals.prepare import prepare_database, resolve_targets
 from incident_agent.evals.rundir import RUNS_DIR, RunDir
 from incident_agent.evals.runner import VARIANTS, RunOptions, execute_run
+from incident_agent.evals.scoring import trap_of
 from incident_agent.evals.summary import (
     case_line,
     load_scored_run,
@@ -33,8 +34,8 @@ def _runs_dir(args: argparse.Namespace) -> Path:
 
 
 def cmd_prepare(args: argparse.Namespace) -> int:
-    targets = resolve_targets(args.seed, database=args.database)
-    report = prepare_database(targets, args.seed, force=args.force)
+    targets = resolve_targets(args.seed, database=args.database, profile=args.profile)
+    report = prepare_database(targets, args.seed, force=args.force, profile=args.profile)
     print(f"database {report.database}: " + ("created" if report.created else "already existed"))
     print("rows: " + ", ".join(f"{t} {n:,}" for t, n in report.rows.items()))
     print(
@@ -46,16 +47,17 @@ def cmd_prepare(args: argparse.Namespace) -> int:
 
 
 def cmd_cases(args: argparse.Namespace) -> int:
-    targets = resolve_targets(args.seed, database=args.database)
+    targets = resolve_targets(args.seed, database=args.database, profile=args.profile)
     engine = create_engine(targets.owner_url)
     try:
-        cases = stratified(load_planned_cases(engine, args.seed, args.questions))
+        cases = stratified(load_planned_cases(engine, args.seed, args.questions, args.profile))
     finally:
         engine.dispose()
     run = RunDir(args.run, _runs_dir(args)) if args.run else None
     for n, c in enumerate(cases, 1):
         state = run.case_state(c.case_id) if run else ""
-        print(f"{n:>3} {c.case_id:<20} {c.truth.kind:<20} {c.truth.difficulty:<7} {state}")
+        trap = f" {trap_of(c.truth.notes) or '-':<32}" if args.profile != "default" else ""
+        print(f"{n:>3} {c.case_id:<20} {c.truth.kind:<20} {c.truth.difficulty:<7}{trap} {state}")
     return 0
 
 
@@ -76,13 +78,16 @@ def cmd_run(args: argparse.Namespace) -> int:
         model=args.model,
         database=args.database,
         runs_dir=_runs_dir(args),
+        profile=args.profile,
     )
     if opts.only:
         # Fail on a typo before anything runs.
-        targets = resolve_targets(args.seed, database=args.database)
+        targets = resolve_targets(args.seed, database=args.database, profile=args.profile)
         engine = create_engine(targets.owner_url)
         try:
-            select_cases(load_planned_cases(engine, args.seed, args.questions), opts.only)
+            select_cases(
+                load_planned_cases(engine, args.seed, args.questions, args.profile), opts.only
+            )
         finally:
             engine.dispose()
     result = execute_run(opts)
@@ -129,14 +134,24 @@ def add_commands(sub: Any) -> None:
     def common(p: argparse.ArgumentParser) -> None:
         p.add_argument("--runs-dir", help=f"default: {RUNS_DIR}")
 
+    def profile_arg(p: argparse.ArgumentParser) -> None:
+        p.add_argument(
+            "--profile",
+            choices=["default", "hard"],
+            default="default",
+            help="scenario profile of the world; a hard world has its own database",
+        )
+
     p = sub.add_parser("prepare", help="create and fill the evaluation database of a seed")
     p.add_argument("--seed", type=int, required=True)
+    profile_arg(p)
     p.add_argument("--database", help="default: the dev database for seed 42, else a per-seed one")
     p.add_argument("--force", action="store_true", help="rebuild the world even if it is loaded")
     p.set_defaults(func=cmd_prepare)
 
     p = sub.add_parser("cases", help="list the cases of a seed in run order")
     p.add_argument("--seed", type=int, required=True)
+    profile_arg(p)
     p.add_argument("--database")
     p.add_argument("--questions", choices=["first", "all"], default="first")
     p.add_argument("--run", help="show the state of each case in this run")
@@ -146,6 +161,7 @@ def add_commands(sub: Any) -> None:
     p = sub.add_parser("run", help="run (or resume) the agent on the cases of a seed")
     p.add_argument("--name", required=True, help="run name, e.g. baseline-dev")
     p.add_argument("--seed", type=int, required=True)
+    profile_arg(p)
     p.add_argument("--variant", choices=sorted(VARIANTS), default="default")
     p.add_argument("--questions", choices=["first", "all"], default="first")
     p.add_argument("--only", help="comma-separated scenario ids or case ids")

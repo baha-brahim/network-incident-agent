@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-020-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2607,
+      "live_tokens": 2902,
+      "output_tokens": 295
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows a stadium event near S-TUN-001 and traffic spikes on three sites, supporting the inference that the event caused the surge.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T4 shows S-TUN-002 onset at 18:15, but S-TUN-001 and S-TUN-003 onsets are at 18:30, contradicting the claim that all started at 18:15.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "EVT-002 and T9 explicitly state the event occurred between 18:12 and 22:02 near S-TUN-001 at the Rades Olympic complex.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 explicitly reports no maintenance windows scheduled on the specified sites and parents during the stated window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The temporal correlation between the event (18:12-22:02) and the traffic surge (18:15-22:00) on nearby sites makes this a reasonable inference.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -231,6 +231,9 @@ class SimConfig:
     noise_maintenance_windows: int = 6
     future_maintenance_windows: int = 2
 
+    # Scenario profile: "default" or "hard" (see `config_for_profile`).
+    profile: str = "default"
+
     # Scenarios.
     scenario_plan: tuple[ScenarioSpec, ...] = DEFAULT_PLAN
     first_scenario_day: int = 2  # local day index; scenarios start on or after 3 Sept
@@ -240,3 +243,57 @@ class SimConfig:
     same_kind_gap_days: float = 5.0  # preferred spacing between scenarios of one kind
     holiday_urban_drop: float = 0.33
     holiday_residential_boost: float = 0.10
+
+
+PROFILES = ("default", "hard")
+
+
+def _h(kind: str) -> ScenarioSpec:
+    return ScenarioSpec(kind, "hard")
+
+
+# The hard profile: every trap scenario is a registry key of `simulator.hard`; the plain
+# scenarios use the ordinary kinds. A "pair_*" entry produces two scenarios.
+HARD_PLAN: tuple[ScenarioSpec, ...] = (
+    _h("root_change_dns_upgrade"),
+    _h("root_change_dns_upgrade_silent"),
+    _h("root_change_power_param"),
+    _h("root_change_fiber_router"),
+    _h("root_change_congestion_batch"),
+    _h("root_change_linkdeg_router"),
+    _h("bad_change_maint_sibling"),
+    _h("bad_change_flapping_link"),
+    _h("bad_change_stadium_region"),
+    _h("near_miss_other_link"),
+    _h("near_miss_starts_before"),
+    _h("near_miss_overrun"),
+    _h("near_miss_none_expected_power"),
+    _h("near_miss_none_expected_fiber"),
+    _h("match_day_congestion"),
+    _h("match_day_congestion"),
+    _h("venue_noise"),
+    _h("venue_noise"),
+    ScenarioSpec("pair_power_fiber", "hard", "pair-a"),
+    ScenarioSpec("pair_fiber_config", "hard", "pair-b"),
+    ScenarioSpec("pair_linkdeg_power", "hard", "pair-c"),
+    _h("missing_alarm_fiber"),
+    _h("missing_alarm_fiber"),
+    _h("missing_alarm_power"),
+    _h("scary_change_link"),
+    _h("scary_change_site"),
+    ScenarioSpec("fiber_cut", "easy"),
+    ScenarioSpec("config_push", "easy"),
+    ScenarioSpec("link_degradation", "easy"),
+    ScenarioSpec("public_holiday", "medium"),
+    ScenarioSpec("alarm_storm", "easy"),
+)
+
+
+def config_for_profile(profile: str = "default") -> SimConfig:
+    """The configuration of a scenario profile."""
+    if profile == "default":
+        return SimConfig()
+    if profile == "hard":
+        # Wider margin: a decoy may precede its scenario by up to 90 minutes.
+        return SimConfig(profile="hard", scenario_plan=HARD_PLAN, scenario_margin_minutes=150)
+    raise ValueError(f"unknown profile {profile!r}; choose from {', '.join(PROFILES)}")

@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-012-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2331,
+      "live_tokens": 2595,
+      "output_tokens": 264
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and the runbook signature for volume/latency changes, but does not explicitly state 'reduced modulation' as an observed fact in the data.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and alert explicitly report a download volume drop and latency spike for site S-SUD-001.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record explicitly states the major LINK_DEGRADED alarm on LNK-SUD-02-B with the exact start and end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output explicitly reports no changes on the specified nodes and their parents during the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no maintenance windows on the specified nodes and their parents during the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no external events for region SUD during the given time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

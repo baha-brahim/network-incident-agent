@@ -1,9 +1,10 @@
 """Prepare the database of an evaluation world.
 
 One database per seed on the same server (`incident_agent_eval_s<seed>`; seed 42 is the dev
-database). Preparation creates it, grants the read-only role, migrates it, builds and loads the
-world, runs the detector and ingests the runbooks. Every stage is skipped when it is already
-done, so the command can be repeated.
+database). A hard-profile world has its own database (`incident_agent_eval_hard_s<seed>`), so
+it can never be confused with the default world of the same seed. Preparation creates it, grants
+the read-only role, migrates it, builds and loads the world, runs the detector and ingests the
+runbooks. Every stage is skipped when it is already done, so the command can be repeated.
 """
 
 import time
@@ -26,6 +27,7 @@ from incident_agent.simulator.world import World
 
 ALEMBIC_INI = REPO_ROOT / "backend" / "alembic.ini"
 EVAL_DB_PREFIX = "incident_agent_eval_s"
+HARD_DB_PREFIX = "incident_agent_eval_hard_s"
 AGENT_RO = "agent_ro"
 AGENT_RO_PASSWORD = "agent_ro"  # local dev role, as created by docker/postgres/init.sql
 
@@ -39,12 +41,22 @@ class DbTargets:
 
 
 def resolve_targets(
-    seed: int, *, database: str | None = None, settings: Settings | None = None
+    seed: int,
+    *,
+    database: str | None = None,
+    settings: Settings | None = None,
+    profile: str = "default",
 ) -> DbTargets:
-    """The databases of a seed: seed 42 is the dev database, every other seed has its own."""
+    """The databases of a seed: seed 42 is the dev database, every other seed has its own, and
+    a hard-profile world always has its own."""
     cfg = settings or get_settings()
     dev = make_url(cfg.database_url)
-    name = database or (dev.database if seed == DEV_SEED else f"{EVAL_DB_PREFIX}{seed}")
+    default_name: str | None
+    if profile != "default":
+        default_name = f"{HARD_DB_PREFIX}{seed}"
+    else:
+        default_name = dev.database if seed == DEV_SEED else f"{EVAL_DB_PREFIX}{seed}"
+    name = database or default_name
     if not name:
         raise ValueError("DATABASE_URL names no database")
     return DbTargets(
@@ -136,6 +148,13 @@ def loaded_seed(engine: Engine) -> str | None:
     return str(value) if value is not None and n_nodes else None
 
 
+def loaded_profile(engine: Engine) -> str:
+    """The scenario profile of the world in the database (worlds without the key are default)."""
+    with engine.connect() as conn:
+        value = conn.execute(text("SELECT value FROM dataset_meta WHERE key = 'profile'")).scalar()
+    return str(value) if value is not None else "default"
+
+
 def _count(engine: Engine, table: str) -> int:
     with engine.connect() as conn:
         return int(conn.execute(text(f"SELECT count(*) FROM {table}")).scalar_one())
@@ -146,9 +165,10 @@ def prepare_database(
     seed: int,
     *,
     force: bool = False,
-    world_builder: Callable[[int], World] = build_world,
+    world_builder: Callable[[int], World] | None = None,
     embedder: Embedder | None = None,
     log: Callable[[str], None] = print,
+    profile: str = "default",
 ) -> PrepareReport:
     """Bring `targets` to the state an evaluation needs. No model is called."""
     report = PrepareReport(database=targets.name)
@@ -160,19 +180,25 @@ def prepare_database(
         log(f"  {label}: {report.seconds[label]:.1f}s")
         return out
 
-    log(f"preparing {targets.name} for seed {seed}")
+    build = world_builder or (lambda s: build_world(s, profile=profile))
+    log(f"preparing {targets.name} for seed {seed} ({profile} profile)")
     report.created = stage("database and grants", lambda: ensure_database(targets))
     stage("migrations", lambda: migrate(targets))
     engine = create_engine(targets.owner_url)
     try:
         current = loaded_seed(engine)
-        if current is not None and current != str(seed) and not force:
+        held = loaded_profile(engine) if current is not None else profile
+        if current is not None and (current != str(seed) or held != profile) and not force:
+            what = (
+                f"the world of seed {current}, not {seed}"
+                if held == profile
+                else f"the {held} world of seed {current}, not the {profile} world of seed {seed}"
+            )
             raise RuntimeError(
-                f"{targets.name} holds the world of seed {current}, not {seed}; "
-                "use another --database, or --force to replace it."
+                f"{targets.name} holds {what}; use another --database, or --force to replace it."
             )
         if force or current is None:
-            world = stage("build world", lambda: world_builder(seed))
+            world = stage("build world", lambda: build(seed))
             counts = stage("load world", lambda: load_world(world, engine))
             report.world_loaded = True
             log("  rows: " + ", ".join(f"{t} {n:,}" for t, n in counts.items()))

@@ -1,0 +1,400 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-17T08:06:00Z",
+    "case_id": "s7-SCN-018-q0",
+    "question": "Call setup failures and dropped sessions rose at S-SFX-009 last night. What is behind it?",
+    "question_index": 0,
+    "scenario_id": "SCN-018",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:25:21.780334Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-17T08:06:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-17 09:06",
+          "entity_id": "S-SFX-009",
+          "region_id": null,
+          "start": "2026-09-16 16:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-16 16:00 to 2026-09-17 09:06 (1 still ongoing at asked_at 2026-09-17 09:06).\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0026 ONGOING since 2026-09-17 01:00 (8.1 h so far); 7 anomalies so far on 3 site(s) (S-SFX-001, S-SFX-004, S-SFX-009); region-level SFX; severity not final\n  drop_rate_pct spike on 1 entity: ongoing, e.g. S-SFX-009 since 2026-09-17 01:15, so far 2.11 vs baseline 0.52 (+304%)\n  rrc_success_pct drop on 1 entity: ongoing, e.g. S-SFX-009 since 2026-09-17 01:00, so far 92.9 vs baseline 99.3 (-6%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-16 16:00 to 2026-09-17 09:06 (1 still ongoing at asked_at 2026-09-17 09:06).",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0026",
+          "ANM-000200",
+          "ANM-000197"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 87
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-009"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-009 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-009: site, SFX, El Hencha, suburban.\nCells: C-SFX-009-1, C-SFX-009-2, C-SFX-009-3.\nSiblings under LNK-SFX-01-B: S-SFX-001, S-SFX-004.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-009 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SFX-009",
+          "LNK-SFX-01-B",
+          "AGG-SFX-01",
+          "CORE-UPF-02",
+          "S-SFX-001",
+          "S-SFX-004"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 7
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-01": {
+        "kind": "node",
+        "ref": "AGG-SFX-01",
+        "summary": "agg router, SFX"
+      },
+      "ALR-0026": {
+        "kind": "alert",
+        "ref": "ALR-0026",
+        "summary": "ongoing alert from 2026-09-17 01:00: 3 site(s) (S-SFX-001, S-SFX-004, S-SFX-009); region-level SFX; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000197": {
+        "kind": "anomaly",
+        "ref": "ANM-000197",
+        "summary": "S-SFX-009 rrc_success_pct drop, ongoing since 2026-09-17 01:00"
+      },
+      "ANM-000200": {
+        "kind": "anomaly",
+        "ref": "ANM-000200",
+        "summary": "S-SFX-009 drop_rate_pct spike, ongoing since 2026-09-17 01:15"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-01-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-01-B",
+        "summary": "fiber link, SFX, 18.3 km, 10.0 Gbps"
+      },
+      "S-SFX-001": {
+        "kind": "node",
+        "ref": "S-SFX-001",
+        "summary": "site, SFX, Sfax Centre, urban; sibling of S-SFX-009"
+      },
+      "S-SFX-004": {
+        "kind": "node",
+        "ref": "S-SFX-004",
+        "summary": "site, SFX, Sakiet Eddaier, rural; sibling of S-SFX-009"
+      },
+      "S-SFX-009": {
+        "kind": "node",
+        "ref": "S-SFX-009",
+        "summary": "site, SFX, El Hencha, suburban; chain: S-SFX-009 -> LNK-SFX-01-B -> AGG-SFX-01 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-16 16:00, end=2026-09-17 09:06, entity_id=S-SFX-009) -> 1 detector alert(s) overlap 2026-09-16 16:00 to 2026-09-17 09:06 (1 still ongoing at asked_at 2026-09-17 09:06)."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SFX-009, include=all) -> Depends on (child -> parent -> core): S-SFX-009 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "[repaired] classification incident does not match root_cause_category unknown (expected inconclusive)."
+    ],
+    "markdown": "# Call setup failures and dropped sessions at S-SFX-009\n\n- **Classification:** inconclusive\n- **Root cause:** unknown\n- **Confidence:** low (The timing and affected sites are established via anomaly and topology data, but the maintenance calendar, change log, and alarms were NOT CHECKED.)\n- **Impact:** 2026-09-17 01:00 to not established or ongoing\n- **Affected:** S-SFX-009, S-SFX-001, S-SFX-004\n\n## Summary\n\nCall setup failures and dropped sessions started at S-SFX-009 and peer sites S-SFX-001 and S-SFX-004 at 2026-09-17 01:00, but exact root cause cannot be determined without checking the maintenance calendar, change log, and alarms.\n\nOngoing impact starting at 2026-09-17 01:00 involving rrc_success_pct drops and drop_rate_pct spikes at S-SFX-009 and sibling sites under LNK-SFX-01-B.\n\n## Timeline\n\n- 2026-09-17 01:00: rrc_success_pct drop anomaly started on S-SFX-009 as part of regional alert ALR-0026 [T1, ALR-0026, ANM-000197]\n- 2026-09-17 01:15: drop_rate_pct spike anomaly started on S-SFX-009 [T1, ANM-000200]\n\n## Evidence\n\n- rrc_success_pct dropped and drop_rate_pct spiked at S-SFX-009 starting around 2026-09-17 01:00 [T1, ALR-0026, ANM-000197, ANM-000200]\n- Sites S-SFX-001, S-SFX-004, and S-SFX-009 share parent fiber link LNK-SFX-01-B [T2, S-SFX-009, LNK-SFX-01-B, S-SFX-001, S-SFX-004]\n\n## Inferences\n\n- Multiple sites under LNK-SFX-01-B experienced simultaneous anomalies, pointing to a shared transport or regional factor [T1, T2, ALR-0026]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-SFX-01-B: unresolved. Simultaneous anomalies on multiple sibling sites sharing LNK-SFX-01-B suggest a common transport link issue, but alarms and logs were not checked. [T1, T2, ALR-0026]\n2. **bad_change** at AGG-SFX-01: unresolved. A change on the aggregation router or parent link could cause simultaneous multi-site degradation, but the change log was not checked. [T2]\n\n## Recommended actions\n\n- Check the maintenance calendar for planned windows around 2026-09-17 01:00\n- Inspect the change log for AGG-SFX-01 and LNK-SFX-01-B\n- Review node and link alarms for S-SFX-009, S-SFX-001, S-SFX-004, and LNK-SFX-01-B\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-16 16:00, end=2026-09-17 09:06, entity_id=S-SFX-009) -> 1 detector alert(s) overlap 2026-09-16 16:00 to 2026-09-17 09:06 (1 still ongoing at asked_at 2026-09-17 09:06).\n- `ALR-0026`: ongoing alert from 2026-09-17 01:00: 3 site(s) (S-SFX-001, S-SFX-004, S-SFX-009); region-level SFX; metrics: drop_rate_pct, rrc_success_pct\n- `ANM-000197`: S-SFX-009 rrc_success_pct drop, ongoing since 2026-09-17 01:00\n- `ANM-000200`: S-SFX-009 drop_rate_pct spike, ongoing since 2026-09-17 01:15\n- `T2`: get_topology(node_id=S-SFX-009, include=all) -> Depends on (child -> parent -> core): S-SFX-009 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\n- `S-SFX-009`: site, SFX, El Hencha, suburban; chain: S-SFX-009 -> LNK-SFX-01-B -> AGG-SFX-01 -> CORE-UPF-02\n- `LNK-SFX-01-B`: fiber link, SFX, 18.3 km, 10.0 Gbps\n- `S-SFX-001`: site, SFX, Sfax Centre, urban; sibling of S-SFX-009\n- `S-SFX-004`: site, SFX, Sakiet Eddaier, rural; sibling of S-SFX-009\n\n## Verification notes\n\n- [repaired] classification incident does not match root_cause_category unknown (expected inconclusive).\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Call setup failures and dropped sessions rose at S-SFX-009 last night. What is behind it?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-009",
+        "S-SFX-001",
+        "S-SFX-004"
+      ],
+      "classification": "inconclusive",
+      "confidence": "low",
+      "confidence_reason": "The timing and affected sites are established via anomaly and topology data, but the maintenance calendar, change log, and alarms were NOT CHECKED.",
+      "dismissed_signals": [],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "rrc_success_pct dropped and drop_rate_pct spiked at S-SFX-009 starting around 2026-09-17 01:00",
+          "refs": [
+            "T1",
+            "ALR-0026",
+            "ANM-000197",
+            "ANM-000200"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sites S-SFX-001, S-SFX-004, and S-SFX-009 share parent fiber link LNK-SFX-01-B",
+          "refs": [
+            "T2",
+            "S-SFX-009",
+            "LNK-SFX-01-B",
+            "S-SFX-001",
+            "S-SFX-004"
+          ]
+        },
+        {
+          "basis": "inferred",
+          "claim": "Multiple sites under LNK-SFX-01-B experienced simultaneous anomalies, pointing to a shared transport or regional factor",
+          "refs": [
+            "T1",
+            "T2",
+            "ALR-0026"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-SFX-01-B",
+          "reason": "Simultaneous anomalies on multiple sibling sites sharing LNK-SFX-01-B suggest a common transport link issue, but alarms and logs were not checked.",
+          "refs": [
+            "T1",
+            "T2",
+            "ALR-0026"
+          ],
+          "verdict": "unresolved"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "AGG-SFX-01",
+          "reason": "A change on the aggregation router or parent link could cause simultaneous multi-site degradation, but the change log was not checked.",
+          "refs": [
+            "T2"
+          ],
+          "verdict": "unresolved"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-17 01:00",
+      "impact_summary": "Ongoing impact starting at 2026-09-17 01:00 involving rrc_success_pct drops and drop_rate_pct spikes at S-SFX-009 and sibling sites under LNK-SFX-01-B.",
+      "recommended_actions": [
+        "Check the maintenance calendar for planned windows around 2026-09-17 01:00",
+        "Inspect the change log for AGG-SFX-01 and LNK-SFX-01-B",
+        "Review node and link alarms for S-SFX-009, S-SFX-001, S-SFX-004, and LNK-SFX-01-B"
+      ],
+      "root_cause_category": "unknown",
+      "root_cause_node_id": null,
+      "root_cause_summary": "Call setup failures and dropped sessions started at S-SFX-009 and peer sites S-SFX-001 and S-SFX-004 at 2026-09-17 01:00, but exact root cause cannot be determined without checking the maintenance calendar, change log, and alarms.",
+      "root_cause_time": null,
+      "timeline": [
+        {
+          "event": "rrc_success_pct drop anomaly started on S-SFX-009 as part of regional alert ALR-0026",
+          "refs": [
+            "T1",
+            "ALR-0026",
+            "ANM-000197"
+          ],
+          "time": "2026-09-17 01:00"
+        },
+        {
+          "event": "drop_rate_pct spike anomaly started on S-SFX-009",
+          "refs": [
+            "T1",
+            "ANM-000200"
+          ],
+          "time": "2026-09-17 01:15"
+        }
+      ],
+      "title": "Call setup failures and dropped sessions at S-SFX-009"
+    },
+    "run_id": "RUN-1b50adcd39",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SFX-009"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "call setup failures and dropped sessions",
+      "unknown_ids": [],
+      "window_end": "2026-09-17T05:00:00Z",
+      "window_start": "2026-09-16T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 851,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 94,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3221,
+        "latency_ms": 997,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 136,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 12
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 1935,
+        "latency_ms": 3362,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1215,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3636
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2863,
+        "latency_ms": 3003,
+        "model": "gemini-3.5-flash-lite",
+        "node": "repair",
+        "output_tokens": 1217,
+        "provider": "gemini",
+        "purpose": "repair 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4137
+      }
+    ],
+    "usage": {
+      "cached_calls": 2,
+      "input_tokens": 8408,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 2
+      },
+      "llm_calls": 4,
+      "output_tokens": 2662,
+      "tool_calls": 2,
+      "wall_seconds": 7.91
+    }
+  },
+  "run_name": "nogate-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SFX-001",
+      "S-SFX-004",
+      "S-SFX-009"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-17T19:43:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0040",
+        "table": "changes",
+        "visible_from": "2026-09-17T00:13:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0046",
+        "table": "changes",
+        "visible_from": "2026-09-17T19:45:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0041",
+        "table": "changes",
+        "visible_from": "2026-09-17T00:13:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0047",
+        "table": "changes",
+        "visible_from": "2026-09-17T19:45:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0042",
+        "table": "changes",
+        "visible_from": "2026-09-17T00:13:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0045",
+        "table": "changes",
+        "visible_from": "2026-09-17T19:43:00+00:00"
+      },
+      {
+        "id": "ALM-000361",
+        "table": "alarms",
+        "visible_from": "2026-09-17T00:46:00+00:00"
+      },
+      {
+        "id": "ALM-000362",
+        "table": "alarms",
+        "visible_from": "2026-09-17T00:55:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-17T00:13:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "Change RT-2.4 pushed to a group of sites (S-SFX-001) regressed RRC success and drop rate until it was rolled back. Root cause node is the first site of the pushed group.",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "S-SFX-001",
+    "severity": "medium",
+    "start_at": "2026-09-17T00:13:00Z"
+  },
+  "variant": "no-gate"
+}

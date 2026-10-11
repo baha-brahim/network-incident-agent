@@ -1,0 +1,60 @@
+{
+  "case_id": "s7-SCN-023-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3372,
+      "live_tokens": 3693,
+      "output_tokens": 321
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The claim states the conclusion is inconclusive, which is consistent with the cited evidence showing a model failure rather than a definitive root cause.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence T1 explicitly states there is 1 detector alert overlapping the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited evidence T2 explicitly lists 3 critical alarms on the specified nodes within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited evidence T3 explicitly shows the dependency chain from S-SAH-001 to CORE-UPF-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited evidence T4 explicitly reports 1 completed maintenance window on the specified nodes and parents.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited evidence T5 explicitly states there are no changes on the specified nodes and parents in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited evidence T6 explicitly lists 4 critical alarms on LNK-SAH-01-B and nodes below.",
+      "verdict": "supported"
+    },
+    {
+      "index": 6,
+      "reason": "The cited evidence T7 explicitly states there are no external events for region SAH in the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

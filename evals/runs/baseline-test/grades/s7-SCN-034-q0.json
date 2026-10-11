@@ -1,0 +1,43 @@
+{
+  "case_id": "s7-SCN-034-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "ALR-0043",
+      "T7"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3928,
+      "live_tokens": 4105,
+      "output_tokens": 177
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the symptoms and runbook signature but does not provide a specific root cause for the degradation.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T6 and the anomaly records explicitly show the drop and spike on CORE-DNS-01 starting at 14:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2, T3, and T5 all report no changes or maintenance on CORE-DNS-01 and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The observed KPIs in T6 match the signature described in the cited runbook chunks.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

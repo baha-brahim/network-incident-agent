@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-016-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2225,
+      "live_tokens": 2539,
+      "output_tokens": 314
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert show the sequence of events (mains failure, battery low, site down) but do not explicitly state the causal link between them.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert and anomalies explicitly confirm the drop in availability, active users, and download volume for S-TUN-008 during the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000288 explicitly states a major MAINS_FAILURE on S-TUN-008 raised at 2026-09-14 08:49.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence shows the alarms were raised at the stated times, but does not confirm the causal link that the low battery led to the shutdown.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 and T5 outputs explicitly report no changes or maintenance windows on S-TUN-008 and its parents during the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited alarms show they were cleared at 16:16, but the evidence does not explicitly state that power was restored, only that the alarms cleared.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,47 @@
+{
+  "case_id": "s7-SCN-027-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "ALR-0035"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3680,
+      "live_tokens": 3963,
+      "output_tokens": 283
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the degradation and its nationwide impact, but does not prove the causal direction (that the core caused the nationwide spikes).",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1, T2, and ALR-0035 all explicitly state the start time as 2026-09-24 10:45 for the nationwide latency deviation and anomaly.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T8 shows the specific values (92.7%, 88.7 ms) and onset time (10:45), and ANM-000322 confirms the drop details.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 and ALM-000525 both confirm the alarm ID, type, node, raise time (10:52), and clear time (12:05).",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 and T6 explicitly report no changes or maintenance windows on CORE-DNS-01 and its parents during the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

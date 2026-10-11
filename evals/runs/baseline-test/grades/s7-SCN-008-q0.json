@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-008-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1881,
+      "live_tokens": 2134,
+      "output_tokens": 253
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert confirm the sequence of power failure, battery low, and site down, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000142 explicitly states a major MAINS_FAILURE on S-TUN-015 raised at 14:16.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000147 confirms the BATTERY_LOW alarm at 17:21, but the evidence does not state the cause was the mains failure.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence shows the site down alarm at 17:36 and metric drops from 17:30, but the alert started 6 minutes before the site down alarm.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "The evidence shows alarms cleared at 21:58, but does not explicitly confirm that full functionality was restored.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

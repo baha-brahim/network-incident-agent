@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-017-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4197,
+      "live_tokens": 4462,
+      "output_tokens": 265
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited runbooks and alarms confirm the signature of a fiber cut on the link causing simultaneous site outages, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence shows availability dropped to 0 starting at 23:45, but active users dropped to 0 starting at 01:45, not 23:45.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2 confirms LNK-SAH-01-A is the parent link, and T3/ALM-000335 show the critical LINK_LOS alarm at 23:53, simultaneous with the site outages.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2 identifies the siblings, and the cited alarms show all three sites went down at 23:54 due to the shared link failure.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool outputs explicitly report no changes, maintenance, or external events for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

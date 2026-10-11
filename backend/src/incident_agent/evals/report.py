@@ -17,13 +17,15 @@ from incident_agent.evals.aggregate import (
     class_of_case,
     difficulty_of_case,
     group_by,
+    has_traps,
     kind_of_case,
+    trap_of_case,
 )
 from incident_agent.evals.pricing import LIST_PRICES
 from incident_agent.evals.rundir import RunDir, dumps, write_text
-from incident_agent.evals.scoring import PEER_KINDS, CaseScore
+from incident_agent.evals.scoring import PEER_KINDS, CaseScore, dump_score
 from incident_agent.evals.stats import bootstrap_mean_ci, mean
-from incident_agent.evals.summary import ScoredRun, load_scored_run
+from incident_agent.evals.summary import ScoredRun, load_scored_run, world_label
 
 BASENAME = "evaluation"
 DEV_NOTE = "dev world: the prompts were developed on it, so these numbers are optimistic"
@@ -105,7 +107,11 @@ def find_ablations(runs: Sequence[ScoredRun]) -> list[Ablation]:
         if run.meta.variant == "default":
             continue
         candidates = [
-            r for r in runs if r.meta.variant == "default" and r.meta.seed == run.meta.seed
+            r
+            for r in runs
+            if r.meta.variant == "default"
+            and r.meta.seed == run.meta.seed
+            and r.meta.profile == run.meta.profile
         ]
         best: Ablation | None = None
         for base in candidates:
@@ -362,6 +368,17 @@ def render_markdown(
     )
     add("")
 
+    if any(r.meta.profile != "default" for r in runs):
+        add(
+            "A **hard-profile world** has the same network and the same tables, but its "
+            "scenarios are built around traps: a harmless change on the failed node, a loud "
+            "coincidence next to a real regression, an outage that only looks covered by the "
+            "maintenance calendar, an alarm that was never raised, two incidents in one "
+            "region. Each trap has a known answer that can be derived from the data; the "
+            "breakdown by trap shows which trap the agent falls into."
+        )
+        add("")
+
     partial = [r for r in runs if r.partial]
     if partial:
         add("> **Partial results.** " + " ".join(_partial_sentence(r) for r in partial))
@@ -383,7 +400,7 @@ def render_markdown(
         a = r.overall
         unclean = a.n_cases - a.clean.k
         add(
-            f"| {r.meta.name} | seed {r.meta.seed} ({r.meta.split}) | {r.meta.variant} | "
+            f"| {r.meta.name} | seed {r.meta.seed} ({world_label(r.meta)}) | {r.meta.variant} | "
             f"`{r.meta.agent_model}` | {a.n_cases} of {r.meta.cases_total} | {a.n_errors} | {unclean} |"
         )
     add("")
@@ -435,6 +452,11 @@ def render_markdown(
             add(f"**{title}**")
             add("")
             L.extend(_group_table(group_by(r.scores, key)))
+            add("")
+        if has_traps(r.scores):
+            add("**By trap** (a scenario in a hard-profile world is built around one trap)")
+            add("")
+            L.extend(_group_table(group_by(r.scores, trap_of_case)))
             add("")
     if "accuracy_by_kind" in chart_files:
         add(f"![Root-cause accuracy by scenario kind]({chart_files['accuracy_by_kind']})")
@@ -711,11 +733,21 @@ def build_json(runs: Sequence[ScoredRun], ablations: Sequence[dict[str, Any]]) -
                     k: v.model_dump(mode="json")
                     for k, v in group_by(r.scores, class_of_case).items()
                 },
+                **(
+                    {
+                        "by_trap": {
+                            k: v.model_dump(mode="json")
+                            for k, v in group_by(r.scores, trap_of_case).items()
+                        }
+                    }
+                    if has_traps(r.scores)
+                    else {}
+                ),
                 "faithfulness": {
                     "graded": len(faith),
                     "mean": mean(list(faith.values())) if faith else None,
                 },
-                "cases": [s.model_dump(mode="json") for s in r.scores],
+                "cases": [dump_score(s) for s in r.scores],
             }
         )
     return {

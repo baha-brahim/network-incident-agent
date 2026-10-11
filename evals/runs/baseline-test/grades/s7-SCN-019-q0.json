@@ -1,0 +1,53 @@
+{
+  "case_id": "s7-SCN-019-q0",
+  "comments": "",
+  "extra": {
+    "batches": 2,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "ALR-0028",
+      "T10"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 2,
+      "input_tokens": 6201,
+      "live_tokens": 6497,
+      "output_tokens": 296
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms local congestion symptoms and shared topology, but does not prove the root cause is capacity at the aggregation router.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T6 and T1 explicitly show latency and active users deviations starting at 2026-09-18 18:30 for both sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T7, T8, and T9 confirm both sites connect to AGG-SFX-02 and CORE-UPF-02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2, T3, and T5 report no external events, maintenance, or changes for the specified nodes and window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T10 explicitly states 'No series deviates from its baseline' for S-SFX-003 and S-SFX-006 in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited anomalies confirm spikes in active_users, dl_volume_mb, and drop_rate_pct for S-SFX-002.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

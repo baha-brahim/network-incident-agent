@@ -1,6 +1,6 @@
 """The files of one run: `evals/runs/<name>/`.
 
-    run.json                what the run is (seed, variant, model) and the invocations so far
+    run.json                what the run is (seed, profile, variant, model), the invocations
     topology.json           node -> parent, so scoring needs no database
     cases/<case_id>.json    one `CaseArtifact` per case
     grades/<case_id>.json   one `ReportGrade` per case (written by the grading commands)
@@ -46,6 +46,7 @@ class RunMeta(BaseModel):
     questions: str  # first | all
     cases_total: int  # cases in the whole world for this question mode
     database: str
+    profile: str = "default"  # scenario profile of the world: default | hard
     created_at: str
     updated_at: str
     invocations: list[dict[str, Any]] = Field(default_factory=list)

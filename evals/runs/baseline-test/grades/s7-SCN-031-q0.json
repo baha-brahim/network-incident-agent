@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-031-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3187,
+      "live_tokens": 3457,
+      "output_tokens": 270
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows self-clearing alarms and minor KPI deviations, but does not prove the cause was environmental or hardware noise.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 explicitly states no detector alerts for S-SUD-004 in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 confirms 21 alarms (9 minor, 12 warning) on S-SUD-004, all self-cleared within 10 minutes and none active.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 shows 100% availability, no sustained DL/drop rate deviations, and a minor active user dip at 10:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5, T6, and T7 confirm no maintenance, changes, or external events for the nodes and window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T8 confirms no alarms on S-SUD-007 during the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}
