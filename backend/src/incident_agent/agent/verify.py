@@ -1,6 +1,7 @@
 """Deterministic checks of a report against the evidence the run actually gathered."""
 
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -13,6 +14,7 @@ from incident_agent.agent.report import (
     Report,
     TimelineEntry,
 )
+from incident_agent.agent.state import CallRecord
 from incident_agent.agent.tools.timeutil import TimeParseError, as_utc, fmt, parse_time
 from incident_agent.agent.types import EvidenceRef
 
@@ -240,12 +242,93 @@ def cap_confidence(
     return report.model_copy(update={"confidence": lowered}), [note]
 
 
+# What a claim of absence must be backed by: the tool that looks for the thing.
+_ABSENCE: dict[str, tuple[str, re.Pattern[str]]] = {
+    tool: (label, re.compile(rf"\bno\b[^.;,]{{0,40}}?\b(?:{words})\b", re.IGNORECASE))
+    for tool, label, words in (
+        ("get_changes", "changes", r"changes|change records?|change log"),
+        ("get_maintenance", "maintenance", "maintenance"),
+        ("get_external_events", "external events", r"external events?|events?|holidays?"),
+        ("get_alarms", "alarms", r"alarms?"),
+    )
+}
+_ROW_KINDS = {"alarm", "change", "maintenance", "event", "anomaly", "alert"}
+
+
+def _flatten(value: object) -> list[str]:
+    if isinstance(value, list | tuple):
+        return [s for v in value for s in _flatten(v)]
+    return [str(value).strip().upper()] if value not in (None, "") else []
+
+
+def _mentions(text: str, node: str) -> bool:
+    return re.search(rf"(?<![\w-]){re.escape(node)}(?![\w-])", text, re.IGNORECASE) is not None
+
+
+def _evidence_about(
+    node: str, refs: list[str], evidence: dict[str, EvidenceRef], calls: Sequence[CallRecord]
+) -> bool:
+    """True if one of the cited refs is a record or a (non-topology) call about `node`."""
+    by_ref = {c.ref: c for c in calls}
+    for ref in refs:
+        known = evidence.get(ref)
+        if known is not None and known.kind in _ROW_KINDS and _mentions(known.summary, node):
+            return True
+        call = by_ref.get(ref)
+        if call and call.tool != "get_topology" and node in _flatten(list(call.args.values())):
+            return True
+    return False
+
+
+def check_faithfulness(
+    report: Report,
+    evidence: dict[str, EvidenceRef],
+    calls: Sequence[CallRecord],
+    reference: Reference,
+) -> tuple[Report, list[str]]:
+    """Cheap checks of what the report claims against what it cites. Returns notes, not repairs.
+
+    - A claim of absence ("no changes", "no alarms", ...) must cite a call of the tool that looks.
+    - A root cause named on a parent of every affected node needs cited evidence about that
+      parent; without it confidence is capped at medium.
+    """
+    notes: list[str] = []
+    checked = {c.ref: c.tool for c in calls if not c.error}
+    for n, finding in enumerate(report.findings, 1):
+        for tool, (label, pattern) in _ABSENCE.items():
+            if pattern.search(finding.claim) and not any(
+                checked.get(r) == tool for r in finding.refs
+            ):
+                notes.append(
+                    f"Finding {n} claims no {label} but cites no {tool} call: "
+                    f"{finding.claim[:70]!r}."
+                )
+    node = (report.root_cause_node_id or "").strip().upper()
+    affected = [a.strip().upper() for a in report.affected_node_ids]
+    if node and affected and all(node in reference.ancestors(a) for a in affected):
+        cited = (
+            [r for t in report.timeline for r in t.refs]
+            + [r for f in report.findings for r in f.refs]
+            + [r for h in report.hypotheses if h.verdict == "confirmed" for r in h.refs]
+        )
+        if not _evidence_about(node, cited, evidence, calls):
+            notes.append(
+                f"Root cause {node} is a parent of every affected node, but no cited evidence is "
+                "about it (its own alarm, change, maintenance or KPI)."
+            )
+            if report.confidence == "high":
+                report = report.model_copy(update={"confidence": "medium"})
+                notes[-1] += " Confidence lowered from high to medium."
+    return report, notes
+
+
 __all__ = [
     "Checked",
     "DismissedSignal",
     "Finding",
     "HypothesisEntry",
     "cap_confidence",
+    "check_faithfulness",
     "check_report",
     "normalise_refs",
     "strip_invalid",

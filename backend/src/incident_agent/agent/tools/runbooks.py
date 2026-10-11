@@ -5,7 +5,7 @@ import re
 from pydantic import Field
 
 from incident_agent.agent.tools.common import BODY_CHARS, error_result, hard_cap, trim
-from incident_agent.agent.tools.schema import ToolArgs
+from incident_agent.agent.tools.schema import UNLISTED, ToolArgs
 from incident_agent.agent.types import EvidenceRef, ToolContext, ToolResult
 from incident_agent.rag.search import RunbookHit, search_runbooks
 
@@ -22,9 +22,9 @@ class SearchRunbooksArgs(ToolArgs):
     query: str = Field(
         min_length=2,
         max_length=300,
-        description="What to look up: symptoms, alarm names, a suspected cause, a diagnostic step.",
+        description="Symptoms, alarm names, suspected cause.",
     )
-    k: int = Field(default=4, ge=1, le=MAX_K, description="Number of chunks, at most 6.")
+    k: int = Field(default=4, ge=1, le=MAX_K, description="At most 6.", json_schema_extra=UNLISTED)
 
 
 def _terms(query: str) -> set[str]:

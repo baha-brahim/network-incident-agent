@@ -33,14 +33,19 @@ Method:
 cause must come before the onset and fit the pattern: hard outage (availability 0) or soft \
 degradation.
 2. Use the topology to find what the affected nodes share (the lowest common parent) and what a \
-failure there would take down.
+failure there would take down. A shared parent is a suspect, not the cause: it needs evidence of \
+its own (an alarm, change or KPI on it). Peers hit together with nothing on a common parent \
+point at the peers themselves.
 3. Keep at least two competing explanations and test each against evidence. Cause types: \
 transport_failure (link down), transport_degradation (link impaired), power_failure (one site), \
 bad_change (config or software change), core_degradation (DNS, UPF, AMF), capacity (congestion), \
 or no incident.
 4. Check look-alikes before concluding: the maintenance calendar for the affected nodes and their \
-parents, external events (holidays, stadium events), and changes or alarms near the onset that may \
-be coincidences. Alarms and changes are only causes if timing and scope fit.
+parents, external events (holidays, stadium events), and changes or alarms near the onset. A \
+change before the onset is a candidate, not a conclusion. Blame it only if the degradation starts \
+when the change lands (not later), the affected scope is exactly the changed nodes, the same \
+change on other nodes left them healthy, and recovery coincides with its rollback if one exists. \
+Alarms are causes only if timing and scope fit too.
 5. Search the runbooks for the differential diagnosis of your leading explanation.
 6. "Not an incident" is a valid answer: planned maintenance, an expected event, or noise without \
 KPI impact. If the evidence stays thin, say so. If you cannot find the reported symptom, the time \
@@ -63,6 +68,8 @@ CONCLUDE_SYSTEM = """\
 Write the incident report from the case file. Use only facts in it. Cite references exactly as \
 written (T3, ALM-..., CHG-..., MW-..., EVT-..., RB-...#nn, node ids): every timeline entry, \
 finding and hypothesis needs at least one.
+Be compact: at most 8 timeline entries, 6 findings, 4 hypotheses, 5 dismissed signals and 4 \
+actions; claims and reasons at most 30 words; state each fact once, where it belongs.
 
 - classification and root_cause_category must agree: incident with a fault category; \
 planned_maintenance, expected_event or no_impact for those; inconclusive with unknown when the \
@@ -70,23 +77,35 @@ evidence does not decide. If the reported symptom was never found in the data, t
 inconclusive, not no_impact: no_impact needs a positive explanation, such as noisy alarms while \
 the KPIs are normal.
 - root_cause_node_id: the node where the cause sits. transport_failure and \
-transport_degradation: the link (or router) shared by the affected sites, not a site. \
-power_failure and capacity: the site. bad_change: the node the change was applied to. \
-core_degradation: the core node. planned_maintenance, expected_event and no_impact: the node the \
-window, event or alarms concern. When the cause hits several peer nodes, name the most affected \
-(or earliest) one and list all in affected_node_ids. Null only if nationwide.
+transport_degradation: the link (or router) that carries the evidence, usually the one shared by \
+the affected sites. power_failure and capacity: the site. bad_change: the node the change was \
+applied to. core_degradation: the core node. planned_maintenance, expected_event and no_impact: \
+the node the window, event or alarms concern. Name a parent of the affected nodes only if cited \
+evidence sits on it; otherwise name the most affected (or earliest) peer and list all in \
+affected_node_ids. Null only if nationwide.
 - confidence: high only if the cause is directly evidenced on that node, its timing fits the KPI \
 onset, and maintenance, external events and coincident changes were checked and ruled out. \
 Medium if the fit is plausible but a direct signal is missing. Low if mostly inferred. Prefer \
 inconclusive to a guess; a confident wrong answer is the worst outcome.
 - findings: basis "observed" when a cited tool result shows it, "inferred" when it is your \
 reasoning from observations. Do not present an inference as observed.
-- hypotheses: ranked best first, with a verdict (confirmed, rejected, unresolved) and why.
+- hypotheses: ranked best first, each with a verdict (confirmed, rejected, unresolved) and why. \
+Keep every alternative you genuinely tested: at least two when two were considered.
 - dismissed_signals: alarms, changes, windows or events you considered and ruled out, with why.
+- Times of events and of the impact come from the evidence (alarm, change, KPI onset, recovery), \
+never from the window you queried. An absence claim ("no changes", "no maintenance", "no \
+alarms") covers only the nodes and the window the cited call checked: cite that call, and say so \
+if it is narrower than the incident. A cause-and-effect or timing link between two events cites \
+evidence for both.
 - Times are local YYYY-MM-DD HH:MM and not after "Now". impact_end is when the impact stopped \
 (recovery, rollback or alarm clear); null if it continues or you could not establish it, and then \
 say so in impact_summary. Never claim a check that is not in the tool-call log; list checks \
 marked NOT CHECKED in confidence_reason."""
+
+CONCISE_SUFFIX = """\
+
+Your previous answer was cut off or malformed. Answer again, shorter: at most 5 timeline entries, \
+4 findings, 3 hypotheses, 3 dismissed signals, 3 actions, and 20 words per claim or reason."""
 
 REPAIR_SUFFIX = """\
 

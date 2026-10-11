@@ -41,14 +41,22 @@ CLASSIFICATION_OF: dict[str, str] = {
 }
 
 
+# Most entries a report keeps per section; the schema tells the model, `limit_report` enforces it.
+MAX_TIMELINE = 8
+MAX_FINDINGS = 6
+MAX_HYPOTHESES = 4
+MAX_DISMISSED = 5
+MAX_ACTIONS = 4
+
+
 class TimelineEntry(BaseModel):
     time: str = Field(description="Local time, YYYY-MM-DD HH:MM")
-    event: str
+    event: str = Field(description="At most 20 words.")
     refs: list[str]
 
 
 class Finding(BaseModel):
-    claim: str
+    claim: str = Field(description="One fact, at most 30 words.")
     basis: Literal["observed", "inferred"] = Field(
         description="observed: a cited tool result shows it. inferred: your reasoning from it."
     )
@@ -59,35 +67,69 @@ class HypothesisEntry(BaseModel):
     category: Category
     node_id: str | None
     verdict: Literal["confirmed", "rejected", "unresolved"]
-    reason: str
+    reason: str = Field(description="At most 30 words.")
     refs: list[str]
 
 
 class DismissedSignal(BaseModel):
     ref: str
-    reason: str
+    reason: str = Field(description="At most 30 words.")
 
 
 class Report(BaseModel):
-    title: str
+    title: str = Field(description="At most 12 words.")
     classification: Classification
     root_cause_category: Category
     root_cause_node_id: str | None
-    root_cause_summary: str
+    root_cause_summary: str = Field(description="Cause and mechanism, at most 40 words.")
     confidence: Confidence
-    confidence_reason: str = Field(description="What supports the confidence level, or limits it.")
-    impact_summary: str
+    confidence_reason: str = Field(
+        description="What supports the confidence level or limits it, at most 30 words."
+    )
+    impact_summary: str = Field(description="At most 30 words.")
     impact_start: str | None = Field(description="Local time, YYYY-MM-DD HH:MM")
     impact_end: str | None = Field(
         description="Local time the impact stopped; null if ongoing or unknown"
     )
     root_cause_time: str | None = Field(description="Local time of the cause, if known")
     affected_node_ids: list[str]
-    timeline: list[TimelineEntry]
-    findings: list[Finding]
-    hypotheses: list[HypothesisEntry] = Field(description="Ranked, most likely first")
-    dismissed_signals: list[DismissedSignal]
-    recommended_actions: list[str]
+    timeline: list[TimelineEntry] = Field(description=f"At most {MAX_TIMELINE} entries.")
+    findings: list[Finding] = Field(
+        description=f"At most {MAX_FINDINGS}; do not repeat a fact stated elsewhere."
+    )
+    hypotheses: list[HypothesisEntry] = Field(
+        description=f"At most {MAX_HYPOTHESES}, ranked, most likely first."
+    )
+    dismissed_signals: list[DismissedSignal] = Field(description=f"At most {MAX_DISMISSED}.")
+    recommended_actions: list[str] = Field(
+        description=f"At most {MAX_ACTIONS}, each under 25 words."
+    )
+
+
+def limit_report(report: Report) -> tuple[Report, list[str]]:
+    """Cut every section to its maximum; returns the report and a note for each cut."""
+    caps = {
+        "timeline": MAX_TIMELINE,
+        "findings": MAX_FINDINGS,
+        "hypotheses": MAX_HYPOTHESES,
+        "dismissed_signals": MAX_DISMISSED,
+        "recommended_actions": MAX_ACTIONS,
+    }
+    update: dict[str, object] = {}
+    notes: list[str] = []
+    for name, cap in caps.items():
+        items = getattr(report, name)
+        if len(items) > cap:
+            update[name] = items[:cap]
+            notes.append(f"Report cut to {cap} {name.replace('_', ' ')} (had {len(items)}).")
+    return (report.model_copy(update=update) if update else report), notes
+
+
+PARTIAL_PREFIX = "partial report:"
+
+
+def is_partial(issues: list[str]) -> bool:
+    return any(i.startswith(PARTIAL_PREFIX) for i in issues)
 
 
 def all_refs(report: Report) -> list[str]:
@@ -138,9 +180,14 @@ def render_markdown(
     """The report as markdown, with an appendix that spells out every cited reference."""
     r = report
     ongoing = "not established or ongoing" if r.impact_end is None else r.impact_end
-    lines = [
-        f"# {r.title}",
-        "",
+    lines = [f"# {r.title}", ""]
+    if is_partial(issues or []):
+        lines += [
+            "> **Partial report.** The full answer could not be read; only the core fields were "
+            "recovered and confidence is forced to low.",
+            "",
+        ]
+    lines += [
         f"- **Classification:** {r.classification}",
         f"- **Root cause:** {r.root_cause_category}"
         + (f" at `{r.root_cause_node_id}`" if r.root_cause_node_id else ""),

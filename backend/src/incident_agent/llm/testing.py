@@ -48,6 +48,7 @@ class RecordedCall:
     tools: list[dict[str, Any]] | None
     schema: type[BaseModel] | None
     purpose: str
+    max_output_tokens: int | None = None
 
     @property
     def prompt(self) -> str:
@@ -74,6 +75,7 @@ class ScriptedRunner:
         tools: ToolSchemas | None = None,
         schema: type[BaseModel] | None = None,
         purpose: str = "",
+        max_output_tokens: int | None = None,
     ) -> LLMResult:
         call = RecordedCall(
             index=len(self.calls),
@@ -81,6 +83,7 @@ class ScriptedRunner:
             tools=list(tools) if tools else None,
             schema=schema,
             purpose=purpose,
+            max_output_tokens=max_output_tokens,
         )
         self.calls.append(call)
         if callable(self.script):

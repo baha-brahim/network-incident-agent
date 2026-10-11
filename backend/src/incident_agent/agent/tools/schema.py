@@ -3,6 +3,14 @@
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict
+from pydantic.config import JsonDict
+
+START = "Local ISO time."
+END = "Local ISO time."
+REGION = "Region id."
+NODE_IDS = "Up to 12."
+# Extra for a knob that stays valid but is not offered to the model (never used in recorded runs).
+UNLISTED: JsonDict = {"unlisted": True}
 
 
 class ToolArgs(BaseModel):
@@ -37,7 +45,9 @@ def _simplify(node: Any, defs: dict[str, Any]) -> Any:
     if "items" in node:
         out["items"] = _simplify(node["items"], defs)
     if "properties" in node:
-        out["properties"] = {k: _simplify(v, defs) for k, v in node["properties"].items()}
+        out["properties"] = {
+            k: _simplify(v, defs) for k, v in node["properties"].items() if not v.get("unlisted")
+        }
         out["required"] = list(node.get("required", []))
     return out
 

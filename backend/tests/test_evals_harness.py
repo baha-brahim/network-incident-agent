@@ -294,7 +294,7 @@ def test_a_malformed_report_is_a_scored_abstention_not_an_error() -> None:
     inner = _good_script()
 
     def script(call: RecordedCall) -> Any:
-        if call.purpose == "conclude":
+        if call.purpose.startswith("conclude"):
             return MalformedOutput("structured output invalid")
         return inner(call)
 

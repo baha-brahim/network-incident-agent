@@ -19,6 +19,7 @@ class Attempt(BaseModel):
     status: Literal["ok", "error", "skipped"]
     error: str | None = None  # scrubbed of secrets and truncated
     latency_ms: int = 0
+    raw: str | None = None  # the model's unparseable answer, kept for diagnosis and salvage
 
 
 class LLMUsage(BaseModel):
@@ -52,6 +53,11 @@ class AllModelsFailed(LLMError):
         lines = [f"{a.model}: {a.status}" + (f" ({a.error})" if a.error else "") for a in attempts]
         super().__init__("All models failed: " + "; ".join(lines or ["no model in the chain"]))
 
+    @property
+    def raw_output(self) -> str | None:
+        """The last unparseable answer among the attempts, if any."""
+        return next((a.raw for a in reversed(self.attempts) if a.raw), None)
+
 
 class CacheMiss(LLMError):
     """Replay mode found no recording for this request."""
@@ -64,4 +70,11 @@ class CacheMiss(LLMError):
 
 
 class MalformedOutput(LLMError):
-    """A provider answered, but not in a usable shape (bad tool call, invalid structured output)."""
+    """A provider answered, but not in a usable shape (bad tool call, invalid structured output).
+
+    `raw` is the text of the answer when there was one (a cut-off JSON document, for example).
+    """
+
+    def __init__(self, message: str, raw: str | None = None) -> None:
+        super().__init__(message)
+        self.raw = raw

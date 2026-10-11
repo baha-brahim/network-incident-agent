@@ -42,7 +42,7 @@ class RunSqlArgs(ToolArgs):
     query: str = Field(
         min_length=6,
         max_length=3000,
-        description="One SELECT (or WITH ... SELECT) over the tables in the tool description.",
+        description="One SELECT.",
     )
 
 

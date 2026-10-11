@@ -437,6 +437,28 @@ def test_case_file_small_run_shows_everything() -> None:
     assert "turn 1 of 6" in text or "turn 2 of 6" in text
 
 
+def test_case_file_does_not_print_a_headline_twice() -> None:
+    state = _long_state(n_calls=2, n_notes=0)
+    for n, call in enumerate(state.calls, 1):
+        call.headline = f"{n} alarm(s) on S-TUN-001: 1 critical"
+        call.body = f"{call.headline}\nALM-00000{n} critical SITE_DOWN"
+    text = render_case_file(state, AgentConfig())
+    assert text.count("1 alarm(s) on S-TUN-001") == 1 and text.count("2 alarm(s) on") == 1
+    assert "ALM-000001 critical SITE_DOWN" in text and "--- T2 get_alarms" in text
+    state.calls[1].body = state.calls[1].headline  # nothing but the headline: no block at all
+    assert "--- T2" not in render_case_file(state, AgentConfig())
+
+
+def test_a_headline_cut_in_the_log_stays_whole_in_the_body() -> None:
+    state = _long_state(n_calls=14, n_notes=0)  # enough calls to shorten every log line
+    for call in state.calls:
+        call.headline = f"{call.ref} " + "word " * 25
+        call.body = f"{call.headline}\ntail-{call.ref}"
+    text = render_case_file(state, AgentConfig())
+    assert text.count("T14 " + "word " * 25) == 1  # a log line is cut, the body line is not
+    assert "tail-T14" in text
+
+
 def test_registry_lists_non_call_refs_by_importance_within_its_budget() -> None:
     state = _long_state(2, 0)
     state.evidence = {

@@ -33,30 +33,32 @@ from incident_agent.agent.tools.kpis import (
     _fetch_cell_level,
     _fetch_core,
 )
-from incident_agent.agent.tools.schema import ToolArgs
+from incident_agent.agent.tools.schema import END, REGION, START, ToolArgs
 from incident_agent.agent.tools.timeutil import (
     LOCAL_TZ,
     STEP,
     TimeParseError,
     fmt,
     fmt_duration,
+    fmt_hm,
     iso,
     make_window,
 )
 from incident_agent.agent.types import EvidenceRef, ToolContext, ToolResult
 
+HEADLINE_CHARS = 200
 MAX_ALERTS = 4
 MAX_GROUPS = 3
 MAX_RECOMPUTED = 8  # ongoing anomalies whose magnitude is rebuilt from KPIs, per call
 
 
 class GetAnomaliesArgs(ToolArgs):
-    start: str = Field(description="Window start, ISO 8601; no offset = Africa/Tunis local time.")
-    end: str = Field(description="Window end, ISO 8601. Anything after the current time is cut.")
-    region_id: str | None = Field(default=None, description="TUN, SAH, SFX or SUD.")
+    start: str = Field(description=START)
+    end: str = Field(description=END)
+    region_id: str | None = Field(default=None, description=REGION)
     entity_id: str | None = Field(
         default=None,
-        description="A site, link, router or core node: alerts touching it or its relatives.",
+        description="Node id.",
     )
 
 
@@ -141,15 +143,13 @@ def get_anomalies(ctx: ToolContext, args: GetAnomaliesArgs) -> ToolResult:
             )
         items = _alert_items(conn, idx, alerts, anoms, asked, match, region)
 
-    ongoing = [i for i in items if i.data["ongoing"]]
+    ordered = sorted(items, key=lambda i: (not i.data["ongoing"], -i.data["score"]))
     head = [
-        f"{len(items)} detector alert(s) overlap {fmt(window.start)} to {fmt(window.end)}"
-        f"{f' ({len(ongoing)} still ongoing at asked_at {fmt(asked)})' if ongoing else ''}.",
+        _headline(ordered),
         "Alerts still running are described only up to asked_at (end, final size and severity "
         "are not known yet).",
         *notes,
     ]
-    ordered = sorted(items, key=lambda i: (not i.data["ongoing"], -i.data["score"]))
     ordered = ordered[:MAX_ROWS_CONSIDERED]
     out = assemble(
         head,
@@ -175,6 +175,15 @@ def get_anomalies(ctx: ToolContext, args: GetAnomaliesArgs) -> ToolResult:
         },
         truncated=out.truncated,
     )
+
+
+def _headline(ordered: list[Item]) -> str:
+    """Alert ids with their time span, then the summary of the first one, in one short line."""
+    ongoing = sum(1 for i in ordered if i.data["ongoing"])
+    listed = "; ".join(f"{i.data['alert_id']} {i.data['span']}" for i in ordered[:3])
+    more = f" +{len(ordered) - 3} more" if len(ordered) > 3 else ""
+    lead = f"{len(ordered)} alert(s)" + (f", {ongoing} ongoing" if ongoing else "")
+    return trim(f"{lead}: {listed}{more}. {ordered[0].data['short']}", HEADLINE_CHARS)
 
 
 def _load(
@@ -282,12 +291,18 @@ def _alert_items(
                 f"{fmt(al.start_at)} to {fmt(al.end_at)} ({fmt_duration(al.end_at - al.start_at)})"
             )
             head = f"{al.alert_id} {al.severity} ended, {span}: {trim(al.summary, 230)}"
+            same_day = fmt(al.start_at)[:10] == fmt(al.end_at)[:10]
+            short_span = f"{fmt(al.start_at)}-{fmt_hm(al.end_at) if same_day else fmt(al.end_at)}"
+            short = trim(al.summary, 110)
         else:
             head = (
                 f"{al.alert_id} ONGOING since {fmt(al.start_at)} "
                 f"({fmt_duration(asked - al.start_at)} so far); {len(visible)} anomalies so far on "
                 f"{_entities_text(visible)}; severity not final"
             )
+            short_span = f"{fmt(al.start_at)}-ongoing"
+            metrics = ", ".join(sorted({a.metric for a in visible}))
+            short = trim(f"{_entities_text(visible)}; {metrics}", 110)
         summary = trim(
             f"{'ended' if ended else 'ongoing'} alert from {fmt(al.start_at)}: "
             f"{_entities_text(visible)}; metrics: {', '.join(sorted({a.metric for a in visible}))}",
@@ -303,6 +318,8 @@ def _alert_items(
                     "start_at": iso(al.start_at),
                     "end_at": iso(al.end_at) if ended else None,
                     "ongoing": not ended,
+                    "span": short_span,
+                    "short": short,
                     "severity": al.severity if ended else None,
                     "score": float(al.score) if ended else 99.0,
                     "n_visible_anomalies": len(visible),

@@ -97,11 +97,18 @@ class ProviderPlan:
         tools: ToolSchemas | None = None,
         schema: type[BaseModel] | None = None,
         purpose: str = "",
+        max_output_tokens: int | None = None,
     ) -> LLMResult:
         first = self.planned(purpose)
         order = [first, *[s for s in (GEMINI, GROQ, OLLAMA) if s != first]]
         self.inner.route = lambda _index: order
-        return self.inner.invoke(messages, tools=tools, schema=schema, purpose=purpose)
+        return self.inner.invoke(
+            messages,
+            tools=tools,
+            schema=schema,
+            purpose=purpose,
+            max_output_tokens=max_output_tokens,
+        )
 
 
 def test_forced_provider_switch_in_one_investigation(

@@ -17,9 +17,9 @@ MAX_LISTED = 10
 
 
 class GetTopologyArgs(ToolArgs):
-    node_id: str = Field(description="A site, link, aggregation router or core node id.")
+    node_id: str = Field(description="Node id.")
     include: Literal["ancestors", "descendants", "siblings", "all"] = Field(
-        default="all", description="Which relatives to list."
+        default="all", description="Relatives."
     )
 
 

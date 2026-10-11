@@ -16,11 +16,16 @@ from incident_agent.agent.checks import missing_checks
 from incident_agent.agent.config import AgentConfig
 from incident_agent.agent.reference import Reference
 from incident_agent.agent.report import (
+    MAX_FINDINGS,
     Finding,
     Report,
     fallback_report,
+    is_partial,
+    limit_report,
     render_markdown,
 )
+from incident_agent.agent.salvage import NOTE as PARTIAL_NOTE
+from incident_agent.agent.salvage import salvage_report
 from incident_agent.agent.state import (
     AgentEvent,
     AgentState,
@@ -33,11 +38,17 @@ from incident_agent.agent.store import TraceStore
 from incident_agent.agent.tools import execute_tool, tool_schemas
 from incident_agent.agent.tools.timeutil import TimeParseError, as_utc, fmt, parse_time, to_local
 from incident_agent.agent.types import EvidenceRef, ToolContext, ToolResult
-from incident_agent.agent.verify import cap_confidence, check_report, strip_invalid
+from incident_agent.agent.verify import (
+    cap_confidence,
+    check_faithfulness,
+    check_report,
+    strip_invalid,
+)
 from incident_agent.llm.runner import Runner
 from incident_agent.llm.types import Attempt, LLMResult
 
 ToolExecutor = Callable[[str, dict[str, Any], ToolContext], ToolResult]
+MAX_RAW_KEPT = 12_000  # characters of an unparseable answer kept on its step
 
 
 class IntakeOutput(BaseModel):
@@ -164,15 +175,21 @@ def _call_llm(
     *,
     tools: list[dict[str, Any]] | None = None,
     schema: type[BaseModel] | None = None,
+    max_output_tokens: int | None = None,
 ) -> tuple[LLMResult | None, LLMStep]:
     """One stateless model call. A failure is recorded as a step with an error, not raised."""
     started = time.perf_counter()
     result: LLMResult | None = None
     try:
         result = deps.runner.invoke(
-            [("system", system), ("human", human)], tools=tools, schema=schema, purpose=purpose
+            [("system", system), ("human", human)],
+            tools=tools,
+            schema=schema,
+            purpose=purpose,
+            max_output_tokens=max_output_tokens,
         )
     except Exception as exc:
+        raw = getattr(exc, "raw_output", None) or getattr(exc, "raw", None)
         wall = round((time.perf_counter() - started) * 1000)
         step = LLMStep(
             node=node,
@@ -182,6 +199,7 @@ def _call_llm(
             wall_ms=wall,
             attempts=_attempt_lines(getattr(exc, "attempts", [])),
             error=f"{type(exc).__name__}: {str(exc)[:400]}",
+            raw_output=raw[:MAX_RAW_KEPT] if isinstance(raw, str) else None,
         )
     else:
         wall = round((time.perf_counter() - started) * 1000)
@@ -442,19 +460,44 @@ def route_after_investigate(state: AgentState) -> str:
 
 
 def conclude(state: AgentState, deps: Deps) -> dict[str, Any]:
-    human = conclude_message(state, deps.config) + "\n\nWrite the report now."
+    cfg = deps.config
+    human = conclude_message(state, cfg) + "\n\nWrite the report now."
+    budget = cfg.conclude_max_output_tokens
     result, step = _call_llm(
-        deps, state, "conclude", "conclude", prompts.CONCLUDE_SYSTEM, human, schema=Report
-    )
-    update: dict[str, Any] = {"steps": [*state.steps, step]}
-    if result is None or not isinstance(result.parsed, Report):
-        reason = step.error or "no report was returned"
+        deps, state, "conclude", "conclude", prompts.CONCLUDE_SYSTEM, human,
+        schema=Report, max_output_tokens=budget,
+    )  # fmt: skip
+    steps = [*state.steps, step]
+    raw = step.raw_output
+    for attempt in range(1, cfg.conclude_retries + 1):
+        if isinstance(getattr(result, "parsed", None), Report) or not _malformed(step):
+            break
+        result, step = _call_llm(
+            deps, state, "conclude", f"conclude retry {attempt}", prompts.CONCLUDE_SYSTEM,
+            human + prompts.CONCISE_SUFFIX, schema=Report, max_output_tokens=budget,
+        )  # fmt: skip
+        steps.append(step)
+        raw = step.raw_output or raw
+    update: dict[str, Any] = {"steps": steps}
+    if result is not None and isinstance(result.parsed, Report):
+        update["report"] = result.parsed
+        return update
+    reason = step.error or "no report was returned"
+    partial = salvage_report(raw, _call_findings(state)[:MAX_FINDINGS]) if raw else None
+    if partial is not None:
+        update["report"] = partial
+        update["issues"] = [*state.issues, PARTIAL_NOTE]
+        emit(state, "error", where="conclude", message=PARTIAL_NOTE)
+    else:
         update["report"] = fallback_report(reason, _call_findings(state))
         update["error"] = f"conclude failed: {reason}"
         emit(state, "error", where="conclude", message=reason)
-    else:
-        update["report"] = result.parsed
     return update
+
+
+def _malformed(step: LLMStep) -> bool:
+    """The model answered, but not with a valid report (as opposed to not answering at all)."""
+    return "MalformedOutput" in f"{step.error} {' '.join(step.attempts)}"
 
 
 def _call_findings(state: AgentState) -> list[Finding]:
@@ -470,10 +513,12 @@ def verify(state: AgentState, deps: Deps) -> dict[str, Any]:
     assert report is not None and state.scope is not None
     cfg, issues = deps.config, list(state.issues)
     steps = list(state.steps)
+    report, cut = limit_report(report)
+    issues += cut
     checked = check_report(report, state.evidence, deps.reference, state.asked_at)
     report, problems = checked.report, checked.problems
     repairs = 0
-    while problems and repairs < cfg.max_repairs and not state.error:
+    while problems and repairs < cfg.max_repairs and not state.error and not is_partial(issues):
         repairs += 1
         issues += [f"[repaired] {p}" for p in problems]
         human = conclude_message(state, cfg) + prompts.REPAIR_SUFFIX.format(
@@ -487,12 +532,15 @@ def verify(state: AgentState, deps: Deps) -> dict[str, Any]:
             prompts.CONCLUDE_SYSTEM,
             human,
             schema=Report,
+            max_output_tokens=cfg.conclude_max_output_tokens,
         )
         steps.append(step)
         if result is None or not isinstance(result.parsed, Report):
             issues.append(f"repair call failed: {step.error}")
             break
-        checked = check_report(result.parsed, state.evidence, deps.reference, state.asked_at)
+        bounded, cut = limit_report(result.parsed)
+        issues += cut
+        checked = check_report(bounded, state.evidence, deps.reference, state.asked_at)
         report, problems = checked.report, checked.problems
     if problems:
         issues += [f"unresolved: {p}" for p in problems]
@@ -500,6 +548,8 @@ def verify(state: AgentState, deps: Deps) -> dict[str, Any]:
         issues += removed
     tool_of = {c.ref: c.tool for c in state.calls}
     report, notes = cap_confidence(report, state.evidence, tool_of, missing_checks(state))
+    issues += notes
+    report, notes = check_faithfulness(report, state.evidence, state.calls, deps.reference)
     issues += notes
     if state.error:
         issues.append(state.error)

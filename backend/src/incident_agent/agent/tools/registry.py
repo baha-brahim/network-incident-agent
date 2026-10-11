@@ -31,72 +31,56 @@ class ToolSpec:
 _SPECS = [
     ToolSpec(
         "get_anomalies",
-        "Alerts and anomalies raised by the anomaly detector that overlap a time window, with "
-        "the metrics that moved and by how much. Alerts still running at the current time are "
-        "described only up to now.",
+        "Detector alerts overlapping a window.",
         GetAnomaliesArgs,
         get_anomalies,
     ),
     ToolSpec(
         "query_kpis",
-        "KPI series for cells, sites, regions, the whole network or core nodes, compared with a "
-        "baseline from earlier days at the same time of day. Reports the mean, extremes, the "
-        "onset and recovery time of any deviation, steps with no data, and a short series.",
+        "KPI series vs a time-of-day baseline, with onset and recovery.",
         QueryKpisArgs,
         query_kpis,
     ),
     ToolSpec(
         "get_topology",
-        "Dependency chain of a node up to the core, the nodes below it, its siblings under the "
-        "same parent, and its attributes (area type, link medium, venue). Use it to see what a "
-        "link or router failure would take down.",
+        "Parents, children, siblings and attributes of a node.",
         GetTopologyArgs,
         get_topology,
     ),
     ToolSpec(
         "get_alarms",
-        "Alarms in a time window, sorted by time with raised/cleared/active state, for nodes "
-        "(and the nodes below them) or a region. Alarms not yet cleared at the current time "
-        "are shown as active.",
+        "Alarms in a window for nodes (and children) or a region.",
         GetAlarmsArgs,
         get_alarms,
     ),
     ToolSpec(
         "get_changes",
-        "Change records (config pushes, upgrades, tuning, rollbacks) executed in a window on "
-        "given nodes and their parents. Shows which changes were rolled back and which change "
-        "a rollback reverts.",
+        "Changes and rollbacks in a window on nodes and their parents.",
         GetChangesArgs,
         get_changes,
     ),
     ToolSpec(
         "get_maintenance",
-        "Maintenance windows overlapping a range on given nodes and their parents, with "
-        "description, expected impact and state (completed, in progress, planned). Planned "
-        "windows later than the current time are shown.",
+        "Maintenance windows, past to planned, on nodes and parents.",
         GetMaintenanceArgs,
         get_maintenance,
     ),
     ToolSpec(
         "get_external_events",
-        "External events (stadium events, public holidays, festivals) overlapping a window, "
-        "including nationwide ones.",
+        "External events (stadium, holiday, festival) in a window.",
         GetExternalEventsArgs,
         get_external_events,
     ),
     ToolSpec(
         "search_runbooks",
-        "Search the operations runbooks for diagnosis procedures, differential diagnosis and "
-        "alarm meanings. Returns excerpts with chunk ids to cite.",
+        "Search runbooks for diagnosis procedures and alarm meanings.",
         SearchRunbooksArgs,
         search_runbooks_tool,
     ),
     ToolSpec(
         "run_sql",
-        "Last resort, when no other tool fits: one read-only SELECT over cell_kpis, core_kpis, "
-        "alarms, changes, maintenance, external_events, nodes, cells and regions (bare table "
-        "names; rows after the current time are hidden; at most 50 rows). Times in literals "
-        "are Africa/Tunis local.",
+        "Last resort: one read-only SELECT over cell_kpis, core_kpis, alarms, changes, "
+        "maintenance, external_events, nodes, cells, regions.",
         RunSqlArgs,
         run_sql,
     ),

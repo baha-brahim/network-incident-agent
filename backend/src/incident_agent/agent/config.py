@@ -13,6 +13,11 @@ class AgentConfig(BaseModel):
     # Tools the model is not told about (ablations).
     disabled_tools: tuple[str, ...] = ()
     max_repairs: int = Field(default=1, ge=0)  # extra LLM calls to fix an invalid report
+    # Output budget of the report (and repair) calls. Reports ran 1.5k-2k tokens and some hit the
+    # runner's 2,048 default; compact ones take about 1.2k. 3k leaves headroom and still fits a
+    # free tier with an 8k request limit (prompt plus output) for prompts up to ~5k tokens.
+    conclude_max_output_tokens: int = Field(default=3_072, ge=512)
+    conclude_retries: int = Field(default=1, ge=0)  # extra tries after a malformed report
     # Size limits of what a model sees (characters; the runner estimates ~3.5 characters/token).
     casefile_chars: int = Field(default=7_500, ge=2_000)
     registry_chars: int = Field(default=2_500, ge=0)

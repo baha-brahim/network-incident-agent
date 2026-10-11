@@ -15,7 +15,7 @@ from incident_agent.agent.tools.common import (
     resolve_scope,
     trim,
 )
-from incident_agent.agent.tools.schema import ToolArgs
+from incident_agent.agent.tools.schema import END, NODE_IDS, REGION, START, UNLISTED, ToolArgs
 from incident_agent.agent.tools.timeutil import (
     TimeParseError,
     as_utc,
@@ -30,15 +30,12 @@ FETCH_LIMIT = 300
 
 
 class GetMaintenanceArgs(ToolArgs):
-    start: str = Field(description="Range start, ISO 8601; no offset = Africa/Tunis local time.")
-    end: str = Field(description="Range end, ISO 8601. Windows later than now are scheduled ones.")
-    node_ids: list[str] | None = Field(
-        default=None, max_length=12, description="Up to 12 node ids (sites, links, routers, core)."
-    )
-    region_id: str | None = Field(default=None, description="TUN, SAH, SFX or SUD.")
+    start: str = Field(description=START)
+    end: str = Field(description=END)
+    node_ids: list[str] | None = Field(default=None, max_length=12, description=NODE_IDS)
+    region_id: str | None = Field(default=None, description=REGION)
     include_ancestors: bool = Field(
-        default=True,
-        description="Also include windows on the parents of node_ids (link, router).",
+        default=True, description="Include parents.", json_schema_extra=UNLISTED
     )
 
 

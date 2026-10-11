@@ -62,6 +62,7 @@ class LLMStep(BaseModel):
     cached: bool = False
     attempts: list[str] = Field(default_factory=list)  # "model: status (error)" per attempt
     error: str | None = None
+    raw_output: str | None = None  # an unparseable structured answer, kept for diagnosis
 
 
 class AgentState(BaseModel):

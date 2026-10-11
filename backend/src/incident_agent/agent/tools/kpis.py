@@ -29,7 +29,7 @@ from incident_agent.agent.tools.common import (
     num,
     pct,
 )
-from incident_agent.agent.tools.schema import ToolArgs
+from incident_agent.agent.tools.schema import END, START, ToolArgs
 from incident_agent.agent.tools.timeutil import (
     LOCAL_TZ,
     LOCAL_TZ_NAME,
@@ -68,25 +68,23 @@ _FLOORS["cells_down"] = Floors(abs_floor=0.5)
 
 
 class QueryKpisArgs(ToolArgs):
-    entity_type: EntityType = Field(
-        description="cell, site, region, national (everything) or core_node (DNS, UPF, AMF)."
-    )
+    entity_type: EntityType = Field(description="national = all; core_node = DNS, UPF, AMF.")
     entity_ids: list[str] = Field(
         default_factory=list,
         max_length=6,
-        description="Up to 6 ids of that type. Not needed for national.",
+        description="Up to 6; none for national.",
     )
     metrics: list[str] = Field(
         min_length=1,
         max_length=4,
         description=(
-            "Up to 4 metrics. Cell/site/region/national: dl_volume_mb, ul_volume_mb, active_users, "
-            "rrc_success_pct, drop_rate_pct, latency_ms, prb_util_pct, availability_pct, "
-            "cells_down. Core nodes: their own (e.g. query_success_pct, resolution_ms)."
+            "Up to 4: dl_volume_mb, ul_volume_mb, active_users, rrc_success_pct, drop_rate_pct, "
+            "latency_ms, prb_util_pct, availability_pct, cells_down; core: query_success_pct, "
+            "resolution_ms."
         ),
     )
-    start: str = Field(description="Window start, ISO 8601; no offset = Africa/Tunis local time.")
-    end: str = Field(description="Window end, ISO 8601. Anything after the current time is cut.")
+    start: str = Field(description=START)
+    end: str = Field(description=END)
 
 
 # --- data access -----------------------------------------------------------------------------

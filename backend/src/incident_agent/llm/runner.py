@@ -19,7 +19,7 @@ import re
 import threading
 import time
 from collections.abc import Callable, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Literal, Protocol
 
@@ -49,6 +49,7 @@ OLLAMA_TIMEOUT_S = 180.0  # the first call also loads the model
 OLLAMA_NUM_CTX = 12288  # ~1.8 GB of KV cache for a 4B model: fits a 6 GB GPU
 OLLAMA_MAX_OUTPUT_TOKENS = 4096  # qwen3 thinks before answering; leave room for it
 DEFAULT_MAX_OUTPUT_TOKENS = 2048
+MAX_RAW_CHARS = 20_000  # an unparseable answer is kept this long on its attempt
 CHARS_PER_TOKEN = 3.5  # deliberately pessimistic, so size checks err on the side of skipping
 
 
@@ -81,7 +82,8 @@ class ChainEntry:
     """One model of the chain. `model` is injected in tests; otherwise it is built on first use."""
 
     spec: str  # "provider:model"
-    model: BaseChatModel | None = None
+    model: BaseChatModel | None = None  # when set (tests), used for every call
+    built: dict[int, BaseChatModel] = field(default_factory=dict)  # clients by output budget
 
     @property
     def provider(self) -> str:
@@ -102,6 +104,7 @@ class Runner(Protocol):
         tools: ToolSchemas | None = None,
         schema: type[BaseModel] | None = None,
         purpose: str = "",
+        max_output_tokens: int | None = None,
     ) -> LLMResult: ...
 
 
@@ -172,6 +175,31 @@ def estimate_tokens(
     chars += len(json.dumps(list(tools or []), default=str))
     chars += len(json.dumps(schema.model_json_schema())) if schema else 0
     return int(chars / CHARS_PER_TOKEN) + 1
+
+
+def _invalid_structured(raw: Any, error: Any) -> MalformedOutput:
+    """Describe a structured answer that did not validate; the reason comes first.
+
+    Error texts are cut to a few hundred characters downstream, and the parser's message starts
+    with the whole answer, so lead with the finish reason and the end of the parser's complaint.
+    """
+    meta = getattr(raw, "response_metadata", None) or {}
+    usage = getattr(raw, "usage_metadata", None) or {}
+    detail = ", ".join(
+        part
+        for part in (
+            f"finish_reason={meta['finish_reason']}" if meta.get("finish_reason") else "",
+            f"{usage['output_tokens']} output tokens" if usage.get("output_tokens") else "",
+        )
+        if part
+    )
+    why = " ".join(str(error).split())
+    why = why.rsplit(" Got: ", 1)[-1] if " Got: " in why else why[-160:]
+    text = getattr(raw, "text", None)
+    return MalformedOutput(
+        f"structured output invalid ({detail or 'no metadata'}): {why[:160]}",
+        raw=text if isinstance(text, str) and text else None,
+    )
 
 
 def _tool_calls(raw: AIMessage) -> list[ToolCall]:
@@ -301,8 +329,13 @@ class LLMRunner:
         tools: ToolSchemas | None = None,
         schema: type[BaseModel] | None = None,
         purpose: str = "",
+        max_output_tokens: int | None = None,
     ) -> LLMResult:
         """Answer one stateless call. `tools` are {name, description, parameters} dicts.
+
+        `max_output_tokens` replaces the runner's default for this call only (the size check and
+        the client both use it). It is not part of the cache key: a recording replays whatever
+        budget it was made with.
 
         Returns text, normalised tool calls, and (when `schema` is given) a validated instance.
         Raises `CacheMiss` (replay mode) or `AllModelsFailed`.
@@ -320,7 +353,7 @@ class LLMRunner:
             if self.cache_mode == "replay":
                 raise CacheMiss(key, purpose, description["prompt_preview"])
 
-        result = self._run_chain(msgs, tools, schema, call_index)
+        result = self._run_chain(msgs, tools, schema, call_index, max_output_tokens)
         if self.cache_mode == "readwrite":
             self.cache.save(key, description, result)
         return result
@@ -333,17 +366,17 @@ class LLMRunner:
         by_spec = {e.spec: e for e in self.chain}
         return [by_spec[s] for s in self.route(call_index)]
 
-    def _output_tokens(self, provider: str) -> int:
-        return LIMITS.get(provider, DEFAULT_LIMITS).max_output_tokens or self.max_output_tokens
+    def _output_tokens(self, provider: str, requested: int | None = None) -> int:
+        """Output budget of a call: the request, else the runner default. A provider's own
+        setting (ollama leaves room for its thinking) is a floor."""
+        budget = requested or self.max_output_tokens
+        return max(budget, LIMITS.get(provider, DEFAULT_LIMITS).max_output_tokens or 0)
 
-    def _skip_reason(
-        self, entry: ChainEntry, prompt_tokens: int, schema: type[BaseModel] | None
-    ) -> str | None:
+    def _skip_reason(self, entry: ChainEntry, prompt_tokens: int, output: int) -> str | None:
         wait = self._cooldown_until.get(entry.spec, 0.0) - self._clock()
         if wait > 0:
             return f"cooling down for {wait:.0f}s after an error"
         limit = LIMITS.get(entry.provider, DEFAULT_LIMITS).max_request_tokens
-        output = self._output_tokens(entry.provider)
         if limit is not None and prompt_tokens + output > limit:
             return f"request too large: ~{prompt_tokens} prompt + {output} output tokens > {limit}"
         return None
@@ -354,27 +387,36 @@ class LLMRunner:
         tools: ToolSchemas | None,
         schema: type[BaseModel] | None,
         call_index: int,
+        max_output_tokens: int | None = None,
     ) -> LLMResult:
         prompt_tokens = estimate_tokens(msgs, tools, schema)
         attempts: list[Attempt] = []
         order = self._ordered(call_index)
         for entry in order:
-            if reason := self._skip_reason(entry, prompt_tokens, schema):
+            budget = self._output_tokens(entry.provider, max_output_tokens)
+            if reason := self._skip_reason(entry, prompt_tokens, budget):
                 attempts.append(Attempt(model=entry.spec, status="skipped", error=reason))
                 continue
             if LIMITS.get(entry.provider, DEFAULT_LIMITS).throttled and self.min_interval > 0:
                 self._throttle.wait(entry.spec, self.min_interval)
             started = time.perf_counter()
             try:
-                result = self._call(entry, msgs, tools, schema)
+                result = self._call(entry, msgs, tools, schema, budget)
             except Exception as exc:
                 ms = round((time.perf_counter() - started) * 1000)
                 info = classify(exc)
                 if info.cooldown:
                     self._cooldown_until[entry.spec] = self._clock() + info.cooldown
                 error = scrub(f"{type(exc).__name__}: {exc}", self._secrets)
+                raw = getattr(exc, "raw", None)
                 attempts.append(
-                    Attempt(model=entry.spec, status="error", error=error, latency_ms=ms)
+                    Attempt(
+                        model=entry.spec,
+                        status="error",
+                        error=error,
+                        latency_ms=ms,
+                        raw=raw[:MAX_RAW_CHARS] if isinstance(raw, str) else None,
+                    )
                 )
                 continue
             ms = round((time.perf_counter() - started) * 1000)
@@ -387,16 +429,18 @@ class LLMRunner:
 
     # --- one provider call ----------------------------------------------------------------
 
-    def _chat_model(self, entry: ChainEntry) -> BaseChatModel:
-        if entry.model is None:
+    def _chat_model(self, entry: ChainEntry, output_tokens: int) -> BaseChatModel:
+        if entry.model is not None:
+            return entry.model
+        if output_tokens not in entry.built:
             kwargs = build_model_kwargs(
                 entry.provider,
                 entry.name,
-                max_output_tokens=self._output_tokens(entry.provider),
+                max_output_tokens=output_tokens,
                 reasoning=self.reasoning,
             )
-            entry.model = make_chat_model(entry.spec, **kwargs)
-        return entry.model
+            entry.built[output_tokens] = make_chat_model(entry.spec, **kwargs)
+        return entry.built[output_tokens]
 
     def _call(
         self,
@@ -404,8 +448,9 @@ class LLMRunner:
         msgs: list[BaseMessage],
         tools: ToolSchemas | None,
         schema: type[BaseModel] | None,
+        output_tokens: int,
     ) -> LLMResult:
-        chat = self._chat_model(entry)
+        chat = self._chat_model(entry, output_tokens)
         parsed: BaseModel | None = None
         if schema is not None:
             method = STRUCTURED_METHOD.get(entry.provider, "json_schema")
@@ -414,7 +459,7 @@ class LLMRunner:
             )
             raw, parsed_out, error = out["raw"], out.get("parsed"), out.get("parsing_error")
             if error is not None or parsed_out is None:
-                raise MalformedOutput(f"structured output invalid: {error}")
+                raise _invalid_structured(raw, error)
             if not isinstance(parsed_out, schema):
                 parsed_out = schema.model_validate(parsed_out)
             parsed = schema.model_validate(_clean(parsed_out.model_dump()))

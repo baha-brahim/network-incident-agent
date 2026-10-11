@@ -174,6 +174,23 @@ def test_alarms_fiber_cut_leads_with_the_cause(call: Call) -> None:
     assert [row["alarm_id"] for row in r.data["rows"]] == ["ALM-000001", "ALM-000002"]
 
 
+def test_alarms_headline_has_the_counts_and_the_earliest_serious_alarm(call: Call) -> None:
+    r = call("get_alarms", {**span(at(1, 17), at(1, 23)), "node_ids": ["LNK-TUN-01-A"]})
+    assert r.headline == r.body.splitlines()[0] and len(r.headline) <= 200
+    assert r.headline.startswith(
+        "2 alarm(s) on LNK-TUN-01-A and nodes below: 2 critical; 0 active."
+    )
+    assert r.headline.endswith(
+        f"Earliest critical/major: {fmt(at(1, 18))} LINK_LOS on LNK-TUN-01-A (ALM-000001)."
+    )
+    dns = call("get_alarms", {**span(at(1, 12), at(1, 15)), "node_ids": ["CORE-DNS-01"]})
+    assert dns.headline.startswith("1 alarm(s) on CORE-DNS-01 and nodes below: 1 major; 1 active.")
+    assert "DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000003)" in dns.headline
+    assert call(
+        "get_alarms", {**span(at(1, 17), at(1, 23)), "node_ids": ["S-TUN-003"]}
+    ).headline.startswith("No alarms on S-TUN-003")
+
+
 def test_alarms_not_cleared_at_asked_at_are_active_and_hide_their_clear_time(call: Call) -> None:
     asked = at(1, 20)
     r = call("get_alarms", {**span(at(1, 17), at(1, 23)), "node_ids": ["LNK-TUN-01-A"]}, asked)
@@ -636,6 +653,21 @@ def test_anomalies_finished_alert_shows_severity_and_worst_entity(call: Call) ->
     assert "dl_volume_mb drop on 1 entity: worst S-TUN-001 z -20.0, 9000 -> 0" in r.body
     kinds = {ref.ref: ref.kind for ref in r.refs}
     assert kinds["ALR-T1"] == "alert" and kinds["ANM-T1"] == "anomaly"
+
+
+def test_anomalies_headline_carries_alert_ids_span_and_summary(call: Call) -> None:
+    r = call("get_anomalies", span(at(1, 12), at(1, 23)), at(2, 0))
+    assert r.headline == r.body.splitlines()[0] and len(r.headline) <= 200
+    assert r.headline.startswith("1 alert(s): ALR-T1 " + fmt(at(1, 18)) + "-" + "21:45")
+    assert "Traffic and availability drop on 2 sites in TUN" in r.headline
+    running = call("get_anomalies", span(at(1, 12), at(1, 23)), at(1, 20))
+    assert running.headline.startswith(
+        "1 alert(s), 1 ongoing: ALR-T1 " + fmt(at(1, 18)) + "-ongoing"
+    )
+    for hidden in ("high", "4 h", "ended", "21:45"):  # nothing from after asked_at
+        assert hidden not in running.headline, hidden
+    both = call("get_anomalies", span(at(0, 0), at(3, 8)), at(3, 8))
+    assert both.headline.startswith("2 alert(s): ALR-T1 ") and "; ALR-T3 " in both.headline
 
 
 def test_anomalies_running_alert_hides_end_size_and_severity(call: Call) -> None:

@@ -190,6 +190,36 @@ def test_small_request_goes_to_groq(tmp_path: Path) -> None:
     assert r.invoke(MSGS).text == "B"
 
 
+def test_the_size_check_uses_the_output_budget_of_the_call(tmp_path: Path) -> None:
+    mid = [("system", "s"), ("human", "x" * 17_000)]  # ~4.9k tokens: fits with 2k out, not 4k
+    r = runner(entry("groq:b", ai("B")), entry("gemini:c", ai("C")), tmp_path=tmp_path)
+    assert [a.status for a in r.invoke(mid).usage.attempts] == ["ok"]
+    r = runner(entry("groq:b", ai("B")), entry("gemini:c", ai("C")), tmp_path=tmp_path)
+    attempts = r.invoke(mid, max_output_tokens=4096).usage.attempts
+    assert [a.status for a in attempts] == ["skipped", "ok"]
+    assert "4096 output" in (attempts[0].error or "")
+
+
+def test_the_output_budget_of_a_call_reaches_the_client(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    built: list[tuple[str, dict[str, Any]]] = []
+
+    def fake_make(spec: str, **kwargs: Any) -> FakeChatModel:
+        built.append((spec, kwargs))
+        return FakeChatModel(script=[ai("1"), ai("2"), ai("3")])
+
+    monkeypatch.setattr("incident_agent.llm.runner.make_chat_model", fake_make)
+    r = runner("gemini:g", tmp_path=tmp_path, max_output_tokens=1000)
+    r.invoke(MSGS)
+    r.invoke(MSGS, max_output_tokens=3000)
+    r.invoke(MSGS, max_output_tokens=3000)  # same budget: the client is reused
+    assert [kw["max_output_tokens"] for _, kw in built] == [1000, 3000]
+    local = runner("ollama:o", tmp_path=tmp_path, max_output_tokens=1000)
+    assert local._output_tokens("ollama", 100) == 4096  # the provider's own floor
+    assert local._output_tokens("ollama", 5000) == 5000
+
+
 # --- throttle -----------------------------------------------------------------------------------
 
 
@@ -253,6 +283,22 @@ def test_invalid_structured_output_triggers_fallback(tmp_path: Path) -> None:
     assert result.parsed == Verdict(cause="power", node="S-1")
     assert [a.status for a in result.usage.attempts] == ["error", "error", "ok"]
     assert result.usage.fell_back
+
+
+def test_a_cut_off_answer_keeps_its_text_and_says_why(tmp_path: Path) -> None:
+    cut = AIMessage(
+        content='{"cause": "fiber", "node": "LNK-1", "details": "this string never ends',
+        response_metadata={"finish_reason": "MAX_TOKENS"},
+        usage_metadata={"input_tokens": 100, "output_tokens": 2048, "total_tokens": 2148},
+    )
+    r = runner(entry("gemini:a", cut), tmp_path=tmp_path)
+    with pytest.raises(AllModelsFailed) as info:
+        r.invoke(MSGS, schema=Verdict)
+    attempt = info.value.attempts[0]
+    assert "finish_reason=MAX_TOKENS" in (attempt.error or "")
+    assert "2048 output tokens" in (attempt.error or "")
+    assert attempt.raw is not None and attempt.raw.endswith("this string never ends")
+    assert info.value.raw_output == attempt.raw
 
 
 def test_tools_and_schema_together_are_rejected(tmp_path: Path) -> None:
@@ -506,7 +552,7 @@ def test_reasoning_can_be_switched_on_for_groq_only() -> None:
 def test_runner_passes_reasoning_to_the_client(use_settings: Any) -> None:
     use_settings(groq_api_key="k")
     runner = LLMRunner("grader", reasoning=True, cache_mode="off")
-    chat = runner._chat_model(runner.chain[0])
+    chat = runner._chat_model(runner.chain[0], 2048)
     assert chat.reasoning_effort == "high"  # type: ignore[attr-defined]
 
 

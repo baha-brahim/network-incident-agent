@@ -79,7 +79,7 @@ def make_report(**over: Any) -> Report:
         ],
         "findings": [
             Finding(claim="Critical LOS on the link", basis="observed", refs=["ALM-000001"]),
-            Finding(claim="No maintenance window", basis="observed", refs=["MW-0001"]),
+            Finding(claim="Window MW-0001 is on another site", basis="observed", refs=["MW-0001"]),
         ],
         "hypotheses": [
             HypothesisEntry(

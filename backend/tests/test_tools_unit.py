@@ -364,7 +364,7 @@ def test_schemas_are_plain_json_schema(schema: dict[str, object]) -> None:
     props = params["properties"]
     assert set(params["required"]) <= set(props)
     for prop in props.values():
-        assert prop.get("description") or prop.get("enum") or prop["type"] in ("boolean", "integer")
+        assert prop.get("description"), schema["name"]
 
 
 def test_descriptions_are_short() -> None:
@@ -372,6 +372,26 @@ def test_descriptions_are_short() -> None:
         sentences = [s for s in spec.description.split(". ") if s.strip()]
         assert 1 <= len(sentences) <= 3, spec.name
         assert len(spec.description) < 420, spec.name
+
+
+def test_tool_definitions_stay_small() -> None:
+    """They are sent with every investigate call; a third of a prompt was once spent on them."""
+    from incident_agent.llm.runner import estimate_tokens as prompt_tokens
+
+    assert prompt_tokens([], tool_schemas(), None) <= 1_250
+
+
+def test_knobs_left_out_of_the_schema_are_still_accepted() -> None:
+    by_name = {s["name"]: s["parameters"]["properties"] for s in tool_schemas()}
+    assert "alarm_types" not in by_name["get_alarms"] and "k" not in by_name["search_runbooks"]
+    assert "include_ancestors" not in by_name["get_changes"]
+    assert "include_ancestors" not in by_name["get_maintenance"]
+    for spec_name, args in (
+        ("get_alarms", {"start": "2026-09-01", "end": "2026-09-02", "alarm_types": ["LINK_LOS"]}),
+        ("get_changes", {"start": "2026-09-01", "end": "2026-09-02", "include_ancestors": False}),
+        ("search_runbooks", {"query": "fiber cut", "k": 3}),
+    ):
+        assert TOOLS[spec_name].args_model.model_validate(args)
 
 
 def test_required_arguments_in_schema() -> None:

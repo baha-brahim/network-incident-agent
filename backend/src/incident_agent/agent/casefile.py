@@ -37,6 +37,16 @@ def call_line(call: CallRecord, headline_chars: int = HEADLINE_CHARS) -> str:
     return f"{call.ref} {call.tool}({format_args(call.args)}) -> {head}"
 
 
+def _body_block(call: CallRecord, headline_chars: int) -> str:
+    """A result in full, minus its first line when the log line above already shows it whole."""
+    body = call.body
+    first, _, rest = body.partition("\n")
+    headline = " ".join(call.headline.split())
+    if " ".join(first.split()) == headline and len(headline) <= headline_chars:
+        body = rest
+    return f"--- {call.ref} {call.tool}\n{body}" if body else ""
+
+
 def _header(state: AgentState, config: AgentConfig) -> list[str]:
     now = to_local(state.asked_at)
     lines = [
@@ -118,7 +128,9 @@ def render_case_file(state: AgentState, config: AgentConfig) -> str:
     for call in reversed(state.calls):
         if call.duplicate_of:
             continue
-        block = f"--- {call.ref} {call.tool}\n{call.body}"
+        block = _body_block(call, headline_chars)
+        if not block:
+            continue
         if len(block) + 1 > room:
             break
         bodies.append(block)
@@ -128,7 +140,10 @@ def render_case_file(state: AgentState, config: AgentConfig) -> str:
     lines = [*header, "", "TOOL CALLS"]
     lines += log or ["(none yet)"]
     if bodies:
-        lines += ["", "LATEST RESULTS IN FULL (older results are reduced to the line above)"]
+        lines += [
+            "",
+            "LATEST RESULTS (each continues its log line; older ones are only the log line)",
+        ]
         lines += bodies
     if notes:
         lines += ["", "YOUR NOTES SO FAR", *notes]

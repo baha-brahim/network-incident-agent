@@ -15,8 +15,9 @@ from incident_agent.agent.tools.common import (
     error_result,
     join_ids,
     resolve_scope,
+    trim,
 )
-from incident_agent.agent.tools.schema import ToolArgs
+from incident_agent.agent.tools.schema import END, NODE_IDS, REGION, START, UNLISTED, ToolArgs
 from incident_agent.agent.tools.timeutil import TimeParseError, fmt, fmt_hm, iso, make_window
 from incident_agent.agent.types import EvidenceRef, ToolContext, ToolResult
 
@@ -27,19 +28,17 @@ SELF_CLEARING = timedelta(minutes=10)
 
 
 class GetAlarmsArgs(ToolArgs):
-    start: str = Field(description="Window start, ISO 8601; no offset = Africa/Tunis local time.")
-    end: str = Field(description="Window end, ISO 8601. Anything after the current time is cut.")
-    node_ids: list[str] | None = Field(
-        default=None, max_length=12, description="Nodes to look at (sites, links, routers, core)."
-    )
-    region_id: str | None = Field(default=None, description="TUN, SAH, SFX or SUD.")
-    include_descendants: bool = Field(
-        default=True, description="Also include alarms on the nodes below node_ids."
-    )
+    start: str = Field(description=START)
+    end: str = Field(description=END)
+    node_ids: list[str] | None = Field(default=None, max_length=12, description=NODE_IDS)
+    region_id: str | None = Field(default=None, description=REGION)
+    include_descendants: bool = Field(default=True, description="Include children.")
     min_severity: Literal["warning", "minor", "major", "critical"] | None = Field(
-        default=None, description="Hide alarms below this severity."
+        default=None, description="Minimum severity."
     )
-    alarm_types: list[str] | None = Field(default=None, max_length=8, description="e.g. LINK_LOS.")
+    alarm_types: list[str] | None = Field(
+        default=None, max_length=8, description="e.g. LINK_LOS.", json_schema_extra=UNLISTED
+    )
 
 
 def _scope_text(direct: list[str], region_id: str | None, below: bool) -> str:
@@ -126,11 +125,9 @@ def get_alarms(ctx: ToolContext, args: GetAlarmsArgs) -> ToolResult:
     n_active = sum(1 for r in rows if r.cleared_at is None or r.cleared_at > asked)
     sev_text = ", ".join(f"{n} {s}" for s, n in by_sev.items() if n)
     count_text = f"{len(rows)}{'+' if capped else ''}"
-    head = [
-        f"{count_text} alarm(s) on {scope_text}, {fmt(window.start)} to {fmt(window.end)}: "
-        f"{sev_text}; {n_active} active at asked_at ({fmt(asked)})."
-    ]
-    head.append(_earliest_serious(rows) or _no_serious(rows, asked))
+    serious = _earliest_serious(rows)
+    head = [_headline(count_text, scope_text, sev_text, n_active, rows)]
+    head.append(serious or _no_serious(rows, asked))
     head += notes
     if capped:
         head.append(f"More than {FETCH_LIMIT} alarms matched; narrow the window or nodes.")
@@ -144,7 +141,7 @@ def get_alarms(ctx: ToolContext, args: GetAlarmsArgs) -> ToolResult:
         ordered,
         omitted_line=lambda left: (
             f"Omitted {len(left)} lower-priority alarms ({count_by(left, 'alarm_type')}); "
-            "narrow the window or use min_severity / alarm_types to see them."
+            "narrow the window or use min_severity to see them."
         ),
     )
     return ToolResult(
@@ -160,6 +157,19 @@ def get_alarms(ctx: ToolContext, args: GetAlarmsArgs) -> ToolResult:
         },
         truncated=out.truncated,
     )
+
+
+def _headline(count: str, scope: str, severities: str, n_active: int, rows: list[Any]) -> str:
+    """Counts, then the earliest critical/major alarm with its node and time, within 200 chars."""
+    serious = next((r for r in rows if r.severity in ("critical", "major")), None)
+    tail = (
+        f" Earliest critical/major: {fmt(serious.raised_at)} {serious.alarm_type} on "
+        f"{serious.node_id} ({serious.alarm_id})."
+        if serious
+        else " None critical/major."
+    )
+    counts = trim(f"{count} alarm(s) on {scope}: {severities}; {n_active} active.", 200 - len(tail))
+    return counts + tail
 
 
 def _no_serious(rows: list[Any], asked: Any) -> str:

@@ -12,7 +12,7 @@ from incident_agent.agent.tools.common import (
     error_result,
     trim,
 )
-from incident_agent.agent.tools.schema import ToolArgs
+from incident_agent.agent.tools.schema import END, REGION, START, ToolArgs
 from incident_agent.agent.tools.timeutil import TimeParseError, fmt, iso, make_window
 from incident_agent.agent.types import EvidenceRef, ToolContext, ToolResult
 
@@ -20,11 +20,9 @@ FETCH_LIMIT = 200
 
 
 class GetExternalEventsArgs(ToolArgs):
-    start: str = Field(description="Window start, ISO 8601; no offset = Africa/Tunis local time.")
-    end: str = Field(description="Window end, ISO 8601. Anything after the current time is cut.")
-    region_id: str | None = Field(
-        default=None, description="TUN, SAH, SFX or SUD. Nationwide events are always included."
-    )
+    start: str = Field(description=START)
+    end: str = Field(description=END)
+    region_id: str | None = Field(default=None, description=REGION)
 
 
 def get_external_events(ctx: ToolContext, args: GetExternalEventsArgs) -> ToolResult:
