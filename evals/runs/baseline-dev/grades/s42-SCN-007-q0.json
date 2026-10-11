@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-007-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4078,
+      "live_tokens": 4383,
+      "output_tokens": 305
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and tool output confirm the sequence of power failure, battery low, and site down, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000149 and T7 explicitly state a major MAINS_FAILURE on S-SFX-002 raised at 2026-09-07 22:14.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000154 and ALM-000155 confirm BATTERY_LOW at 00:17 and SITE_DOWN at 00:32 on S-SFX-002.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited anomalies and alert show availability and active users dropping to zero during the incident window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly states no series deviates from baseline for S-SFX-009 and S-SFX-010 in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4, T5, and T8 all report no changes, maintenance, or external events for the relevant nodes and region.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

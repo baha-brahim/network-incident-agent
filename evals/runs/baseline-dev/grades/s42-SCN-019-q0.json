@@ -1,0 +1,52 @@
+{
+  "case_id": "s42-SCN-019-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T7"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4596,
+      "live_tokens": 4892,
+      "output_tokens": 296
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the change and KPI degradation, but T7 shows degradation on other sites, which contradicts the specific causal link to S-TUN-017 alone.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 and ANM-000227 explicitly state the onset of rrc_success_pct deviation on S-TUN-017 at 03:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "CHG-2026-0047 and T10 confirm the config push of RT-2.4 to S-TUN-017 at 03:41.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 and T7 confirm the pushes and degradations, but the specific degradation metrics (e.g., drop rates) are not identical between the two sites.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 explicitly reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T14 explicitly reports no external events for region TUN in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -25,6 +25,7 @@ from incident_agent.evals.grader import (
     build_items,
     plan_batches,
 )
+from incident_agent.evals.human_labels import GLOSSARY, describe_call, describe_row
 from incident_agent.evals.human_template import PAGE
 from incident_agent.evals.types import CaseArtifact, ReportGrade
 
@@ -34,6 +35,17 @@ VERDICT_LABELS = {
     "partially_supported": "Partially supported",
     "unsupported": "Unsupported",
     "not_verifiable": "Not verifiable",
+}
+# One-line paraphrases shown beside the grader's own wording (which is not changed).
+VERDICT_PLAIN = {
+    "supported": "The boxes show everything the sentence says.",
+    "partially_supported": (
+        "The boxes show some of it, but a number, time, node or cause goes further."
+    ),
+    "unsupported": (
+        "The boxes contradict it, are about something else, or nothing relevant is cited."
+    ),
+    "not_verifiable": "Evidence is missing or cut short, so you cannot tell.",
 }
 
 
@@ -95,15 +107,35 @@ def _chips(report: Report) -> list[str]:
     ]
 
 
-def _item_view(item: Item, evidence: dict[str, EvidenceText]) -> dict[str, Any]:
+def _evidence_view(e: EvidenceText, result: RunResult) -> dict[str, Any]:
+    """One evidence box: the grader's text plus a plain-English header built from the call."""
+    view: dict[str, Any] = {
+        "ref": e.ref,
+        "text": e.text,
+        "shortened": e.shortened,
+        "found": e.found,
+    }
+    call = next((c for c in result.calls if c.ref == e.ref), None)
+    if call is not None:
+        view |= {
+            "type": "call",
+            "tool": call.tool,
+            "args": call.args,
+            "label": describe_call(call.tool, call.args),
+        }
+    else:
+        known = result.evidence.get(e.ref)
+        kind = known.kind if known is not None and e.found else None
+        view |= {"type": kind or "missing", "label": describe_row(e.ref, kind)}
+    return view
+
+
+def _item_view(item: Item, evidence: dict[str, EvidenceText], result: RunResult) -> dict[str, Any]:
     return {
         "index": item.index,
         "basis": item.basis,
         "claim": item.claim,
-        "evidence": [
-            {"ref": e.ref, "text": e.text, "shortened": e.shortened, "found": e.found}
-            for e in (evidence[r] for r in item.refs)
-        ],
+        "evidence": [_evidence_view(evidence[r], result) for r in item.refs],
     }
 
 
@@ -121,7 +153,7 @@ def report_view(artifact: CaseArtifact) -> dict[str, Any]:
         "title": result.report.title,
         "chips": _chips(result.report),
         "summary": result.report.root_cause_summary,
-        "items": [_item_view(item, evidence[item.index]) for item in items],
+        "items": [_item_view(item, evidence[item.index], result) for item in items],
     }
 
 
@@ -134,11 +166,19 @@ def build_pack(artifacts: Sequence[CaseArtifact], *, title: str = PAGE_TITLE) ->
         "title": title,
         "rubric": {
             "verdicts": [
-                {"key": key, "label": VERDICT_LABELS[key], "definition": text}
+                {
+                    "key": key,
+                    "label": VERDICT_LABELS[key],
+                    "definition": text,
+                    "plain": VERDICT_PLAIN[key],
+                }
                 for key, text in VERDICT_DEFINITIONS.items()
             ],
             "rules": list(RULES),
         },
+        "glossary": [
+            {"term": t, "group": g, "text": d, "match": list(m)} for t, g, d, m in GLOSSARY
+        ],
         "reports": reports,
     }
 

@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-004-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3117,
+      "live_tokens": 3392,
+      "output_tokens": 275
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and runbook signature but does not contain the KPI data (volume/latency) required to verify the impact on downstream sites.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alarm record and tool outputs explicitly state the alarm type, severity, node, and exact start and end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The topology output confirms S-TUN-007 depends on LNK-TUN-01-C and lists S-TUN-006 and S-TUN-011 as siblings under that link.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output explicitly reports no changes on the specified nodes and their parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no maintenance windows on the specified nodes and their parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no external events for region TUN within the given time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

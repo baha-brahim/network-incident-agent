@@ -17,6 +17,7 @@ from incident_agent.evals.grader import (
     build_items,
     evidence_text,
 )
+from incident_agent.evals.human_labels import GLOSSARY, describe_call
 from incident_agent.evals.human_template import PAGE
 from incident_agent.evals.types import ReportGrade
 from tests.grading_support import (
@@ -71,6 +72,23 @@ def test_selection_does_not_group_by_kind() -> None:
     assert kinds != sorted(kinds)
 
 
+def test_a_smaller_sample_is_a_subset_of_a_larger_one() -> None:
+    cases = make_cases(dict.fromkeys("abcdefghij", (4, 2)))
+    small = {a.case.case_id for a in human.select_cases(cases, 10, seed=0)}
+    large = {a.case.case_id for a in human.select_cases(cases, 20, seed=0)}
+    assert len(small) == 10 and small < large
+
+
+def test_the_default_pack_has_ten_reports() -> None:
+    import argparse
+
+    from incident_agent.evals import cli_grading
+
+    parser = argparse.ArgumentParser()
+    cli_grading.add_commands(parser.add_subparsers())
+    assert parser.parse_args(["human-pack", "--run", "x"]).n == 10
+
+
 def test_selection_takes_what_exists_when_asked_for_more() -> None:
     cases = make_cases({"a": (1, 0), "b": (2, 1)})
     assert len(human.select_cases(cases, 20)) == 4
@@ -107,6 +125,30 @@ def test_the_pack_has_every_item_with_the_evidence_the_grader_reads() -> None:
     first = report["items"][1]["evidence"][0]
     assert first["text"] == evidence_text("T1", artifact.result).text
     assert report["question"] == artifact.case.question
+
+
+def test_every_box_has_a_plain_header_and_a_type() -> None:
+    [report] = human.build_pack([make_artifact()])["reports"]
+    boxes = {e["ref"]: e for item in report["items"] for e in item["evidence"]}
+    assert boxes["T1"]["type"] == "call" and boxes["T1"]["tool"] == "get_alarms"
+    assert boxes["T1"]["label"].startswith("Alarms on S-TUN-012")
+    assert boxes["ALM-000472"]["type"] == "alarm"
+    assert boxes["ALM-000472"]["label"] == "One alarm: ALM-000472"
+    assert boxes["S-TUN-012"]["label"] == "One network node: S-TUN-012"
+    assert "tool" not in boxes["ALM-000472"]
+
+
+def test_a_missing_reference_is_labelled_as_such() -> None:
+    report = make_report([Finding(claim="X.", basis="observed", refs=["ALM-999999"])])
+    [view] = human.build_pack([make_artifact(result=make_result(report))])["reports"]
+    box = view["items"][1]["evidence"][0]
+    assert box["type"] == "missing" and box["label"].startswith("Not among the report's evidence")
+
+
+def test_every_verdict_has_a_plain_paraphrase_beside_the_graders_wording() -> None:
+    verdicts = human.build_pack([make_artifact()])["rubric"]["verdicts"]
+    assert [v["key"] for v in verdicts] == list(VERDICT_DEFINITIONS)
+    assert all(v["plain"] and v["plain"] != v["definition"] for v in verdicts)
 
 
 def test_a_large_report_keeps_all_its_items_in_the_pack() -> None:
@@ -236,8 +278,9 @@ def test_the_page_holds_no_grader_verdicts_and_no_truth() -> None:
     def walk(value: object) -> None:
         if isinstance(value, dict):
             keys.update(value)
-            for v in value.values():
-                walk(v)
+            for k, v in value.items():
+                if k != "args":  # the arguments of a tool call: free-form names of the tool
+                    walk(v)
         elif isinstance(value, list):
             for v in value:
                 walk(v)
@@ -245,7 +288,8 @@ def test_the_page_holds_no_grader_verdicts_and_no_truth() -> None:
     walk(data["reports"])
     assert not keys & {"verdict", "reason", "grader", "truth", "kind", "difficulty", "correct"}
     assert keys <= {"case_id", "question", "title", "chips", "summary", "items", "index", "basis",
-                    "claim", "evidence", "ref", "text", "shortened", "found"}  # fmt: skip
+                    "claim", "evidence", "ref", "text", "shortened", "found", "type", "tool",
+                    "args", "label"}  # fmt: skip
 
 
 def test_build_pack_takes_no_grades_so_none_can_leak() -> None:
@@ -288,3 +332,89 @@ def test_exported_grades_load_as_report_grades(tmp_path: Path) -> None:
     [grade] = human.read_human_grades(path)
     assert isinstance(grade, ReportGrade) and grade.grader == "human:Sam"
     assert [f.verdict for f in grade.findings] == ["supported", "unsupported"]
+
+
+# --- plain-English headers and glossary ----------------------------------------------------
+
+
+def test_call_headers_say_what_was_asked() -> None:
+    alarms = describe_call(
+        "get_alarms",
+        {
+            "start": "2026-09-21 15:00",
+            "end": "2026-09-21 19:00",
+            "node_ids": ["S-TUN-012", "S-TUN-014", "S-TUN-015"],
+            "include_descendants": True,
+        },
+    )
+    assert alarms == (
+        "Alarms on S-TUN-012, S-TUN-014, S-TUN-015 and nodes below them, 21 Sep 15:00 to 19:00"
+    )
+    kpis = describe_call(
+        "query_kpis",
+        {
+            "entity_type": "site",
+            "entity_ids": ["S-SUD-006"],
+            "metrics": ["availability_pct", "dl_volume_mb"],
+            "start": "2026-09-30 12:00",
+            "end": "2026-09-30 17:00",
+        },
+    )
+    assert kpis == (
+        "KPI measurements for site S-SUD-006 (availability, downlink traffic volume), "
+        "30 Sep 12:00 to 17:00"
+    )
+    changes = describe_call(
+        "get_changes",
+        {"node_ids": ["AGG-TUN-02"], "start": "2026-09-29 18:00", "end": "2026-09-30 09:59"},
+    )
+    assert changes == "Changes on AGG-TUN-02, 29 Sep 18:00 to 30 Sep 09:59"
+    assert describe_call("search_runbooks", {"query": "bad change", "k": 4}) == (
+        "Runbook excerpts for the query 'bad change'"
+    )
+    assert describe_call("get_maintenance", {"region_id": "TUN", "start": "x", "end": "y"}) == (
+        "Maintenance calendar for region TUN, x to y"
+    )
+    assert describe_call("get_anomalies", {"entity_id": "S-TUN-004", "start": "2026-09-29 16:00",
+                                           "end": "2026-09-29 20:00"}).startswith(
+        "Detector alerts in S-TUN-004"
+    )  # fmt: skip
+    assert describe_call("get_topology", {"node_id": "S-TUN-004", "include": "all"}).startswith(
+        "Network map around S-TUN-004"
+    )
+    assert describe_call("something_new", {}) == "Something new"
+
+
+def test_long_node_lists_are_shortened_in_the_header() -> None:
+    ids = [f"S-TUN-{n:03d}" for n in range(1, 8)]
+    text = describe_call("get_changes", {"node_ids": ids, "start": "2026-09-29 18:00",
+                                         "end": "2026-09-29 19:00"})  # fmt: skip
+    assert "S-TUN-004 and 3 more" in text and "S-TUN-005" not in text
+
+
+def test_the_glossary_covers_every_alarm_type_of_the_network() -> None:
+    from incident_agent.config import REPO_ROOT
+    from incident_agent.simulator.noise import _ALARM_KINDS
+
+    reference = (REPO_ROOT / "runbooks" / "RB-ALARM-REFERENCE.md").read_text(encoding="utf-8")
+    types = set(re.findall(r"\*\*`([A-Z_]+)`", reference)) | {k[0] for k in _ALARM_KINDS}
+    assert len(types) >= 14
+    assert types <= {term for term, *_ in GLOSSARY}
+
+
+def test_the_glossary_defines_the_prefixes_the_evidence_uses() -> None:
+    terms = {term for term, *_ in GLOSSARY}
+    for needed in ("S-", "LNK-", "AGG-", "CORE-", "T", "ALM", "CHG", "MW", "EVT", "ALR", "ANM",
+                   "RB", "baseline", "onset", "active", "cleared", "z-score", "availability",
+                   "dl volume", "RRC success", "drop rate", "latency",
+                   "PRB utilisation"):  # fmt: skip
+        assert needed in terms
+    for regexes in (m for *_, m in GLOSSARY):
+        for source in regexes:
+            re.compile(source)
+
+
+def test_the_pack_carries_the_glossary() -> None:
+    pack = human.build_pack([make_artifact()])
+    assert [g["term"] for g in pack["glossary"]] == [term for term, *_ in GLOSSARY]
+    assert all(g["text"] for g in pack["glossary"])

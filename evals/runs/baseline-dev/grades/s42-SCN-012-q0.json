@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-012-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2299,
+      "live_tokens": 2555,
+      "output_tokens": 256
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the maintenance window, the link loss alarm, and the site down alarm, supporting the inference that the planned work caused the outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and alert explicitly state that active users, availability, and download volume dropped to zero for S-SFX-005 within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The topology output from T2 explicitly lists the dependency chain from S-SFX-005 through LNK-SFX-01-A and AGG-SFX-01 to CORE-UPF-02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The maintenance record MW-0005 confirms a completed fiber splice window on LNK-SFX-01-A that overlaps with the incident timeframe.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The output of T4 explicitly states that no changes occurred on the specified nodes and their parents during the queried time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

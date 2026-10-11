@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-029-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4679,
+      "live_tokens": 4923,
+      "output_tokens": 244
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows the alarm and impact, but does not prove the alarm was the cause of the degradation.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 and T1 explicitly show latency increases and volume drops starting at 19:30 on S-SFX-009.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000604 and T4 confirm the alarm type, node, and exact start/end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2 confirms the shared path and T7 shows the specific KPI deviations for both sibling sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 and T6 explicitly report no maintenance or changes for the cited nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited observations of simultaneous degradation on all connected sites make the causal link a reasonable inference.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

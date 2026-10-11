@@ -1,0 +1,55 @@
+{
+  "case_id": "s42-SCN-001-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3059,
+      "live_tokens": 3380,
+      "output_tokens": 321
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the holiday event and traffic deviations, supporting the inference that the holiday caused the reduced traffic.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 explicitly states no detector alerts for the network in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2 lists deviations below baseline for all three metrics with an onset of 2026-09-03 07:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "EVT-001, T3, and T7 all confirm the nationwide public holiday started at 2026-09-03 00:00 and is in progress.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 explicitly reports no maintenance window scheduled on any node in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "CHG-2026-0003 and T8 confirm one software upgrade on S-SUD-003 at 2026-09-03 01:35.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited evidence links the holiday event to the observed traffic drop, making the inference reasonable.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-010-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3532,
+      "live_tokens": 3739,
+      "output_tokens": 207
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the event and traffic spikes, but does not prove 'crowd congestion' as the specific cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and T1 output explicitly list the spikes and the maximum z-score of 22.7.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "EVT-002 and T3 confirm the stadium event near S-TUN-001 with the specified times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 and T8 explicitly report no maintenance or changes for the listed nodes in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T7 and the alarm records show HIGH_PRB warnings on the sites that cleared after the event ended.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

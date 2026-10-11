@@ -1,0 +1,42 @@
+{
+  "case_id": "s42-SCN-033-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "ALR-0037"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2979,
+      "live_tokens": 3188,
+      "output_tokens": 209
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the correlation between user/traffic spikes and latency/PRB, but does not prove the surge was the cause of the congestion.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1, T7, and ALR-0037 all confirm the specific metrics and the 19:00-21:00 timeframe for S-TUN-004.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T7 explicitly lists S-TUN-016 and S-TUN-018 with 'no deviation' for all metrics in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3, T4, and T6 all report no external events, maintenance, or changes for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

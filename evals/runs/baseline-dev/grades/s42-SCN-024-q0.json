@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-024-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3244,
+      "live_tokens": 3460,
+      "output_tokens": 216
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows a maintenance window with expected offline impact and a corresponding outage, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T5 and MW-0009 explicitly state the maintenance window ID, times, and description for S-TUN-010.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T1 and T3 show metrics dropping to zero within the specified time range for S-TUN-010.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 and ALM-000546 confirm the alarm ID, type, node, and exact raise/clear times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly reports no changes on S-TUN-010 and its parents during the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

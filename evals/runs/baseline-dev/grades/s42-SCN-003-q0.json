@@ -1,0 +1,43 @@
+{
+  "case_id": "s42-SCN-003-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "RB-NUISANCE-ALARMS#02",
+      "RB-NUISANCE-ALARMS#03"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2905,
+      "live_tokens": 3113,
+      "output_tokens": 208
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited runbooks and KPI data support the inference that the alarms were routine nuisance events with no impact on site operations.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence confirms 24 alarms (9 VSWR_HIGH, 15 TEMP_HIGH) on S-SAH-009 in the specified window, all cleared.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence shows availability at 100% and stable KPIs, but the claim's absolute term 'entirely normal' is not explicitly defined or verified against a baseline in the cited text.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs explicitly state that no maintenance windows or changes were scheduled or performed on the node and its parents during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

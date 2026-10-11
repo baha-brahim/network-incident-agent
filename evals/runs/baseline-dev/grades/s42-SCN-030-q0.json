@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-030-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4152,
+      "live_tokens": 4389,
+      "output_tokens": 237
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change and the alarm behavior pattern, but does not contain the KPI data (drop rates, RRC success) required to verify the specific impact claimed.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and KPI queries explicitly show drop rate spikes and RRC success drops on S-TUN-003 starting at 02:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change record and query output confirm the specific change ID, time, node, and template details.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarm query and individual alarm records confirm minor RRC_FAILURE_RATE_HIGH alarms on sites beneath AGG-TUN-01 after the change.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited maintenance and external event queries explicitly report no records for the specified nodes and region during the timeframe.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

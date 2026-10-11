@@ -1,0 +1,62 @@
+{
+  "case_id": "s42-SCN-023-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T3"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4144,
+      "live_tokens": 4585,
+      "output_tokens": 441
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and the runbook signature for microwave degradation, but does not explicitly state the specific mechanism of 'reduced modulation' or 'capacity loss' as the cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 explicitly reports 1 detector alert overlapping the specified time window for S-SUD-006.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2 and S-SUD-006 both list the dependency chain S-SUD-006 -> LNK-SUD-01-B -> AGG-SUD-01 -> CORE-UPF-02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 states 'Deviation in 4 of 8 series' and 'Earliest onset 2026-09-22 21:00: S-SUD-006 latency_ms above baseline'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4, T7, and ALM-000516 all confirm the major LINK_DEGRADED alarm on LNK-SUD-01-B with the specified start and end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 explicitly states 'No changes on S-SUD-006, LNK-SUD-01-B and its parents' in the given window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T6 explicitly states 'No maintenance window scheduled on S-SUD-006, LNK-SUD-01-B, AGG-SUD-01 and its parents' in the given window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 6,
+      "reason": "T9 explicitly states 'No external events for region SUD' in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

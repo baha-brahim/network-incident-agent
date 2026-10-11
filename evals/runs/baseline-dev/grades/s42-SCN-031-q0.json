@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-031-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3505,
+      "live_tokens": 3719,
+      "output_tokens": 214
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "T3 confirms transient alarms and T4 confirms no KPI deviation, supporting the conclusion of no service impact.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 explicitly states no detector alerts for S-SAH-004 or relatives in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 confirms 23 alarms (12 minor, 11 warning) on S-SAH-004, all self-clearing within 10 minutes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 explicitly states no series deviates from its baseline in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5, T6, and T7 confirm no maintenance, changes, or external events in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

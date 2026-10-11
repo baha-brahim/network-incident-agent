@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-027-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3462,
+      "live_tokens": 3682,
+      "output_tokens": 220
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence supports the DNS degradation on CORE-DNS-01 but does not show the claimed nationwide scope or traffic dip.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alarm record and query output explicitly state the major alarm raised at 11:31 and cleared at 12:43.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited KPI data shows the drop to 87 at 11:30, and the anomaly record confirms the z-score of -111.2.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited change and maintenance queries for the specified nodes and time window report no entries.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited external events query for the specified window reports no events for all regions.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

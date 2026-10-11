@@ -1,0 +1,35 @@
+{
+  "case_id": "s42-SCN-005-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1556,
+      "live_tokens": 1730,
+      "output_tokens": 174
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows alarms and runbook signatures but does not explicitly state 'high user demand' as the cause, nor does it link latency spikes to the root cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies show spikes in active users and volume for S-TUN-013 and latency for S-TUN-011, but do not show PRB saturation or traffic spikes for S-TUN-011.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The runbook describes the signature of radio capacity congestion, and the external events check confirms no external events occurred in the region during the relevant time.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

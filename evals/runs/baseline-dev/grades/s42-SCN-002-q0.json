@@ -1,0 +1,40 @@
+{
+  "case_id": "s42-SCN-002-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 1,
+      "calls": 1,
+      "input_tokens": 1909,
+      "live_tokens": 0,
+      "output_tokens": 211
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the changes and anomalies but does not prove causality or that the specific parameters caused the regression.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and alert confirm the metrics and start time of 03:45, but the claim's range '03:45 to 03:50' is not supported by the evidence.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change records explicitly state the template, nodes, and time 03:52 for both changes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarms show RRC_FAILURE_RATE_HIGH on both sites at 04:25 and 04:27, which is shortly after the 03:52 push.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

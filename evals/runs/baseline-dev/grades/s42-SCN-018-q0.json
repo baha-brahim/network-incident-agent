@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-018-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3722,
+      "live_tokens": 3974,
+      "output_tokens": 252
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the event and KPI spikes, supporting the inference that the event caused the traffic increase.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 shows the alert ended at 22:00, contradicting the claim that it was active until 09:46 the next day.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 and EVT-003 explicitly state the event details, location, and time window match the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 and T7 both report deviations on the specified sites with an earliest onset of 19:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 explicitly reports no maintenance windows for the listed nodes and parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The correlation between the stadium event and the KPI spikes in the cited evidence makes this a reasonable inference.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-034-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2885,
+      "live_tokens": 3091,
+      "output_tokens": 206
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert show the sequence of power failure, battery low, and site down, supporting the inference of a power-related outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert and tool output explicitly state the drop in traffic, active users, and availability for the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarms and tool output list the specific alarms with the exact timestamps and node ID mentioned in the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs explicitly report no maintenance windows or changes for the node and its parents in the given window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no external events for the region in the given window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,40 @@
+{
+  "case_id": "s42-SCN-017-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2480,
+      "live_tokens": 2682,
+      "output_tokens": 202
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms transient, self-clearing alarms and zero service impact, but does not establish a causal link between the alarms and the metrics.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly lists 20 alarms (8 TEMP_HIGH, 12 VSWR_HIGH) on S-SUD-007 within the specified time window, all self-clearing.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 shows availability at 100% and states that drop rate and download volume metrics showed no sustained deviation from baseline.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 and T7 explicitly report no maintenance windows or configuration changes on S-SUD-007 and its parents during the incident window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

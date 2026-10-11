@@ -1,0 +1,40 @@
+{
+  "case_id": "s42-SCN-026-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3053,
+      "live_tokens": 3249,
+      "output_tokens": 196
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the event, the traffic surge, and the runbook guidance linking stadium events to traffic spikes, supporting the causal inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T6 shows S-TUN-002 metrics did not spike until 18:45, contradicting the claim that all sites spiked starting at 18:15.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "EVT-004 explicitly states the event at Rades Olympic complex occurred from 18:10 to 21:49.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 and T8 outputs explicitly report no maintenance or changes for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

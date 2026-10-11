@@ -1,0 +1,35 @@
+{
+  "case_id": "s42-SCN-021-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3000,
+      "live_tokens": 3153,
+      "output_tokens": 153
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the link loss and site outages, but the claim's specific location 'Grand Tunis' is not supported by the cited topology evidence which lists 'El Menzah'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alarms confirm the link failure at 16:50 and the simultaneous site down alarms at 16:51 for all three sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited tool outputs explicitly report no changes, maintenance windows, or external events for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

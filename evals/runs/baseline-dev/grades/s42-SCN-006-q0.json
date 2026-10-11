@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-006-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3288,
+      "live_tokens": 3556,
+      "output_tokens": 268
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the maintenance on the shared link and the resulting alarms, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert and anomalies explicitly list the three sites and the start time of 01:30 for the drops.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The topology evidence identifies LNK-TUN-01-A as the parent of S-TUN-002 and lists S-TUN-003 and S-TUN-005 as siblings under it.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The maintenance record and tool output explicitly state the window was on LNK-TUN-01-A from 01:35 to 04:28.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The alarms were active from 01:39 to 04:22/04:23, which is within the maintenance window (01:35-04:28), not the exact timeframe.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

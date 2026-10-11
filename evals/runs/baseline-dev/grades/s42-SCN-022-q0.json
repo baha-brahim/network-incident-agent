@@ -1,0 +1,52 @@
+{
+  "case_id": "s42-SCN-022-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T7"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4502,
+      "live_tokens": 4780,
+      "output_tokens": 278
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change, the KPI deviations, and the runbook signature, supporting the inference that the change caused the incident.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alerts and anomalies explicitly state the metrics, start time (03:00), and affected sites including S-SAH-005.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change records and tool outputs confirm the config push of OPT-17 to AGG-SAH-01 at 02:59.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output explicitly reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no external events for region SAH in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited change record confirms the rollback of CHG-2026-0057 via CHG-2026-0058 at 09:57.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

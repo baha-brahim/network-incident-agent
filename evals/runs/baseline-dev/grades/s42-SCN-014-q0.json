@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-014-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2567,
+      "live_tokens": 2816,
+      "output_tokens": 249
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the LINK_LOS alarm on LNK-SUD-01-A and the subsequent SITE_DOWN alarms for both sites, supporting the inference of severed connectivity.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies and alert show a complete drop (to 0) in availability and users for S-SUD-001, but do not provide evidence for S-SUD-005.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record explicitly states the critical LINK_LOS on LNK-SUD-01-A raised at 23:15 and cleared at 06:19.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs explicitly report no maintenance windows or changes for the specified nodes and ancestors during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no external events for region SUD during the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

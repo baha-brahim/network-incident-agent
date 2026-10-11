@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Report grading</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #f4f5f7; --panel: #ffffff; --text: #1a1e24; --muted: #5a6573; --border: #d3d9e0;
+  --accent: #2354cf; --accent-text: #ffffff; --code: #eceff3; --focus: #2354cf;
+  --ok: #17703e; --ok-bg: #ddf2e5; --part: #8f5200; --part-bg: #fcebc6;
+  --bad: #a8261c; --bad-bg: #fad9d5; --nv: #424b57; --nv-bg: #e2e5ea;
+  --warn-bg: #fff4d6;
+  --hl-id: #bcd5ff; --hl-num: #ffd978; --miss: #c2410c; --gl: #6b7684;
+  --claim-bar: #2354cf;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1217; --panel: #171c23; --text: #e7eaef; --muted: #9ba6b3; --border: #2c343e;
+    --accent: #7ba3ff; --accent-text: #0b1220; --code: #0f1419; --focus: #7ba3ff;
+    --ok: #62d78e; --ok-bg: #12301f; --part: #f2b950; --part-bg: #3a2b0b;
+    --bad: #ff8d83; --bad-bg: #3e1814; --nv: #b2bcc8; --nv-bg: #242b34;
+    --warn-bg: #3a2f0e;
+    --hl-id: #2c4f94; --hl-num: #6b5310; --miss: #ff9a62; --gl: #8e9aa8;
+    --claim-bar: #7ba3ff;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: calc(var(--top-h, 9rem) + .5rem); }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+code, pre, kbd { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+
+.top {
+  position: sticky; top: 0; z-index: 5; background: var(--panel);
+  border-bottom: 1px solid var(--border); padding: .6rem 1rem .7rem;
+}
+.top-row { display: flex; gap: .75rem; align-items: center; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+.top-row + .top-row { margin-top: .5rem; }
+.title { font-weight: 650; }
+.counts { color: var(--muted); font-size: .95rem; }
+.grow { flex: 1 1 auto; }
+.bar { flex: 1 1 12rem; height: .6rem; border-radius: 99px; background: var(--code); overflow: hidden; border: 1px solid var(--border); }
+.bar > span { display: block; height: 100%; background: var(--accent); width: 0; transition: width .15s; }
+.dots { display: flex; gap: .25rem; flex-wrap: wrap; }
+.dot {
+  min-width: 1.7rem; height: 1.7rem; padding: 0 .3rem; border-radius: .4rem; font-size: .8rem;
+  border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+}
+.dot.done { background: var(--ok-bg); color: var(--ok); border-color: var(--ok); }
+.dot.some { background: var(--part-bg); color: var(--part); border-color: var(--part); }
+.dot.here { outline: 2px solid var(--accent); outline-offset: 1px; font-weight: 700; }
+.btn {
+  border: 1px solid var(--border); background: var(--panel); border-radius: .5rem;
+  padding: .35rem .8rem; min-height: 2.2rem;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 600; }
+input.name { border: 1px solid var(--border); background: var(--bg); border-radius: .5rem; padding: .3rem .6rem; width: 11rem; min-height: 2.2rem; }
+.saved { color: var(--muted); font-size: .85rem; }
+.saved.warn { color: var(--bad); }
+
+main { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: .75rem; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+details.help > summary, details.gloss > summary { cursor: pointer; font-weight: 650; }
+.help-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin: .8rem 0; }
+@media (max-width: 900px) { .help-grid { grid-template-columns: minmax(0, 1fr); } }
+.step { border: 1px solid var(--border); border-radius: .6rem; padding: .6rem .8rem; background: var(--bg); }
+.step h3 { margin: 0 0 .2rem; font-size: 1rem; }
+.step p { margin: 0; color: var(--muted); }
+.step.card { border-left: 5px solid var(--claim-bar); background: var(--panel); }
+.step.boxes { background: var(--code); }
+.step.q { border-color: var(--accent); }
+.help p.lead { margin: .2rem 0 .4rem; }
+.example { border: 1px dashed var(--border); border-radius: .6rem; padding: .7rem .8rem; margin: .8rem 0; }
+.example h3 { margin: 0 0 .5rem; font-size: 1rem; }
+.example .item-grid { margin-bottom: .6rem; }
+.example ul { margin: .3rem 0 0; padding-left: 1.2rem; }
+.rubric { margin: .75rem 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem 1.2rem; }
+@media (max-width: 900px) { .rubric { grid-template-columns: minmax(0, 1fr); } }
+.rubric dt { font-weight: 650; }
+.rubric dd { margin: .1rem 0 0; color: var(--muted); }
+.rubric dd.plain { color: var(--text); font-style: italic; }
+details.sub { margin-top: .8rem; }
+details.sub > summary { cursor: pointer; color: var(--muted); }
+.rules { margin: .5rem 0 0; padding-left: 1.2rem; color: var(--muted); }
+.keys { margin-top: .8rem; color: var(--muted); font-size: .92rem; }
+kbd { border: 1px solid var(--border); border-bottom-width: 2px; border-radius: .3rem; padding: 0 .35rem; background: var(--code); font-size: .85em; }
+
+.gloss-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr)); gap: .25rem 1.2rem; margin: .6rem 0 0; font-size: .9rem; }
+.gloss-grid .g { padding: .15rem 0; }
+.gloss-grid .g b { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; }
+.gloss-grid .g.here b::before { content: "\2022 "; color: var(--accent); }
+.gloss-grid .grp { grid-column: 1 / -1; margin-top: .5rem; text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; color: var(--muted); font-weight: 650; }
+.gloss-note { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; }
+
+.question { font-size: 1.05rem; }
+.label { text-transform: uppercase; letter-spacing: .05em; font-size: .72rem; color: var(--muted); font-weight: 650; }
+.report h1 { font-size: 1.25rem; margin: .15rem 0 .5rem; }
+.chips { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .6rem; }
+.chip { border: 1px solid var(--border); background: var(--code); border-radius: 99px; padding: .05rem .7rem; font-size: .88rem; }
+.summary { margin: 0; }
+
+.item { background: var(--panel); border: 2px solid var(--border); border-radius: .75rem; padding: 1rem 1.1rem; margin-bottom: 1rem; }
+.item.current { border-color: var(--accent); }
+.item.graded { border-left-width: 8px; }
+.item.v-supported.graded { border-left-color: var(--ok); }
+.item.v-partially_supported.graded { border-left-color: var(--part); }
+.item.v-unsupported.graded { border-left-color: var(--bad); }
+.item.v-not_verifiable.graded { border-left-color: var(--nv); }
+.item-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 1.1rem; align-items: start; }
+@media (max-width: 900px) { .item-grid { grid-template-columns: minmax(0, 1fr); } }
+.claim-col { position: sticky; top: calc(var(--top-h, 9rem) + .6rem); max-height: calc(100vh - var(--top-h, 9rem) - 1.2rem); overflow: auto; padding: 2px; }
+@media (max-width: 900px) { .claim-col { position: static; max-height: none; overflow: visible; } }
+.item-head { display: flex; gap: .5rem; align-items: baseline; flex-wrap: wrap; margin-bottom: .35rem; }
+.tag { font-weight: 700; font-size: 1.05rem; }
+.tag-sub { color: var(--muted); font-size: .88rem; }
+.basis { font-size: .8rem; border-radius: .3rem; padding: 0 .45rem; background: var(--code); border: 1px solid var(--border); color: var(--muted); }
+.claim-card { border: 1px solid var(--border); border-left: 6px solid var(--claim-bar); border-radius: .6rem; padding: .6rem .9rem .8rem; margin-bottom: .8rem; background: var(--panel); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.claim { font-size: 1.15rem; margin: .15rem 0 0; line-height: 1.5; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+@media (max-width: 420px) { .choices { grid-template-columns: 1fr; } }
+.choice {
+  display: flex; align-items: center; gap: .6rem; text-align: left; min-height: 4rem;
+  border: 2px solid var(--border); background: var(--panel); border-radius: .6rem; padding: .45rem .75rem; font-size: 1.05rem;
+}
+.choice kbd { font-size: 1rem; }
+.choice small { display: block; font-size: .78rem; font-weight: 400; color: var(--muted); line-height: 1.25; }
+.choice:hover { border-color: var(--accent); }
+.choice.on { font-weight: 700; }
+.choice.on::after { content: "\2713"; margin-left: auto; }
+.choice[data-v="supported"].on { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+.choice[data-v="partially_supported"].on { background: var(--part-bg); border-color: var(--part); color: var(--part); }
+.choice[data-v="unsupported"].on { background: var(--bad-bg); border-color: var(--bad); color: var(--bad); }
+.choice[data-v="not_verifiable"].on { background: var(--nv-bg); border-color: var(--nv); color: var(--nv); }
+.choice.on small { color: inherit; }
+details.comment { margin-top: .7rem; }
+details.comment > summary { cursor: pointer; color: var(--muted); }
+textarea { width: 100%; min-height: 4rem; margin-top: .4rem; border: 1px solid var(--border); background: var(--bg); border-radius: .5rem; padding: .5rem; resize: vertical; }
+
+.evidence { display: grid; gap: .7rem; align-content: start; }
+.ev-legend { font-size: .82rem; color: var(--muted); display: flex; gap: .4rem .9rem; flex-wrap: wrap; align-items: center; }
+.hl-id { background: var(--hl-id); border-radius: .2rem; white-space: nowrap; }
+.hl-num { background: var(--hl-num); border-radius: .2rem; white-space: nowrap; }
+.miss { text-decoration: underline dotted 2px var(--miss); text-underline-offset: 3px; cursor: help; }
+.gl { text-decoration: underline dotted 1px var(--gl); text-underline-offset: 3px; cursor: help; }
+.miss.gl { text-decoration-color: var(--miss); text-decoration-thickness: 2px; }
+.evbox { background: var(--code); border: 1px solid var(--border); border-radius: .5rem; padding: .55rem .7rem .6rem; }
+.ev-top { display: flex; gap: .45rem; align-items: center; flex-wrap: wrap; font-size: .8rem; color: var(--muted); }
+.ev-ref { font-family: ui-monospace, Consolas, monospace; font-weight: 700; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: .3rem; padding: 0 .35rem; }
+.ev-title { font-weight: 650; margin: .15rem 0 .1rem; }
+.ev-raw { font-family: ui-monospace, Consolas, monospace; font-size: .72rem; color: var(--muted); overflow-wrap: anywhere; margin-bottom: .35rem; }
+.badge { border-radius: .3rem; padding: 0 .4rem; font-size: .75rem; background: var(--warn-bg); border: 1px solid var(--part); color: var(--part); }
+.matches { margin-left: auto; }
+.ev-body { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; font-size: .82rem; line-height: 1.45; border-top: 1px solid var(--border); padding-top: .35rem; }
+.ln { white-space: pre-wrap; overflow-wrap: anywhere; padding: 0 .1rem; }
+.ln.rel { border-left: 3px solid var(--accent); padding-left: .35rem; margin-left: -.4rem; }
+.gap { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--muted); padding: .1rem 0; font-size: .78rem; font-family: inherit; }
+.gap:hover { color: var(--accent); }
+.more { margin-top: .35rem; background: none; border: 0; padding: 0; color: var(--accent); font-size: .84rem; text-decoration: underline; }
+.none { color: var(--muted); font-style: italic; }
+.nav { display: flex; gap: .6rem; align-items: center; margin: 1.2rem 0 3rem; flex-wrap: wrap; }
+.msg { margin: .5rem 0 0; padding: .5rem .8rem; border-radius: .5rem; background: var(--warn-bg); border: 1px solid var(--border); }
+.msg[hidden] { display: none; }
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="top-row">
+    <span class="title" id="title"></span>
+    <span class="counts" id="counts"></span>
+    <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+    <span class="saved" id="saved"></span>
+  </div>
+  <div class="top-row">
+    <div class="dots" id="dots" role="navigation" aria-label="Reports"></div>
+    <span class="grow"></span>
+    <label class="counts" for="rater">Your name</label>
+    <input class="name" id="rater" autocomplete="off" placeholder="for the export">
+    <button class="btn" id="help-btn" type="button" title="Show or hide how this works (?)">How this works</button>
+    <button class="btn" id="gloss-btn" type="button" title="Show or hide the glossary (G)">Glossary</button>
+    <button class="btn" id="import-btn" type="button">Import</button>
+    <button class="btn primary" id="export-btn" type="button">Export</button>
+    <input id="import-file" type="file" accept=".json,application/json" hidden>
+  </div>
+  <div class="top-row"><div class="msg" id="msg" hidden role="status"></div></div>
+</header>
+<main id="main"></main>
+<script type="application/json" id="pack-data">{"pack_id":"3f9774766302","title":"Report grading","rubric":{"verdicts":[{"key":"supported","label":"Supported","definition":"Everything the claim states (which node or ID, which number, which time, which cause) is shown by the cited evidence or follows from it. An inferred claim is supported when the cited observations make it a reasonable inference, even if no single line says it.","plain":"The boxes show everything the sentence says."},{"key":"partially_supported","label":"Partially supported","definition":"Part of the claim is shown by the cited evidence and part is not: a number, time, node, scope or cause goes beyond what the evidence shows, or the evidence fits the claim but the claim says more than it can show. Say which part is not backed.","plain":"The boxes show some of it, but a number, time, node or cause goes further."},{"key":"unsupported","label":"Unsupported","definition":"The cited evidence contradicts the claim, is about something else, or nothing relevant is cited. A reference to a node only (for example S-TUN-012) shows that the node exists and how it connects; it does not support a claim about alarms, changes, measurements or causes.","plain":"The boxes contradict it, are about something else, or nothing relevant is cited."},{"key":"not_verifiable","label":"Not verifiable","definition":"The evidence needed to judge is not available: a cited reference is missing, or its text was shortened or omitted and the missing part could decide the claim. If all the evidence is there and does not back the claim, that is unsupported, not this.","plain":"Evidence is missing or cut short, so you cannot tell."}],"rules":["Judge only against the text of the references the claim cites. A fact that appears only under another reference does not count.","Use no outside knowledge. Do not judge whether the claim is true in the real world, only whether the cited evidence backs it.","Check numbers, IDs and times literally. If the claim changes one (another node, another time, another count), it is not fully supported.","A cited tool call (T1, T2, ...) counts only through the output printed for it. If that output does not contain the fact, the call does not support the claim.","A claim that something was absent (no changes, no maintenance, no alarms) is supported by a cited call whose output reports none for the same nodes and time window.","A claim marked observed must be visible in the evidence. A claim marked inferred needs cited observations that make it a reasonable inference. The stated root cause is a conclusion and is judged like an inferred claim."]},"glossary":[{"term":"LINK_LOS","group":"Alarm type","text":"Loss of signal on a transport link: nothing arrives, the sites behind it go down.","match":["\\bLINK_LOS\\b"]},{"term":"LINK_DEGRADED","group":"Alarm type","text":"A transport link works but poorly (reduced capacity or errors).","match":["\\bLINK_DEGRADED\\b"]},{"term":"SITE_DOWN","group":"Alarm type","text":"A radio site cannot be reached. A symptom: the cause is elsewhere.","match":["\\bSITE_DOWN\\b"]},{"term":"MAINS_FAILURE","group":"Alarm type","text":"A site lost mains electricity and runs on its battery.","match":["\\bMAINS_FAILURE\\b"]},{"term":"BATTERY_LOW","group":"Alarm type","text":"A site's battery is nearly empty (about 15 minutes left).","match":["\\bBATTERY_LOW\\b"]},{"term":"RECTIFIER_FAULT","group":"Alarm type","text":"A power module in a site cabinet is faulty.","match":["\\bRECTIFIER_FAULT\\b"]},{"term":"HIGH_PRB","group":"Alarm type","text":"Radio capacity of a site is almost fully used (PRB utilisation above 85-90 %).","match":["\\bHIGH_PRB\\b"]},{"term":"RRC_FAILURE_RATE_HIGH","group":"Alarm type","text":"Many phones fail to set up a connection on a site.","match":["\\bRRC_FAILURE_RATE_HIGH\\b"]},{"term":"DNS_TIMEOUT_RATE","group":"Alarm type","text":"The DNS service (name lookup) times out too often.","match":["\\bDNS_TIMEOUT_RATE\\b"]},{"term":"TEMP_HIGH","group":"Alarm type","text":"Cabinet temperature is high. Common and usually harmless.","match":["\\bTEMP_HIGH\\b"]},{"term":"VSWR_HIGH","group":"Alarm type","text":"Signal reflection on an antenna cable. Frequent and usually harmless.","match":["\\bVSWR_HIGH\\b"]},{"term":"FAN_FAILURE","group":"Alarm type","text":"A cabinet cooling fan runs slowly.","match":["\\bFAN_FAILURE\\b"]},{"term":"DOOR_OPEN","group":"Alarm type","text":"A cabinet door is open, usually a technician visit.","match":["\\bDOOR_OPEN\\b"]},{"term":"CPU_HIGH","group":"Alarm type","text":"A router's processor load is high. Brief spikes are normal.","match":["\\bCPU_HIGH\\b"]},{"term":"availability","group":"KPI","text":"Share of time a cell was in service. Normal is 100 %.","match":["\\bavailability(?:_pct)?\\b"]},{"term":"dl volume","group":"KPI","text":"Downlink data volume delivered to users, in megabytes per 15 minutes.","match":["\\bdl[_ ]volume(?:_mb)?\\b","\\bdownlink (?:traffic |data )?volume\\b"]},{"term":"RRC success","group":"KPI","text":"Share of connection set-ups that succeed. Normal is about 99-99.7 %.","match":["\\brrc[_ ]success(?:_pct)?\\b"]},{"term":"drop rate","group":"KPI","text":"Share of sessions that end abnormally. Normal is 0.4-0.8 %.","match":["\\bdrop[_ ]rate(?:_pct)?\\b"]},{"term":"latency","group":"KPI","text":"Average round-trip time in milliseconds. Normal is about 20-40 ms.","match":["\\blatency(?:_ms)?\\b"]},{"term":"PRB utilisation","group":"KPI","text":"Share of radio resource blocks in use, i.e. how full the cell is.","match":["\\bprb[_ ]util(?:isation|ization|_pct)?\\b","\\bPRB\\b"]},{"term":"active users","group":"KPI","text":"Number of phones connected to a cell.","match":["\\bactive[_ ]users\\b"]},{"term":"baseline","group":"Term","text":"What a value normally is at the same time of day on earlier days of the same type.","match":["\\bbaseline\\b"]},{"term":"onset","group":"Term","text":"The first time step at which a value left its baseline.","match":["\\bonset\\b"]},{"term":"active","group":"Term","text":"An alarm that has been raised and not yet cleared.","match":["\\bactive\\b"]},{"term":"cleared","group":"Term","text":"An alarm that has ended.","match":["\\bcleared\\b"]},{"term":"z-score","group":"Term","text":"How many typical deviations a value is from its baseline. Above about 3.5 counts as unusual.","match":["\\bz[- ]score\\b","\\bz(?= -?\\d)"]},{"term":"S-","group":"Node ID","text":"A radio site, e.g. S-TUN-004 (TUN, SAH, SFX, SUD are regions).","match":[]},{"term":"C-","group":"Node ID","text":"One cell (sector) of a site, e.g. C-SAH-007-1.","match":[]},{"term":"LNK-","group":"Node ID","text":"A transport link (fiber or microwave) that connects sites to the network.","match":[]},{"term":"AGG-","group":"Node ID","text":"An aggregation router that gathers several links.","match":[]},{"term":"CORE-","group":"Node ID","text":"A core network node (UPF, DNS, AMF).","match":[]},{"term":"T","group":"Reference","text":"T1, T2, ...: a tool call the agent made; its output is the evidence.","match":["\\bT\\d+\\b"]},{"term":"ALM","group":"Reference","text":"ALM-000472: one alarm.","match":[]},{"term":"CHG","group":"Reference","text":"CHG-2026-0044: one configuration change.","match":[]},{"term":"MW","group":"Reference","text":"MW-0003: one planned maintenance window.","match":[]},{"term":"EVT","group":"Reference","text":"EVT-004: one external event (holiday, stadium event).","match":[]},{"term":"ALR","group":"Reference","text":"ALR-0037: one detector alert, a group of related anomalies.","match":[]},{"term":"ANM","group":"Reference","text":"ANM-000163: one detected anomaly on one KPI of one node.","match":[]},{"term":"RB","group":"Reference","text":"RB-BAD-CHANGE#02: an excerpt of an operations runbook.","match":[]}],"reports":[{"case_id":"s42-SCN-017-q0","question":"A lot of alarms came from S-SUD-007 last night. Should we worry?","title":"Alarm Investigation for S-SUD-007","chips":["classification: no_impact","root cause: no_impact at S-SUD-007","confidence: high"],"summary":"Transient, self-clearing temperature and VSWR fluctuations on site S-SUD-007 causing minor alarms with zero service impact.","items":[{"index":-1,"basis":"root cause","claim":"Transient, self-clearing temperature and VSWR fluctuations on site S-SUD-007 causing minor alarms with zero service impact. (Stated conclusion: no_impact, no_impact at S-SUD-007.)","evidence":[{"ref":"T3","text":"T3 get_alarms(end=2026-09-17 06:00:00, include_descendants=True, node_ids=['S-SUD-007', 'LNK-SUD-02-B', 'AGG-SUD-02'], start=2026-09-16 18:00:00)\n20 alarm(s) on S-SUD-007, LNK-SUD-02-B, AGG-SUD-02 and nodes below, 2026-09-16 18:00 to 2026-09-17 06:00: 12 minor, 8 warning; 0 active at asked_at (2026-09-17 09:52).\nNo critical or major alarm in this window. 20 of 20 cleared within 10 min of being raised (self-clearing).\n2026-09-17 01:38 .. 02:30 warning TEMP_HIGH S-SUD-007 x8 (e.g. ALM-000325): all cleared\n2026-09-17 01:45 .. 02:37 minor VSWR_HIGH S-SUD-007 x12 (e.g. ALM-000328): all cleared","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-17 06:00:00","include_descendants":true,"min_severity":null,"node_ids":["S-SUD-007","LNK-SUD-02-B","AGG-SUD-02"],"region_id":null,"start":"2026-09-16 18:00:00"},"label":"Alarms on S-SUD-007, LNK-SUD-02-B, AGG-SUD-02 and nodes below them, 16 Sep 18:00 to 17 Sep 06:00"},{"ref":"T4","text":"T4 query_kpis(end=2026-09-17 06:00:00, entity_ids=['S-SUD-007'], entity_type=site, metrics=['availability_pct', 'dl_volume_mb', 'drop_rate_pct'], start=2026-09-16 18:00:00)\nNo series deviates from its baseline between 2026-09-16 18:00 and 2026-09-17 06:00.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-17 09:52). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-007 dl_volume_mb: mean 2390 vs baseline 2753 (-13%); min 486 at 2026-09-17 03:30, max 5202 at 2026-09-16 21:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-16 18:00): 2854 4028 4998 4471 2907 1635 948 542 541 620\nbaseline: 3283 4695 5541 5038 3543 1969 1058 660 592 745\nS-SUD-007 drop_rate_pct: mean 0.51 vs baseline 0.51 (+0%); min 0.41 at 2026-09-17 02:00, max 0.67 at 2026-09-16 23:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-16 18:00): 0.55 0.54 0.45 0.54 0.6 0.48 0.46 0.5 0.47 0.47\nbaseline: 0.5 0.5 0.52 0.51 0.52 0.52 0.5 0.5 0.5 0.5\nS-SUD-007 availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-16 18:00, max 100 at 2026-09-16 18:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-16 18:00): 100 100 100 100 100 100 100 100 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 06:00:00","entity_ids":["S-SUD-007"],"entity_type":"site","metrics":["availability_pct","dl_volume_mb","drop_rate_pct"],"start":"2026-09-16 18:00:00"},"label":"KPI measurements for site S-SUD-007 (availability, downlink traffic volume, drop rate), 16 Sep 18:00 to 17 Sep 06:00"}]},{"index":0,"basis":"observed","claim":"20 self-clearing, low-severity alarms occurred on S-SUD-007 between 2026-09-17 01:38 and 02:37 consisting of TEMP_HIGH and VSWR_HIGH.","evidence":[{"ref":"ALM-000325","text":"ALM-000325 (alarm): warning TEMP_HIGH on S-SUD-007, 8 occurrences from 2026-09-17 01:38 .. 02:30; all cleared\nListed by T3 (get_alarms):\n2026-09-17 01:38 .. 02:30 warning TEMP_HIGH S-SUD-007 x8 (e.g. ALM-000325): all cleared","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000325"},{"ref":"ALM-000328","text":"ALM-000328 (alarm): minor VSWR_HIGH on S-SUD-007, 12 occurrences from 2026-09-17 01:45 .. 02:37; all cleared\nListed by T3 (get_alarms):\n2026-09-17 01:45 .. 02:37 minor VSWR_HIGH S-SUD-007 x12 (e.g. ALM-000328): all cleared","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000328"},{"ref":"T3","text":"T3 get_alarms(end=2026-09-17 06:00:00, include_descendants=True, node_ids=['S-SUD-007', 'LNK-SUD-02-B', 'AGG-SUD-02'], start=2026-09-16 18:00:00)\n20 alarm(s) on S-SUD-007, LNK-SUD-02-B, AGG-SUD-02 and nodes below, 2026-09-16 18:00 to 2026-09-17 06:00: 12 minor, 8 warning; 0 active at asked_at (2026-09-17 09:52).\nNo critical or major alarm in this window. 20 of 20 cleared within 10 min of being raised (self-clearing).\n2026-09-17 01:38 .. 02:30 warning TEMP_HIGH S-SUD-007 x8 (e.g. ALM-000325): all cleared\n2026-09-17 01:45 .. 02:37 minor VSWR_HIGH S-SUD-007 x12 (e.g. ALM-000328): all cleared","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-17 06:00:00","include_descendants":true,"min_severity":null,"node_ids":["S-SUD-007","LNK-SUD-02-B","AGG-SUD-02"],"region_id":null,"start":"2026-09-16 18:00:00"},"label":"Alarms on S-SUD-007, LNK-SUD-02-B, AGG-SUD-02 and nodes below them, 16 Sep 18:00 to 17 Sep 06:00"}]},{"index":1,"basis":"observed","claim":"Availability remained at 100% and drop rate and download volume metrics showed no sustained deviation from baseline.","evidence":[{"ref":"T4","text":"T4 query_kpis(end=2026-09-17 06:00:00, entity_ids=['S-SUD-007'], entity_type=site, metrics=['availability_pct', 'dl_volume_mb', 'drop_rate_pct'], start=2026-09-16 18:00:00)\nNo series deviates from its baseline between 2026-09-16 18:00 and 2026-09-17 06:00.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-17 09:52). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-007 dl_volume_mb: mean 2390 vs baseline 2753 (-13%); min 486 at 2026-09-17 03:30, max 5202 at 2026-09-16 21:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-16 18:00): 2854 4028 4998 4471 2907 1635 948 542 541 620\nbaseline: 3283 4695 5541 5038 3543 1969 1058 660 592 745\nS-SUD-007 drop_rate_pct: mean 0.51 vs baseline 0.51 (+0%); min 0.41 at 2026-09-17 02:00, max 0.67 at 2026-09-16 23:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-16 18:00): 0.55 0.54 0.45 0.54 0.6 0.48 0.46 0.5 0.47 0.47\nbaseline: 0.5 0.5 0.52 0.51 0.52 0.52 0.5 0.5 0.5 0.5\nS-SUD-007 availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-16 18:00, max 100 at 2026-09-16 18:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-16 18:00): 100 100 100 100 100 100 100 100 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 06:00:00","entity_ids":["S-SUD-007"],"entity_type":"site","metrics":["availability_pct","dl_volume_mb","drop_rate_pct"],"start":"2026-09-16 18:00:00"},"label":"KPI measurements for site S-SUD-007 (availability, downlink traffic volume, drop rate), 16 Sep 18:00 to 17 Sep 06:00"}]},{"index":2,"basis":"observed","claim":"No configuration changes or maintenance windows were recorded on S-SUD-007 and its parents during the incident window.","evidence":[{"ref":"T5","text":"T5 get_maintenance(end=2026-09-17 06:00:00, include_ancestors=True, node_ids=['S-SUD-007', 'LNK-SUD-02-B'], start=2026-09-16 18:00:00)\nNo maintenance window scheduled on S-SUD-007, LNK-SUD-02-B and its parents between 2026-09-16 18:00 and 2026-09-17 06:00.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-17 06:00:00","include_ancestors":true,"node_ids":["S-SUD-007","LNK-SUD-02-B"],"region_id":null,"start":"2026-09-16 18:00:00"},"label":"Maintenance calendar for S-SUD-007, LNK-SUD-02-B and the nodes above them, 16 Sep 18:00 to 17 Sep 06:00"},{"ref":"T7","text":"T7 get_changes(end=2026-09-17 06:00:00, include_ancestors=True, node_ids=['S-SUD-007'], start=2026-09-16 18:00:00)\nNo changes on S-SUD-007 and its parents between 2026-09-16 18:00 and 2026-09-17 06:00.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-17 06:00:00","include_ancestors":true,"node_ids":["S-SUD-007"],"region_id":null,"start":"2026-09-16 18:00:00"},"label":"Changes on S-SUD-007 and the nodes above them, 16 Sep 18:00 to 17 Sep 06:00"}]}]},{"case_id":"s42-SCN-025-q0","question":"Customers served by S-TUN-006 have no service yesterday afternoon. Can you find out why?","title":"Incident Report: S-TUN-006 Power Failure","chips":["classification: incident","root cause: power_failure at S-TUN-006","confidence: high"],"summary":"A mains failure at site S-TUN-006 led to battery exhaustion and a complete site outage.","items":[{"index":-1,"basis":"root cause","claim":"A mains failure at site S-TUN-006 led to battery exhaustion and a complete site outage. (Stated conclusion: incident, power_failure at S-TUN-006.)","evidence":[{"ref":"ALM-000573","text":"ALM-000573 (alarm): major MAINS_FAILURE on S-TUN-006, raised 2026-09-25 11:19, cleared 2026-09-25 17:04\nListed by T3 (get_alarms):\nEarliest critical/major: 2026-09-25 11:19 MAINS_FAILURE on S-TUN-006 (ALM-000573).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000573"},{"ref":"ALM-000574","text":"ALM-000574 (alarm): major BATTERY_LOW on S-TUN-006, raised 2026-09-25 12:55, cleared 2026-09-25 17:04\nListed by T3 (get_alarms):\n2026-09-25 12:55 ALM-000574 major BATTERY_LOW S-TUN-006: cleared 2026-09-25 17:04","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000574"},{"ref":"ALM-000575","text":"ALM-000575 (alarm): critical SITE_DOWN on S-TUN-006, raised 2026-09-25 13:10, cleared 2026-09-25 17:04\nListed by T3 (get_alarms):\n2026-09-25 13:10 ALM-000575 critical SITE_DOWN S-TUN-006: cleared 2026-09-25 17:04","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000575"},{"ref":"T6","text":"T6 query_kpis(end=2026-09-25 18:00, entity_ids=['S-TUN-006'], entity_type=site, metrics=['availability_pct', 'active_users', 'dl_volume_mb'], start=2026-09-25 11:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-25 13:00: S-TUN-006 availability_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-26 08:47). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-006 availability_pct: mean 46.7 vs baseline 100 (-53%); min 0 at 2026-09-25 13:15, max 100 at 2026-09-25 11:00.\nDeviation below baseline: onset 2026-09-25 13:00; worst 0 vs 100 at 2026-09-25 13:15; recovery 2026-09-25 17:15.\nseries (45 min buckets from 2026-09-25 11:00): 100 100 88.9 0 0 0 0 0 95.6 100\nbaseline: 100 100 100 100 100 100 100 100 100 100\nS-TUN-006 active_users: mean 26.9 vs baseline 59 (-54%); min 0 at 2026-09-25 13:15, max 63.9 at 2026-09-25 18:00.\nDeviation below baseline: onset 2026-09-25 13:00; worst 0 vs 64.5 at 2026-09-25 13:15; recovery 2026-09-25 17:00.\nseries (45 min buckets from 2026-09-25 11:00): 54 58.9 55.2 0 0 0 0 0 50.5 62\nbaseline: 61.1 60.9 63.5 64.2 63 59.5 53.6 50.9 52.6 62\nS-TUN-006 dl_volume_mb: mean 1891 vs baseline 4175 (-55%); min 0 at 2026-09-25 13:15, max 4496 at 2026-09-25 12:30.\nDeviation below baseline: onset 2026-09-25 13:15; worst 0 vs 4472 at 2026-09-25 13:15; recovery 2026-09-25 17:00.\nseries (45 min buckets from 2026-09-25 11:00): 3698 4170 3981 0 0 0 0 0 3614 4227\nbaseline: 4324 4329 4493 4514 4491 4212 3762 3633 3724 4313","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-25 18:00","entity_ids":["S-TUN-006"],"entity_type":"site","metrics":["availability_pct","active_users","dl_volume_mb"],"start":"2026-09-25 11:00"},"label":"KPI measurements for site S-TUN-006 (availability, active users, downlink traffic volume), 25 Sep 11:00 to 18:00"}]},{"index":0,"basis":"observed","claim":"Site S-TUN-006 suffered a mains failure starting at 2026-09-25 11:19.","evidence":[{"ref":"ALM-000573","text":"ALM-000573 (alarm): major MAINS_FAILURE on S-TUN-006, raised 2026-09-25 11:19, cleared 2026-09-25 17:04\nListed by T3 (get_alarms):\nEarliest critical/major: 2026-09-25 11:19 MAINS_FAILURE on S-TUN-006 (ALM-000573).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000573"}]},{"index":1,"basis":"observed","claim":"Site S-TUN-006 battery became low at 2026-09-25 12:55.","evidence":[{"ref":"ALM-000574","text":"ALM-000574 (alarm): major BATTERY_LOW on S-TUN-006, raised 2026-09-25 12:55, cleared 2026-09-25 17:04\nListed by T3 (get_alarms):\n2026-09-25 12:55 ALM-000574 major BATTERY_LOW S-TUN-006: cleared 2026-09-25 17:04","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000574"}]},{"index":2,"basis":"observed","claim":"Site S-TUN-006 went down at 2026-09-25 13:10.","evidence":[{"ref":"ALM-000575","text":"ALM-000575 (alarm): critical SITE_DOWN on S-TUN-006, raised 2026-09-25 13:10, cleared 2026-09-25 17:04\nListed by T3 (get_alarms):\n2026-09-25 13:10 ALM-000575 critical SITE_DOWN S-TUN-006: cleared 2026-09-25 17:04","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000575"}]},{"index":3,"basis":"observed","claim":"S-TUN-006 KPIs showed complete loss of service between 13:00 and 17:15 on September 25, 2026.","evidence":[{"ref":"T6","text":"T6 query_kpis(end=2026-09-25 18:00, entity_ids=['S-TUN-006'], entity_type=site, metrics=['availability_pct', 'active_users', 'dl_volume_mb'], start=2026-09-25 11:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-25 13:00: S-TUN-006 availability_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-26 08:47). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-006 availability_pct: mean 46.7 vs baseline 100 (-53%); min 0 at 2026-09-25 13:15, max 100 at 2026-09-25 11:00.\nDeviation below baseline: onset 2026-09-25 13:00; worst 0 vs 100 at 2026-09-25 13:15; recovery 2026-09-25 17:15.\nseries (45 min buckets from 2026-09-25 11:00): 100 100 88.9 0 0 0 0 0 95.6 100\nbaseline: 100 100 100 100 100 100 100 100 100 100\nS-TUN-006 active_users: mean 26.9 vs baseline 59 (-54%); min 0 at 2026-09-25 13:15, max 63.9 at 2026-09-25 18:00.\nDeviation below baseline: onset 2026-09-25 13:00; worst 0 vs 64.5 at 2026-09-25 13:15; recovery 2026-09-25 17:00.\nseries (45 min buckets from 2026-09-25 11:00): 54 58.9 55.2 0 0 0 0 0 50.5 62\nbaseline: 61.1 60.9 63.5 64.2 63 59.5 53.6 50.9 52.6 62\nS-TUN-006 dl_volume_mb: mean 1891 vs baseline 4175 (-55%); min 0 at 2026-09-25 13:15, max 4496 at 2026-09-25 12:30.\nDeviation below baseline: onset 2026-09-25 13:15; worst 0 vs 4472 at 2026-09-25 13:15; recovery 2026-09-25 17:00.\nseries (45 min buckets from 2026-09-25 11:00): 3698 4170 3981 0 0 0 0 0 3614 4227\nbaseline: 4324 4329 4493 4514 4491 4212 3762 3633 3724 4313","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-25 18:00","entity_ids":["S-TUN-006"],"entity_type":"site","metrics":["availability_pct","active_users","dl_volume_mb"],"start":"2026-09-25 11:00"},"label":"KPI measurements for site S-TUN-006 (availability, active users, downlink traffic volume), 25 Sep 11:00 to 18:00"},{"ref":"ANM-000322","text":"ANM-000322 (anomaly): S-TUN-006 availability_pct drop, z -100.0, baseline 100 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000322"},{"ref":"ANM-000323","text":"ANM-000323 (anomaly): S-TUN-006 active_users drop, z -12.4, baseline 63.2 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000323"},{"ref":"ANM-000324","text":"ANM-000324 (anomaly): S-TUN-006 dl_volume_mb drop, z -11.7, baseline 4470 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000324"}]}]},{"case_id":"s42-SCN-032-q0","question":"Customers served by S-SFX-008 have no service yesterday evening. Can you find out why?","title":"Transport Failure Impacting S-SFX-008 and S-SFX-003","chips":["classification: incident","root cause: transport_failure at LNK-SFX-02-A","confidence: medium"],"summary":"Fiber transport link LNK-SFX-02-A suffered a loss of signal (LINK_LOS), taking down both connected sites S-SFX-008 and S-SFX-003.","items":[{"index":-1,"basis":"root cause","claim":"Fiber transport link LNK-SFX-02-A suffered a loss of signal (LINK_LOS), taking down both connected sites S-SFX-008 and S-SFX-003. (Stated conclusion: incident, transport_failure at LNK-SFX-02-A.)","evidence":[{"ref":"T3","text":"T3 get_alarms(end=2026-09-29 00:00:00, include_descendants=True, node_ids=['S-SFX-008', 'S-SFX-003', 'LNK-SFX-02-A', 'AGG-SFX-02'], start=2026-09-28 18:00:00)\n6 alarm(s) on S-SFX-008, S-SFX-003, LNK-SFX-02-A, AGG-SFX-02 and nodes below, 2026-09-28 18:00 to 2026-09-29 00:00: 3 critical, 1 minor, 2 warning; 0 active at asked_at (2026-09-29 09:55).\nEarliest critical/major: 2026-09-28 21:57 LINK_LOS on LNK-SFX-02-A (ALM-000662); within 10 min after: SITE_DOWN x2 (S-SFX-003, S-SFX-008).\n2026-09-28 21:18 ALM-000661 minor LINK_DEGRADED LNK-SFX-02-A: cleared 2026-09-28 21:58\n2026-09-28 21:57 ALM-000662 critical LINK_LOS LNK-SFX-02-A: cleared 2026-09-29 03:13\n2026-09-28 21:58 ALM-000663 critical SITE_DOWN S-SFX-003: cleared 2026-09-29 03:15\n2026-09-28 21:58 ALM-000664 critical SITE_DOWN S-SFX-008: cleared 2026-09-29 03:14\n2026-09-28 22:22 ALM-000665 warning CPU_HIGH AGG-SFX-02: cleared 2026-09-28 22:32\n2026-09-28 22:59 ALM-000666 warning CPU_HIGH AGG-SFX-02: cleared 2026-09-28 23:04","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-29 00:00:00","include_descendants":true,"min_severity":null,"node_ids":["S-SFX-008","S-SFX-003","LNK-SFX-02-A","AGG-SFX-02"],"region_id":null,"start":"2026-09-28 18:00:00"},"label":"Alarms on S-SFX-008, S-SFX-003, LNK-SFX-02-A, AGG-SFX-02 and nodes below them, 28 Sep 18:00 to 29 Sep 00:00"},{"ref":"RB-FIBER-CUT#03","text":"RB-FIBER-CUT#03 (runbook): Fiber cut on a transport link \u003e Differential diagnosis: ### Versus planned maintenance The alarms are identical: `LINK_LOS` plus `SITE_DOWN`. Only the mainte...\nListed by T6 (search_runbooks):\n[RB-FIBER-CUT#03] Fiber cut on a transport link \u003e Differential diagnosis: ... The alarms are identical: `LINK_LOS` plus `SITE_DOWN`. ... Versus a site power failure A power failure hits one site, never its siblings. It starts with `MAINS_FAILURE` hours before the site goes down and has no `LINK_LOS`. ... `LINK_LOS` with availability at zero is a hard failure. ... A single-site event cannot take down its siblings, and the `LINK_LOS` already explains the...","shortened":false,"found":true,"type":"runbook","label":"One runbook excerpt: RB-FIBER-CUT#03"},{"ref":"ALM-000662","text":"ALM-000662 (alarm): critical LINK_LOS on LNK-SFX-02-A, raised 2026-09-28 21:57, cleared 2026-09-29 03:13\nListed by T3 (get_alarms):\nEarliest critical/major: 2026-09-28 21:57 LINK_LOS on LNK-SFX-02-A (ALM-000662); within 10 min after: SITE_DOWN x2 (S-SFX-003, S-SFX-008).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000662"}]},{"index":0,"basis":"observed","claim":"S-SFX-008 suffered a complete availability drop and zeroed traffic starting 2026-09-28 21:45.","evidence":[{"ref":"T1","text":"T1 get_anomalies(end=2026-09-29 09:55, entity_id=S-SFX-008, start=2026-09-28 16:00)\n1 detector alert(s) overlap 2026-09-28 16:00 to 2026-09-29 09:55.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0036 high ended, 2026-09-28 21:45 to 2026-09-29 03:15 (5.5 h): Traffic, active users and availability drop on 2 sites in SFX (S-SFX-003, S-SFX-008) for 5.5 h\n  active_users drop on 1 entity: worst S-SFX-008 z -9.5, 47.2 -\u003e 0, 2026-09-28 22:00 to 2026-09-29 03:15\n  availability_pct drop on 1 entity: worst S-SFX-008 z -100.0, 100 -\u003e 0, 2026-09-28 21:45 to 2026-09-29 03:15\n  dl_volume_mb drop on 1 entity: worst S-SFX-008 z -8.7, 40988 -\u003e 0, 2026-09-28 22:00 to 2026-09-29 03:15","shortened":false,"found":true,"type":"call","tool":"get_anomalies","args":{"end":"2026-09-29 09:55","entity_id":"S-SFX-008","region_id":null,"start":"2026-09-28 16:00"},"label":"Detector alerts in S-SFX-008, 28 Sep 16:00 to 29 Sep 09:55"},{"ref":"ALR-0036","text":"ALR-0036 (alert): ended alert from 2026-09-28 21:45: 2 site(s) (S-SFX-003, S-SFX-008); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb\nListed by T1 (get_anomalies):\nALR-0036 high ended, 2026-09-28 21:45 to 2026-09-29 03:15 (5.5 h): Traffic, active users and availability drop on 2 sites in SFX (S-SFX-003, S-SFX-008) for 5.5 h\nactive_users drop on 1 entity: worst S-SFX-008 z -9.5, 47.2 -\u003e 0, 2026-09-28 22:00 to 2026-09-29 03:15\navailability_pct drop on 1 entity: worst S-SFX-008 z -100.0, 100 -\u003e 0, 2026-09-28 21:45 to 2026-09-29 03:15\ndl_volume_mb drop on 1 entity: worst S-SFX-008 z -8.7, 40988 -\u003e 0, 2026-09-28 22:00 to 2026-09-29 03:15","shortened":false,"found":true,"type":"alert","label":"One detector alert: ALR-0036"},{"ref":"ANM-000440","text":"ANM-000440 (anomaly): S-SFX-008 availability_pct drop, z -100.0, baseline 100 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000440"},{"ref":"ANM-000444","text":"ANM-000444 (anomaly): S-SFX-008 active_users drop, z -9.5, baseline 47.2 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000444"},{"ref":"ANM-000445","text":"ANM-000445 (anomaly): S-SFX-008 dl_volume_mb drop, z -8.7, baseline 40988 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000445"}]},{"index":1,"basis":"observed","claim":"S-SFX-008 is parented by LNK-SFX-02-A, AGG-SFX-02, and CORE-UPF-02, sharing LNK-SFX-02-A with sibling S-SFX-003.","evidence":[{"ref":"T2","text":"T2 get_topology(include=all, node_id=S-SFX-008)\nDepends on (child -\u003e parent -\u003e core): S-SFX-008 (site) -\u003e LNK-SFX-02-A (fiber link) -\u003e AGG-SFX-02 (agg router) -\u003e CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-008: site, SFX, Jebeniana, urban.\nCells: C-SFX-008-1, C-SFX-008-2, C-SFX-008-3.\nSiblings under LNK-SFX-02-A: S-SFX-003.","shortened":false,"found":true,"type":"call","tool":"get_topology","args":{"include":"all","node_id":"S-SFX-008"},"label":"Network map around S-SFX-008: what it depends on, what is below it and its neighbours"},{"ref":"S-SFX-008","text":"S-SFX-008 (node): site, SFX, Jebeniana, urban; chain: S-SFX-008 -\u003e LNK-SFX-02-A -\u003e AGG-SFX-02 -\u003e CORE-UPF-02\nListed by T2 (get_topology):\nDepends on (child -\u003e parent -\u003e core): S-SFX-008 (site) -\u003e LNK-SFX-02-A (fiber link) -\u003e AGG-SFX-02 (agg router) -\u003e CORE-UPF-02 (core upf)","shortened":false,"found":true,"type":"node","label":"One network node: S-SFX-008"},{"ref":"S-SFX-003","text":"S-SFX-003 (node): site, SFX, Sakiet Ezzit, urban; sibling of S-SFX-008\nListed by T2 (get_topology):\nSiblings under LNK-SFX-02-A: S-SFX-003.","shortened":false,"found":true,"type":"node","label":"One network node: S-SFX-003"}]},{"index":2,"basis":"observed","claim":"Transport link LNK-SFX-02-A raised a minor LINK_DEGRADED at 21:18, followed by a critical LINK_LOS at 21:57.","evidence":[{"ref":"T3","text":"T3 get_alarms(end=2026-09-29 00:00:00, include_descendants=True, node_ids=['S-SFX-008', 'S-SFX-003', 'LNK-SFX-02-A', 'AGG-SFX-02'], start=2026-09-28 18:00:00)\n6 alarm(s) on S-SFX-008, S-SFX-003, LNK-SFX-02-A, AGG-SFX-02 and nodes below, 2026-09-28 18:00 to 2026-09-29 00:00: 3 critical, 1 minor, 2 warning; 0 active at asked_at (2026-09-29 09:55).\nEarliest critical/major: 2026-09-28 21:57 LINK_LOS on LNK-SFX-02-A (ALM-000662); within 10 min after: SITE_DOWN x2 (S-SFX-003, S-SFX-008).\n2026-09-28 21:18 ALM-000661 minor LINK_DEGRADED LNK-SFX-02-A: cleared 2026-09-28 21:58\n2026-09-28 21:57 ALM-000662 critical LINK_LOS LNK-SFX-02-A: cleared 2026-09-29 03:13\n2026-09-28 21:58 ALM-000663 critical SITE_DOWN S-SFX-003: cleared 2026-09-29 03:15\n2026-09-28 21:58 ALM-000664 critical SITE_DOWN S-SFX-008: cleared 2026-09-29 03:14\n2026-09-28 22:22 ALM-000665 warning CPU_HIGH AGG-SFX-02: cleared 2026-09-28 22:32\n2026-09-28 22:59 ALM-000666 warning CPU_HIGH AGG-SFX-02: cleared 2026-09-28 23:04","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-29 00:00:00","include_descendants":true,"min_severity":null,"node_ids":["S-SFX-008","S-SFX-003","LNK-SFX-02-A","AGG-SFX-02"],"region_id":null,"start":"2026-09-28 18:00:00"},"label":"Alarms on S-SFX-008, S-SFX-003, LNK-SFX-02-A, AGG-SFX-02 and nodes below them, 28 Sep 18:00 to 29 Sep 00:00"},{"ref":"ALM-000661","text":"ALM-000661 (alarm): minor LINK_DEGRADED on LNK-SFX-02-A, raised 2026-09-28 21:18, cleared 2026-09-28 21:58\nListed by T3 (get_alarms):\n2026-09-28 21:18 ALM-000661 minor LINK_DEGRADED LNK-SFX-02-A: cleared 2026-09-28 21:58","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000661"},{"ref":"ALM-000662","text":"ALM-000662 (alarm): critical LINK_LOS on LNK-SFX-02-A, raised 2026-09-28 21:57, cleared 2026-09-29 03:13\nListed by T3 (get_alarms):\nEarliest critical/major: 2026-09-28 21:57 LINK_LOS on LNK-SFX-02-A (ALM-000662); within 10 min after: SITE_DOWN x2 (S-SFX-003, S-SFX-008).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000662"}]},{"index":3,"basis":"observed","claim":"Sites S-SFX-003 and S-SFX-008 both raised SITE_DOWN alarms at 21:58.","evidence":[{"ref":"T3","text":"T3 get_alarms(end=2026-09-29 00:00:00, include_descendants=True, node_ids=['S-SFX-008', 'S-SFX-003', 'LNK-SFX-02-A', 'AGG-SFX-02'], start=2026-09-28 18:00:00)\n6 alarm(s) on S-SFX-008, S-SFX-003, LNK-SFX-02-A, AGG-SFX-02 and nodes below, 2026-09-28 18:00 to 2026-09-29 00:00: 3 critical, 1 minor, 2 warning; 0 active at asked_at (2026-09-29 09:55).\nEarliest critical/major: 2026-09-28 21:57 LINK_LOS on LNK-SFX-02-A (ALM-000662); within 10 min after: SITE_DOWN x2 (S-SFX-003, S-SFX-008).\n2026-09-28 21:18 ALM-000661 minor LINK_DEGRADED LNK-SFX-02-A: cleared 2026-09-28 21:58\n2026-09-28 21:57 ALM-000662 critical LINK_LOS LNK-SFX-02-A: cleared 2026-09-29 03:13\n2026-09-28 21:58 ALM-000663 critical SITE_DOWN S-SFX-003: cleared 2026-09-29 03:15\n2026-09-28 21:58 ALM-000664 critical SITE_DOWN S-SFX-008: cleared 2026-09-29 03:14\n2026-09-28 22:22 ALM-000665 warning CPU_HIGH AGG-SFX-02: cleared 2026-09-28 22:32\n2026-09-28 22:59 ALM-000666 warning CPU_HIGH AGG-SFX-02: cleared 2026-09-28 23:04","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-29 00:00:00","include_descendants":true,"min_severity":null,"node_ids":["S-SFX-008","S-SFX-003","LNK-SFX-02-A","AGG-SFX-02"],"region_id":null,"start":"2026-09-28 18:00:00"},"label":"Alarms on S-SFX-008, S-SFX-003, LNK-SFX-02-A, AGG-SFX-02 and nodes below them, 28 Sep 18:00 to 29 Sep 00:00"},{"ref":"ALM-000663","text":"ALM-000663 (alarm): critical SITE_DOWN on S-SFX-003, raised 2026-09-28 21:58, cleared 2026-09-29 03:15\nListed by T3 (get_alarms):\n2026-09-28 21:58 ALM-000663 critical SITE_DOWN S-SFX-003: cleared 2026-09-29 03:15","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000663"},{"ref":"ALM-000664","text":"ALM-000664 (alarm): critical SITE_DOWN on S-SFX-008, raised 2026-09-28 21:58, cleared 2026-09-29 03:14\nListed by T3 (get_alarms):\n2026-09-28 21:58 ALM-000664 critical SITE_DOWN S-SFX-008: cleared 2026-09-29 03:14","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000664"}]},{"index":4,"basis":"observed","claim":"No maintenance windows or configuration changes were scheduled or executed on the affected scope during the incident window.","evidence":[{"ref":"T4","text":"T4 get_maintenance(end=2026-09-29 00:00:00, include_ancestors=True, node_ids=['S-SFX-008', 'LNK-SFX-02-A', 'AGG-SFX-02'], start=2026-09-28 18:00:00)\nNo maintenance window scheduled on S-SFX-008, LNK-SFX-02-A, AGG-SFX-02 and its parents between 2026-09-28 18:00 and 2026-09-29 00:00.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-29 00:00:00","include_ancestors":true,"node_ids":["S-SFX-008","LNK-SFX-02-A","AGG-SFX-02"],"region_id":null,"start":"2026-09-28 18:00:00"},"label":"Maintenance calendar for S-SFX-008, LNK-SFX-02-A, AGG-SFX-02 and the nodes above them, 28 Sep 18:00 to 29 Sep 00:00"},{"ref":"T5","text":"T5 get_changes(end=2026-09-29 00:00:00, include_ancestors=True, node_ids=['S-SFX-008', 'LNK-SFX-02-A', 'AGG-SFX-02'], start=2026-09-28 18:00:00)\nNo changes on S-SFX-008, LNK-SFX-02-A, AGG-SFX-02 and its parents between 2026-09-28 18:00 and 2026-09-29 00:00.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-29 00:00:00","include_ancestors":true,"node_ids":["S-SFX-008","LNK-SFX-02-A","AGG-SFX-02"],"region_id":null,"start":"2026-09-28 18:00:00"},"label":"Changes on S-SFX-008, LNK-SFX-02-A, AGG-SFX-02 and the nodes above them, 28 Sep 18:00 to 29 Sep 00:00"}]}]},{"case_id":"s42-SCN-028-q0","question":"Customers around S-TUN-004 complain about very slow speeds yesterday evening. Why?","title":"Incident Report: S-TUN-004 Traffic Congestion","chips":["classification: incident","root cause: capacity at S-TUN-004","confidence: high"],"summary":"Radio capacity congestion due to a sharp local traffic and active user spike exceeding site capacity.","items":[{"index":-1,"basis":"root cause","claim":"Radio capacity congestion due to a sharp local traffic and active user spike exceeding site capacity. (Stated conclusion: incident, capacity at S-TUN-004.)","evidence":[{"ref":"T6","text":"T6 query_kpis(end=2026-09-26 23:59, entity_ids=['S-TUN-004'], entity_type=site, metrics=['active_users', 'dl_volume_mb', 'prb_util_pct', 'latency_ms'], start=2026-09-26 18:00)\nDeviation in 4 of 4 series. Earliest onset 2026-09-26 18:45: S-TUN-004 active_users above baseline.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-27 08:06). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 3 earlier Saturdays with data; treat small deviations with caution.\nS-TUN-004 active_users: mean 212 vs baseline 178 (+19%); min 107 at 2026-09-26 18:00, max 469 at 2026-09-26 19:15.\nDeviation above baseline: onset 2026-09-26 18:45; worst 469 vs 151 at 2026-09-26 19:15; recovery 2026-09-26 19:45.\nseries (30 min buckets from 2026-09-26 18:00): 108 249 447 251 178 195 211 224 210 193 159 121\nS-TUN-004 dl_volume_mb: mean 16178 vs baseline 12992 (+25%); min 7728 at 2026-09-26 18:15, max 36493 at 2026-09-26 19:15.\nDeviation above baseline: onset 2026-09-26 18:45; worst 36493 vs 11399 at 2026-09-26 19:15; recovery 2026-09-26 19:45.\nseries (30 min buckets from 2026-09-26 18:00): 7776 22157 36241 18502 12804 13906 15356 16750 15761 13960 12086 8841\nS-TUN-004 prb_util_pct: mean 43.5 vs baseline 34.9 (+25%); min 20.8 at 2026-09-26 18:15, max 97.4 at 2026-09-26 19:15.\nDeviation above baseline: onset 2026-09-26 18:45; worst 97.4 vs 30.4 at 2026-09-26 19:15; recovery 2026-09-26 19:45.\nseries (30 min buckets from 2026-09-26 18:00): 20.9 59.3 96.8 49.7 34.6 37.4 41.3 45.1 42.5 37.5 32.5 23.9\nS-TUN-004 latency_ms: mean 45.8 vs baseline 36.5 (+25%); min 34.5 at 2026-09-26 18:15, max 115 at 2026-09-26 19:15.\nDeviation above baseline: onset 2026-09-26 18:45; worst 115 vs 34.5 at 2026-09-26 19:15; recovery 2026-09-26 19:30.\nseries (30 min buckets from 2026-09-26 18:00): 35 69.2 109 38.5 37.2 38.8 37.4 36.4 37.2 37.6 37.5 36.2","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-26 23:59","entity_ids":["S-TUN-004"],"entity_type":"site","metrics":["active_users","dl_volume_mb","prb_util_pct","latency_ms"],"start":"2026-09-26 18:00"},"label":"KPI measurements for site S-TUN-004 (active users, downlink traffic volume, radio load (PRB utilisation), latency), 26 Sep 18:00 to 23:59"},{"ref":"ALM-000601","text":"ALM-000601 (alarm): warning HIGH_PRB on S-TUN-004, raised 2026-09-26 18:55, cleared 2026-09-26 19:47\nListed by T5 (get_alarms):\n2026-09-26 18:55 ALM-000601 warning HIGH_PRB S-TUN-004: cleared 2026-09-26 19:47","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000601"},{"ref":"RB-CONGESTION#03","text":"RB-CONGESTION#03 (runbook): Radio capacity congestion \u003e Differential diagnosis: ### Versus a stadium event or other expected demand An event also brings users, high PRB and `HIGH_PRB` a...\nListed by T10 (search_runbooks):\n[RB-CONGESTION#03] Radio capacity congestion \u003e Differential diagnosis: Versus a stadium event or other expected demand An event also brings users, high PRB and `HIGH_PRB` alarms. ... Venue sites have extra capacity, so latency rises mildly. ... If no event exists, or the site is far from the venue, it is congestion. Versus a normal busy hour ... Congestion raises PRB and users. ... Congestion is local with high PRB. ... Congestion has high PR...","shortened":false,"found":true,"type":"runbook","label":"One runbook excerpt: RB-CONGESTION#03"}]},{"index":0,"basis":"observed","claim":"S-TUN-004 experienced an active users spike from a baseline of 158 up to 469.","evidence":[{"ref":"ANM-000394","text":"ANM-000394 (anomaly): S-TUN-004 active_users spike, z 10.9, baseline 158 -\u003e 469\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000394"}]},{"index":1,"basis":"observed","claim":"S-TUN-004 experienced a downlink volume MB spike from a baseline of 10672 up to 35989.","evidence":[{"ref":"ANM-000395","text":"ANM-000395 (anomaly): S-TUN-004 dl_volume_mb spike, z 13.6, baseline 10672 -\u003e 35989\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000395"}]},{"index":2,"basis":"observed","claim":"No external events were recorded for region TUN during the incident window.","evidence":[{"ref":"T3","text":"T3 get_external_events(end=2026-09-27 00:00, region_id=TUN, start=2026-09-26 18:00)\nNo external events for region TUN (and nationwide) between 2026-09-26 18:00 and 2026-09-27 00:00.","shortened":false,"found":true,"type":"call","tool":"get_external_events","args":{"end":"2026-09-27 00:00","region_id":"TUN","start":"2026-09-26 18:00"},"label":"External events (holidays, stadium events) in region TUN, 26 Sep 18:00 to 27 Sep 00:00"}]},{"index":3,"basis":"observed","claim":"No maintenance windows were scheduled on S-TUN-004 or its ancestors.","evidence":[{"ref":"T4","text":"T4 get_maintenance(end=2026-09-27 00:00, include_ancestors=True, node_ids=['S-TUN-004', 'LNK-TUN-02-A'], start=2026-09-26 18:00)\nNo maintenance window scheduled on S-TUN-004, LNK-TUN-02-A and its parents between 2026-09-26 18:00 and 2026-09-27 00:00.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-27 00:00","include_ancestors":true,"node_ids":["S-TUN-004","LNK-TUN-02-A"],"region_id":null,"start":"2026-09-26 18:00"},"label":"Maintenance calendar for S-TUN-004, LNK-TUN-02-A and the nodes above them, 26 Sep 18:00 to 27 Sep 00:00"}]},{"index":4,"basis":"observed","claim":"No configuration changes were applied to S-TUN-004, LNK-TUN-02-A, or AGG-TUN-02.","evidence":[{"ref":"T7","text":"T7 get_changes(end=2026-09-26 23:59, include_ancestors=True, node_ids=['S-TUN-004', 'LNK-TUN-02-A', 'AGG-TUN-02'], start=2026-09-26 12:00)\nNo changes on S-TUN-004, LNK-TUN-02-A, AGG-TUN-02 and its parents between 2026-09-26 12:00 and 2026-09-26 23:59.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-26 23:59","include_ancestors":true,"node_ids":["S-TUN-004","LNK-TUN-02-A","AGG-TUN-02"],"region_id":null,"start":"2026-09-26 12:00"},"label":"Changes on S-TUN-004, LNK-TUN-02-A, AGG-TUN-02 and the nodes above them, 26 Sep 12:00 to 23:59"}]}]},{"case_id":"s42-SCN-020-q0","question":"Latency complaints across the country yesterday afternoon, any idea?","title":"Nationwide Latency and Core DNS Degradation","chips":["classification: incident","root cause: core_degradation at CORE-DNS-01","confidence: high"],"summary":"Core DNS degradation on CORE-DNS-01 leading to query success rate drops and resolution latency spikes.","items":[{"index":-1,"basis":"root cause","claim":"Core DNS degradation on CORE-DNS-01 leading to query success rate drops and resolution latency spikes. (Stated conclusion: incident, core_degradation at CORE-DNS-01.)","evidence":[{"ref":"T1","text":"T1 get_anomalies(end=2026-09-21 09:09, start=2026-09-20 10:00)\n1 detector alert(s) overlap 2026-09-20 10:00 to 2026-09-21 09:09.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0021 high ended, 2026-09-20 12:30 to 2026-09-20 14:30 (2.0 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 43 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 38 more) and on CORE-DNS-01 for 2 h\n  latency_ms spike on 47 entities: worst SUD z 11.1, 25.7 -\u003e 37.7, 2026-09-20 12:30 to 2026-09-20 14:30\n  query_success_pct drop on 1 entity: worst CORE-DNS-01 z -72.7, 99.9 -\u003e 91.7, 2026-09-20 12:30 to 2026-09-20 14:30\n  resolution_ms spike on 1 entity: worst CORE-DNS-01 z 46.6, 11.1 -\u003e 93.8, 2026-09-20 12:30 to 2026-09-20 14:30","shortened":false,"found":true,"type":"call","tool":"get_anomalies","args":{"end":"2026-09-21 09:09","entity_id":null,"region_id":null,"start":"2026-09-20 10:00"},"label":"Detector alerts in the whole network, 20 Sep 10:00 to 21 Sep 09:09"},{"ref":"T6","text":"T6 query_kpis(end=2026-09-20 18:00, entity_ids=['CORE-DNS-01'], entity_type=core_node, metrics=['query_success_pct', 'resolution_ms'], start=2026-09-20 10:00)\nDeviation in 2 of 2 series. Earliest onset 2026-09-20 12:30: CORE-DNS-01 query_success_pct below baseline.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-21 09:09). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier Sundays with data; treat small deviations with caution.\nCORE-DNS-01 query_success_pct: mean 97.9 vs baseline 99.9 (-2%); min 91.5 at 2026-09-20 13:00, max 99.9 at 2026-09-20 12:00.\nDeviation below baseline: onset 2026-09-20 12:30; worst 91.5 vs 99.9 at 2026-09-20 13:00; recovery 2026-09-20 14:30.\nseries (45 min buckets from 2026-09-20 10:00): 99.9 99.9 99.9 94.6 91.8 91.8 99.9 99.9 99.9 99.9 99.9\nbaseline: 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9\nCORE-DNS-01 resolution_ms: mean 29.5 vs baseline 10.7 (+176%); min 9.8 at 2026-09-20 17:00, max 93.8 at 2026-09-20 14:00.\nDeviation above baseline: onset 2026-09-20 12:30; worst 93.8 vs 11.3 at 2026-09-20 14:00; recovery 2026-09-20 14:30.\nseries (45 min buckets from 2026-09-20 10:00): 10.9 10.7 10.5 59 89.6 91.2 10.7 10.9 10.7 10 10.4\nbaseline: 11 10.8 10.5 10.6 10.5 11 11 10.7 10.6 10.5 10.3","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-20 18:00","entity_ids":["CORE-DNS-01"],"entity_type":"core_node","metrics":["query_success_pct","resolution_ms"],"start":"2026-09-20 10:00"},"label":"KPI measurements for core_node CORE-DNS-01 (query success pct, resolution ms), 20 Sep 10:00 to 18:00"},{"ref":"ALR-0021","text":"ALR-0021 (alert): ended alert from 2026-09-20 12:30: 43 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +39 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc...\nListed by T1 (get_anomalies):\nALR-0021 high ended, 2026-09-20 12:30 to 2026-09-20 14:30 (2.0 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 43 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 38 more) and on CORE-DNS-01 for 2 h\nlatency_ms spike on 47 entities: worst SUD z 11.1, 25.7 -\u003e 37.7, 2026-09-20 12:30 to 2026-09-20 14:30\nquery_success_pct drop on 1 entity: worst CORE-DNS-01 z -72.7, 99.9 -\u003e 91.7, 2026-09-20 12:30 to 2026-09-20 14:30\n[... shortened: 695 of 805 characters shown]","shortened":true,"found":true,"type":"alert","label":"One detector alert: ALR-0021"},{"ref":"RB-DNS-DEGRADATION#02","text":"RB-DNS-DEGRADATION#02 (runbook): Core DNS degradation \u003e Signature in the data: - **Core KPIs on the DNS node.** `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms...\nListed by T4 (search_runbooks):\n[RB-DNS-DEGRADATION#02] Core DNS degradation \u003e Signature in the data: Core KPIs on the DNS node. `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms` rises five to twenty times from its normal 8 to 15 ms. ... What stays normal. `rrc_success_pct`, `availability_pct` and `drop_rate_pct` are unaffected, because radio signalling does not need DNS. ... A `DNS_TIMEOUT_RATE` alarm, severity `major`, on the DNS node. ... Other...","shortened":false,"found":true,"type":"runbook","label":"One runbook excerpt: RB-DNS-DEGRADATION#02"}]},{"index":0,"basis":"observed","claim":"Detector alert ALR-0021 overlapped the incident window, affecting 43 sites and core CORE-DNS-01.","evidence":[{"ref":"T1","text":"T1 get_anomalies(end=2026-09-21 09:09, start=2026-09-20 10:00)\n1 detector alert(s) overlap 2026-09-20 10:00 to 2026-09-21 09:09.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0021 high ended, 2026-09-20 12:30 to 2026-09-20 14:30 (2.0 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 43 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 38 more) and on CORE-DNS-01 for 2 h\n  latency_ms spike on 47 entities: worst SUD z 11.1, 25.7 -\u003e 37.7, 2026-09-20 12:30 to 2026-09-20 14:30\n  query_success_pct drop on 1 entity: worst CORE-DNS-01 z -72.7, 99.9 -\u003e 91.7, 2026-09-20 12:30 to 2026-09-20 14:30\n  resolution_ms spike on 1 entity: worst CORE-DNS-01 z 46.6, 11.1 -\u003e 93.8, 2026-09-20 12:30 to 2026-09-20 14:30","shortened":false,"found":true,"type":"call","tool":"get_anomalies","args":{"end":"2026-09-21 09:09","entity_id":null,"region_id":null,"start":"2026-09-20 10:00"},"label":"Detector alerts in the whole network, 20 Sep 10:00 to 21 Sep 09:09"},{"ref":"ALR-0021","text":"ALR-0021 (alert): ended alert from 2026-09-20 12:30: 43 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +39 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc...\nListed by T1 (get_anomalies):\nALR-0021 high ended, 2026-09-20 12:30 to 2026-09-20 14:30 (2.0 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 43 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 38 more) and on CORE-DNS-01 for 2 h\nlatency_ms spike on 47 entities: worst SUD z 11.1, 25.7 -\u003e 37.7, 2026-09-20 12:30 to 2026-09-20 14:30\nquery_success_pct drop on 1 entity: worst CORE-DNS-01 z -72.7, 99.9 -\u003e 91.7, 2026-09-20 12:30 to 2026-09-20 14:30\n[... shortened: 695 of 805 characters shown]","shortened":true,"found":true,"type":"alert","label":"One detector alert: ALR-0021"}]},{"index":1,"basis":"observed","claim":"CORE-DNS-01 query_success_pct dropped below baseline and resolution_ms spiked between 2026-09-20 12:30 and 14:30.","evidence":[{"ref":"T6","text":"T6 query_kpis(end=2026-09-20 18:00, entity_ids=['CORE-DNS-01'], entity_type=core_node, metrics=['query_success_pct', 'resolution_ms'], start=2026-09-20 10:00)\nDeviation in 2 of 2 series. Earliest onset 2026-09-20 12:30: CORE-DNS-01 query_success_pct below baseline.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-21 09:09). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier Sundays with data; treat small deviations with caution.\nCORE-DNS-01 query_success_pct: mean 97.9 vs baseline 99.9 (-2%); min 91.5 at 2026-09-20 13:00, max 99.9 at 2026-09-20 12:00.\nDeviation below baseline: onset 2026-09-20 12:30; worst 91.5 vs 99.9 at 2026-09-20 13:00; recovery 2026-09-20 14:30.\nseries (45 min buckets from 2026-09-20 10:00): 99.9 99.9 99.9 94.6 91.8 91.8 99.9 99.9 99.9 99.9 99.9\nbaseline: 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9\nCORE-DNS-01 resolution_ms: mean 29.5 vs baseline 10.7 (+176%); min 9.8 at 2026-09-20 17:00, max 93.8 at 2026-09-20 14:00.\nDeviation above baseline: onset 2026-09-20 12:30; worst 93.8 vs 11.3 at 2026-09-20 14:00; recovery 2026-09-20 14:30.\nseries (45 min buckets from 2026-09-20 10:00): 10.9 10.7 10.5 59 89.6 91.2 10.7 10.9 10.7 10 10.4\nbaseline: 11 10.8 10.5 10.6 10.5 11 11 10.7 10.6 10.5 10.3","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-20 18:00","entity_ids":["CORE-DNS-01"],"entity_type":"core_node","metrics":["query_success_pct","resolution_ms"],"start":"2026-09-20 10:00"},"label":"KPI measurements for core_node CORE-DNS-01 (query success pct, resolution ms), 20 Sep 10:00 to 18:00"},{"ref":"ANM-000231","text":"ANM-000231 (anomaly): CORE-DNS-01 query_success_pct drop, z -72.7, baseline 99.9 -\u003e 91.7\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000231"},{"ref":"ANM-000232","text":"ANM-000232 (anomaly): CORE-DNS-01 resolution_ms spike, z 46.6, baseline 11.1 -\u003e 93.8\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000232"}]},{"index":2,"basis":"observed","claim":"No changes, alarms, external events, or maintenance windows occurred on CORE-DNS-01 or its parents during the incident window.","evidence":[{"ref":"T2","text":"T2 get_changes(end=2026-09-20 18:00, include_ancestors=True, node_ids=['CORE-DNS-01'], start=2026-09-20 10:00)\nNo changes on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-20 18:00","include_ancestors":true,"node_ids":["CORE-DNS-01"],"region_id":null,"start":"2026-09-20 10:00"},"label":"Changes on CORE-DNS-01 and the nodes above them, 20 Sep 10:00 to 18:00"},{"ref":"T3","text":"T3 get_alarms(end=2026-09-20 18:00, include_descendants=True, min_severity=minor, node_ids=['CORE-DNS-01'], start=2026-09-20 10:00)\nNo alarms on CORE-DNS-01 and nodes below between 2026-09-20 10:00 and 2026-09-20 18:00.","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-20 18:00","include_descendants":true,"min_severity":"minor","node_ids":["CORE-DNS-01"],"region_id":null,"start":"2026-09-20 10:00"},"label":"Alarms on CORE-DNS-01 and nodes below them (minor or worse), 20 Sep 10:00 to 18:00"},{"ref":"T5","text":"T5 get_changes(end=2026-09-20 18:00, include_ancestors=True, node_ids=['CORE-DNS-01'], start=2026-09-20 06:30)\nNo changes on CORE-DNS-01 and its parents between 2026-09-20 06:30 and 2026-09-20 18:00.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-20 18:00","include_ancestors":true,"node_ids":["CORE-DNS-01"],"region_id":null,"start":"2026-09-20 06:30"},"label":"Changes on CORE-DNS-01 and the nodes above them, 20 Sep 06:30 to 18:00"},{"ref":"T7","text":"T7 get_external_events(end=2026-09-20 18:00, start=2026-09-20 10:00)\nNo external events for all regions between 2026-09-20 10:00 and 2026-09-20 18:00.","shortened":false,"found":true,"type":"call","tool":"get_external_events","args":{"end":"2026-09-20 18:00","region_id":null,"start":"2026-09-20 10:00"},"label":"External events (holidays, stadium events) in the whole network, 20 Sep 10:00 to 18:00"},{"ref":"T8","text":"T8 get_maintenance(end=2026-09-20 18:00, include_ancestors=True, node_ids=['CORE-DNS-01'], start=2026-09-20 10:00)\nNo maintenance window scheduled on CORE-DNS-01 and its parents between 2026-09-20 10:00 and 2026-09-20 18:00.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-20 18:00","include_ancestors":true,"node_ids":["CORE-DNS-01"],"region_id":null,"start":"2026-09-20 10:00"},"label":"Maintenance calendar for CORE-DNS-01 and the nodes above them, 20 Sep 10:00 to 18:00"}]}]},{"case_id":"s42-SCN-018-q0","question":"Why did usage jump around S-TUN-003 yesterday evening?","title":"Usage jump around S-TUN-003","chips":["classification: expected_event","root cause: expected_event at S-TUN-003","confidence: high"],"summary":"Major public stadium event causing a spike in active users and traffic volume near S-TUN-003 and surrounding sites.","items":[{"index":-1,"basis":"root cause","claim":"Major public stadium event causing a spike in active users and traffic volume near S-TUN-003 and surrounding sites. (Stated conclusion: expected_event, expected_event at S-TUN-003.)","evidence":[{"ref":"EVT-003","text":"EVT-003 (event): stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)\nListed by T3 (get_external_events):\nEVT-003 stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)","shortened":false,"found":true,"type":"event","label":"One external event: EVT-003"},{"ref":"T3","text":"T3 get_external_events(end=2026-09-17 23:59, region_id=TUN, start=2026-09-17 18:00)\n1 external event(s) for region TUN (and nationwide), 2026-09-17 18:00 to 2026-09-17 23:59; 0 in progress at asked_at (2026-09-18 09:46).\nEVT-003 stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)","shortened":false,"found":true,"type":"call","tool":"get_external_events","args":{"end":"2026-09-17 23:59","region_id":"TUN","start":"2026-09-17 18:00"},"label":"External events (holidays, stadium events) in region TUN, 17 Sep 18:00 to 23:59"},{"ref":"T4","text":"T4 query_kpis(end=2026-09-17 23:59, entity_ids=['S-TUN-003', 'S-TUN-002', 'S-TUN-005'], entity_type=site, metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026-09-17 18:00)\nDeviation in 6 of 9 series. Earliest onset 2026-09-17 19:15: S-TUN-003 active_users above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-18 09:46). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-003 active_users: mean 360 vs 209 (+72%); above baseline from 2026-09-17 19:15, recovered 2026-09-17 22:00.\nS-TUN-003 dl_volume_mb: mean 52174 vs 30981 (+68%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-003 prb_util_pct: mean 29.7 vs 17.5 (+70%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-002 active_users: mean 550 vs 428 (+29%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-002 dl_volume_mb: mean 83718 vs 66348 (+26%); above baseline from 2026-09-17 19:45, recovered 2026-09-17 22:00.\nS-TUN-002 prb_util_pct: mean 50.5 vs 38.1 (+33%); above baseline from 2026-09-17 19:45, recovered 2026-09-17 21:45.\nS-TUN-005 active_users: mean 92.4 vs 95.1 (-3%); no deviation.\nS-TUN-005 dl_volume_mb: mean 7033 vs 7164 (-2%); no deviation.\nS-TUN-005 prb_util_pct: mean 18.4 vs 18.7 (-2%); no deviation.","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 23:59","entity_ids":["S-TUN-003","S-TUN-002","S-TUN-005"],"entity_type":"site","metrics":["dl_volume_mb","active_users","prb_util_pct"],"start":"2026-09-17 18:00"},"label":"KPI measurements for site S-TUN-003, S-TUN-002, S-TUN-005 (downlink traffic volume, active users, radio load (PRB utilisation)), 17 Sep 18:00 to 23:59"},{"ref":"T7","text":"T7 query_kpis(end=2026-09-17 23:59, entity_ids=['S-TUN-001'], entity_type=site, metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026-09-17 18:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-17 19:15: S-TUN-001 dl_volume_mb above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-18 09:46). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-001 dl_volume_mb: mean 68248 vs baseline 43597 (+57%); min 25733 at 2026-09-17 18:00, max 132350 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:15; worst 132350 vs 54511 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 26125 28499 41089 71903 107266 119577 129529 110641 56890 51598 41301 34552\nbaseline: 27426 29409 33808 38421 44651 50835 53497 54533 53867 50565 46831 39325\nS-TUN-001 active_users: mean 495 vs baseline 314 (+58%); min 185 at 2026-09-17 18:00, max 944 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:15; worst 944 vs 387 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 187 203 286 534 800 858 938 789 395 373 320 264\nbaseline: 196 209 238 272 325 364 387 394 389 371 337 286\nS-TUN-001 prb_util_pct: mean 44.3 vs baseline 29.1 (+52%); min 16.8 at 2026-09-17 18:00, max 82.4 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:30; worst 82.4 vs 36.4 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 17 18.7 27.2 48.2 70.1 76.6 81.5 69.7 37.1 34 28 24\nbaseline: 18.5 19.6 22.5 25.6 30.1 34.1 35.8 36.4 36.1 33.7 30.6 26","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 23:59","entity_ids":["S-TUN-001"],"entity_type":"site","metrics":["dl_volume_mb","active_users","prb_util_pct"],"start":"2026-09-17 18:00"},"label":"KPI measurements for site S-TUN-001 (downlink traffic volume, active users, radio load (PRB utilisation)), 17 Sep 18:00 to 23:59"}]},{"index":0,"basis":"observed","claim":"Detector alert active spanning from 2026-09-17 16:00 to 2026-09-18 09:46 on S-TUN-003","evidence":[{"ref":"T1","text":"T1 get_anomalies(end=2026-09-18 09:46, entity_id=S-TUN-003, start=2026-09-17 16:00)\n1 detector alert(s) overlap 2026-09-17 16:00 to 2026-09-18 09:46.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0019 medium ended, 2026-09-17 19:30 to 2026-09-17 22:00 (2.5 h): Traffic, active users, latency and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 2.5 h\n  active_users spike on 1 entity: worst S-TUN-003 z 19.4, 273 -\u003e 724, 2026-09-17 19:30 to 2026-09-17 22:00\n  dl_volume_mb spike on 1 entity: worst S-TUN-003 z 17.8, 40376 -\u003e 103920, 2026-09-17 19:30 to 2026-09-17 22:00\n  prb_util_pct spike on 1 entity: worst S-TUN-003 z 12.8, 22.7 -\u003e 58.8, 2026-09-17 19:45 to 2026-09-17 22:00","shortened":false,"found":true,"type":"call","tool":"get_anomalies","args":{"end":"2026-09-18 09:46","entity_id":"S-TUN-003","region_id":null,"start":"2026-09-17 16:00"},"label":"Detector alerts in S-TUN-003, 17 Sep 16:00 to 18 Sep 09:46"}]},{"index":1,"basis":"observed","claim":"External event EVT-003 (Football match at Stade Olympique de Rades) occurred between 2026-09-17 19:04 and 2026-09-17 22:05 in region TUN","evidence":[{"ref":"T3","text":"T3 get_external_events(end=2026-09-17 23:59, region_id=TUN, start=2026-09-17 18:00)\n1 external event(s) for region TUN (and nationwide), 2026-09-17 18:00 to 2026-09-17 23:59; 0 in progress at asked_at (2026-09-18 09:46).\nEVT-003 stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)","shortened":false,"found":true,"type":"call","tool":"get_external_events","args":{"end":"2026-09-17 23:59","region_id":"TUN","start":"2026-09-17 18:00"},"label":"External events (holidays, stadium events) in region TUN, 17 Sep 18:00 to 23:59"},{"ref":"EVT-003","text":"EVT-003 (event): stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)\nListed by T3 (get_external_events):\nEVT-003 stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)","shortened":false,"found":true,"type":"event","label":"One external event: EVT-003"}]},{"index":2,"basis":"observed","claim":"KPI deviation observed on S-TUN-003, S-TUN-002, and S-TUN-001 with earliest onset at 2026-09-17 19:15","evidence":[{"ref":"T4","text":"T4 query_kpis(end=2026-09-17 23:59, entity_ids=['S-TUN-003', 'S-TUN-002', 'S-TUN-005'], entity_type=site, metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026-09-17 18:00)\nDeviation in 6 of 9 series. Earliest onset 2026-09-17 19:15: S-TUN-003 active_users above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-18 09:46). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-003 active_users: mean 360 vs 209 (+72%); above baseline from 2026-09-17 19:15, recovered 2026-09-17 22:00.\nS-TUN-003 dl_volume_mb: mean 52174 vs 30981 (+68%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-003 prb_util_pct: mean 29.7 vs 17.5 (+70%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-002 active_users: mean 550 vs 428 (+29%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-002 dl_volume_mb: mean 83718 vs 66348 (+26%); above baseline from 2026-09-17 19:45, recovered 2026-09-17 22:00.\nS-TUN-002 prb_util_pct: mean 50.5 vs 38.1 (+33%); above baseline from 2026-09-17 19:45, recovered 2026-09-17 21:45.\nS-TUN-005 active_users: mean 92.4 vs 95.1 (-3%); no deviation.\nS-TUN-005 dl_volume_mb: mean 7033 vs 7164 (-2%); no deviation.\nS-TUN-005 prb_util_pct: mean 18.4 vs 18.7 (-2%); no deviation.","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 23:59","entity_ids":["S-TUN-003","S-TUN-002","S-TUN-005"],"entity_type":"site","metrics":["dl_volume_mb","active_users","prb_util_pct"],"start":"2026-09-17 18:00"},"label":"KPI measurements for site S-TUN-003, S-TUN-002, S-TUN-005 (downlink traffic volume, active users, radio load (PRB utilisation)), 17 Sep 18:00 to 23:59"},{"ref":"T7","text":"T7 query_kpis(end=2026-09-17 23:59, entity_ids=['S-TUN-001'], entity_type=site, metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026-09-17 18:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-17 19:15: S-TUN-001 dl_volume_mb above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-18 09:46). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-001 dl_volume_mb: mean 68248 vs baseline 43597 (+57%); min 25733 at 2026-09-17 18:00, max 132350 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:15; worst 132350 vs 54511 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 26125 28499 41089 71903 107266 119577 129529 110641 56890 51598 41301 34552\nbaseline: 27426 29409 33808 38421 44651 50835 53497 54533 53867 50565 46831 39325\nS-TUN-001 active_users: mean 495 vs baseline 314 (+58%); min 185 at 2026-09-17 18:00, max 944 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:15; worst 944 vs 387 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 187 203 286 534 800 858 938 789 395 373 320 264\nbaseline: 196 209 238 272 325 364 387 394 389 371 337 286\nS-TUN-001 prb_util_pct: mean 44.3 vs baseline 29.1 (+52%); min 16.8 at 2026-09-17 18:00, max 82.4 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:30; worst 82.4 vs 36.4 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 17 18.7 27.2 48.2 70.1 76.6 81.5 69.7 37.1 34 28 24\nbaseline: 18.5 19.6 22.5 25.6 30.1 34.1 35.8 36.4 36.1 33.7 30.6 26","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 23:59","entity_ids":["S-TUN-001"],"entity_type":"site","metrics":["dl_volume_mb","active_users","prb_util_pct"],"start":"2026-09-17 18:00"},"label":"KPI measurements for site S-TUN-001 (downlink traffic volume, active users, radio load (PRB utilisation)), 17 Sep 18:00 to 23:59"}]},{"index":3,"basis":"observed","claim":"No maintenance windows scheduled on S-TUN-003, LNK-TUN-01-A, AGG-TUN-01 or parents during the event window","evidence":[{"ref":"T5","text":"T5 get_maintenance(end=2026-09-17 23:59, include_ancestors=True, node_ids=['S-TUN-003', 'LNK-TUN-01-A', 'AGG-TUN-01'], start=2026-09-17 18:00)\nNo maintenance window scheduled on S-TUN-003, LNK-TUN-01-A, AGG-TUN-01 and its parents between 2026-09-17 18:00 and 2026-09-17 23:59.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-17 23:59","include_ancestors":true,"node_ids":["S-TUN-003","LNK-TUN-01-A","AGG-TUN-01"],"region_id":null,"start":"2026-09-17 18:00"},"label":"Maintenance calendar for S-TUN-003, LNK-TUN-01-A, AGG-TUN-01 and the nodes above them, 17 Sep 18:00 to 23:59"}]},{"index":4,"basis":"inferred","claim":"The usage jump is caused by increased subscriber concentration due to the stadium event","evidence":[{"ref":"EVT-003","text":"EVT-003 (event): stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)\nListed by T3 (get_external_events):\nEVT-003 stadium_event (TUN, near S-TUN-001) 2026-09-17 19:04 -\u003e 2026-09-17 22:05: Football match at Stade Olympique de Rades (expected attendance 40,000)","shortened":false,"found":true,"type":"event","label":"One external event: EVT-003"},{"ref":"T4","text":"T4 query_kpis(end=2026-09-17 23:59, entity_ids=['S-TUN-003', 'S-TUN-002', 'S-TUN-005'], entity_type=site, metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026-09-17 18:00)\nDeviation in 6 of 9 series. Earliest onset 2026-09-17 19:15: S-TUN-003 active_users above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-18 09:46). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-003 active_users: mean 360 vs 209 (+72%); above baseline from 2026-09-17 19:15, recovered 2026-09-17 22:00.\nS-TUN-003 dl_volume_mb: mean 52174 vs 30981 (+68%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-003 prb_util_pct: mean 29.7 vs 17.5 (+70%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-002 active_users: mean 550 vs 428 (+29%); above baseline from 2026-09-17 19:30, recovered 2026-09-17 22:00.\nS-TUN-002 dl_volume_mb: mean 83718 vs 66348 (+26%); above baseline from 2026-09-17 19:45, recovered 2026-09-17 22:00.\nS-TUN-002 prb_util_pct: mean 50.5 vs 38.1 (+33%); above baseline from 2026-09-17 19:45, recovered 2026-09-17 21:45.\nS-TUN-005 active_users: mean 92.4 vs 95.1 (-3%); no deviation.\nS-TUN-005 dl_volume_mb: mean 7033 vs 7164 (-2%); no deviation.\nS-TUN-005 prb_util_pct: mean 18.4 vs 18.7 (-2%); no deviation.","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 23:59","entity_ids":["S-TUN-003","S-TUN-002","S-TUN-005"],"entity_type":"site","metrics":["dl_volume_mb","active_users","prb_util_pct"],"start":"2026-09-17 18:00"},"label":"KPI measurements for site S-TUN-003, S-TUN-002, S-TUN-005 (downlink traffic volume, active users, radio load (PRB utilisation)), 17 Sep 18:00 to 23:59"},{"ref":"T7","text":"T7 query_kpis(end=2026-09-17 23:59, entity_ids=['S-TUN-001'], entity_type=site, metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026-09-17 18:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-17 19:15: S-TUN-001 dl_volume_mb above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-18 09:46). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-001 dl_volume_mb: mean 68248 vs baseline 43597 (+57%); min 25733 at 2026-09-17 18:00, max 132350 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:15; worst 132350 vs 54511 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 26125 28499 41089 71903 107266 119577 129529 110641 56890 51598 41301 34552\nbaseline: 27426 29409 33808 38421 44651 50835 53497 54533 53867 50565 46831 39325\nS-TUN-001 active_users: mean 495 vs baseline 314 (+58%); min 185 at 2026-09-17 18:00, max 944 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:15; worst 944 vs 387 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 187 203 286 534 800 858 938 789 395 373 320 264\nbaseline: 196 209 238 272 325 364 387 394 389 371 337 286\nS-TUN-001 prb_util_pct: mean 44.3 vs baseline 29.1 (+52%); min 16.8 at 2026-09-17 18:00, max 82.4 at 2026-09-17 21:15.\nDeviation above baseline: onset 2026-09-17 19:30; worst 82.4 vs 36.4 at 2026-09-17 21:15; recovery 2026-09-17 22:00.\nseries (30 min buckets from 2026-09-17 18:00): 17 18.7 27.2 48.2 70.1 76.6 81.5 69.7 37.1 34 28 24\nbaseline: 18.5 19.6 22.5 25.6 30.1 34.1 35.8 36.4 36.1 33.7 30.6 26","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-17 23:59","entity_ids":["S-TUN-001"],"entity_type":"site","metrics":["dl_volume_mb","active_users","prb_util_pct"],"start":"2026-09-17 18:00"},"label":"KPI measurements for site S-TUN-001 (downlink traffic volume, active users, radio load (PRB utilisation)), 17 Sep 18:00 to 23:59"}]}]},{"case_id":"s42-SCN-001-q0","question":"Why was nationwide traffic down today?","title":"Nationwide Traffic Drop on Public Holiday","chips":["classification: expected_event","root cause: expected_event","confidence: high"],"summary":"Nationwide public holiday causing reduced traffic and active users due to government offices and most businesses being closed.","items":[{"index":-1,"basis":"root cause","claim":"Nationwide public holiday causing reduced traffic and active users due to government offices and most businesses being closed. (Stated conclusion: expected_event, expected_event.)","evidence":[{"ref":"EVT-001","text":"EVT-001 (event): public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed\nListed by T3 (get_external_events):\nEVT-001 public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed","shortened":false,"found":true,"type":"event","label":"One external event: EVT-001"},{"ref":"T2","text":"T2 query_kpis(end=2026-09-03 08:49, entity_ids=[], entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-03 00:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-03 07:15: NATIONAL dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-03 08:49). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier weekdays with data; treat small deviations with caution.\nNATIONAL dl_volume_mb: mean 335880 vs baseline 388197 (-13%); min 139673 at 2026-09-03 03:30, max 730318 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 484208 vs 588081 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 546500 359454 242253 175303 144208 143011 163982 220448 308531 442641 583074 701150\nbaseline: 598812 392608 263598 193228 163085 159988 184568 250354 362174 524416 707722 857816\nNATIONAL ul_volume_mb: mean 52589 vs baseline 60910 (-14%); min 21756 at 2026-09-03 03:45, max 114371 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 76485 vs 92646 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 85106 55967 37832 27469 22548 22344 25590 34526 48419 69623 91734 109908\nbaseline: 93483 61580 41220 30342 25518 25090 28923 39319 56949 82528 111501 134464\nNATIONAL active_users: mean 2880 vs baseline 3283 (-12%); min 1220 at 2026-09-03 03:45, max 6180 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 4134 vs 4902 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 4740 3145 2100 1524 1259 1243 1415 1880 2632 3746 4962 5918\nbaseline: 5177 3409 2261 1648 1394 1368 1575 2115 3052 4388 5879 7128","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-03 08:49","entity_ids":[],"entity_type":"national","metrics":["dl_volume_mb","ul_volume_mb","active_users"],"start":"2026-09-03 00:00"},"label":"KPI measurements for the national (downlink traffic volume, uplink traffic volume, active users), 3 Sep 00:00 to 08:49"},{"ref":"T3","text":"T3 get_external_events(end=2026-09-03 08:49, start=2026-09-03 00:00)\n1 external event(s) for all regions, 2026-09-03 00:00 to 2026-09-03 08:49; 1 in progress at asked_at (2026-09-03 08:49).\nEVT-001 public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed","shortened":false,"found":true,"type":"call","tool":"get_external_events","args":{"end":"2026-09-03 08:49","region_id":null,"start":"2026-09-03 00:00"},"label":"External events (holidays, stadium events) in the whole network, 3 Sep 00:00 to 08:49"}]},{"index":0,"basis":"observed","claim":"No detector alerts occurred for the network between 2026-09-02 22:00 and 2026-09-03 08:49.","evidence":[{"ref":"T1","text":"T1 get_anomalies(end=2026-09-03 08:49, start=2026-09-02 22:00)\nNo detector alerts for the network between 2026-09-02 22:00 and 2026-09-03 08:49.","shortened":false,"found":true,"type":"call","tool":"get_anomalies","args":{"end":"2026-09-03 08:49","entity_id":null,"region_id":null,"start":"2026-09-02 22:00"},"label":"Detector alerts in the whole network, 2 Sep 22:00 to 3 Sep 08:49"}]},{"index":1,"basis":"observed","claim":"NATIONAL dl_volume_mb, ul_volume_mb, and active_users showed deviations below baseline starting at 2026-09-03 07:15.","evidence":[{"ref":"T2","text":"T2 query_kpis(end=2026-09-03 08:49, entity_ids=[], entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-03 00:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-03 07:15: NATIONAL dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-03 08:49). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier weekdays with data; treat small deviations with caution.\nNATIONAL dl_volume_mb: mean 335880 vs baseline 388197 (-13%); min 139673 at 2026-09-03 03:30, max 730318 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 484208 vs 588081 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 546500 359454 242253 175303 144208 143011 163982 220448 308531 442641 583074 701150\nbaseline: 598812 392608 263598 193228 163085 159988 184568 250354 362174 524416 707722 857816\nNATIONAL ul_volume_mb: mean 52589 vs baseline 60910 (-14%); min 21756 at 2026-09-03 03:45, max 114371 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 76485 vs 92646 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 85106 55967 37832 27469 22548 22344 25590 34526 48419 69623 91734 109908\nbaseline: 93483 61580 41220 30342 25518 25090 28923 39319 56949 82528 111501 134464\nNATIONAL active_users: mean 2880 vs baseline 3283 (-12%); min 1220 at 2026-09-03 03:45, max 6180 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 4134 vs 4902 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 4740 3145 2100 1524 1259 1243 1415 1880 2632 3746 4962 5918\nbaseline: 5177 3409 2261 1648 1394 1368 1575 2115 3052 4388 5879 7128","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-03 08:49","entity_ids":[],"entity_type":"national","metrics":["dl_volume_mb","ul_volume_mb","active_users"],"start":"2026-09-03 00:00"},"label":"KPI measurements for the national (downlink traffic volume, uplink traffic volume, active users), 3 Sep 00:00 to 08:49"}]},{"index":2,"basis":"observed","claim":"A nationwide public holiday EVT-001 has been in progress since 2026-09-03 00:00 where government offices and most businesses are closed.","evidence":[{"ref":"EVT-001","text":"EVT-001 (event): public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed\nListed by T3 (get_external_events):\nEVT-001 public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed","shortened":false,"found":true,"type":"event","label":"One external event: EVT-001"},{"ref":"T3","text":"T3 get_external_events(end=2026-09-03 08:49, start=2026-09-03 00:00)\n1 external event(s) for all regions, 2026-09-03 00:00 to 2026-09-03 08:49; 1 in progress at asked_at (2026-09-03 08:49).\nEVT-001 public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed","shortened":false,"found":true,"type":"call","tool":"get_external_events","args":{"end":"2026-09-03 08:49","region_id":null,"start":"2026-09-03 00:00"},"label":"External events (holidays, stadium events) in the whole network, 3 Sep 00:00 to 08:49"},{"ref":"T7","text":"T7 run_sql(query=SELECT * FROM external_events)\n1 row(s) (tables clamped to asked_at 2026-09-03 08:49; times local)\nevent_id | region_id | node_id | event_type | start_at | end_at | description\nEVT-001 | NULL | NULL | public_holiday | 2026-09-03 00:00 | NULL | National public holiday: government offices a...","shortened":false,"found":true,"type":"call","tool":"run_sql","args":{"query":"SELECT * FROM external_events"},"label":"Database query: SELECT * FROM external_events"}]},{"index":3,"basis":"observed","claim":"No maintenance window was scheduled on any node between 2026-09-03 00:00 and 2026-09-03 08:49.","evidence":[{"ref":"T4","text":"T4 get_maintenance(end=2026-09-03 08:49, include_ancestors=True, start=2026-09-03 00:00)\nNo maintenance window scheduled on any node between 2026-09-03 00:00 and 2026-09-03 08:49.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-03 08:49","include_ancestors":true,"node_ids":null,"region_id":null,"start":"2026-09-03 00:00"},"label":"Maintenance calendar for the whole network, 3 Sep 00:00 to 08:49"}]},{"index":4,"basis":"observed","claim":"One software upgrade change (CHG-2026-0003) occurred on S-SUD-003 at 2026-09-03 01:35.","evidence":[{"ref":"CHG-2026-0003","text":"CHG-2026-0003 (change): software_upgrade on S-SUD-003 at 2026-09-03 01:35: Security hotfix installed on S-SUD-003\nListed by T8 (get_changes):\n2026-09-03 01:35 CHG-2026-0003 software_upgrade on S-SUD-003: Security hotfix installed on S-SUD-003","shortened":false,"found":true,"type":"change","label":"One configuration change: CHG-2026-0003"},{"ref":"T8","text":"T8 get_changes(end=2026-09-03 08:49, include_ancestors=True, start=2026-09-03 00:00)\n1 change(s) on any node, 2026-09-03 00:00 to 2026-09-03 08:49 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-03 08:49).\n2026-09-03 01:35 CHG-2026-0003 software_upgrade on S-SUD-003: Security hotfix installed on S-SUD-003","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-03 08:49","include_ancestors":true,"node_ids":null,"region_id":null,"start":"2026-09-03 00:00"},"label":"Changes on the whole network, 3 Sep 00:00 to 08:49"}]},{"index":5,"basis":"inferred","claim":"The traffic drop is a direct consequence of reduced normal business and weekday usage due to the national public holiday.","evidence":[{"ref":"EVT-001","text":"EVT-001 (event): public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed\nListed by T3 (get_external_events):\nEVT-001 public_holiday (nationwide) since 2026-09-03 00:00, in progress: National public holiday: government offices and most businesses closed","shortened":false,"found":true,"type":"event","label":"One external event: EVT-001"},{"ref":"T2","text":"T2 query_kpis(end=2026-09-03 08:49, entity_ids=[], entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-03 00:00)\nDeviation in 3 of 3 series. Earliest onset 2026-09-03 07:15: NATIONAL dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-03 08:49). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier weekdays with data; treat small deviations with caution.\nNATIONAL dl_volume_mb: mean 335880 vs baseline 388197 (-13%); min 139673 at 2026-09-03 03:30, max 730318 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 484208 vs 588081 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 546500 359454 242253 175303 144208 143011 163982 220448 308531 442641 583074 701150\nbaseline: 598812 392608 263598 193228 163085 159988 184568 250354 362174 524416 707722 857816\nNATIONAL ul_volume_mb: mean 52589 vs baseline 60910 (-14%); min 21756 at 2026-09-03 03:45, max 114371 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 76485 vs 92646 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 85106 55967 37832 27469 22548 22344 25590 34526 48419 69623 91734 109908\nbaseline: 93483 61580 41220 30342 25518 25090 28923 39319 56949 82528 111501 134464\nNATIONAL active_users: mean 2880 vs baseline 3283 (-12%); min 1220 at 2026-09-03 03:45, max 6180 at 2026-09-03 08:45.\nDeviation below baseline: onset 2026-09-03 07:15; worst 4134 vs 4902 at 2026-09-03 07:15; not recovered by the last step (2026-09-03 08:45).\nseries (45 min buckets from 2026-09-03 00:00): 4740 3145 2100 1524 1259 1243 1415 1880 2632 3746 4962 5918\nbaseline: 5177 3409 2261 1648 1394 1368 1575 2115 3052 4388 5879 7128","shortened":false,"found":true,"type":"call","tool":"query_kpis","args":{"end":"2026-09-03 08:49","entity_ids":[],"entity_type":"national","metrics":["dl_volume_mb","ul_volume_mb","active_users"],"start":"2026-09-03 00:00"},"label":"KPI measurements for the national (downlink traffic volume, uplink traffic volume, active users), 3 Sep 00:00 to 08:49"}]}]},{"case_id":"s42-SCN-016-q0","question":"Traffic is down and latency is up at S-TUN-008 yesterday afternoon. What is going on?","title":"Transport Degradation at S-TUN-008 due to Microwave Link LNK-TUN-02-B","chips":["classification: incident","root cause: transport_degradation at LNK-TUN-02-B","confidence: medium"],"summary":"Microwave link LNK-TUN-02-B experienced a major LINK_DEGRADED condition, running at reduced modulation with RSL below threshold, leading to traffic reduction and latency spikes on downstream sites.","items":[{"index":-1,"basis":"root cause","claim":"Microwave link LNK-TUN-02-B experienced a major LINK_DEGRADED condition, running at reduced modulation with RSL below threshold, leading to traffic reduction and latency spikes on downstream sites. (Stated conclusion: incident, transport_degradation at LNK-TUN-02-B.)","evidence":[{"ref":"ALM-000305","text":"ALM-000305 (alarm): major LINK_DEGRADED on LNK-TUN-02-B, raised 2026-09-16 14:07, cleared 2026-09-16 18:57\nListed by T4 (get_alarms):\nEarliest critical/major: 2026-09-16 14:07 LINK_DEGRADED on LNK-TUN-02-B (ALM-000305).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000305"},{"ref":"RB-MICROWAVE-DEGRADATION#02","text":"RB-MICROWAVE-DEGRADATION#02 (runbook): Microwave link degradation \u003e Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run...\nListed by T8 (search_runbooks):\n[RB-MICROWAVE-DEGRADATION#02] Microwave link degradation \u003e Signature in the data: Alarm. `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"running at reduced modulation, RSL below threshold\"). It clears a few minutes after recovery. Downstream sites (three to five behind that link): `dl_volume_mb` down 20 to 50 percent, `latency_ms` up 30 to 100 percent. Availability. ... Shape. ... Exactly the children of the...","shortened":false,"found":true,"type":"runbook","label":"One runbook excerpt: RB-MICROWAVE-DEGRADATION#02"}]},{"index":0,"basis":"observed","claim":"S-TUN-008 depends on microwave link LNK-TUN-02-B, aggregator AGG-TUN-02, and core router CORE-UPF-01.","evidence":[{"ref":"T2","text":"T2 get_topology(include=all, node_id=S-TUN-008)\nDepends on (child -\u003e parent -\u003e core): S-TUN-008 (site) -\u003e LNK-TUN-02-B (microwave link) -\u003e AGG-TUN-02 (agg router) -\u003e CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-008: site, TUN, La Goulette, urban.\nCells: C-TUN-008-1, C-TUN-008-2, C-TUN-008-3.\nSiblings under LNK-TUN-02-B: S-TUN-009, S-TUN-017.","shortened":false,"found":true,"type":"call","tool":"get_topology","args":{"include":"all","node_id":"S-TUN-008"},"label":"Network map around S-TUN-008: what it depends on, what is below it and its neighbours"},{"ref":"S-TUN-008","text":"S-TUN-008 (node): site, TUN, La Goulette, urban; chain: S-TUN-008 -\u003e LNK-TUN-02-B -\u003e AGG-TUN-02 -\u003e CORE-UPF-01\nListed by T2 (get_topology):\nDepends on (child -\u003e parent -\u003e core): S-TUN-008 (site) -\u003e LNK-TUN-02-B (microwave link) -\u003e AGG-TUN-02 (agg router) -\u003e CORE-UPF-01 (core upf)","shortened":false,"found":true,"type":"node","label":"One network node: S-TUN-008"}]},{"index":1,"basis":"observed","claim":"A major LINK_DEGRADED alarm occurred on microwave link LNK-TUN-02-B from 14:07 to 18:57.","evidence":[{"ref":"T4","text":"T4 get_alarms(end=2026-09-16 20:00, include_descendants=True, node_ids=['S-TUN-008', 'LNK-TUN-02-B', 'AGG-TUN-02'], start=2026-09-16 12:00)\n1 alarm(s) on S-TUN-008, LNK-TUN-02-B, AGG-TUN-02 and nodes below, 2026-09-16 12:00 to 2026-09-16 20:00: 1 major; 0 active at asked_at (2026-09-17 09:31).\nEarliest critical/major: 2026-09-16 14:07 LINK_DEGRADED on LNK-TUN-02-B (ALM-000305).\n2026-09-16 14:07 ALM-000305 major LINK_DEGRADED LNK-TUN-02-B: cleared 2026-09-16 18:57","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-16 20:00","include_descendants":true,"min_severity":null,"node_ids":["S-TUN-008","LNK-TUN-02-B","AGG-TUN-02"],"region_id":null,"start":"2026-09-16 12:00"},"label":"Alarms on S-TUN-008, LNK-TUN-02-B, AGG-TUN-02 and nodes below them, 16 Sep 12:00 to 20:00"},{"ref":"T6","text":"T6 get_alarms(end=2026-09-16 20:00, include_descendants=True, min_severity=minor, node_ids=['LNK-TUN-02-B'], start=2026-09-16 12:00)\n1 alarm(s) on LNK-TUN-02-B and nodes below, 2026-09-16 12:00 to 2026-09-16 20:00: 1 major; 0 active at asked_at (2026-09-17 09:31).\nEarliest critical/major: 2026-09-16 14:07 LINK_DEGRADED on LNK-TUN-02-B (ALM-000305).\n2026-09-16 14:07 ALM-000305 major LINK_DEGRADED LNK-TUN-02-B: cleared 2026-09-16 18:57","shortened":false,"found":true,"type":"call","tool":"get_alarms","args":{"alarm_types":null,"end":"2026-09-16 20:00","include_descendants":true,"min_severity":"minor","node_ids":["LNK-TUN-02-B"],"region_id":null,"start":"2026-09-16 12:00"},"label":"Alarms on LNK-TUN-02-B and nodes below them (minor or worse), 16 Sep 12:00 to 20:00"},{"ref":"ALM-000305","text":"ALM-000305 (alarm): major LINK_DEGRADED on LNK-TUN-02-B, raised 2026-09-16 14:07, cleared 2026-09-16 18:57\nListed by T4 (get_alarms):\nEarliest critical/major: 2026-09-16 14:07 LINK_DEGRADED on LNK-TUN-02-B (ALM-000305).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000305"}]},{"index":2,"basis":"observed","claim":"No configuration changes were made on S-TUN-008, LNK-TUN-02-B, or AGG-TUN-02 between 12:00 and 20:00.","evidence":[{"ref":"T5","text":"T5 get_changes(end=2026-09-16 20:00, include_ancestors=True, node_ids=['S-TUN-008', 'LNK-TUN-02-B', 'AGG-TUN-02'], start=2026-09-16 12:00)\nNo changes on S-TUN-008, LNK-TUN-02-B, AGG-TUN-02 and its parents between 2026-09-16 12:00 and 2026-09-16 20:00.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-16 20:00","include_ancestors":true,"node_ids":["S-TUN-008","LNK-TUN-02-B","AGG-TUN-02"],"region_id":null,"start":"2026-09-16 12:00"},"label":"Changes on S-TUN-008, LNK-TUN-02-B, AGG-TUN-02 and the nodes above them, 16 Sep 12:00 to 20:00"}]},{"index":3,"basis":"observed","claim":"No maintenance windows were scheduled on S-TUN-008 or LNK-TUN-02-B during the incident window.","evidence":[{"ref":"T7","text":"T7 get_maintenance(end=2026-09-16 20:00, include_ancestors=True, node_ids=['S-TUN-008', 'LNK-TUN-02-B'], start=2026-09-16 12:00)\nNo maintenance window scheduled on S-TUN-008, LNK-TUN-02-B and its parents between 2026-09-16 12:00 and 2026-09-16 20:00.","shortened":false,"found":true,"type":"call","tool":"get_maintenance","args":{"end":"2026-09-16 20:00","include_ancestors":true,"node_ids":["S-TUN-008","LNK-TUN-02-B"],"region_id":null,"start":"2026-09-16 12:00"},"label":"Maintenance calendar for S-TUN-008, LNK-TUN-02-B and the nodes above them, 16 Sep 12:00 to 20:00"}]},{"index":4,"basis":"observed","claim":"Latency spiked at S-TUN-008 with a z-score of 5.1, moving from a baseline of 21.1 to 28.9 ms.","evidence":[{"ref":"ANM-000213","text":"ANM-000213 (anomaly): S-TUN-008 latency_ms spike, z 5.1, baseline 21.1 -\u003e 28.9\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000213"}]}]},{"case_id":"s42-SCN-002-q0","question":"S-SFX-001 shows poor accessibility since 03:50. Why?","title":"Accessibility Degradation on S-SFX-001 and S-SFX-007","chips":["classification: incident","root cause: bad_change at S-SFX-001","confidence: medium"],"summary":"Configuration change CHG-2026-0008 pushed to S-SFX-001 (and CHG-2026-0009 to S-SFX-007) at 03:52 introducing regression in admission control and RRC timers.","items":[{"index":-1,"basis":"root cause","claim":"Configuration change CHG-2026-0008 pushed to S-SFX-001 (and CHG-2026-0009 to S-SFX-007) at 03:52 introducing regression in admission control and RRC timers. (Stated conclusion: incident, bad_change at S-SFX-001.)","evidence":[{"ref":"CHG-2026-0008","text":"CHG-2026-0008 (change): config_push on S-SFX-001 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) [in effect (not rolled back)]\nListed by T5 (get_changes):\n2026-09-05 03:52 CHG-2026-0008 config_push on S-SFX-001: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) -\u003e in effect (not rolled back)","shortened":false,"found":true,"type":"change","label":"One configuration change: CHG-2026-0008"},{"ref":"CHG-2026-0009","text":"CHG-2026-0009 (change): config_push on S-SFX-007 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) [in effect (not rolled back)]\nListed by T6 (get_changes):\n2026-09-05 03:52 CHG-2026-0009 config_push on S-SFX-007: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) -\u003e in effect (not rolled back)","shortened":false,"found":true,"type":"change","label":"One configuration change: CHG-2026-0009"},{"ref":"ALR-0002","text":"ALR-0002 (alert): ongoing alert from 2026-09-05 03:45: 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; metrics: drop_rate_pct, rrc_success_pct\nListed by T1 (get_anomalies):\nALR-0002 ONGOING since 2026-09-05 03:45 (4.8 h so far); 5 anomalies so far on 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; severity not final\ndrop_rate_pct spike on 1 entity: ongoing, e.g. S-SFX-001 since 2026-09-05 03:45\nrrc_success_pct drop on 1 entity: ongoing, e.g. S-SFX-001 since 2026-09-05 03:45","shortened":false,"found":true,"type":"alert","label":"One detector alert: ALR-0002"}]},{"index":0,"basis":"observed","claim":"S-SFX-001 and S-SFX-007 experienced drops in rrc_success_pct and spikes in drop_rate_pct starting around 03:45 to 03:50.","evidence":[{"ref":"ALR-0002","text":"ALR-0002 (alert): ongoing alert from 2026-09-05 03:45: 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; metrics: drop_rate_pct, rrc_success_pct\nListed by T1 (get_anomalies):\nALR-0002 ONGOING since 2026-09-05 03:45 (4.8 h so far); 5 anomalies so far on 2 site(s) (S-SFX-001, S-SFX-007); region-level SFX; severity not final\ndrop_rate_pct spike on 1 entity: ongoing, e.g. S-SFX-001 since 2026-09-05 03:45\nrrc_success_pct drop on 1 entity: ongoing, e.g. S-SFX-001 since 2026-09-05 03:45","shortened":false,"found":true,"type":"alert","label":"One detector alert: ALR-0002"},{"ref":"ANM-000048","text":"ANM-000048 (anomaly): S-SFX-001 drop_rate_pct spike, ongoing since 2026-09-05 03:45\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000048"},{"ref":"ANM-000049","text":"ANM-000049 (anomaly): S-SFX-001 rrc_success_pct drop, ongoing since 2026-09-05 03:45\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000049"}]},{"index":1,"basis":"observed","claim":"Configuration changes CHG-2026-0008 and CHG-2026-0009 pushed RAN parameter template RT-2.4 to S-SFX-001 and S-SFX-007 at 03:52.","evidence":[{"ref":"CHG-2026-0008","text":"CHG-2026-0008 (change): config_push on S-SFX-001 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) [in effect (not rolled back)]\nListed by T5 (get_changes):\n2026-09-05 03:52 CHG-2026-0008 config_push on S-SFX-001: Push RAN parameter template RT-2.4 to S-SFX-001 (admission control, RRC timers) -\u003e in effect (not rolled back)","shortened":false,"found":true,"type":"change","label":"One configuration change: CHG-2026-0008"},{"ref":"CHG-2026-0009","text":"CHG-2026-0009 (change): config_push on S-SFX-007 at 2026-09-05 03:52: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) [in effect (not rolled back)]\nListed by T6 (get_changes):\n2026-09-05 03:52 CHG-2026-0009 config_push on S-SFX-007: Push RAN parameter template RT-2.4 to S-SFX-007 (admission control, RRC timers) -\u003e in effect (not rolled back)","shortened":false,"found":true,"type":"change","label":"One configuration change: CHG-2026-0009"}]},{"index":2,"basis":"observed","claim":"Minor RRC_FAILURE_RATE_HIGH alarms were raised on both affected sites shortly after the configuration push.","evidence":[{"ref":"ALM-000073","text":"ALM-000073 (alarm): minor RRC_FAILURE_RATE_HIGH on S-SFX-007, raised 2026-09-05 04:25, active\nListed by T4 (get_alarms):\n2026-09-05 04:25 ALM-000073 minor RRC_FAILURE_RATE_HIGH S-SFX-007 (below LNK-SFX-02-B): active","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000073"},{"ref":"ALM-000074","text":"ALM-000074 (alarm): minor RRC_FAILURE_RATE_HIGH on S-SFX-001, raised 2026-09-05 04:27, active\nListed by T4 (get_alarms):\n2026-09-05 04:27 ALM-000074 minor RRC_FAILURE_RATE_HIGH S-SFX-001 (below LNK-SFX-02-B): active","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000074"}]}]},{"case_id":"s42-SCN-012-q0","question":"Why did traffic fall to nothing at S-SFX-005 last night?","title":"Traffic Drop at S-SFX-005 due to Planned Fiber Maintenance","chips":["classification: planned_maintenance","root cause: planned_maintenance at LNK-SFX-01-A","confidence: high"],"summary":"Planned fiber splice work on link LNK-SFX-01-A caused downstream sites including S-SFX-005 to go offline.","items":[{"index":-1,"basis":"root cause","claim":"Planned fiber splice work on link LNK-SFX-01-A caused downstream sites including S-SFX-005 to go offline. (Stated conclusion: planned_maintenance, planned_maintenance at LNK-SFX-01-A.)","evidence":[{"ref":"MW-0005","text":"MW-0005 (maintenance): completed window 2026-09-12 03:21 -\u003e 2026-09-12 06:19 on LNK-SFX-01-A: Planned fibre splice work on LNK-SFX-01-A; expected impact: Downstream sites offline during spli...\nListed by T5 (get_maintenance):\nMW-0005 completed 2026-09-12 03:21 -\u003e 2026-09-12 06:19 on LNK-SFX-01-A, covers 3 sites below: Planned fibre splice work on LNK-SFX-01-A; expected impact: Downstream sites offline during splicing","shortened":false,"found":true,"type":"maintenance","label":"One maintenance window: MW-0005"},{"ref":"ALM-000212","text":"ALM-000212 (alarm): critical LINK_LOS on LNK-SFX-01-A, raised 2026-09-12 03:28, cleared 2026-09-12 06:13\nListed by T3 (get_alarms):\nEarliest critical/major: 2026-09-12 03:28 LINK_LOS on LNK-SFX-01-A (ALM-000212); within 10 min after: SITE_DOWN x3 (S-SFX-005, S-SFX-004, S-SFX-006).","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000212"},{"ref":"ALM-000213","text":"ALM-000213 (alarm): critical SITE_DOWN on S-SFX-005, raised 2026-09-12 03:29, cleared 2026-09-12 06:13\nListed by T3 (get_alarms):\n2026-09-12 03:29 ALM-000213 critical SITE_DOWN S-SFX-005: cleared 2026-09-12 06:13","shortened":false,"found":true,"type":"alarm","label":"One alarm: ALM-000213"}]},{"index":0,"basis":"observed","claim":"Traffic, active users, and availability dropped to zero at S-SFX-005 between 2026-09-12 03:15 and 06:15.","evidence":[{"ref":"ALR-0012","text":"ALR-0012 (alert): ended alert from 2026-09-12 03:15: 3 site(s) (S-SFX-004, S-SFX-005, S-SFX-006); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb\nListed by T1 (get_anomalies):\nALR-0012 high ended, 2026-09-12 03:15 to 2026-09-12 06:15 (3.0 h): Traffic, active users and availability drop on 3 sites in SFX (S-SFX-004, S-SFX-005, S-SFX-006) for 3 h\nactive_users drop on 1 entity: worst S-SFX-005 z -12.0, 7.05 -\u003e 0, 2026-09-12 03:30 to 2026-09-12 06:00\navailability_pct drop on 1 entity: worst S-SFX-005 z -100.0, 100 -\u003e 0, 2026-09-12 03:15 to 2026-09-12 06:15\ndl_volume_mb drop on 1 entity: worst S-SFX-005 z -11.8, 546 -\u003e 0, 2026-09-12 03:30 to 2026-09-12 06:00","shortened":false,"found":true,"type":"alert","label":"One detector alert: ALR-0012"},{"ref":"ANM-000174","text":"ANM-000174 (anomaly): S-SFX-005 active_users drop, z -12.0, baseline 7.05 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000174"},{"ref":"ANM-000169","text":"ANM-000169 (anomaly): S-SFX-005 availability_pct drop, z -100.0, baseline 100 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000169"},{"ref":"ANM-000175","text":"ANM-000175 (anomaly): S-SFX-005 dl_volume_mb drop, z -11.8, baseline 546 -\u003e 0\nReturned by T1 (get_anomalies).","shortened":false,"found":true,"type":"anomaly","label":"One detected anomaly: ANM-000175"}]},{"index":1,"basis":"observed","claim":"S-SFX-005 depends on LNK-SFX-01-A, AGG-SFX-01, and CORE-UPF-02.","evidence":[{"ref":"T2","text":"T2 get_topology(include=all, node_id=S-SFX-005)\nDepends on (child -\u003e parent -\u003e core): S-SFX-005 (site) -\u003e LNK-SFX-01-A (fiber link) -\u003e AGG-SFX-01 (agg router) -\u003e CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-005: site, SFX, Thyna, rural.\nCells: C-SFX-005-1, C-SFX-005-2, C-SFX-005-3.\nSiblings under LNK-SFX-01-A: S-SFX-004, S-SFX-006.","shortened":false,"found":true,"type":"call","tool":"get_topology","args":{"include":"all","node_id":"S-SFX-005"},"label":"Network map around S-SFX-005: what it depends on, what is below it and its neighbours"}]},{"index":2,"basis":"observed","claim":"A fiber splice maintenance window MW-0005 was active on LNK-SFX-01-A during the incident time.","evidence":[{"ref":"MW-0005","text":"MW-0005 (maintenance): completed window 2026-09-12 03:21 -\u003e 2026-09-12 06:19 on LNK-SFX-01-A: Planned fibre splice work on LNK-SFX-01-A; expected impact: Downstream sites offline during spli...\nListed by T5 (get_maintenance):\nMW-0005 completed 2026-09-12 03:21 -\u003e 2026-09-12 06:19 on LNK-SFX-01-A, covers 3 sites below: Planned fibre splice work on LNK-SFX-01-A; expected impact: Downstream sites offline during splicing","shortened":false,"found":true,"type":"maintenance","label":"One maintenance window: MW-0005"}]},{"index":3,"basis":"observed","claim":"No configuration changes occurred on the affected nodes and parents during the window.","evidence":[{"ref":"T4","text":"T4 get_changes(end=2026-09-12 08:36, include_ancestors=True, node_ids=['S-SFX-005', 'LNK-SFX-01-A', 'AGG-SFX-01'], start=2026-09-11 18:00)\nNo changes on S-SFX-005, LNK-SFX-01-A, AGG-SFX-01 and its parents between 2026-09-11 18:00 and 2026-09-12 08:36.","shortened":false,"found":true,"type":"call","tool":"get_changes","args":{"end":"2026-09-12 08:36","include_ancestors":true,"node_ids":["S-SFX-005","LNK-SFX-01-A","AGG-SFX-01"],"region_id":null,"start":"2026-09-11 18:00"},"label":"Changes on S-SFX-005, LNK-SFX-01-A, AGG-SFX-01 and the nodes above them, 11 Sep 18:00 to 12 Sep 08:36"}]}]}]}</script>
+<script>
+(function () {
+  'use strict';
+  var DATA = JSON.parse(document.getElementById('pack-data').textContent);
+  var VERDICTS = DATA.rubric.verdicts;
+  var GLOSSARY = DATA.glossary || [];
+  var STORE_PREFIX = 'incident-grading:';
+  var STORE_KEY = STORE_PREFIX + DATA.pack_id;
+  var state = { rater: '', grades: {}, notes: {}, r: 0, i: 0, helpSeen: false };
+  var storageOk = true;
+  var unfolded = {};      // evidence boxes shown in full, by item and reference (kept while the page is open)
+  var glossOpen = false;
+
+  // --- saved session -------------------------------------------------------------------------
+
+  function adopt(s, overwrite) {
+    if (!s || typeof s !== 'object') return;
+    if (s.rater && (overwrite || !state.rater)) state.rater = s.rater;
+    Object.keys(s.grades || {}).forEach(function (k) {
+      var g = s.grades[k], cur = state.grades[k];
+      if (!g) return;
+      if (!cur) { state.grades[k] = { v: g.v || null, c: g.c || '' }; return; }
+      if (!cur.v && g.v) cur.v = g.v;
+      if (!cur.c && g.c) cur.c = g.c;
+    });
+    Object.keys(s.notes || {}).forEach(function (k) { if (s.notes[k] && !state.notes[k]) state.notes[k] = s.notes[k]; });
+    if (s.helpSeen) state.helpSeen = true;
+  }
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(STORE_KEY);
+      if (raw) {
+        var s = JSON.parse(raw);
+        adopt(s, true);
+        state.r = Math.min(s.r || 0, DATA.reports.length - 1); state.i = s.i || 0;
+        return;
+      }
+      // First visit of this pack: carry over the grades of a session saved by an earlier page
+      // (the key follows the pack content, which changes when the pack or the page is rebuilt).
+      for (var n = 0; n < window.localStorage.length; n++) {
+        var k = window.localStorage.key(n);
+        if (!k || k.indexOf(STORE_PREFIX) !== 0 || k === STORE_KEY) continue;
+        try { adopt(JSON.parse(window.localStorage.getItem(k)), false); } catch (e2) { /* unreadable: skip */ }
+      }
+    } catch (e) { storageOk = false; }
+  }
+  function save() {
+    var el = document.getElementById('saved');
+    try {
+      window.localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      el.textContent = storageOk ? 'Saved in this browser' : '';
+      el.className = 'saved';
+    } catch (e) {
+      storageOk = false;
+      el.textContent = 'Autosave is unavailable here: export often';
+      el.className = 'saved warn';
+    }
+  }
+
+  function key(report, item) { return report.case_id + '|' + item.index; }
+  function gradeOf(report, item) { return state.grades[key(report, item)] || null; }
+  function reportDone(report) {
+    return report.items.filter(function (it) { return gradeOf(report, it) && gradeOf(report, it).v; }).length;
+  }
+  function totals() {
+    var done = 0, all = 0;
+    DATA.reports.forEach(function (r) { done += reportDone(r); all += r.items.length; });
+    return { done: done, all: all };
+  }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  // --- reading aids: tokens, highlighting, glossary ---------------------------------------------
+
+  var MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+  // groups: 1-5 ISO date and optional time; 6-7 "21 Sep"; 8-9 time; 10 reference or node ID; 11 alarm type; 12 number with unit; 13 other number; 14-15 "Sep 21"
+  var TOKEN_SRC = [
+    '\\b(\\d{4})-(\\d{2})-(\\d{2})(?:[ T](\\d{1,2}):(\\d{2})(?::\\d{2})?)?',
+    '\\b(\\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\\b',
+    '\\b(\\d{1,2}):(\\d{2})(?::\\d{2})?\\b',
+    '\\b((?:S|LNK|AGG|CORE|C|ALM|CHG|MW|EVT|ALR|ANM|RB)-[A-Z0-9]+(?:-[A-Z0-9]+)*(?:#\\d+)?)',
+    '\\b([A-Z]{2,}(?:_[A-Z]+)+)\\b',
+    '\\b(\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?|\\d+(?:\\.\\d+)?)\\s?(?:%|ms|MB|GB|Gbps|Mbps|km|dB|min|h|s|hours?|minutes?|days?|percent|users?|sites?|cells?|alarms?|nodes?|links?|changes?|alerts?)(?![A-Za-z_])',
+    '\\b(\\d+\\.\\d+|(?!(?:19|20)\\d\\d\\b)\\d{3,})\\b',
+    '\\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* (\\d{1,2})\\b(?!:)'
+  ].join('|');
+  var ID_TERM = { S: 'S-', C: 'C-', LNK: 'LNK-', AGG: 'AGG-', CORE: 'CORE-', ALM: 'ALM', CHG: 'CHG', MW: 'MW', EVT: 'EVT', ALR: 'ALR', ANM: 'ANM', RB: 'RB' };
+  var TERMS = {}, WORDS = [];
+  GLOSSARY.forEach(function (g) {
+    TERMS[g.term] = g;
+    g.match.forEach(function (src) { WORDS.push({ src: src, g: g }); });
+  });
+  WORDS.sort(function (a, b) { return b.src.length - a.src.length; });
+  var WORD_RE_SRC = WORDS.map(function (w) { return '(?:' + w.src + ')'; }).join('|');
+  WORDS.forEach(function (w) { w.full = new RegExp('^(?:' + w.src + ')$', 'i'); });
+
+  function pad2(v) { return (v.length < 2 ? '0' : '') + v; }
+  function numKey(s) { return 'n:' + String(parseFloat(s.replace(/,/g, ''))); }
+  function glossOfWord(text) {
+    for (var n = 0; n < WORDS.length; n++) if (WORDS[n].full.test(text)) return WORDS[n].g;
+    return null;
+  }
+
+  var tokenCache = {};
+  function tokensOf(text) {
+    if (tokenCache[text]) return tokenCache[text];
+    var out = [], m, re = new RegExp(TOKEN_SRC, 'g');
+    while ((m = re.exec(text)) !== null) {
+      var s = m.index;
+      if (m[1]) {
+        out.push({ s: s, e: s + 10, t: 'date', key: 'd:' + m[2] + '-' + m[3] });
+        if (m[4]) {
+          var tail = m[0].length;
+          out.push({ s: s + 11, e: s + tail, t: 'time', key: 't:' + pad2(m[4]) + ':' + m[5] });
+        }
+      } else if (m[6]) {
+        out.push({ s: s, e: s + m[0].length, t: 'date', key: 'd:' + pad2(String(MONTHS[m[7].toLowerCase()])) + '-' + pad2(m[6]) });
+      } else if (m[8]) {
+        out.push({ s: s, e: s + m[0].length, t: 'time', key: 't:' + pad2(m[8]) + ':' + m[9] });
+      } else if (m[10]) {
+        out.push({ s: s, e: s + m[0].length, t: 'id', key: 'id:' + m[10], gl: TERMS[ID_TERM[m[10].split('-')[0]]] || null });
+      } else if (m[11]) {
+        out.push({ s: s, e: s + m[0].length, t: 'id', key: 'id:' + m[11], gl: glossOfWord(m[11]) });
+      } else if (m[12]) {
+        out.push({ s: s, e: s + m[0].length, t: 'num', key: numKey(m[12]) });
+      } else if (m[13]) {
+        out.push({ s: s, e: s + m[0].length, t: 'num', key: numKey(m[13]) });
+      } else if (m[14]) {
+        out.push({ s: s, e: s + m[0].length, t: 'date', key: 'd:' + pad2(String(MONTHS[m[14].toLowerCase()])) + '-' + pad2(m[15]) });
+      }
+    }
+    if (WORD_RE_SRC) {
+      var wre = new RegExp(WORD_RE_SRC, 'gi'), w;
+      while ((w = wre.exec(text)) !== null) {
+        if (!w[0]) { wre.lastIndex++; continue; }
+        var s2 = w.index, e2 = s2 + w[0].length;
+        var clash = out.some(function (t) { return t.s < e2 && s2 < t.e; });
+        if (!clash) out.push({ s: s2, e: e2, t: 'gl', key: null, gl: glossOfWord(w[0]) });
+      }
+    }
+    out.sort(function (a, b) { return a.s - b.s; });
+    tokenCache[text] = out;
+    return out;
+  }
+
+  // What is shared between the sentence and the cited text, computed once per item.
+  var sharedCache = {};
+  function sharedOf(report, item) {
+    var k = key(report, item);
+    if (sharedCache[k]) return sharedCache[k];
+    var claimKeys = {}, evKeys = {};
+    tokensOf(item.claim).forEach(function (t) { if (t.key) claimKeys[t.key] = true; });
+    item.evidence.forEach(function (ev) {
+      tokensOf(ev.text).forEach(function (t) { if (t.key) evKeys[t.key] = true; });
+    });
+    sharedCache[k] = { claim: claimKeys, ev: evKeys, hasEvidence: item.evidence.length > 0 };
+    return sharedCache[k];
+  }
+
+  // Write `text` into `parent`, marking tokens. `hl`: keys to highlight; `markMiss`: underline
+  // the tokens that are not in `hl` (used on the sentence, where `hl` is the evidence).
+  function annotate(parent, text, hl, markMiss) {
+    var pos = 0;
+    tokensOf(text).forEach(function (t) {
+      if (t.s > pos) parent.appendChild(document.createTextNode(text.slice(pos, t.s)));
+      pos = t.e;
+      var cls = [], tips = [];
+      if (t.key) {
+        if (hl && hl[t.key]) cls.push(t.t === 'id' ? 'hl-id' : 'hl-num');
+        else if (markMiss) { cls.push('miss'); tips.push('Not found in the cited evidence'); }
+      }
+      if (t.gl) { cls.push('gl'); tips.push(t.gl.term + ': ' + t.gl.text); }
+      var chunk = text.slice(t.s, t.e);
+      if (!cls.length) { parent.appendChild(document.createTextNode(chunk)); return; }
+      var sp = el('span', cls.join(' '), chunk);
+      if (tips.length) sp.title = tips.join('\n');
+      parent.appendChild(sp);
+    });
+    if (pos < text.length) parent.appendChild(document.createTextNode(text.slice(pos)));
+  }
+
+  function isMatch(t, hl) { return t.key && t.t !== 'date' && hl && hl[t.key]; }
+  function matchCount(text, hl) {
+    var n = 0;
+    tokensOf(text).forEach(function (t) { if (isMatch(t, hl)) n++; });
+    return n;
+  }
+
+  var ALWAYS = /^(\[\.\.\. shortened|\(repeat of|error:|\(the tool itself|\[this reference|\[text omitted)/;
+  var SHORT_BOX = 8;
+  // Which lines of a box to show first: the summary line, lines that share a token with the
+  // sentence (with their indented detail lines) and the notices about cut or repeated output.
+  function pickLines(lines, hl) {
+    var show = lines.map(function (ln, n) { return n === 0 || ALWAYS.test(ln.trim()) || tokensOf(ln).some(function (t) { return isMatch(t, hl); }); });
+    var base = show.slice();
+    base.forEach(function (on, n) {
+      if (!on) return;
+      for (var j = n + 1; j < lines.length && j <= n + 3 && /^\s/.test(lines[j]) && lines[j].trim(); j++) show[j] = true;
+    });
+    var count = show.filter(Boolean).length;
+    if (lines.length <= SHORT_BOX || count >= lines.length - 1) return null;
+    return show;
+  }
+
+  // --- rendering ---------------------------------------------------------------------------------
+
+  function renderEvidence(report, item, ev, n, isExample) {
+    var shared = isExample ? exampleShared : sharedOf(report, item);
+    var hl = shared.claim;
+    var box = el('div', 'evbox');
+    var top = el('div', 'ev-top');
+    top.appendChild(el('span', 'ev-ref', ev.ref));
+    if (ev.shortened) top.appendChild(el('span', 'badge', 'shortened'));
+    if (!ev.found) top.appendChild(el('span', 'badge', 'not among the report evidence'));
+    var all = ev.text.split('\n');
+    var raw = null;
+    if (ev.type === 'call' && all[0].indexOf(ev.ref + ' ' + ev.tool) === 0) raw = all.shift();
+    var hits = matchCount(ev.text, hl);
+    var mt = el('span', 'matches', hits ? hits + ' shared with the sentence' : 'nothing shared with the sentence');
+    top.appendChild(mt);
+    box.appendChild(top);
+    var title = el('div', 'ev-title');
+    annotate(title, ev.label || ev.ref, hl, false);
+    box.appendChild(title);
+    if (raw) {
+      var rawEl = el('div', 'ev-raw');
+      annotate(rawEl, raw, hl, false);
+      box.appendChild(rawEl);
+    }
+    var uk = (isExample ? 'example' : key(report, item)) + '|' + ev.ref;
+    var show = pickLines(all, hl);
+    var full = !show || unfolded[uk];
+    var body = el('div', 'ev-body');
+    var run = 0;
+    function flushGap() {
+      if (!run) return;
+      var g = el('button', 'gap', '⋯ ' + run + ' more line' + (run === 1 ? '' : 's') + ' not shown (click to show all)');
+      g.type = 'button';
+      g.addEventListener('click', function () { unfolded[uk] = true; rerender(); });
+      body.appendChild(g);
+      run = 0;
+    }
+    all.forEach(function (ln, k) {
+      if (!full && !show[k]) { run++; return; }
+      flushGap();
+      var rel = tokensOf(ln).some(function (t) { return isMatch(t, hl); });
+      var d = el('div', 'ln' + (rel ? ' rel' : ''));
+      annotate(d, ln, hl, false);
+      body.appendChild(d);
+    });
+    flushGap();
+    box.appendChild(body);
+    if (show) {
+      var more = el('button', 'more', full ? 'Show only the relevant lines' : 'Show all ' + all.length + ' lines');
+      more.type = 'button';
+      more.dataset.role = 'fold';
+      more.addEventListener('click', function () { unfolded[uk] = !full; rerender(); });
+      box.appendChild(more);
+    }
+    box.dataset.hits = String(hits);
+    return box;
+  }
+
+  function sortedEvidence(report, item) {
+    var hl = sharedOf(report, item).claim;
+    return item.evidence.map(function (ev, n) { return { ev: ev, n: n, hits: matchCount(ev.text, hl) }; })
+      .sort(function (a, b) { return b.hits - a.hits || a.n - b.n; });
+  }
+
+  function renderChoices(report, item, n, g, isExample) {
+    var choices = el('div', 'choices');
+    choices.setAttribute('role', 'radiogroup');
+    VERDICTS.forEach(function (v, k) {
+      var b = el('button', 'choice' + (g && g.v === v.key ? ' on' : ''));
+      b.type = 'button'; b.dataset.v = v.key;
+      b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', g && g.v === v.key ? 'true' : 'false');
+      b.appendChild(el('kbd', null, String(k + 1)));
+      var txt = el('span');
+      txt.appendChild(el('span', null, v.label));
+      txt.appendChild(el('small', null, v.plain));
+      b.appendChild(txt);
+      b.addEventListener('click', function () { state.i = n; setVerdict(v.key); });
+      choices.appendChild(b);
+    });
+    return choices;
+  }
+
+  function renderItem(report, item, n) {
+    var g = gradeOf(report, item);
+    var shared = sharedOf(report, item);
+    var sec = el('section', 'item' + (n === state.i ? ' current' : '') + (g && g.v ? ' graded v-' + g.v : ''));
+    sec.dataset.n = n;
+    var grid = el('div', 'item-grid');
+    var left = el('div', 'claim-col');
+    var head = el('div', 'item-head');
+    var findings = report.items.length - 1;
+    if (item.index < 0) {
+      head.appendChild(el('span', 'tag', 'Root cause'));
+      head.appendChild(el('span', 'tag-sub', 'the agent’s final conclusion'));
+    } else {
+      head.appendChild(el('span', 'tag', 'Finding ' + (item.index + 1) + ' of ' + findings));
+      head.appendChild(el('span', 'tag-sub', 'one fact the agent lists to justify the conclusion'));
+      var basis = el('span', 'basis', item.basis);
+      basis.title = item.basis === 'observed' ? 'The agent says this is directly visible in the data.' : 'The agent says this is deduced from the data.';
+      head.appendChild(basis);
+    }
+    left.appendChild(head);
+    var card = el('div', 'claim-card');
+    card.appendChild(el('div', 'label', 'The agent wrote – grade this sentence'));
+    var claim = el('p', 'claim');
+    annotate(claim, item.claim, shared.hasEvidence ? shared.ev : null, shared.hasEvidence);
+    card.appendChild(claim);
+    left.appendChild(card);
+    left.appendChild(renderChoices(report, item, n, g));
+    var det = el('details', 'comment');
+    det.open = !!(g && g.c);
+    det.appendChild(el('summary', null, 'Comment (optional)'));
+    var ta = el('textarea');
+    ta.value = (g && g.c) || '';
+    ta.setAttribute('aria-label', 'Comment');
+    ta.addEventListener('input', function () {
+      var cur = state.grades[key(report, item)] || (state.grades[key(report, item)] = { v: null, c: '' });
+      cur.c = ta.value; save();
+    });
+    ta.addEventListener('focus', function () { state.i = n; });
+    det.appendChild(ta);
+    left.appendChild(det);
+    grid.appendChild(left);
+    var right = el('div', 'evidence');
+    right.appendChild(el('div', 'label', 'Facts from the database – what the agent cited for this sentence'));
+    right.appendChild(legend());
+    if (item.evidence.length === 0) right.appendChild(el('p', 'none', 'No evidence is cited for this sentence.'));
+    sortedEvidence(report, item).forEach(function (o) { right.appendChild(renderEvidence(report, item, o.ev, o.n, false)); });
+    grid.appendChild(right);
+    sec.appendChild(grid);
+    sec.addEventListener('click', function (e) {
+      if (state.i !== n && !e.target.closest('button, textarea, summary')) { state.i = n; render(false); }
+    });
+    return sec;
+  }
+
+  function legend() {
+    var l = el('div', 'ev-legend');
+    l.appendChild(el('span', 'hl-id', 'ID'));
+    l.appendChild(el('span', 'hl-num', 'time / number'));
+    l.appendChild(document.createTextNode('also in the sentence'));
+    l.appendChild(el('span', 'miss', 'dotted'));
+    l.appendChild(document.createTextNode('in the sentence: not found in these boxes'));
+    l.appendChild(el('span', 'gl', 'underlined'));
+    l.appendChild(document.createTextNode('hover for a definition. Most matching box first.'));
+    return l;
+  }
+
+  // The worked example uses made-up data, rendered by the same code as the real items.
+  var EXAMPLE = {
+    claim: 'Link LNK-TUN-02-C lost signal at 16:50.',
+    ev: {
+      ref: 'T1', type: 'call', tool: 'get_alarms', found: true, shortened: false,
+      label: 'Alarms on S-TUN-012 and nodes below them, 21 Sep 15:00 to 19:00',
+      text: 'T1 get_alarms(start=2026-09-21 15:00, end=2026-09-21 19:00, node_ids=[\'S-TUN-012\'], include_descendants=True)\n' +
+        '2 alarm(s) on S-TUN-012 and nodes below, 2026-09-21 15:00 to 2026-09-21 19:00: 2 critical.\n' +
+        '2026-09-21 16:50 ALM-000472 critical LINK_LOS LNK-TUN-02-C: cleared 2026-09-22 00:26\n' +
+        '2026-09-21 16:51 ALM-000474 critical SITE_DOWN S-TUN-012: cleared 2026-09-22 00:29'
+    }
+  };
+  var exampleShared = { claim: {}, ev: {}, hasEvidence: true };
+  tokensOf(EXAMPLE.claim).forEach(function (t) { if (t.key) exampleShared.claim[t.key] = true; });
+  tokensOf(EXAMPLE.ev.text).forEach(function (t) { if (t.key) exampleShared.ev[t.key] = true; });
+
+  function renderExample() {
+    var box = el('div', 'example');
+    box.appendChild(el('h3', null, 'Worked example (made-up data, not in your pack)'));
+    var grid = el('div', 'item-grid');
+    var card = el('div', 'claim-card');
+    card.appendChild(el('div', 'label', 'The agent wrote – grade this sentence'));
+    var p = el('p', 'claim');
+    annotate(p, EXAMPLE.claim, exampleShared.ev, true);
+    card.appendChild(p);
+    grid.appendChild(card);
+    grid.appendChild(renderEvidence(null, null, EXAMPLE.ev, 0, true));
+    box.appendChild(grid);
+    var ul = el('ul');
+    [['Supported', 'The box shows the loss-of-signal alarm (LINK_LOS) on LNK-TUN-02-C at 16:50. Everything in the sentence is there.'],
+     ['Partially supported', 'If the sentence said 17:30, the link and the alarm match but the time is nowhere in the box.'],
+     ['Unsupported', 'If the box only listed SITE_DOWN on S-TUN-012 and nothing on that link, it is about something else.']
+    ].forEach(function (r) {
+      var li = el('li');
+      li.appendChild(el('b', null, r[0] + ': '));
+      li.appendChild(document.createTextNode(r[1]));
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+    return box;
+  }
+
+  function step(cls, title, text) {
+    var s = el('div', 'step ' + cls);
+    s.appendChild(el('h3', null, title));
+    s.appendChild(el('p', null, text));
+    return s;
+  }
+
+  function renderHelp() {
+    var box = el('details', 'panel help');
+    box.id = 'help';
+    box.open = !state.helpSeen;
+    box.appendChild(el('summary', null, 'How this works (30 seconds)'));
+    box.appendChild(el('p', 'lead', 'Each screen is one incident report written by an automated incident agent that investigated a network problem. You do not need to know telecom: you only compare a sentence with the text under it.'));
+    var grid = el('div', 'help-grid');
+    grid.appendChild(step('card', '1. The white card is the agent’s sentence', 'It was written by the agent. It is a claim, not a fact. This is what you grade.'));
+    grid.appendChild(step('boxes', '2. The grey boxes are facts', 'They are answers returned by the database (alarms, measurements, changes). The agent did not write them; it cited them as its proof.'));
+    grid.appendChild(step('q', '3. Your one question', 'Do the boxes back the sentence? Not whether it is true in the real world, and use no outside knowledge. Check names, numbers and times literally.'));
+    box.appendChild(grid);
+    box.appendChild(el('p', null, 'Root cause and findings: the first card of each report is the root cause, the agent’s final conclusion (“what broke”). The cards after it are findings: the individual facts it lists to justify that conclusion. You grade each one the same way. Blue and amber marks show where the sentence and the boxes share an ID, a time or a number. A dotted orange underline in the sentence means that word or number is not in any of its boxes: a reading aid, not a verdict.'));
+    box.appendChild(renderExample());
+    var dl = el('dl', 'rubric');
+    VERDICTS.forEach(function (v, n) {
+      var row = el('div');
+      row.appendChild(el('dt', null, (n + 1) + '. ' + v.label));
+      row.appendChild(el('dd', 'plain', v.plain));
+      row.appendChild(el('dd', null, v.definition));
+      dl.appendChild(row);
+    });
+    box.appendChild(dl);
+    var sub = el('details', 'sub');
+    sub.appendChild(el('summary', null, 'The grader’s rules (the same ones the grader model follows)'));
+    var ol = el('ol', 'rules');
+    DATA.rubric.rules.forEach(function (t) { ol.appendChild(el('li', null, t)); });
+    sub.appendChild(ol);
+    box.appendChild(sub);
+    var keys = el('div', 'keys');
+    keys.innerHTML = '<kbd>1</kbd>-<kbd>4</kbd> verdict &middot; <kbd>0</kbd> clear &middot; ' +
+      '<kbd>&uarr;</kbd><kbd>&darr;</kbd> previous / next claim &middot; <kbd>&larr;</kbd><kbd>&rarr;</kbd> previous / next report &middot; ' +
+      '<kbd>Space</kbd> next ungraded claim &middot; <kbd>E</kbd> show all / fewer lines &middot; <kbd>C</kbd> comment &middot; <kbd>G</kbd> glossary &middot; <kbd>?</kbd> this panel';
+    box.appendChild(keys);
+    box.addEventListener('toggle', function () {
+      if (!box.open && !state.helpSeen) { state.helpSeen = true; save(); }
+    });
+    return box;
+  }
+
+  function renderGlossary(report) {
+    var box = el('details', 'panel gloss');
+    box.id = 'glossary';
+    box.open = glossOpen;
+    box.appendChild(el('summary', null, 'Glossary – what the terms in the boxes mean'));
+    var text = [report.question, report.title, report.summary];
+    report.items.forEach(function (it) { text.push(it.claim); it.evidence.forEach(function (ev) { text.push(ev.label || '', ev.text); }); });
+    var present = {};
+    tokensOf(text.join('\n')).forEach(function (t) { if (t.gl) present[t.gl.term] = true; });
+    box.appendChild(el('p', 'gloss-note', 'A dot marks the terms that occur in this report. In the text, these terms have a dotted underline: hover for the definition.'));
+    var grid = el('div', 'gloss-grid');
+    var last = '';
+    GLOSSARY.forEach(function (g) {
+      if (g.group !== last) { grid.appendChild(el('div', 'grp', g.group)); last = g.group; }
+      var row = el('div', 'g' + (present[g.term] ? ' here' : ''));
+      row.appendChild(el('b', null, g.term));
+      row.appendChild(document.createTextNode(' – ' + g.text));
+      grid.appendChild(row);
+    });
+    box.appendChild(grid);
+    box.addEventListener('toggle', function () { glossOpen = box.open; });
+    return box;
+  }
+
+  function renderTop() {
+    document.getElementById('title').textContent = DATA.title;
+    var t = totals();
+    document.getElementById('counts').textContent = 'Report ' + (state.r + 1) + ' of ' + DATA.reports.length +
+      ' · ' + t.done + ' of ' + t.all + ' claims graded';
+    document.getElementById('bar').style.width = (t.all ? 100 * t.done / t.all : 0) + '%';
+    var dots = document.getElementById('dots');
+    dots.textContent = '';
+    DATA.reports.forEach(function (r, n) {
+      var d = reportDone(r);
+      var b = el('button', 'dot' + (d === r.items.length ? ' done' : d ? ' some' : '') + (n === state.r ? ' here' : ''), String(n + 1));
+      b.type = 'button';
+      b.title = 'Report ' + (n + 1) + ': ' + d + ' of ' + r.items.length + ' graded';
+      b.addEventListener('click', function () { goReport(n); });
+      dots.appendChild(b);
+    });
+    document.getElementById('rater').value = state.rater;
+  }
+
+  function fitTop() {
+    var h = document.getElementById('top').offsetHeight;
+    document.documentElement.style.setProperty('--top-h', h + 'px');
+  }
+
+  function rerender() {
+    var y = window.scrollY;
+    render(false);
+    window.scrollTo(0, y);
+  }
+
+  function render(scroll) {
+    renderTop();
+    var report = DATA.reports[state.r];
+    state.i = Math.max(0, Math.min(state.i, report.items.length - 1));
+    var main = document.getElementById('main');
+    var helpWasOpen = document.getElementById('help') ? document.getElementById('help').open : !state.helpSeen;
+    main.textContent = '';
+    var help = renderHelp();
+    help.open = helpWasOpen;
+    main.appendChild(help);
+    main.appendChild(renderGlossary(report));
+    var head = el('section', 'panel report');
+    head.appendChild(el('div', 'label', 'Question the agent was asked'));
+    head.appendChild(el('p', 'question', report.question));
+    head.appendChild(el('div', 'label', 'The agent’s report'));
+    head.appendChild(el('h1', null, report.title));
+    var chips = el('div', 'chips');
+    report.chips.forEach(function (c) { chips.appendChild(el('span', 'chip', c)); });
+    head.appendChild(chips);
+    head.appendChild(el('p', 'summary', report.summary));
+    main.appendChild(head);
+    report.items.forEach(function (item, n) { main.appendChild(renderItem(report, item, n)); });
+    var note = el('section', 'panel');
+    note.appendChild(el('div', 'label', 'Notes on this report (optional)'));
+    var ta = el('textarea');
+    ta.value = state.notes[report.case_id] || '';
+    ta.setAttribute('aria-label', 'Notes on this report');
+    ta.addEventListener('input', function () { state.notes[report.case_id] = ta.value; save(); });
+    note.appendChild(ta);
+    main.appendChild(note);
+    var nav = el('div', 'nav');
+    var prev = el('button', 'btn', '← Previous report'); prev.type = 'button';
+    prev.disabled = state.r === 0; prev.addEventListener('click', function () { goReport(state.r - 1); });
+    var next = el('button', 'btn primary', state.r === DATA.reports.length - 1 ? 'Last report' : 'Next report →');
+    next.type = 'button'; next.disabled = state.r === DATA.reports.length - 1;
+    next.addEventListener('click', function () { goReport(state.r + 1); });
+    nav.appendChild(prev); nav.appendChild(next);
+    main.appendChild(nav);
+    save();
+    fitTop();
+    if (scroll) {
+      var cur = main.querySelector('.item.current');
+      if (cur) cur.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  }
+
+  function goReport(n) {
+    if (n < 0 || n >= DATA.reports.length) return;
+    state.r = n; state.i = 0; render(false);
+    window.scrollTo(0, 0);
+  }
+  function setVerdict(v) {
+    var report = DATA.reports[state.r], item = report.items[state.i];
+    var k = key(report, item);
+    var cur = state.grades[k] || (state.grades[k] = { v: null, c: '' });
+    cur.v = v;
+    if (!state.helpSeen) {
+      state.helpSeen = true;
+      var h = document.getElementById('help');
+      if (h) h.open = false;
+    }
+    var last = state.i === report.items.length - 1;
+    if (v && !last) state.i += 1;
+    render(true);
+  }
+  function move(delta) {
+    var report = DATA.reports[state.r];
+    var n = Math.max(0, Math.min(report.items.length - 1, state.i + delta));
+    if (n !== state.i) { state.i = n; render(true); }
+  }
+  function nextUngraded() {
+    var total = DATA.reports.length;
+    for (var step = 0; step < total; step++) {
+      var r = (state.r + step) % total, report = DATA.reports[r];
+      for (var i = 0; i < report.items.length; i++) {
+        if (step === 0 && i <= state.i) continue;
+        var g = gradeOf(report, report.items[i]);
+        if (!g || !g.v) { state.r = r; state.i = i; render(true); return; }
+      }
+    }
+    for (var i2 = 0; i2 < state.i; i2++) {
+      var g2 = gradeOf(DATA.reports[state.r], DATA.reports[state.r].items[i2]);
+      if (!g2 || !g2.v) { state.i = i2; render(true); return; }
+    }
+    flash('Every claim has a verdict. Export when you are ready.');
+  }
+  // E: show every line of the boxes of the current claim, or fold them back.
+  function toggleLines() {
+    var report = DATA.reports[state.r], item = report.items[state.i];
+    var boxes = item.evidence.filter(function (ev) {
+      return pickLines(ev.text.split('\n'), sharedOf(report, item).claim) !== null;
+    });
+    var anyFolded = boxes.some(function (ev) { return !unfolded[key(report, item) + '|' + ev.ref]; });
+    boxes.forEach(function (ev) { unfolded[key(report, item) + '|' + ev.ref] = anyFolded; });
+    rerender();
+  }
+
+  var msgTimer = null;
+  function flash(text) {
+    var m = document.getElementById('msg');
+    m.textContent = text; m.hidden = false;
+    fitTop();
+    window.clearTimeout(msgTimer);
+    msgTimer = window.setTimeout(function () { m.hidden = true; fitTop(); }, 6000);
+  }
+
+  function exportGrades() {
+    var name = state.rater.trim();
+    if (!name) { flash('Enter your name first; it goes into the export.'); document.getElementById('rater').focus(); return; }
+    var out = [];
+    DATA.reports.forEach(function (r) {
+      var findings = [];
+      r.items.forEach(function (it) {
+        var g = gradeOf(r, it);
+        if (g && g.v) findings.push({ index: it.index, verdict: g.v, reason: g.c || '' });
+      });
+      var note = (state.notes[r.case_id] || '').trim();
+      if (findings.length || note) {
+        out.push({ case_id: r.case_id, grader: 'human:' + name, findings: findings, comments: note,
+                   extra: { complete: findings.length === r.items.length, pack_id: DATA.pack_id } });
+      }
+    });
+    if (!out.length) { flash('Nothing to export yet.'); return; }
+    var blob = new Blob([JSON.stringify(out, null, 2) + '\n'], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'human_grades.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    window.setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    flash('Exported ' + out.length + ' reports to human_grades.json.');
+  }
+
+  function importGrades(file) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var list = JSON.parse(reader.result);
+        if (!Array.isArray(list)) throw new Error('not a list');
+        var known = {}, count = 0;
+        DATA.reports.forEach(function (r) { known[r.case_id] = r; });
+        list.forEach(function (g) {
+          var r = known[g.case_id];
+          if (!r) return;
+          (g.findings || []).forEach(function (f) {
+            var ok = VERDICTS.some(function (v) { return v.key === f.verdict; });
+            if (!ok) return;
+            state.grades[r.case_id + '|' + f.index] = { v: f.verdict, c: f.reason || '' };
+            count++;
+          });
+          if (g.comments) state.notes[r.case_id] = g.comments;
+          if (!state.rater && typeof g.grader === 'string' && g.grader.indexOf('human:') === 0) state.rater = g.grader.slice(6);
+        });
+        render(false);
+        flash('Imported ' + count + ' grades.');
+      } catch (e) { flash('That file is not a grading export: ' + e.message); }
+    };
+    reader.readAsText(file);
+  }
+
+  document.getElementById('export-btn').addEventListener('click', exportGrades);
+  document.getElementById('import-btn').addEventListener('click', function () { document.getElementById('import-file').click(); });
+  document.getElementById('import-file').addEventListener('change', function (e) {
+    if (e.target.files && e.target.files[0]) importGrades(e.target.files[0]);
+    e.target.value = '';
+  });
+  document.getElementById('help-btn').addEventListener('click', toggleHelp);
+  document.getElementById('gloss-btn').addEventListener('click', toggleGlossary);
+  document.getElementById('rater').addEventListener('input', function (e) { state.rater = e.target.value; save(); });
+  function toggleHelp() {
+    var h = document.getElementById('help');
+    h.open = !h.open;
+    if (!h.open) { state.helpSeen = true; save(); }
+    if (h.open) h.scrollIntoView({ block: 'start' });
+  }
+  function toggleGlossary() {
+    var g = document.getElementById('glossary');
+    g.open = !g.open;
+    glossOpen = g.open;
+    if (g.open) g.scrollIntoView({ block: 'start' });
+  }
+  window.addEventListener('resize', fitTop);
+
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.tagName === 'TEXTAREA' || t.tagName === 'INPUT')) {
+      if (e.key === 'Escape') t.blur();
+      return;
+    }
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key;
+    if (k >= '1' && k <= String(VERDICTS.length)) { setVerdict(VERDICTS[Number(k) - 1].key); }
+    else if (k === '0' || k === 'Backspace') { setVerdict(null); }
+    else if (k === 'ArrowDown' || k === 'j') { move(1); }
+    else if (k === 'ArrowUp' || k === 'k') { move(-1); }
+    else if (k === 'ArrowRight') { goReport(state.r + 1); }
+    else if (k === 'ArrowLeft') { goReport(state.r - 1); }
+    else if (k === ' ' || k === 'Enter') { if (t && t.tagName === 'BUTTON') return; nextUngraded(); }
+    else if (k === 'c' || k === 'C') {
+      var cur = document.querySelector('.item.current details.comment');
+      if (cur) { cur.open = true; cur.querySelector('textarea').focus(); }
+    }
+    else if (k === 'e' || k === 'E') { toggleLines(); }
+    else if (k === 'g' || k === 'G') { toggleGlossary(); }
+    else if (k === '?') { toggleHelp(); }
+    else { return; }
+    e.preventDefault();
+  });
+
+  load();
+  render(false);
+  window.__grading = { state: state, data: DATA };
+})();
+</script>
+</body>
+</html>

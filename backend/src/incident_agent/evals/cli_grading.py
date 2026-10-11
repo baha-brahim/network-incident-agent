@@ -1,7 +1,7 @@
 """Commands for grading: `grade`, `human-pack` and `agreement`.
 
     evals grade --run baseline-test [--reasoning on|off] [--max-cases N] [--only ID,ID] [--redo]
-    evals human-pack --run baseline-test --n 20
+    evals human-pack --run baseline-test --n 10
     evals agreement --run baseline-test --human evals/human/baseline-test/human_grades.json
 
 A run lives in `<runs-dir>/<run>/` (default `evals/runs`): `cases/<case_id>.json` are the saved
@@ -324,7 +324,7 @@ def add_commands(sub: Any) -> None:
 
     h = sub.add_parser("human-pack", help="build the page for grading reports by hand")
     common(h)
-    h.add_argument("--n", type=int, default=20, help="number of reports")
+    h.add_argument("--n", type=int, default=10, help="number of reports")
     h.add_argument("--seed", type=int, default=0, help="sampling seed")
     h.add_argument("--out", default=None, help="output directory (default evals/human/<run>)")
     h.set_defaults(func=cmd_human_pack)

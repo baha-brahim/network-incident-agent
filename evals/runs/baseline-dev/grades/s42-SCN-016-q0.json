@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-016-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2519,
+      "live_tokens": 2845,
+      "output_tokens": 326
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarm and runbook confirm the link degradation and downstream latency impact, but the specific details of reduced modulation and RSL below threshold are not present in the cited evidence text.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited topology and node references explicitly list the dependency chain from S-TUN-008 through LNK-TUN-02-B and AGG-TUN-02 to CORE-UPF-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm records and tool outputs consistently report a major LINK_DEGRADED alarm on LNK-TUN-02-B raised at 14:07 and cleared at 18:57.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output explicitly states there were no changes on the specified nodes and their parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly states there were no maintenance windows scheduled on the specified nodes and their parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited anomaly record explicitly states the latency spike at S-TUN-008 with a z-score of 5.1 and values moving from 21.1 to 28.9.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

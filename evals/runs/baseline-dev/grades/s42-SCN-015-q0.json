@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-015-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2674,
+      "live_tokens": 2909,
+      "output_tokens": 235
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms confirm the sequence of mains failure, battery low, and site down, supporting the inference of the root cause.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence shows availability dropped at 04:45, but active users and traffic dropped at 05:00, not 04:45.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarms explicitly list the start times and types for mains failure, battery low, and site down in that order.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs explicitly state no changes or maintenance windows were found for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited evidence confirms no alarms or KPI deviations for S-SUD-001, supporting the isolation of the issue to S-SUD-005.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-013-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1647,
+      "live_tokens": 1878,
+      "output_tokens": 231
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarm and runbook logic, but the specific spikes in users and volume are not cited in this claim.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomalies explicitly state the spikes to 740 active users and 103152 dl_volume_mb on S-TUN-007.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record confirms the HIGH_PRB warning on S-TUN-007 with the exact raise and clear times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs confirm no external events for region TUN and no maintenance for S-TUN-007 in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output confirms no changes on S-TUN-007 and its parents during the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

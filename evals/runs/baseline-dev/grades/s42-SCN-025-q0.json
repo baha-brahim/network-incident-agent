@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-025-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2441,
+      "live_tokens": 2746,
+      "output_tokens": 305
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and KPIs show the sequence of events (mains failure, battery low, site down) but do not explicitly state the causal link between battery exhaustion and the outage.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000573 explicitly states a major MAINS_FAILURE on S-TUN-006 raised at 2026-09-25 11:19.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000574 explicitly states a major BATTERY_LOW on S-TUN-006 raised at 2026-09-25 12:55.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000575 explicitly states a critical SITE_DOWN on S-TUN-006 raised at 2026-09-25 13:10.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 shows availability at 0 from 13:15 to 17:00, with recovery at 17:15, and anomalies confirm the drop to 0.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

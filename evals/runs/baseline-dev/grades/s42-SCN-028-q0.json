@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-028-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2849,
+      "live_tokens": 3180,
+      "output_tokens": 331
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows high PRB, user spikes, and no external events, supporting the inference of local congestion per the runbook.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ANM-000394 explicitly states the active users spike from baseline 158 to 469 on S-TUN-004.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ANM-000395 explicitly states the downlink volume spike from baseline 10672 to 35989 on S-TUN-004.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 output confirms no external events for region TUN between 2026-09-26 18:00 and 2026-09-27 00:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 output confirms no maintenance windows on S-TUN-004, LNK-TUN-02-A, and parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 output confirms no changes on S-TUN-004, LNK-TUN-02-A, AGG-TUN-02, and parents in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

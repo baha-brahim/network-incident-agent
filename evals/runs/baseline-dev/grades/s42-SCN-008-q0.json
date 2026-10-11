@@ -1,0 +1,50 @@
+{
+  "case_id": "s42-SCN-008-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3697,
+      "live_tokens": 4007,
+      "output_tokens": 310
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and topology but does not prove the link failure caused the site outages.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T2 explicitly lists the dependency chain S-SUD-001 -> LNK-SUD-01-A -> AGG-SUD-01 and identifies S-SUD-005 as a sibling.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000151 and T3 both state the alarm was raised at 22:53 and cleared at 02:50 on LNK-SUD-01-A.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3 shows the site alarms were raised at 22:54, one minute after the link alarm at 22:53, supporting 'immediately following'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 and T5 explicitly report no maintenance or changes on the specified nodes and ancestors during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 shows availability and volume dropping to 0 and recovering to baseline levels by 03:00 for S-SUD-001.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

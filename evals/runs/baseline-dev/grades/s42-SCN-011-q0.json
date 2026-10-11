@@ -1,0 +1,45 @@
+{
+  "case_id": "s42-SCN-011-q0",
+  "comments": "",
+  "extra": {
+    "batches": 2,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 2,
+      "input_tokens": 5771,
+      "live_tokens": 6015,
+      "output_tokens": 244
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the changes and the runbook signature, but does not contain the anomaly data required to verify the degradation claim.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly lists ALR-0010 starting at 10:15 on the specified sites with the stated metrics.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change records and tool outputs confirm OPT-21 was applied to the three sites at 10:23.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool outputs confirm no maintenance or changes on upstream nodes, but do not provide evidence regarding transport failures.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited runbook text describes the signature of a bad change (change record, rolled back status) but does not explicitly confirm that the specific observed incident matches this signature.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}
