@@ -294,7 +294,10 @@ export interface components {
         DismissedSignal: {
             /** Ref */
             ref: string;
-            /** Reason */
+            /**
+             * Reason
+             * @description At most 30 words.
+             */
             reason: string;
         };
         /** ErrorBody */
@@ -377,7 +380,10 @@ export interface components {
         };
         /** Finding */
         Finding: {
-            /** Claim */
+            /**
+             * Claim
+             * @description One fact, at most 30 words.
+             */
             claim: string;
             /**
              * Basis
@@ -442,7 +448,10 @@ export interface components {
              * @enum {string}
              */
             verdict: "confirmed" | "rejected" | "unresolved";
-            /** Reason */
+            /**
+             * Reason
+             * @description At most 30 words.
+             */
             reason: string;
             /** Refs */
             refs: string[];
@@ -789,7 +798,10 @@ export interface components {
         };
         /** Report */
         Report: {
-            /** Title */
+            /**
+             * Title
+             * @description At most 12 words.
+             */
             title: string;
             /**
              * Classification
@@ -803,7 +815,10 @@ export interface components {
             root_cause_category: "transport_failure" | "power_failure" | "bad_change" | "core_degradation" | "capacity" | "transport_degradation" | "planned_maintenance" | "expected_event" | "no_impact" | "unknown";
             /** Root Cause Node Id */
             root_cause_node_id: string | null;
-            /** Root Cause Summary */
+            /**
+             * Root Cause Summary
+             * @description Cause and mechanism, at most 40 words.
+             */
             root_cause_summary: string;
             /**
              * Confidence
@@ -812,10 +827,13 @@ export interface components {
             confidence: "low" | "medium" | "high";
             /**
              * Confidence Reason
-             * @description What supports the confidence level, or limits it.
+             * @description What supports the confidence level or limits it, at most 30 words.
              */
             confidence_reason: string;
-            /** Impact Summary */
+            /**
+             * Impact Summary
+             * @description At most 30 words.
+             */
             impact_summary: string;
             /**
              * Impact Start
@@ -834,18 +852,30 @@ export interface components {
             root_cause_time: string | null;
             /** Affected Node Ids */
             affected_node_ids: string[];
-            /** Timeline */
+            /**
+             * Timeline
+             * @description At most 8 entries.
+             */
             timeline: components["schemas"]["TimelineEntry"][];
-            /** Findings */
+            /**
+             * Findings
+             * @description At most 6; do not repeat a fact stated elsewhere.
+             */
             findings: components["schemas"]["Finding"][];
             /**
              * Hypotheses
-             * @description Ranked, most likely first
+             * @description At most 4, ranked, most likely first.
              */
             hypotheses: components["schemas"]["HypothesisEntry"][];
-            /** Dismissed Signals */
+            /**
+             * Dismissed Signals
+             * @description At most 5.
+             */
             dismissed_signals: components["schemas"]["DismissedSignal"][];
-            /** Recommended Actions */
+            /**
+             * Recommended Actions
+             * @description At most 4, each under 25 words.
+             */
             recommended_actions: string[];
         };
         /** ReportData */
@@ -1011,7 +1041,10 @@ export interface components {
              * @description Local time, YYYY-MM-DD HH:MM
              */
             time: string;
-            /** Event */
+            /**
+             * Event
+             * @description At most 20 words.
+             */
             event: string;
             /** Refs */
             refs: string[];

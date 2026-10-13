@@ -959,7 +959,8 @@
           },
           "reason": {
             "type": "string",
-            "title": "Reason"
+            "title": "Reason",
+            "description": "At most 30 words."
           }
         },
         "type": "object",
@@ -1170,7 +1171,8 @@
         "properties": {
           "claim": {
             "type": "string",
-            "title": "Claim"
+            "title": "Claim",
+            "description": "One fact, at most 30 words."
           },
           "basis": {
             "type": "string",
@@ -1318,7 +1320,8 @@
           },
           "reason": {
             "type": "string",
-            "title": "Reason"
+            "title": "Reason",
+            "description": "At most 30 words."
           },
           "refs": {
             "items": {
@@ -2297,7 +2300,8 @@
         "properties": {
           "title": {
             "type": "string",
-            "title": "Title"
+            "title": "Title",
+            "description": "At most 12 words."
           },
           "classification": {
             "type": "string",
@@ -2339,7 +2343,8 @@
           },
           "root_cause_summary": {
             "type": "string",
-            "title": "Root Cause Summary"
+            "title": "Root Cause Summary",
+            "description": "Cause and mechanism, at most 40 words."
           },
           "confidence": {
             "type": "string",
@@ -2353,11 +2358,12 @@
           "confidence_reason": {
             "type": "string",
             "title": "Confidence Reason",
-            "description": "What supports the confidence level, or limits it."
+            "description": "What supports the confidence level or limits it, at most 30 words."
           },
           "impact_summary": {
             "type": "string",
-            "title": "Impact Summary"
+            "title": "Impact Summary",
+            "description": "At most 30 words."
           },
           "impact_start": {
             "anyOf": [
@@ -2407,14 +2413,16 @@
               "$ref": "#/components/schemas/TimelineEntry"
             },
             "type": "array",
-            "title": "Timeline"
+            "title": "Timeline",
+            "description": "At most 8 entries."
           },
           "findings": {
             "items": {
               "$ref": "#/components/schemas/Finding"
             },
             "type": "array",
-            "title": "Findings"
+            "title": "Findings",
+            "description": "At most 6; do not repeat a fact stated elsewhere."
           },
           "hypotheses": {
             "items": {
@@ -2422,21 +2430,23 @@
             },
             "type": "array",
             "title": "Hypotheses",
-            "description": "Ranked, most likely first"
+            "description": "At most 4, ranked, most likely first."
           },
           "dismissed_signals": {
             "items": {
               "$ref": "#/components/schemas/DismissedSignal"
             },
             "type": "array",
-            "title": "Dismissed Signals"
+            "title": "Dismissed Signals",
+            "description": "At most 5."
           },
           "recommended_actions": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Recommended Actions"
+            "title": "Recommended Actions",
+            "description": "At most 4, each under 25 words."
           }
         },
         "type": "object",
@@ -2790,7 +2800,8 @@
           },
           "event": {
             "type": "string",
-            "title": "Event"
+            "title": "Event",
+            "description": "At most 20 words."
           },
           "refs": {
             "items": {

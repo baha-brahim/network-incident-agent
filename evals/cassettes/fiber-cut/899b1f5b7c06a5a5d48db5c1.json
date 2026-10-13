@@ -1,0 +1,82 @@
+{
+  "key": "899b1f5b7c06a5a5d48db5c19eac02fb03a49077a19e2fb2a8afccb7a7ba839a",
+  "request": {
+    "role": "agent",
+    "purpose": "investigate turn 2",
+    "messages_hash": "d7d8ffc8506c0d2e7fe71450f8cc043ca7b47f67d2d1c82053a8208cff167cda",
+    "tools_hash": "981f987788c7e36b012725d71b54146e226c398e3207ae5852ce585df679054d",
+    "schema_hash": "",
+    "n_messages": 2,
+    "tool_names": [
+      "get_anomalies",
+      "query_kpis",
+      "get_topology",
+      "get_alarms",
+      "get_changes",
+      "get_maintenance",
+      "get_external_events",
+      "search_runbooks",
+      "run_sql"
+    ],
+    "schema_name": null,
+    "prompt_preview": "CASE FILE Question: Sites S-TUN-001 and S-TUN-002 in Tunis lost all service for a few hours yesterday evening. What happened? Now: 2026-09-03 09:00 (Thursday, Africa/Tunis). Data after this time does "
+  },
+  "response": {
+    "text": "",
+    "tool_calls": [
+      {
+        "name": "get_changes",
+        "args": {
+          "start": "2026-09-02 16:00",
+          "region_id": "TUN",
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "LNK-TUN-01-A",
+            "AGG-TUN-01"
+          ],
+          "end": "2026-09-03 09:00"
+        }
+      },
+      {
+        "name": "get_maintenance",
+        "args": {
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "LNK-TUN-01-A",
+            "AGG-TUN-01"
+          ],
+          "start": "2026-09-02 16:00",
+          "region_id": "TUN",
+          "end": "2026-09-03 09:00"
+        }
+      },
+      {
+        "name": "search_runbooks",
+        "args": {
+          "query": "LINK_LOS"
+        }
+      }
+    ],
+    "parsed": null
+  },
+  "usage": {
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "input_tokens": 3636,
+    "output_tokens": 229,
+    "latency_ms": 1119,
+    "served_model": "gemini-3.5-flash-lite",
+    "attempts": [
+      {
+        "model": "gemini:gemini-3.5-flash-lite",
+        "status": "ok",
+        "error": null,
+        "latency_ms": 1119,
+        "raw": null
+      }
+    ],
+    "fell_back": false
+  }
+}

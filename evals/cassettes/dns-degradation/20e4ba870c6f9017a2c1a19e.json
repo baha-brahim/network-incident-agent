@@ -1,10 +1,10 @@
 {
-  "key": "2a3fc44563794e936638a0eb90a649a8d3a6d17bd90dd205850a7914aa3d8c56",
+  "key": "20e4ba870c6f9017a2c1a19e8924918c0a9fa72adf4bb60b4a8b5a659b8d3106",
   "request": {
     "role": "agent",
     "purpose": "investigate turn 1",
-    "messages_hash": "31df872e5f0cd9dc6c153235f967b359c5ca6bb3b475e410f1ca445b0a2e47ff",
-    "tools_hash": "6295a6f4fc4b92ae5377237248cdeceac29ba7dbd7661c2ee9f409e784fe8072",
+    "messages_hash": "ade47f23b42dc18cd90bb8644f8fdc94f96ef0163e17c981f50a24fa8c435ad6",
+    "tools_hash": "981f987788c7e36b012725d71b54146e226c398e3207ae5852ce585df679054d",
     "schema_hash": "",
     "n_messages": 2,
     "tool_names": [
@@ -27,36 +27,38 @@
       {
         "name": "query_kpis",
         "args": {
-          "entity_type": "core_node",
           "metrics": [
             "query_success_pct",
             "resolution_ms"
           ],
+          "start": "2026-09-02 11:00",
           "entity_ids": [
             "CORE-DNS-01"
           ],
-          "start": "2026-09-02T11:00:00",
-          "end": "2026-09-02T15:00:00"
+          "entity_type": "core_node",
+          "end": "2026-09-02 15:00"
+        }
+      },
+      {
+        "name": "get_alarms",
+        "args": {
+          "start": "2026-09-02 11:00",
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "end": "2026-09-02 15:00",
+          "include_descendants": true
         }
       },
       {
         "name": "get_changes",
         "args": {
-          "start": "2026-09-02T11:00:00",
-          "end": "2026-09-02T15:00:00",
-          "node_ids": [
-            "CORE-DNS-01"
-          ]
-        }
-      },
-      {
-        "name": "get_maintenance",
-        "args": {
+          "end": "2026-09-02 15:00",
+          "region_id": "TUN",
           "node_ids": [
             "CORE-DNS-01"
           ],
-          "start": "2026-09-02T11:00:00",
-          "end": "2026-09-02T15:00:00"
+          "start": "2026-09-02 11:00"
         }
       }
     ],
@@ -65,16 +67,17 @@
   "usage": {
     "provider": "gemini",
     "model": "gemini-3.5-flash-lite",
-    "input_tokens": 3480,
-    "output_tokens": 240,
-    "latency_ms": 1096,
+    "input_tokens": 2921,
+    "output_tokens": 238,
+    "latency_ms": 1409,
     "served_model": "gemini-3.5-flash-lite",
     "attempts": [
       {
         "model": "gemini:gemini-3.5-flash-lite",
         "status": "ok",
         "error": null,
-        "latency_ms": 1096
+        "latency_ms": 1409,
+        "raw": null
       }
     ],
     "fell_back": false

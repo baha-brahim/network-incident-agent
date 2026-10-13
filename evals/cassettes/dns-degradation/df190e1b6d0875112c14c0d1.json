@@ -1,10 +1,10 @@
 {
-  "key": "1ac42aa5bf713ae67d6d36b1b6128ba33ae600f35c25930e1a3847d6409d3560",
+  "key": "df190e1b6d0875112c14c0d1287fc853c90e63dcff442924c08ad865024ea70e",
   "request": {
     "role": "agent",
     "purpose": "investigate turn 2",
-    "messages_hash": "f1695c9ce81507a328161081ab00f47eee08684a3cf10bf656c1edb4558de835",
-    "tools_hash": "6295a6f4fc4b92ae5377237248cdeceac29ba7dbd7661c2ee9f409e784fe8072",
+    "messages_hash": "24074e9eaa7f0b06acf823519c2f42313d08d5de31a14ee233487eadde042a00",
+    "tools_hash": "981f987788c7e36b012725d71b54146e226c398e3207ae5852ce585df679054d",
     "schema_hash": "",
     "n_messages": 2,
     "tool_names": [
@@ -27,17 +27,17 @@
       {
         "name": "get_changes",
         "args": {
-          "end": "2026-09-02T15:00:00",
+          "start": "2026-09-02 11:00",
           "node_ids": [
             "CORE-DNS-01"
           ],
-          "start": "2026-09-02T11:00:00"
+          "end": "2026-09-02 15:00"
         }
       },
       {
         "name": "search_runbooks",
         "args": {
-          "query": "DNS resolution spikes query success drops software upgrade"
+          "query": "DNS_TIMEOUT_RATE software_upgrade"
         }
       }
     ],
@@ -46,16 +46,17 @@
   "usage": {
     "provider": "gemini",
     "model": "gemini-3.5-flash-lite",
-    "input_tokens": 4491,
-    "output_tokens": 95,
-    "latency_ms": 978,
+    "input_tokens": 3839,
+    "output_tokens": 89,
+    "latency_ms": 951,
     "served_model": "gemini-3.5-flash-lite",
     "attempts": [
       {
         "model": "gemini:gemini-3.5-flash-lite",
         "status": "ok",
         "error": null,
-        "latency_ms": 978
+        "latency_ms": 951,
+        "raw": null
       }
     ],
     "fell_back": false
