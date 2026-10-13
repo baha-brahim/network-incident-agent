@@ -1,0 +1,698 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-04T07:42:00Z",
+    "case_id": "h101-SCN-001-q0",
+    "question": "Customers everywhere report slow data and traffic dipped nationally yesterday afternoon. Why?",
+    "question_index": 0,
+    "scenario_id": "SCN-001",
+    "seed": 101,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:44:42.132707Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-04T07:42:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-04 08:42",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-03 10:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-03 10:00 to 2026-09-04 08:42.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0001 high ended, 2026-09-03 13:15 to 2026-09-03 15:45 (2.5 h): Nationwide: traffic, DNS query success and UPF throughput drop; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 43 more) and on CORE-DNS-01, CORE-UPF-01,...\n  latency_ms spike on 52 entities: worst TUN z 24.1, 23.5 -> 47.6, 2026-09-03 13:15 to 2026-09-03 15:45\n  dl_volume_mb drop on 22 entities: worst TUN z -5.7, 393747 -> 253502, 2026-09-03 13:15 to 2026-09-03 15:00\n  throughput_gbps drop on 2 entities: worst CORE-UPF-01 z -6.2, 4.9 -> 3.22, 2026-09-03 13:15 to 2026-09-03 15:00\n  +2 more metric group(s): query_success_pct drop, resolution_ms spike",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-03 10:00 to 2026-09-04 08:42.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0001",
+          "ANM-000074",
+          "ANM-000073",
+          "ANM-000003"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "end": "2026-09-03 18:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01",
+            "CORE-UPF-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 10:00"
+        },
+        "body": "2 change(s) on CORE-DNS-01, CORE-UPF-01 and its parents, 2026-09-03 10:00 to 2026-09-03 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42).\n2026-09-03 12:14 CHG-2026-0003 software_upgrade on CORE-DNS-01: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)\n2026-09-03 12:16 CHG-2026-0004 software_upgrade on CORE-UPF-01: Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on CORE-DNS-01, CORE-UPF-01 and its parents, 2026-09-03 10:00 to 2026-09-03 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "CHG-2026-0003",
+          "CHG-2026-0004"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-03 18:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01",
+            "CORE-UPF-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 10:00"
+        },
+        "body": "No maintenance window scheduled on CORE-DNS-01, CORE-UPF-01 and its parents between 2026-09-03 10:00 and 2026-09-03 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on CORE-DNS-01, CORE-UPF-01 and its parents between 2026-09-03 10:00 and 2026-09-03 18:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-03 18:00",
+          "entity_ids": [
+            "CORE-DNS-01",
+            "CORE-UPF-01"
+          ],
+          "entity_type": "core_node",
+          "metrics": [
+            "query_success_pct",
+            "resolution_ms"
+          ],
+          "start": "2026-09-03 12:00"
+        },
+        "body": "Deviation in 2 of 2 series. Earliest onset 2026-09-03 13:15: CORE-DNS-01 query_success_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-04 08:42). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier weekdays with data; treat small deviations with caution.\nCORE-UPF-01 has no metric query_success_pct.\nCORE-UPF-01 has no metric resolution_ms.\nCORE-DNS-01 query_success_pct: mean 95.2 vs baseline 99.9 (-5%); min 87.8 at 2026-09-03 13:15, max 99.9 at 2026-09-03 16:30.\nDeviation below baseline: onset 2026-09-03 13:15; worst 87.8 vs 99.9 at 2026-09-03 13:15; recovery 2026-09-03 15:45.\nseries (45 min buckets from 2026-09-03 12:00): 99.9 95.9 88.3 88 88.2 99.9 99.9 99.9 99.9\nbaseline: 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9 99.9\nCORE-DNS-01 resolution_ms: mean 71.6 vs baseline 10.9 (+555%); min 9.9 at 2026-09-03 12:30, max 178 at 2026-09-03 15:00.\nDeviation above baseline: onset 2026-09-03 13:15; worst 178 vs 11 at 2026-09-03 15:00; recovery 2026-09-03 15:45.\nseries (45 min buckets from 2026-09-03 12:00): 10.5 59.9 159 167 163 10.7 11 10.8 10.8\nbaseline: 11.2 11 11.6 11.1 11 10.8 10.6 10.1 10.6",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 2 series. Earliest onset 2026-09-03 13:15: CORE-DNS-01 query_success_pct below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 33
+      },
+      {
+        "args": {
+          "end": "2026-09-03 14:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 11:00"
+        },
+        "body": "1 change(s) on CORE-DNS-01 and its parents, 2026-09-03 11:00 to 2026-09-03 14:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42).\n2026-09-03 12:14 CHG-2026-0003 software_upgrade on CORE-DNS-01: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on CORE-DNS-01 and its parents, 2026-09-03 11:00 to 2026-09-03 14:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "CHG-2026-0003"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-03 14:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "CORE-UPF-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-03 11:00"
+        },
+        "body": "1 change(s) on CORE-UPF-01 and its parents, 2026-09-03 11:00 to 2026-09-03 14:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42).\n2026-09-03 12:16 CHG-2026-0004 software_upgrade on CORE-UPF-01: Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on CORE-UPF-01 and its parents, 2026-09-03 11:00 to 2026-09-03 14:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "CHG-2026-0004"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "software_upgrade resolver service restart CORE-DNS-01 CORE-UPF-01"
+        },
+        "body": "4 runbook chunk(s) for 'software_upgrade resolver service restart CORE-DNS-01 CORE-UPF-01', best first (excerpts):\n[RB-DNS-DEGRADATION#03] Core DNS degradation > Differential diagnosis: Versus a public holiday or other expected demand change ... In a DNS fault the dip lasts hours, latency rises, and the DNS KPIs are off. Versus congestion ... With DNS trouble latency is high while PRB is low. ... DNS trouble is nationwide, leaves RRC success alone and raises latency. ... Versus AMF or UPF trouble ... A single UPF covers some regions, not all. Versus a...\n[RB-DNS-DEGRADATION#04] Core DNS degradation > Verification steps: 1. `get_anomalies`: look for latency and volume anomalies in all regions starting in the same step. 2. ... 3. `query_kpis` on core metrics of `CORE-DNS-01`: `query_success_pct` and `resolution_ms`. Do this even when there is no alarm. 4. ... 5. ... 6. `get_changes` on core nodes in the six hours before the onset. ... `get_alarms` on the DNS node, including any late `DN...\n[RB-RAN-UPGRADE-REGRESSION#01] RAN software upgrade regression > Overview: A software upgrade on radio equipment replaces the running software on the baseband or radio units. Upgrades are usually run at night, require a restart of a few minutes, and are logged as a `software_upgrade` change. A regression happens when the new version behaves worse than the old one: handovers fail more, a feature stops working, or the unit restarts repeatedly. ...\n[RB-RAN-UPGRADE-REGRESSION#03] RAN software upgrade regression > Differential diagnosis: Versus the harmless upgrades Most upgrades produce nothing more than a brief dip in availability during the restart. A software change only becomes a suspect if quality is worse after the restart than before it, on the upgraded sites only. Versus a bad configuration push ... An upgrade regression starts after the restart, tracks the software version, and may last days. ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'software_upgrade resolver service restart CORE-DNS-01 CORE-UPF-01', best first (excerpts):",
+        "iteration": 5,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "RB-DNS-DEGRADATION#03",
+          "RB-DNS-DEGRADATION#04",
+          "RB-RAN-UPGRADE-REGRESSION#01",
+          "RB-RAN-UPGRADE-REGRESSION#03"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 12
+      },
+      {
+        "args": {
+          "end": "2026-09-03 18:00",
+          "region_id": null,
+          "start": "2026-09-03 12:00"
+        },
+        "body": "No external events for all regions between 2026-09-03 12:00 and 2026-09-03 18:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for all regions between 2026-09-03 12:00 and 2026-09-03 18:00.",
+        "iteration": 5,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALR-0001": {
+        "kind": "alert",
+        "ref": "ALR-0001",
+        "summary": "ended alert from 2026-09-03 13:15: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01, CORE-UPF-01, CORE-UPF-02; region-level SAH, SFX,..."
+      },
+      "ANM-000003": {
+        "kind": "anomaly",
+        "ref": "ANM-000003",
+        "summary": "CORE-UPF-01 throughput_gbps drop, z -6.2, baseline 4.9 -> 3.22"
+      },
+      "ANM-000073": {
+        "kind": "anomaly",
+        "ref": "ANM-000073",
+        "summary": "TUN dl_volume_mb drop, z -5.7, baseline 393747 -> 253502"
+      },
+      "ANM-000074": {
+        "kind": "anomaly",
+        "ref": "ANM-000074",
+        "summary": "TUN latency_ms spike, z 24.1, baseline 23.5 -> 47.6"
+      },
+      "CHG-2026-0003": {
+        "kind": "change",
+        "ref": "CHG-2026-0003",
+        "summary": "software_upgrade on CORE-DNS-01 at 2026-09-03 12:14: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)"
+      },
+      "CHG-2026-0004": {
+        "kind": "change",
+        "ref": "CHG-2026-0004",
+        "summary": "software_upgrade on CORE-UPF-01 at 2026-09-03 12:16: Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)"
+      },
+      "RB-DNS-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#03",
+        "summary": "Core DNS degradation > Differential diagnosis: ### Versus a public holiday or other expected demand change A holiday also lowers traffic in every region, but..."
+      },
+      "RB-DNS-DEGRADATION#04": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#04",
+        "summary": "Core DNS degradation > Verification steps: 1. `get_anomalies`: look for latency and volume anomalies in all regions starting in the same step. 2. `query_kpis..."
+      },
+      "RB-RAN-UPGRADE-REGRESSION#01": {
+        "kind": "runbook",
+        "ref": "RB-RAN-UPGRADE-REGRESSION#01",
+        "summary": "RAN software upgrade regression > Overview: A software upgrade on radio equipment replaces the running software on the baseband or radio units. Upgrades are..."
+      },
+      "RB-RAN-UPGRADE-REGRESSION#03": {
+        "kind": "runbook",
+        "ref": "RB-RAN-UPGRADE-REGRESSION#03",
+        "summary": "RAN software upgrade regression > Differential diagnosis: ### Versus the harmless upgrades Most upgrades produce nothing more than a brief dip in availabilit..."
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-03 10:00, end=2026-09-04 08:42) -> 1 detector alert(s) overlap 2026-09-03 10:00 to 2026-09-04 08:42."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_changes(start=2026-09-03 10:00, end=2026-09-03 18:00, node_ids=['CORE-DNS-01', 'CORE-UPF-01'], include_ancestors=True) -> 2 change(s) on CORE-DNS-01, CORE-UPF-01 and its parents, 2026-09-03 10:00 to 2026-09-03 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_maintenance(start=2026-09-03 10:00, end=2026-09-03 18:00, node_ids=['CORE-DNS-01', 'CORE-UPF-01'], include_ancestors=True) -> No maintenance window scheduled on CORE-DNS-01, CORE-UPF-01 and its parents between 2026-09-03 10:00 and 2026-09-03 18:00."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "query_kpis(entity_type=core_node, entity_ids=['CORE-DNS-01', 'CORE-UPF-01'], metrics=['query_success_pct', 'resolution_ms'], start=2026-09-03 12:00, e -> Deviation in 2 of 2 series. Earliest onset 2026-09-03 13:15: CORE-DNS-01 query_success_pct below baseline."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-03 11:00, end=2026-09-03 14:00, node_ids=['CORE-DNS-01'], include_ancestors=True) -> 1 change(s) on CORE-DNS-01 and its parents, 2026-09-03 11:00 to 2026-09-03 14:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-03 11:00, end=2026-09-03 14:00, node_ids=['CORE-UPF-01'], include_ancestors=True) -> 1 change(s) on CORE-UPF-01 and its parents, 2026-09-03 11:00 to 2026-09-03 14:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-04 08:42)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "search_runbooks(query=software_upgrade resolver service restart CORE-DNS-01 CORE-UPF-01, k=4) -> 4 runbook chunk(s) for 'software_upgrade resolver service restart CORE-DNS-01 CORE-UPF-01', best first (excerpts):"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_external_events(start=2026-09-03 12:00, end=2026-09-03 18:00) -> No external events for all regions between 2026-09-03 12:00 and 2026-09-03 18:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide Slow Data and Traffic Dip Incident Report\n\n- **Classification:** incident\n- **Root cause:** bad_change at `CORE-DNS-01`\n- **Confidence:** high (Direct evidence of software upgrade changes shortly before the KPI deviations on CORE-DNS-01 and CORE-UPF-01, confirmed anomaly onset timing, and ruled out maintenance and external events.)\n- **Impact:** 2026-09-03 13:15 to 2026-09-03 15:45\n- **Cause time:** 2026-09-03 12:14\n- **Affected:** CORE-DNS-01, CORE-UPF-01, S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004\n\n## Summary\n\nSoftware upgrades on core nodes CORE-DNS-01 and CORE-UPF-01 caused core degradation leading to nationwide slow data and traffic dip.\n\nNationwide slow data and traffic dip affecting 48 sites and core nodes, starting at 2026-09-03 13:15 and recovering by 2026-09-03 15:45.\n\n## Timeline\n\n- 2026-09-03 12:14: Software upgrade patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart) [CHG-2026-0003]\n- 2026-09-03 12:16: Software upgrade patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart) [CHG-2026-0004]\n- 2026-09-03 13:15: Anomaly alert ALR-0001 begins, indicating nationwide slow data and traffic dip affecting 48 sites and core nodes [ALR-0001, T1]\n- 2026-09-03 13:15: CORE-DNS-01 query_success_pct drops below baseline [T4]\n\n## Evidence\n\n- A software upgrade was performed on CORE-DNS-01 at 2026-09-03 12:14. [CHG-2026-0003]\n- A software upgrade was performed on CORE-UPF-01 at 2026-09-03 12:16. [CHG-2026-0004]\n- Nationwide incident alert ALR-0001 started at 2026-09-03 13:15 affecting 48 sites, CORE-DNS-01, and CORE-UPF-01. [ALR-0001]\n- CORE-DNS-01 showed query_success_pct below baseline starting at 2026-09-03 13:15. [T4]\n- No maintenance windows were scheduled on CORE-DNS-01, CORE-UPF-01 or their parents between 2026-09-03 10:00 and 18:00. [T3]\n- No external events occurred between 2026-09-03 12:00 and 18:00. [T8]\n\n## Hypotheses\n\n1. **bad_change** at CORE-DNS-01: confirmed. Software upgrades on core nodes closely precede the nationwide slow data and DNS query success degradation. [CHG-2026-0003, CHG-2026-0004, T4]\n2. **planned_maintenance**: rejected. No maintenance windows were scheduled during the incident window. [T3]\n\n## Ruled out\n\n- T3: No maintenance window was scheduled during the incident window.\n- T8: No external events were recorded across all regions during the incident window.\n\n## Recommended actions\n\n- Review software patch 21.4.3 for potential regression issues on core resolver and UPF services.\n- Verify stability metrics post-upgrade before wide deployment.\n\n## Sources\n\n- `CHG-2026-0003`: software_upgrade on CORE-DNS-01 at 2026-09-03 12:14: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)\n- `CHG-2026-0004`: software_upgrade on CORE-UPF-01 at 2026-09-03 12:16: Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)\n- `ALR-0001`: ended alert from 2026-09-03 13:15: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01, CORE-UPF-01, CORE-UPF-02; region-level SAH, SFX,...\n- `T1`: get_anomalies(start=2026-09-03 10:00, end=2026-09-04 08:42) -> 1 detector alert(s) overlap 2026-09-03 10:00 to 2026-09-04 08:42.\n- `T4`: query_kpis(entity_type=core_node, entity_ids=['CORE-DNS-01', 'CORE-UPF-01'], metrics=['query_success_pct', 'resolution_ms'], start=2026-09-03 12:00, e -> Deviation in 2 of 2 series. Earliest onset 2026-09-03 13:15: CORE-DNS-01 query_success_pct below baseline.\n- `T3`: get_maintenance(start=2026-09-03 10:00, end=2026-09-03 18:00, node_ids=['CORE-DNS-01', 'CORE-UPF-01'], include_ancestors=True) -> No maintenance window scheduled on CORE-DNS-01, CORE-UPF-01 and its parents between 2026-09-03 10:00 and 2026-09-03 18:00.\n- `T8`: get_external_events(start=2026-09-03 12:00, end=2026-09-03 18:00) -> No external events for all regions between 2026-09-03 12:00 and 2026-09-03 18:00.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Customers everywhere report slow data and traffic dipped nationally yesterday afternoon. Why?",
+    "report": {
+      "affected_node_ids": [
+        "CORE-DNS-01",
+        "CORE-UPF-01",
+        "S-SAH-001",
+        "S-SAH-002",
+        "S-SAH-003",
+        "S-SAH-004"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of software upgrade changes shortly before the KPI deviations on CORE-DNS-01 and CORE-UPF-01, confirmed anomaly onset timing, and ruled out maintenance and external events.",
+      "dismissed_signals": [
+        {
+          "reason": "No maintenance window was scheduled during the incident window.",
+          "ref": "T3"
+        },
+        {
+          "reason": "No external events were recorded across all regions during the incident window.",
+          "ref": "T8"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "A software upgrade was performed on CORE-DNS-01 at 2026-09-03 12:14.",
+          "refs": [
+            "CHG-2026-0003"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A software upgrade was performed on CORE-UPF-01 at 2026-09-03 12:16.",
+          "refs": [
+            "CHG-2026-0004"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Nationwide incident alert ALR-0001 started at 2026-09-03 13:15 affecting 48 sites, CORE-DNS-01, and CORE-UPF-01.",
+          "refs": [
+            "ALR-0001"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "CORE-DNS-01 showed query_success_pct below baseline starting at 2026-09-03 13:15.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on CORE-DNS-01, CORE-UPF-01 or their parents between 2026-09-03 10:00 and 18:00.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events occurred between 2026-09-03 12:00 and 18:00.",
+          "refs": [
+            "T8"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "CORE-DNS-01",
+          "reason": "Software upgrades on core nodes closely precede the nationwide slow data and DNS query success degradation.",
+          "refs": [
+            "CHG-2026-0003",
+            "CHG-2026-0004",
+            "T4"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": null,
+          "reason": "No maintenance windows were scheduled during the incident window.",
+          "refs": [
+            "T3"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-03 15:45",
+      "impact_start": "2026-09-03 13:15",
+      "impact_summary": "Nationwide slow data and traffic dip affecting 48 sites and core nodes, starting at 2026-09-03 13:15 and recovering by 2026-09-03 15:45.",
+      "recommended_actions": [
+        "Review software patch 21.4.3 for potential regression issues on core resolver and UPF services.",
+        "Verify stability metrics post-upgrade before wide deployment."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "CORE-DNS-01",
+      "root_cause_summary": "Software upgrades on core nodes CORE-DNS-01 and CORE-UPF-01 caused core degradation leading to nationwide slow data and traffic dip.",
+      "root_cause_time": "2026-09-03 12:14",
+      "timeline": [
+        {
+          "event": "Software upgrade patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)",
+          "refs": [
+            "CHG-2026-0003"
+          ],
+          "time": "2026-09-03 12:14"
+        },
+        {
+          "event": "Software upgrade patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)",
+          "refs": [
+            "CHG-2026-0004"
+          ],
+          "time": "2026-09-03 12:16"
+        },
+        {
+          "event": "Anomaly alert ALR-0001 begins, indicating nationwide slow data and traffic dip affecting 48 sites and core nodes",
+          "refs": [
+            "ALR-0001",
+            "T1"
+          ],
+          "time": "2026-09-03 13:15"
+        },
+        {
+          "event": "CORE-DNS-01 query_success_pct drops below baseline",
+          "refs": [
+            "T4"
+          ],
+          "time": "2026-09-03 13:15"
+        }
+      ],
+      "title": "Nationwide Slow Data and Traffic Dip Incident Report"
+    },
+    "run_id": "RUN-727978bd8a",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "slow data and traffic dip",
+      "unknown_ids": [],
+      "window_end": "2026-09-03T17:00:00Z",
+      "window_start": "2026-09-03T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 379,
+        "latency_ms": 846,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 97,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1039
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3028,
+        "latency_ms": 1199,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 266,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4827
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4447,
+        "latency_ms": 2952,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 72,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6205
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4755,
+        "latency_ms": 804,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 73,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2338
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5067,
+        "latency_ms": 1025,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 139,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4700
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5247,
+        "latency_ms": 1196,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 89,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4668
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5495,
+        "latency_ms": 1331,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 179,
+        "provider": "gemini",
+        "purpose": "investigate turn 6",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4617
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3212,
+        "latency_ms": 3844,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1506,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7011
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 31630,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 8
+      },
+      "llm_calls": 8,
+      "output_tokens": 2421,
+      "tool_calls": 8,
+      "wall_seconds": 35.53
+    }
+  },
+  "run_name": "hard-baseline",
+  "truth": {
+    "affected_node_ids": [
+      "CORE-DNS-01",
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0003",
+        "table": "changes",
+        "visible_from": "2026-09-03T11:14:00+00:00",
+        "why": "Harmless software_upgrade on CORE-DNS-01 completed 56 min before the degradation; the DNS KPIs stayed normal until the onset and the same patch on other core nodes did nothing."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-03T14:49:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0005",
+        "table": "changes",
+        "visible_from": "2026-09-03T11:17:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0004",
+        "table": "changes",
+        "visible_from": "2026-09-03T11:16:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_changes",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-03T12:10:00Z",
+    "is_incident": true,
+    "kind": "dns_degradation",
+    "notes": "trap=change_on_root_node; CORE-DNS-01 degraded for about 159 min; nationwide latency up, volume down, RRC unaffected. No alarm was raised; the evidence is in core_kpis. Trap: a software upgrade on CORE-DNS-01 itself ran 56 min before the onset, so a hasty investigator blames the change. Settled by: (1) the DNS and RRC KPIs were normal for 56 min after the upgrade, while a configuration change takes effect at once; (2) the same patch under the same ticket went onto CORE-AMF-01 and CORE-UPF-01 at the same time and both stayed healthy; (3) the degradation ended by itself, with no rollback or other change at the recovery.",
+    "root_cause_category": "core_degradation",
+    "root_cause_node_id": "CORE-DNS-01",
+    "severity": "high",
+    "start_at": "2026-09-03T12:10:00Z"
+  },
+  "variant": "default"
+}

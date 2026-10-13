@@ -1,0 +1,711 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-10T07:14:00Z",
+    "case_id": "h101-SCN-008-q0",
+    "question": "Traffic is down and latency is up at S-SFX-003 yesterday afternoon. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-008",
+    "seed": 101,
+    "split": "test"
+  },
+  "created_at": "2026-10-13T08:49:40.313898Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-10T07:14:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-10 08:14",
+          "entity_id": "S-SFX-003",
+          "region_id": null,
+          "start": "2026-09-09 10:00"
+        },
+        "body": "1 detector alert(s) overlap 2026-09-09 10:00 to 2026-09-10 08:14.\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0008 high ended, 2026-09-09 12:45 to 2026-09-09 17:15 (4.5 h): Traffic, active users and availability drop; latency spikes on 3 sites in SFX (S-SFX-001, S-SFX-003, S-SFX-004) for 4.5 h\n  dl_volume_mb drop on 1 entity: worst S-SFX-003 z -4.6, 37654 -> 20804, 2026-09-09 12:45 to 2026-09-09 14:30\n  latency_ms spike on 1 entity: worst S-SFX-003 z 5.8, 20.8 -> 29.6, 2026-09-09 13:30 to 2026-09-09 16:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 detector alert(s) overlap 2026-09-09 10:00 to 2026-09-10 08:14.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0008",
+          "ANM-000139",
+          "ANM-000140"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-003"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-02-B (microwave link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-003: site, SFX, Sakiet Ezzit, urban.\nCells: C-SFX-003-1, C-SFX-003-2, C-SFX-003-3.\nSiblings under LNK-SFX-02-B: S-SFX-001.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-02-B (microwave link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SFX-003",
+          "LNK-SFX-02-B",
+          "AGG-SFX-02",
+          "CORE-UPF-02",
+          "S-SFX-001"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-09 19:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SFX-003",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 11:00"
+        },
+        "body": "4 alarm(s) on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 critical, 3 major; 0 active at asked_at (2026-09-10 08:14).\nEarliest critical/major: 2026-09-09 12:36 LINK_DEGRADED on LNK-SFX-02-B (ALM-000165).\n2026-09-09 12:36 ALM-000165 major LINK_DEGRADED LNK-SFX-02-B: cleared 2026-09-09 16:40\n2026-09-09 13:04 ALM-000166 major MAINS_FAILURE S-SFX-004 (below AGG-SFX-02): cleared 2026-09-09 17:16\n2026-09-09 13:53 ALM-000167 major BATTERY_LOW S-SFX-004 (below AGG-SFX-02): cleared 2026-09-09 17:16\n2026-09-09 14:08 ALM-000168 critical SITE_DOWN S-SFX-004 (below AGG-SFX-02): cleared 2026-09-09 17:16",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 alarm(s) on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 critical, 3 major; 0 active at asked_at (2026-09-10 08:14).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000165",
+          "ALM-000166",
+          "ALM-000167",
+          "ALM-000168"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-09 19:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-003",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 11:00"
+        },
+        "body": "No changes on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-09 19:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-003",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 11:00"
+        },
+        "body": "No maintenance window scheduled on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-09 19:00",
+          "include_descendants": true,
+          "min_severity": "major",
+          "node_ids": [
+            "S-SFX-001",
+            "LNK-SFX-02-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 11:00"
+        },
+        "body": "1 alarm(s) on S-SFX-001, LNK-SFX-02-B and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 major; 0 active at asked_at (2026-09-10 08:14).\nEarliest critical/major: 2026-09-09 12:36 LINK_DEGRADED on LNK-SFX-02-B (ALM-000165).\n2026-09-09 12:36 ALM-000165 major LINK_DEGRADED LNK-SFX-02-B: cleared 2026-09-09 16:40",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-SFX-001, LNK-SFX-02-B and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 major; 0 active at asked_at (2026-09-10 08:14).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000165"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "end": "2026-09-09 18:00",
+          "entity_ids": [
+            "S-SFX-003",
+            "S-SFX-001"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-09 11:00"
+        },
+        "body": "Deviation in 4 of 4 series. Earliest onset 2026-09-09 12:45: S-SFX-003 dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-10 08:14). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SFX-003 dl_volume_mb: mean 25185 vs baseline 33106 (-24%); min 16891 at 2026-09-09 16:00, max 36008 at 2026-09-09 11:15.\nDeviation below baseline: onset 2026-09-09 12:45; worst 16891 vs 29927 at 2026-09-09 16:00; recovery 2026-09-09 16:30.\nseries (45 min buckets from 2026-09-09 11:00): 34981 34600 28058 21483 21973 19679 18631 23168 24443 24651\nbaseline: 37204 37398 38480 37991 36206 33465 30847 26769 24365 25948\nS-SFX-001 latency_ms: mean 54.4 vs baseline 43.8 (+24%); min 41.2 at 2026-09-09 11:00, max 67.8 at 2026-09-09 14:45.\nDeviation above baseline: onset 2026-09-09 12:45; worst 67.8 vs 43.2 at 2026-09-09 14:45; recovery 2026-09-09 16:30.\nseries (45 min buckets from 2026-09-09 11:00): 42.3 42.9 57.3 63 63.3 66.9 65.1 49 45.4 45.7\nbaseline: 43 44.2 44 45.1 44.7 43.9 43.2 43.3 43.3 43\nS-SFX-001 dl_volume_mb: mean 2125 vs baseline 2825 (-25%); min 1387 at 2026-09-09 16:00, max 3033 at 2026-09-09 18:00.\nDeviation below baseline: onset 2026-09-09 12:45; worst 1387 vs 2827 at 2026-09-09 16:00; recovery 2026-09-09 16:30.\nseries (45 min buckets from 2026-09-09 11:00): 2589 2646 2030 1596 1707 1622 1537 2151 2656 3006\nbaseline: 2772 2657 2768 2849 2810 2797 2854 2703 2906 3283\nS-SFX-003 latency_ms: mean 25 vs baseline 21.3 (+18%); min 20.3 at 2026-09-09 11:30, max 29.8 at 2026-09-09 16:00.\nDeviation above baseline: onset 2026-09-09 14:15; worst 29.8 vs 21.5 at 2026-09-09 16:00; recovery 2026-09-09 16:30.\nseries (45 min buckets from 2026-09-09 11:00): 20.6 20.7 24.7 27.8 28.5 28.8 28.8 24.7 22.3 22.2\nbaseline: 21.3 21.3 21.4 22.1 21.8 20.9 21 20.9 21 20.7",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 4 of 4 series. Earliest onset 2026-09-09 12:45: S-SFX-003 dl_volume_mb below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 45
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "LINK_DEGRADED microwave link"
+        },
+        "body": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link', best first (excerpts):\n[RB-MICROWAVE-DEGRADATION#03] Microwave link degradation > Differential diagnosis: Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on links all the time (\"minor errored seconds, link still within SLA\"). ... A major alarm on a microwave link with volume and latency moving is a different thing. ... Versus a fiber cut ... On a fiber link, a minor `LINK_DEGRADED` with falling optical power can precede a cut by up t...\n[RB-MICROWAVE-DEGRADATION#02] Microwave link degradation > Signature in the data: Alarm. `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"running at reduced modulation, RSL below threshold\"). It clears a few minutes after recovery. Downstream sites (three to five behind that link): `dl_volume_mb` down 20 to 50 percent, `latency_ms` up 30 to 100 percent. Availability. ... Shape. ... Exactly the children of the one link. ...\n[RB-MICROWAVE-DEGRADATION#05] Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link is microwave and list its downstream sites. 3. `query_kpis` on those sites: volume down, latency up, availability near 100 percent, PRB not high. 4. ... 5. ... 6. `get_changes` and `get_maintenance` on the link, to rule them out.\n[RB-FIBER-CUT#03] Fiber cut on a transport link > Differential diagnosis: Versus planned maintenance ... Versus a site power failure ... Versus microwave degradation A degraded microwave link keeps its sites up. Availability stays near 100 %, volume falls by a fraction, and the alarm is a major `LINK_DEGRADED`. ... Check `nodes.attrs.medium`: a microwave link can also fail hard, and the data then looks like a fiber cut, although the repair is different. ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link', best first (excerpts):",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "RB-MICROWAVE-DEGRADATION#03",
+          "RB-MICROWAVE-DEGRADATION#02",
+          "RB-MICROWAVE-DEGRADATION#05",
+          "RB-FIBER-CUT#03"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 12
+      },
+      {
+        "args": {
+          "end": "2026-09-09 19:00",
+          "region_id": "SFX",
+          "start": "2026-09-09 11:00"
+        },
+        "body": "No external events for region SFX (and nationwide) between 2026-09-09 11:00 and 2026-09-09 19:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SFX (and nationwide) between 2026-09-09 11:00 and 2026-09-09 19:00.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-02": {
+        "kind": "node",
+        "ref": "AGG-SFX-02",
+        "summary": "agg router, SFX"
+      },
+      "ALM-000165": {
+        "kind": "alarm",
+        "ref": "ALM-000165",
+        "summary": "major LINK_DEGRADED on LNK-SFX-02-B, raised 2026-09-09 12:36, cleared 2026-09-09 16:40"
+      },
+      "ALM-000166": {
+        "kind": "alarm",
+        "ref": "ALM-000166",
+        "summary": "major MAINS_FAILURE on S-SFX-004, raised 2026-09-09 13:04, cleared 2026-09-09 17:16"
+      },
+      "ALM-000167": {
+        "kind": "alarm",
+        "ref": "ALM-000167",
+        "summary": "major BATTERY_LOW on S-SFX-004, raised 2026-09-09 13:53, cleared 2026-09-09 17:16"
+      },
+      "ALM-000168": {
+        "kind": "alarm",
+        "ref": "ALM-000168",
+        "summary": "critical SITE_DOWN on S-SFX-004, raised 2026-09-09 14:08, cleared 2026-09-09 17:16"
+      },
+      "ALR-0008": {
+        "kind": "alert",
+        "ref": "ALR-0008",
+        "summary": "ended alert from 2026-09-09 12:45: 3 site(s) (S-SFX-001, S-SFX-003, S-SFX-004); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb, latency_ms"
+      },
+      "ANM-000139": {
+        "kind": "anomaly",
+        "ref": "ANM-000139",
+        "summary": "S-SFX-003 dl_volume_mb drop, z -4.6, baseline 37654 -> 20804"
+      },
+      "ANM-000140": {
+        "kind": "anomaly",
+        "ref": "ANM-000140",
+        "summary": "S-SFX-003 latency_ms spike, z 5.8, baseline 20.8 -> 29.6"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-02-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-02-B",
+        "summary": "microwave link, SFX, 9.0 km, 1.0 Gbps"
+      },
+      "RB-FIBER-CUT#03": {
+        "kind": "runbook",
+        "ref": "RB-FIBER-CUT#03",
+        "summary": "Fiber cut on a transport link > Differential diagnosis: ### Versus planned maintenance The alarms are identical: `LINK_LOS` plus `SITE_DOWN`. Only the mainte..."
+      },
+      "RB-MICROWAVE-DEGRADATION#02": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#02",
+        "summary": "Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run..."
+      },
+      "RB-MICROWAVE-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#03",
+        "summary": "Microwave link degradation > Differential diagnosis: ### Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on link..."
+      },
+      "RB-MICROWAVE-DEGRADATION#05": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#05",
+        "summary": "Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link..."
+      },
+      "S-SFX-001": {
+        "kind": "node",
+        "ref": "S-SFX-001",
+        "summary": "site, SFX, Sfax Centre, rural; sibling of S-SFX-003"
+      },
+      "S-SFX-003": {
+        "kind": "node",
+        "ref": "S-SFX-003",
+        "summary": "site, SFX, Sakiet Ezzit, urban; chain: S-SFX-003 -> LNK-SFX-02-B -> AGG-SFX-02 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-09 10:00, end=2026-09-10 08:14, entity_id=S-SFX-003) -> 1 detector alert(s) overlap 2026-09-09 10:00 to 2026-09-10 08:14."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SFX-003, include=all) -> Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-02-B (microwave link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-003', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_descendants=True) -> 4 alarm(s) on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 critical, 3 major; 0 active at asked_at (2026-09-10 08:14)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-003', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_ancestors=True) -> No changes on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-003', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_ancestors=True) -> No maintenance window scheduled on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-001', 'LNK-SFX-02-B'], include_descendants=True, min_severity=major) -> 1 alarm(s) on S-SFX-001, LNK-SFX-02-B and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 major; 0 active at asked_at (2026-09-10 08:14)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-003', 'S-SFX-001'], metrics=['latency_ms', 'dl_volume_mb'], start=2026-09-09 11:00, end=2026-09-09 18: -> Deviation in 4 of 4 series. Earliest onset 2026-09-09 12:45: S-SFX-003 dl_volume_mb below baseline."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "search_runbooks(query=LINK_DEGRADED microwave link, k=4) -> 4 runbook chunk(s) for 'LINK_DEGRADED microwave link', best first (excerpts):"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_external_events(start=2026-09-09 11:00, end=2026-09-09 19:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-09 11:00 and 2026-09-09 19:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Traffic Down and Latency Up at S-SFX-003\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-SFX-02-B`\n- **Confidence:** high (Direct evidence of a major LINK_DEGRADED alarm on the shared microwave link matching the timing of the KPI onset, with changes, maintenance, and external events checked and ruled out.)\n- **Impact:** 2026-09-09 12:45 to 2026-09-09 16:40\n- **Cause time:** 2026-09-09 12:36\n- **Affected:** S-SFX-003, S-SFX-001\n\n## Summary\n\nA major LINK_DEGRADED alarm on microwave link LNK-SFX-02-B caused transport degradation affecting downstream sites S-SFX-003 and S-SFX-001.\n\nTraffic was down and latency was up at S-SFX-003 and S-SFX-001 between 2026-09-09 12:45 and 2026-09-09 16:40.\n\n## Timeline\n\n- 2026-09-09 12:36: Major LINK_DEGRADED alarm raised on microwave link LNK-SFX-02-B. [ALM-000165, RB-MICROWAVE-DEGRADATION#02]\n- 2026-09-09 12:45: Earliest KPI onset: S-SFX-003 download volume dropped and latency spiked. [T7, ANM-000139, ANM-000140, ALR-0008]\n- 2026-09-09 16:40: LINK_DEGRADED alarm cleared on microwave link LNK-SFX-02-B, ending the impact. [ALM-000165]\n\n## Evidence\n\n- A detector alert overlapped from 2026-09-09 10:00 to 2026-09-10 08:14 on entity S-SFX-003. [T1]\n- S-SFX-003 depends on microwave link LNK-SFX-02-B, aggregator AGG-SFX-02, and core CORE-UPF-02. [T2]\n- A major LINK_DEGRADED alarm was active on LNK-SFX-02-B from 2026-09-09 12:36 to 2026-09-09 16:40. [T3, T6, ALM-000165]\n- No changes occurred on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 or its parents between 2026-09-09 11:00 and 2026-09-09 19:00. [T4]\n- No maintenance window was scheduled on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 or its parents between 2026-09-09 11:00 and 2026-09-09 19:00. [T5]\n- KPI deviation showed S-SFX-003 download volume below baseline and latency spiked starting at 2026-09-09 12:45. [T7, ANM-000139, ANM-000140]\n- No external events occurred for region SFX between 2026-09-09 11:00 and 2026-09-09 19:00. [T9]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-SFX-02-B: confirmed. Major LINK_DEGRADED alarm on LNK-SFX-02-B directly matches the timeline and KPI degradation on downstream sites S-SFX-003 and S-SFX-001, with no conflicting changes or maintenance. [ALM-000165, RB-MICROWAVE-DEGRADATION#02, RB-MICROWAVE-DEGRADATION#05]\n2. **bad_change**: rejected. No changes were found on the nodes or parents during the relevant window. [T4]\n3. **planned_maintenance**: rejected. No maintenance windows were scheduled during the relevant window. [T5]\n\n## Ruled out\n\n- ALM-000166: Mains failure on S-SFX-004 occurred later and on a different site, unrelated to S-SFX-003 transport issues.\n- ALM-000167: Battery low on S-SFX-004 occurred later and on a different site, unrelated to S-SFX-003 transport issues.\n- ALM-000168: Site down on S-SFX-004 occurred later and on a different site, unrelated to S-SFX-003 transport issues.\n\n## Recommended actions\n\n- Inspect microwave link LNK-SFX-02-B for environmental interference, hardware errors, or physical obstruction that caused the temporary degradation.\n\n## Sources\n\n- `ALM-000165`: major LINK_DEGRADED on LNK-SFX-02-B, raised 2026-09-09 12:36, cleared 2026-09-09 16:40\n- `RB-MICROWAVE-DEGRADATION#02`: Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run...\n- `T7`: query_kpis(entity_type=site, entity_ids=['S-SFX-003', 'S-SFX-001'], metrics=['latency_ms', 'dl_volume_mb'], start=2026-09-09 11:00, end=2026-09-09 18: -> Deviation in 4 of 4 series. Earliest onset 2026-09-09 12:45: S-SFX-003 dl_volume_mb below baseline.\n- `ANM-000139`: S-SFX-003 dl_volume_mb drop, z -4.6, baseline 37654 -> 20804\n- `ANM-000140`: S-SFX-003 latency_ms spike, z 5.8, baseline 20.8 -> 29.6\n- `ALR-0008`: ended alert from 2026-09-09 12:45: 3 site(s) (S-SFX-001, S-SFX-003, S-SFX-004); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb, latency_ms\n- `T1`: get_anomalies(start=2026-09-09 10:00, end=2026-09-10 08:14, entity_id=S-SFX-003) -> 1 detector alert(s) overlap 2026-09-09 10:00 to 2026-09-10 08:14.\n- `T2`: get_topology(node_id=S-SFX-003, include=all) -> Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-02-B (microwave link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)\n- `T3`: get_alarms(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-003', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_descendants=True) -> 4 alarm(s) on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 critical, 3 major; 0 active at asked_at (2026-09-10 08:14).\n- `T6`: get_alarms(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-001', 'LNK-SFX-02-B'], include_descendants=True, min_severity=major) -> 1 alarm(s) on S-SFX-001, LNK-SFX-02-B and nodes below, 2026-09-09 11:00 to 2026-09-09 19:00: 1 major; 0 active at asked_at (2026-09-10 08:14).\n- `T4`: get_changes(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-003', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_ancestors=True) -> No changes on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00.\n- `T5`: get_maintenance(start=2026-09-09 11:00, end=2026-09-09 19:00, node_ids=['S-SFX-003', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_ancestors=True) -> No maintenance window scheduled on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-09 11:00 and 2026-09-09 19:00.\n- `T9`: get_external_events(start=2026-09-09 11:00, end=2026-09-09 19:00, region_id=SFX) -> No external events for region SFX (and nationwide) between 2026-09-09 11:00 and 2026-09-09 19:00.\n- `RB-MICROWAVE-DEGRADATION#05`: Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link...\n- `ALM-000166`: major MAINS_FAILURE on S-SFX-004, raised 2026-09-09 13:04, cleared 2026-09-09 17:16\n- `ALM-000167`: major BATTERY_LOW on S-SFX-004, raised 2026-09-09 13:53, cleared 2026-09-09 17:16\n- `ALM-000168`: critical SITE_DOWN on S-SFX-004, raised 2026-09-09 14:08, cleared 2026-09-09 17:16\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Traffic is down and latency is up at S-SFX-003 yesterday afternoon. What is going on?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-003",
+        "S-SFX-001"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of a major LINK_DEGRADED alarm on the shared microwave link matching the timing of the KPI onset, with changes, maintenance, and external events checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Mains failure on S-SFX-004 occurred later and on a different site, unrelated to S-SFX-003 transport issues.",
+          "ref": "ALM-000166"
+        },
+        {
+          "reason": "Battery low on S-SFX-004 occurred later and on a different site, unrelated to S-SFX-003 transport issues.",
+          "ref": "ALM-000167"
+        },
+        {
+          "reason": "Site down on S-SFX-004 occurred later and on a different site, unrelated to S-SFX-003 transport issues.",
+          "ref": "ALM-000168"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "A detector alert overlapped from 2026-09-09 10:00 to 2026-09-10 08:14 on entity S-SFX-003.",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SFX-003 depends on microwave link LNK-SFX-02-B, aggregator AGG-SFX-02, and core CORE-UPF-02.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A major LINK_DEGRADED alarm was active on LNK-SFX-02-B from 2026-09-09 12:36 to 2026-09-09 16:40.",
+          "refs": [
+            "T3",
+            "T6",
+            "ALM-000165"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes occurred on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 or its parents between 2026-09-09 11:00 and 2026-09-09 19:00.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on S-SFX-003, LNK-SFX-02-B, AGG-SFX-02 or its parents between 2026-09-09 11:00 and 2026-09-09 19:00.",
+          "refs": [
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "KPI deviation showed S-SFX-003 download volume below baseline and latency spiked starting at 2026-09-09 12:45.",
+          "refs": [
+            "T7",
+            "ANM-000139",
+            "ANM-000140"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events occurred for region SFX between 2026-09-09 11:00 and 2026-09-09 19:00.",
+          "refs": [
+            "T9"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-SFX-02-B",
+          "reason": "Major LINK_DEGRADED alarm on LNK-SFX-02-B directly matches the timeline and KPI degradation on downstream sites S-SFX-003 and S-SFX-001, with no conflicting changes or maintenance.",
+          "refs": [
+            "ALM-000165",
+            "RB-MICROWAVE-DEGRADATION#02",
+            "RB-MICROWAVE-DEGRADATION#05"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "No changes were found on the nodes or parents during the relevant window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": null,
+          "reason": "No maintenance windows were scheduled during the relevant window.",
+          "refs": [
+            "T5"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-09 16:40",
+      "impact_start": "2026-09-09 12:45",
+      "impact_summary": "Traffic was down and latency was up at S-SFX-003 and S-SFX-001 between 2026-09-09 12:45 and 2026-09-09 16:40.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-SFX-02-B for environmental interference, hardware errors, or physical obstruction that caused the temporary degradation."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-SFX-02-B",
+      "root_cause_summary": "A major LINK_DEGRADED alarm on microwave link LNK-SFX-02-B caused transport degradation affecting downstream sites S-SFX-003 and S-SFX-001.",
+      "root_cause_time": "2026-09-09 12:36",
+      "timeline": [
+        {
+          "event": "Major LINK_DEGRADED alarm raised on microwave link LNK-SFX-02-B.",
+          "refs": [
+            "ALM-000165",
+            "RB-MICROWAVE-DEGRADATION#02"
+          ],
+          "time": "2026-09-09 12:36"
+        },
+        {
+          "event": "Earliest KPI onset: S-SFX-003 download volume dropped and latency spiked.",
+          "refs": [
+            "T7",
+            "ANM-000139",
+            "ANM-000140",
+            "ALR-0008"
+          ],
+          "time": "2026-09-09 12:45"
+        },
+        {
+          "event": "LINK_DEGRADED alarm cleared on microwave link LNK-SFX-02-B, ending the impact.",
+          "refs": [
+            "ALM-000165"
+          ],
+          "time": "2026-09-09 16:40"
+        }
+      ],
+      "title": "Traffic Down and Latency Up at S-SFX-003"
+    },
+    "run_id": "RUN-9f0684c855",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SFX-003"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "Traffic down and latency up",
+      "unknown_ids": [],
+      "window_end": "2026-09-09T17:00:00Z",
+      "window_start": "2026-09-09T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 932,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 937
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3202,
+        "latency_ms": 1317,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 292,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4866
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4301,
+        "latency_ms": 1281,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 222,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4441
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5714,
+        "latency_ms": 1604,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 188,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4764
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5864,
+        "latency_ms": 988,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 63,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3881
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5729,
+        "latency_ms": 1067,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 129,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4570
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3019,
+        "latency_ms": 4717,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1876,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8146
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 28218,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2891,
+      "tool_calls": 9,
+      "wall_seconds": 31.73
+    }
+  },
+  "run_name": "hard-baseline",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SFX-02-B",
+      "S-SFX-003",
+      "S-SFX-001"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [
+      {
+        "id": "ALM-000166",
+        "table": "alarms",
+        "visible_from": "2026-09-09T12:04:00+00:00",
+        "why": "A separate, unrelated power_outage on S-SFX-004 in the same region, overlapping in time; it has its own scenario and must not be merged into this one."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-09T15:35:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000165",
+        "table": "alarms",
+        "visible_from": "2026-09-09T11:36:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-09T11:35:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "trap=two_incidents_one_region; Rain fade on microwave link LNK-SFX-02-B: throughput limited, sites stayed up. Trap: two unrelated incidents overlap in one region, so the report can mix them up. Settled by: each has its own node, alarms and KPI signature; asked about one, the report must name that one's cause and keep the other out. Overlaps in time with group 'pair-c'.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-SFX-02-B",
+    "severity": "medium",
+    "start_at": "2026-09-09T11:35:00Z"
+  },
+  "variant": "default"
+}

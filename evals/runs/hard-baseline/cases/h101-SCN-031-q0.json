@@ -1,0 +1,600 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-28T07:26:00Z",
+    "case_id": "h101-SCN-031-q0",
+    "question": "Why was nationwide traffic down today?",
+    "question_index": 0,
+    "scenario_id": "SCN-031",
+    "seed": 101,
+    "split": "test"
+  },
+  "created_at": "2026-10-11T08:47:19.804786Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-28T07:26:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-28 08:26",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-27 22:00"
+        },
+        "body": "No detector alerts for the network between 2026-09-27 22:00 and 2026-09-28 08:26.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No detector alerts for the network between 2026-09-27 22:00 and 2026-09-28 08:26.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-28 08:26",
+          "entity_ids": [],
+          "entity_type": "national",
+          "metrics": [
+            "dl_volume_mb",
+            "ul_volume_mb",
+            "active_users",
+            "availability_pct"
+          ],
+          "start": "2026-09-28 00:00"
+        },
+        "body": "Deviation in 3 of 4 series. Earliest onset 2026-09-28 06:15: NATIONAL dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-28 08:26). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nNATIONAL dl_volume_mb: mean 292848 vs baseline 335667 (-13%); min 129803 at 2026-09-28 03:45, max 611470 at 2026-09-28 08:15.\nDeviation below baseline: onset 2026-09-28 06:15; worst 284529 vs 339256 at 2026-09-28 06:15; not recovered by the last step (2026-09-28 08:15).\nseries (45 min buckets from 2026-09-28 00:00): 512636 345497 228541 164122 135507 132633 153482 203729 287161 407139 544679 611470\nNATIONAL ul_volume_mb: mean 43823 vs baseline 50277 (-13%); min 19492 at 2026-09-28 03:45, max 91308 at 2026-09-28 08:15.\nDeviation below baseline: onset 2026-09-28 06:15; worst 42326 vs 50886 at 2026-09-28 06:15; not recovered by the last step (2026-09-28 08:15).\nseries (45 min buckets from 2026-09-28 00:00): 76760 51859 34250 24489 20320 19833 22918 30304 42711 61098 81685 91308\nNATIONAL active_users: mean 2505 vs baseline 2818 (-11%); min 1132 at 2026-09-28 03:45, max 5149 at 2026-09-28 08:15.\nDeviation below baseline: onset 2026-09-28 06:30; worst 2730 vs 3195 at 2026-09-28 06:30; not recovered by the last step (2026-09-28 08:15).\nseries (45 min buckets from 2026-09-28 00:00): 4468 3010 1992 1428 1183 1152 1318 1729 2428 3417 4554 5149\nNATIONAL availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-28 00:00, max 100 at 2026-09-28 00:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (45 min buckets from 2026-09-28 00:00): 100 100 100 100 100 100 100 100 100 100 100 100",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 3 of 4 series. Earliest onset 2026-09-28 06:15: NATIONAL dl_volume_mb below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 179
+      },
+      {
+        "args": {
+          "end": "2026-09-28 08:26",
+          "region_id": null,
+          "start": "2026-09-28 00:00"
+        },
+        "body": "1 external event(s) for all regions, 2026-09-28 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26).\nEVT-006 public_holiday (nationwide) since 2026-09-28 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for all regions, 2026-09-28 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "EVT-006"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-28 08:26",
+          "include_ancestors": true,
+          "node_ids": null,
+          "region_id": null,
+          "start": "2026-09-28 00:00"
+        },
+        "body": "No maintenance window scheduled on any node between 2026-09-28 00:00 and 2026-09-28 08:26.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on any node between 2026-09-28 00:00 and 2026-09-28 08:26.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-29 00:00",
+          "region_id": null,
+          "start": "2026-09-27 00:00"
+        },
+        "body": "1 external event(s) for all regions, 2026-09-27 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26).\nWindow cut at asked_at (2026-09-28 08:26); requested end 2026-09-29 00:00 is not visible.\nEVT-006 public_holiday (nationwide) since 2026-09-28 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for all regions, 2026-09-27 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "EVT-006"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "query": "select * from external_events where event_id = 'EVT-006'"
+        },
+        "body": "1 row(s) (tables clamped to asked_at 2026-09-28 08:26; times local)\nevent_id | region_id | node_id | event_type | start_at | end_at | description\nEVT-006 | NULL | NULL | public_holiday | 2026-09-28 00:00 | NULL | National public holiday: government offices a...",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "run_sql: 1 row(s), columns event_id, region_id, node_id, event_type, start_at, end_at, description",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "query": "select * from external_events"
+        },
+        "body": "6 row(s) (tables clamped to asked_at 2026-09-28 08:26; times local)\nevent_id | region_id | node_id | event_type | start_at | end_at | description\nEVT-001 | TUN | S-TUN-001 | stadium_event | 2026-09-08 18:24 | 2026-09-08 21:29 | Football match at Stade Olympique de Rades (e...\nEVT-002 | TUN | S-TUN-001 | stadium_event | 2026-09-16 19:17 | 2026-09-16 22:30 | Football match at Stade Olympique de Rades (e...\nEVT-003 | TUN | S-TUN-001 | stadium_event | 2026-09-17 17:31 | 2026-09-17 20:42 | Football match at Stade Olympique de Rades (e...\nEVT-004 | TUN | S-TUN-001 | stadium_event | 2026-09-21 19:10 | 2026-09-21 22:54 | Football match at Stade Olympique de Rades (e...\nEVT-005 | TUN | S-TUN-001 | stadium_event | 2026-09-24 18:04 | 2026-09-24 21:13 | Football match at Stade Olympique de Rades (e...\nEVT-006 | NULL | NULL | public_holiday | 2026-09-28 00:00 | NULL | National public holiday: government offices a...",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "run_sql: 6 row(s), columns event_id, region_id, node_id, event_type, start_at, end_at, description",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-28 08:26",
+          "include_ancestors": true,
+          "node_ids": null,
+          "region_id": null,
+          "start": "2026-09-28 00:00"
+        },
+        "body": "No changes on any node between 2026-09-28 00:00 and 2026-09-28 08:26.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on any node between 2026-09-28 00:00 and 2026-09-28 08:26.",
+        "iteration": 6,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "EVT-006": {
+        "kind": "event",
+        "ref": "EVT-006",
+        "summary": "public_holiday (nationwide) since 2026-09-28 00:00, in progress: National public holiday: government offices and most businesses closed"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-27 22:00, end=2026-09-28 08:26) -> No detector alerts for the network between 2026-09-27 22:00 and 2026-09-28 08:26."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users', 'availability_pct'], start=2026-09-28 00:00, end=2026-09-28  -> Deviation in 3 of 4 series. Earliest onset 2026-09-28 06:15: NATIONAL dl_volume_mb below baseline."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_external_events(start=2026-09-28 00:00, end=2026-09-28 08:26) -> 1 external event(s) for all regions, 2026-09-28 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-28 00:00, end=2026-09-28 08:26, include_ancestors=True) -> No maintenance window scheduled on any node between 2026-09-28 00:00 and 2026-09-28 08:26."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_external_events(start=2026-09-27 00:00, end=2026-09-29 00:00) -> 1 external event(s) for all regions, 2026-09-27 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "run_sql(query=select * from external_events where event_id = 'EVT-006') -> run_sql: 1 row(s), columns event_id, region_id, node_id, event_type, start_at, end_at, description"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "run_sql(query=select * from external_events) -> run_sql: 6 row(s), columns event_id, region_id, node_id, event_type, start_at, end_at, description"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_changes(start=2026-09-28 00:00, end=2026-09-28 08:26, include_ancestors=True) -> No changes on any node between 2026-09-28 00:00 and 2026-09-28 08:26."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide Traffic Drop Due to National Public Holiday\n\n- **Classification:** expected_event\n- **Root cause:** expected_event\n- **Confidence:** high (Direct evidence of a nationwide public holiday via external events, supported by expected traffic reductions in KPI series while availability remained at 100 percent, and confirmed by checking maintenance and changes which ruled out technical faults.)\n- **Impact:** 2026-09-28 06:15 to not established or ongoing\n- **Cause time:** 2026-09-28 00:00\n\n## Summary\n\nA nationwide public holiday caused government offices and most businesses to close, leading to expected lower traffic volumes.\n\nNational download volume, upload volume, and active users showed deviations below baseline starting at 2026-09-28 06:15 and continuing through the end of the observation window, while availability remained normal at 100 percent.\n\n## Timeline\n\n- 2026-09-28 00:00: National public holiday EVT-006 started. [EVT-006, T3]\n- 2026-09-28 06:15: Onset of deviation below baseline for NATIONAL dl_volume_mb and ul_volume_mb. [T2]\n- 2026-09-28 06:30: Onset of deviation below baseline for NATIONAL active_users. [T2]\n\n## Evidence\n\n- No detector alerts for the network between 2026-09-27 22:00 and 2026-09-28 08:26. [T1]\n- NATIONAL dl_volume_mb, ul_volume_mb, and active_users showed deviations below baseline starting between 2026-09-28 06:15 and 06:30. [T2]\n- NATIONAL availability_pct remained at 100 percent with no sustained deviation from baseline. [T2]\n- A nationwide public holiday (EVT-006) was in progress where government offices and most businesses were closed. [EVT-006, T3]\n- No maintenance window was scheduled on any node between 2026-09-28 00:00 and 2026-09-28 08:26. [T4]\n- No changes occurred on any node between 2026-09-28 00:00 and 2026-09-28 08:26. [T8]\n\n## Hypotheses\n\n1. **expected_event**: confirmed. The nationwide traffic reduction correlates precisely with the nationwide public holiday EVT-006 where businesses and offices are closed, while availability remains normal and technical failures or changes are ruled out. [T2, T3, EVT-006]\n2. **transport_failure**: rejected. Availability remained at 100 percent across the network and no anomalies, maintenance, or changes were found. [T1, T2, T4, T8]\n3. **bad_change**: rejected. No changes occurred on any node during the time window. [T8]\n\n## Ruled out\n\n- T1: No detector alerts were triggered for the network, indicating no unexpected technical faults or outages occurred.\n\n## Recommended actions\n\n- Continue monitoring network KPIs through the remainder of the public holiday.\n\n## Sources\n\n- `EVT-006`: public_holiday (nationwide) since 2026-09-28 00:00, in progress: National public holiday: government offices and most businesses closed\n- `T3`: get_external_events(start=2026-09-28 00:00, end=2026-09-28 08:26) -> 1 external event(s) for all regions, 2026-09-28 00:00 to 2026-09-28 08:26; 1 in progress at asked_at (2026-09-28 08:26).\n- `T2`: query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users', 'availability_pct'], start=2026-09-28 00:00, end=2026-09-28  -> Deviation in 3 of 4 series. Earliest onset 2026-09-28 06:15: NATIONAL dl_volume_mb below baseline.\n- `T1`: get_anomalies(start=2026-09-27 22:00, end=2026-09-28 08:26) -> No detector alerts for the network between 2026-09-27 22:00 and 2026-09-28 08:26.\n- `T4`: get_maintenance(start=2026-09-28 00:00, end=2026-09-28 08:26, include_ancestors=True) -> No maintenance window scheduled on any node between 2026-09-28 00:00 and 2026-09-28 08:26.\n- `T8`: get_changes(start=2026-09-28 00:00, end=2026-09-28 08:26, include_ancestors=True) -> No changes on any node between 2026-09-28 00:00 and 2026-09-28 08:26.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why was nationwide traffic down today?",
+    "report": {
+      "affected_node_ids": [],
+      "classification": "expected_event",
+      "confidence": "high",
+      "confidence_reason": "Direct evidence of a nationwide public holiday via external events, supported by expected traffic reductions in KPI series while availability remained at 100 percent, and confirmed by checking maintenance and changes which ruled out technical faults.",
+      "dismissed_signals": [
+        {
+          "reason": "No detector alerts were triggered for the network, indicating no unexpected technical faults or outages occurred.",
+          "ref": "T1"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "No detector alerts for the network between 2026-09-27 22:00 and 2026-09-28 08:26.",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "NATIONAL dl_volume_mb, ul_volume_mb, and active_users showed deviations below baseline starting between 2026-09-28 06:15 and 06:30.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "NATIONAL availability_pct remained at 100 percent with no sustained deviation from baseline.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A nationwide public holiday (EVT-006) was in progress where government offices and most businesses were closed.",
+          "refs": [
+            "EVT-006",
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on any node between 2026-09-28 00:00 and 2026-09-28 08:26.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes occurred on any node between 2026-09-28 00:00 and 2026-09-28 08:26.",
+          "refs": [
+            "T8"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "expected_event",
+          "node_id": null,
+          "reason": "The nationwide traffic reduction correlates precisely with the nationwide public holiday EVT-006 where businesses and offices are closed, while availability remains normal and technical failures or changes are ruled out.",
+          "refs": [
+            "T2",
+            "T3",
+            "EVT-006"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": null,
+          "reason": "Availability remained at 100 percent across the network and no anomalies, maintenance, or changes were found.",
+          "refs": [
+            "T1",
+            "T2",
+            "T4",
+            "T8"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "No changes occurred on any node during the time window.",
+          "refs": [
+            "T8"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-28 06:15",
+      "impact_summary": "National download volume, upload volume, and active users showed deviations below baseline starting at 2026-09-28 06:15 and continuing through the end of the observation window, while availability remained normal at 100 percent.",
+      "recommended_actions": [
+        "Continue monitoring network KPIs through the remainder of the public holiday."
+      ],
+      "root_cause_category": "expected_event",
+      "root_cause_node_id": null,
+      "root_cause_summary": "A nationwide public holiday caused government offices and most businesses to close, leading to expected lower traffic volumes.",
+      "root_cause_time": "2026-09-28 00:00",
+      "timeline": [
+        {
+          "event": "National public holiday EVT-006 started.",
+          "refs": [
+            "EVT-006",
+            "T3"
+          ],
+          "time": "2026-09-28 00:00"
+        },
+        {
+          "event": "Onset of deviation below baseline for NATIONAL dl_volume_mb and ul_volume_mb.",
+          "refs": [
+            "T2"
+          ],
+          "time": "2026-09-28 06:15"
+        },
+        {
+          "event": "Onset of deviation below baseline for NATIONAL active_users.",
+          "refs": [
+            "T2"
+          ],
+          "time": "2026-09-28 06:30"
+        }
+      ],
+      "title": "Nationwide Traffic Drop Due to National Public Holiday"
+    },
+    "run_id": "RUN-6164071ab8",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": true,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "nationwide traffic down",
+      "unknown_ids": [],
+      "window_end": "2026-09-28T07:26:00Z",
+      "window_start": "2026-09-27T23:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 372,
+        "latency_ms": 820,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 97,
+        "provider": "gemini",
+        "purpose": "intake",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 826
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2614,
+        "latency_ms": 1073,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 204,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4742
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4159,
+        "latency_ms": 778,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 54,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4000
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4456,
+        "latency_ms": 753,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 34,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4459
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4632,
+        "latency_ms": 756,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 21,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4503
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5146,
+        "latency_ms": 953,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 122,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4692
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5309,
+        "latency_ms": 942,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 59,
+        "provider": "gemini",
+        "purpose": "investigate turn 6",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4477
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3690,
+        "latency_ms": 3462,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1294,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7016
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 30378,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 8
+      },
+      "llm_calls": 8,
+      "output_tokens": 1885,
+      "tool_calls": 8,
+      "wall_seconds": 34.97
+    }
+  },
+  "run_name": "hard-baseline",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-28T23:00:00Z",
+    "evidence": [
+      {
+        "id": "EVT-006",
+        "table": "external_events",
+        "visible_from": "2026-09-27T23:00:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_external_events"
+    ],
+    "impact_start_at": "2026-09-27T23:00:00Z",
+    "is_incident": false,
+    "kind": "public_holiday",
+    "notes": "Nationwide public holiday: business-area traffic down, residential up.",
+    "root_cause_category": "expected_event",
+    "root_cause_node_id": null,
+    "severity": "low",
+    "start_at": "2026-09-27T23:00:00Z"
+  },
+  "variant": "default"
+}
