@@ -1,0 +1,697 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-20T08:24:00Z",
+    "case_id": "h101-SCN-022-q0",
+    "question": "S-TUN-008 looks sluggish last night; users are complaining about slow data. Why?",
+    "question_index": 0,
+    "scenario_id": "SCN-022",
+    "seed": 101,
+    "split": "test"
+  },
+  "created_at": "2026-10-13T09:20:40.166420Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-20T08:24:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-20 09:24",
+          "entity_id": "S-TUN-008",
+          "region_id": null,
+          "start": "2026-09-19 16:00"
+        },
+        "body": "1 alert(s): ALR-0022 2026-09-20 04:00-06:45. Latency spikes on 3 sites in TUN (S-TUN-003, S-TUN-008, S-TUN-011) for 3 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0022 low ended, 2026-09-20 04:00 to 2026-09-20 06:45 (2.8 h): Latency spikes on 3 sites in TUN (S-TUN-003, S-TUN-008, S-TUN-011) for 3 h\n  latency_ms spike on 1 entity: worst S-TUN-008 z 15.8, 18.4 -> 35.1, 2026-09-20 04:00 to 2026-09-20 06:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0022 2026-09-20 04:00-06:45. Latency spikes on 3 sites in TUN (S-TUN-003, S-TUN-008, S-TUN-011) for 3 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0022",
+          "ANM-000294"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 14
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-008"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-008 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-008: site, TUN, La Goulette, urban.\nCells: C-TUN-008-1, C-TUN-008-2, C-TUN-008-3.\nSiblings under LNK-TUN-01-B: S-TUN-003, S-TUN-011.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-008 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-008",
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-003",
+          "S-TUN-011"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:24",
+          "entity_ids": [
+            "S-TUN-003",
+            "S-TUN-008",
+            "S-TUN-011"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "dl_volume_mb",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-19 18:00"
+        },
+        "body": "Deviation in 6 of 9 series. Earliest onset 2026-09-20 03:45: S-TUN-003 dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-20 09:24). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 2 earlier Saturdays with data; treat small deviations with caution.\nS-TUN-003 dl_volume_mb: mean 21962 vs 21656 (+1%); below baseline from 2026-09-20 03:45, recovered 2026-09-20 07:15.\nS-TUN-008 latency_ms: mean 21.9 vs 19.4 (+13%); above baseline from 2026-09-20 03:45, recovered 2026-09-20 06:45.\nS-TUN-003 latency_ms: mean 22.2 vs 19.5 (+14%); above baseline from 2026-09-20 04:00, recovered 2026-09-20 06:45.\nS-TUN-008 dl_volume_mb: mean 21727 vs 22692 (-4%); below baseline from 2026-09-20 04:00, recovered 2026-09-20 06:45.\nS-TUN-011 latency_ms: mean 29.1 vs 26 (+12%); above baseline from 2026-09-20 04:00, recovered 2026-09-20 06:45.\nS-TUN-011 dl_volume_mb: mean 12918 vs 13307 (-3%); below baseline from 2026-09-20 04:00, recovered 2026-09-20 06:45.\nS-TUN-011 prb_util_pct: mean 20.8 vs 22 (-6%); no deviation.\nS-TUN-008 prb_util_pct: mean 19.4 vs 20.1 (-3%); no deviation.\nS-TUN-003 prb_util_pct: mean 13.4 vs 13.4 (+1%); no deviation.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 6 of 9 series. Earliest onset 2026-09-20 03:45: S-TUN-003 dl_volume_mb below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 113
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-20 09:24",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-003",
+            "S-TUN-008",
+            "S-TUN-011",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "1 alarm(s) on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-20 03:52 LINK_DEGRADED on LNK-TUN-01-B (ALM-000407).\nEarliest critical/major: 2026-09-20 03:52 LINK_DEGRADED on LNK-TUN-01-B (ALM-000407).\n2026-09-20 03:52 ALM-000407 major LINK_DEGRADED LNK-TUN-01-B (below AGG-TUN-01): cleared 2026-09-20 06:58",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-20 03:52 LINK_DEGRADED on LNK-TUN-01-B (ALM-000407).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000407"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:24",
+          "node_ids": [
+            "S-TUN-003",
+            "S-TUN-008",
+            "S-TUN-011",
+            "AGG-TUN-01"
+          ],
+          "region_id": "TUN"
+        },
+        "body": "Invalid arguments - start: Field required",
+        "duplicate_of": null,
+        "error": "Invalid arguments - start: Field required",
+        "headline": "get_changes error: Invalid arguments - start: Field required",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:24",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-003",
+            "S-TUN-008",
+            "S-TUN-011",
+            "AGG-TUN-01"
+          ],
+          "region_id": "TUN",
+          "start": "2026-09-19 18:00"
+        },
+        "body": "No changes on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "LINK_DEGRADED microwave link degradation latency dl_volume"
+        },
+        "body": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation latency dl_volume', best first (excerpts):\n[RB-MICROWAVE-DEGRADATION#03] Microwave link degradation > Differential diagnosis: Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on links all the time (\"minor errored seconds, link still within SLA\"). ... A major alarm on a microwave link with volume and latency moving is a different thing. ... On a fiber link, a minor `LINK_DEGRADED` with falling optical power can precede a cut by up to an hour. ...\n[RB-MICROWAVE-DEGRADATION#02] Microwave link degradation > Signature in the data: Alarm. `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"running at reduced modulation, RSL below threshold\"). It clears a few minutes after recovery. Downstream sites (three to five behind that link): `dl_volume_mb` down 20 to 50 percent, `latency_ms` up 30 to 100 percent. Availability. ... Shape. ... Exactly the children of the...\n[RB-MICROWAVE-DEGRADATION#05] Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link is microwave and list its downstream sites. 3. `query_kpis` on those sites: volume down, latency up, availability near 100 percent, PRB not high. 4. ... 5. ... 6. `get_changes` and `get_maintenance` on the link, to rule them out.\n[RB-MICROWAVE-DEGRADATION#01] Microwave link degradation > Overview: Some transport links are microwave radio, not fiber (`nodes.attrs.medium` is `microwave`, with `band_ghz` and `length_km`). ... The radio responds by dropping to a lower modulation, which cuts capacity. The link stays up, so the sites behind it stay up, but they cannot push as much traffic. The result is a soft degradation: slower service and falling volume with no outage.\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation latency dl_volume', best first (excerpts):",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "RB-MICROWAVE-DEGRADATION#03",
+          "RB-MICROWAVE-DEGRADATION#02",
+          "RB-MICROWAVE-DEGRADATION#05",
+          "RB-MICROWAVE-DEGRADATION#01"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 18
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:24",
+          "include_ancestors": true,
+          "node_ids": [
+            "LNK-TUN-01-B",
+            "S-TUN-003",
+            "S-TUN-008",
+            "S-TUN-011"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "No maintenance window scheduled on LNK-TUN-01-B, S-TUN-003, S-TUN-008, S-TUN-011 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on LNK-TUN-01-B, S-TUN-003, S-TUN-008, S-TUN-011 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:24",
+          "region_id": "TUN",
+          "start": "2026-09-19 18:00"
+        },
+        "body": "No external events for region TUN (and nationwide) between 2026-09-19 18:00 and 2026-09-20 09:24.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region TUN (and nationwide) between 2026-09-19 18:00 and 2026-09-20 09:24.",
+        "iteration": 5,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000407": {
+        "kind": "alarm",
+        "ref": "ALM-000407",
+        "summary": "major LINK_DEGRADED on LNK-TUN-01-B, raised 2026-09-20 03:52, cleared 2026-09-20 06:58"
+      },
+      "ALR-0022": {
+        "kind": "alert",
+        "ref": "ALR-0022",
+        "summary": "ended alert from 2026-09-20 04:00: 3 site(s) (S-TUN-003, S-TUN-008, S-TUN-011); metrics: latency_ms"
+      },
+      "ANM-000294": {
+        "kind": "anomaly",
+        "ref": "ANM-000294",
+        "summary": "S-TUN-008 latency_ms spike, z 15.8, baseline 18.4 -> 35.1"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-B": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-B",
+        "summary": "microwave link, TUN, 10.7 km, 1.0 Gbps"
+      },
+      "RB-MICROWAVE-DEGRADATION#01": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#01",
+        "summary": "Microwave link degradation > Overview: Some transport links are microwave radio, not fiber (`nodes.attrs.medium` is `microwave`, with `band_ghz` and `length_..."
+      },
+      "RB-MICROWAVE-DEGRADATION#02": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#02",
+        "summary": "Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run..."
+      },
+      "RB-MICROWAVE-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#03",
+        "summary": "Microwave link degradation > Differential diagnosis: ### Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on link..."
+      },
+      "RB-MICROWAVE-DEGRADATION#05": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#05",
+        "summary": "Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link..."
+      },
+      "S-TUN-003": {
+        "kind": "node",
+        "ref": "S-TUN-003",
+        "summary": "site, TUN, Carthage, suburban, near a venue; sibling of S-TUN-008"
+      },
+      "S-TUN-008": {
+        "kind": "node",
+        "ref": "S-TUN-008",
+        "summary": "site, TUN, La Goulette, urban; chain: S-TUN-008 -> LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-011": {
+        "kind": "node",
+        "ref": "S-TUN-011",
+        "summary": "site, TUN, Hammam-Lif, urban; sibling of S-TUN-008"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-19 16:00, end=2026-09-20 09:24, entity_id=S-TUN-008) -> 1 alert(s): ALR-0022 2026-09-20 04:00-06:45. Latency spikes on 3 sites in TUN (S-TUN-003, S-TUN-008, S-TUN-011) for 3 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-008, include=all) -> Depends on (child -> parent -> core): S-TUN-008 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-003', 'S-TUN-008', 'S-TUN-011'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct'], start=2026-09 -> Deviation in 6 of 9 series. Earliest onset 2026-09-20 03:45: S-TUN-003 dl_volume_mb below baseline."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-19 18:00, end=2026-09-20 09:24, node_ids=['S-TUN-003', 'S-TUN-008', 'S-TUN-011', 'AGG-TUN-01'], include_descendants=True) -> 1 alarm(s) on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-20 03:52 LINK_DEGRADED on LNK-TUN-01-B (ALM-000407)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(end=2026-09-20 09:24, node_ids=['S-TUN-003', 'S-TUN-008', 'S-TUN-011', 'AGG-TUN-01'], region_id=TUN) -> get_changes error: Invalid arguments - start: Field required"
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-19 18:00, end=2026-09-20 09:24, node_ids=['S-TUN-003', 'S-TUN-008', 'S-TUN-011', 'AGG-TUN-01'], region_id=TUN, include_ances -> No changes on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "search_runbooks(query=LINK_DEGRADED microwave link degradation latency dl_volume, k=4) -> 4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation latency dl_volume', best first (excerpts):"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_maintenance(start=2026-09-19 18:00, end=2026-09-20 09:24, node_ids=['LNK-TUN-01-B', 'S-TUN-003', 'S-TUN-008', 'S-TUN-011'], include_ancestors=True -> No maintenance window scheduled on LNK-TUN-01-B, S-TUN-003, S-TUN-008, S-TUN-011 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_external_events(start=2026-09-19 18:00, end=2026-09-20 09:24, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-19 18:00 and 2026-09-20 09:24."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Microwave Link Degradation Causing Slow Data on S-TUN-008\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-TUN-01-B`\n- **Confidence:** high (Direct alarm match, matching KPI timing, and ruled out changes, maintenance, and external events.)\n- **Impact:** 2026-09-20 03:52 to 2026-09-20 06:58\n- **Cause time:** 2026-09-20 03:52\n- **Affected:** S-TUN-003, S-TUN-008, S-TUN-011\n\n## Summary\n\nMajor link degradation on microwave link LNK-TUN-01-B led to reduced modulation and lower capacity, causing soft data degradation on downstream sites.\n\nLatency spikes and volume drops affected three sites sharing LNK-TUN-01-B for nearly three hours.\n\n## Timeline\n\n- 2026-09-20 03:45: Earliest KPI deviation observed with S-TUN-003 dl_volume_mb below baseline. [T3]\n- 2026-09-20 03:52: Major LINK_DEGRADED alarm raised on microwave link LNK-TUN-01-B. [ALM-000407]\n- 2026-09-20 04:00: Alert ALR-0022 began for latency spikes on S-TUN-003, S-TUN-008, and S-TUN-011. [ALR-0022]\n- 2026-09-20 06:58: Major LINK_DEGRADED alarm cleared on LNK-TUN-01-B. [ALM-000407]\n\n## Evidence\n\n- S-TUN-003, S-TUN-008, and S-TUN-011 depend on microwave link LNK-TUN-01-B. [T2]\n- Major LINK_DEGRADED alarm ALM-000407 occurred on LNK-TUN-01-B from 03:52 to 06:58. [ALM-000407]\n- Latency and volume deviations occurred on six of nine KPI series across the three sites. [T3]\n- No changes were executed on the affected sites or their parents between 2026-09-19 18:00 and 2026-09-20 09:24. [T6]\n- No maintenance windows were scheduled on the affected nodes or their parents. [T8]\n- No external events were recorded for region TUN during the incident window. [T9]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-TUN-01-B: confirmed. Directly matches the major link degraded alarm signature, timing, topology, and runbook description for microwave link degradation. [ALM-000407, RB-MICROWAVE-DEGRADATION#02]\n2. **bad_change**: rejected. No configuration changes were found on the affected nodes or their ancestors during the incident window. [T6]\n\n## Ruled out\n\n- T6: Rule out configuration changes as a root cause since no changes were found on the nodes.\n- T8: Rule out planned maintenance since no maintenance was scheduled on the nodes or parents.\n- T9: Rule out external events since none occurred in the TUN region during the incident timeframe.\n\n## Recommended actions\n\n- Inspect microwave link LNK-TUN-01-B radio hardware and path fading conditions.\n- Monitor error-seconds and modulation rates on LNK-TUN-01-B to prevent recurrence.\n\n## Sources\n\n- `T3`: query_kpis(entity_type=site, entity_ids=['S-TUN-003', 'S-TUN-008', 'S-TUN-011'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct'], start=2026-09 -> Deviation in 6 of 9 series. Earliest onset 2026-09-20 03:45: S-TUN-003 dl_volume_mb below baseline.\n- `ALM-000407`: major LINK_DEGRADED on LNK-TUN-01-B, raised 2026-09-20 03:52, cleared 2026-09-20 06:58\n- `ALR-0022`: ended alert from 2026-09-20 04:00: 3 site(s) (S-TUN-003, S-TUN-008, S-TUN-011); metrics: latency_ms\n- `T2`: get_topology(node_id=S-TUN-008, include=all) -> Depends on (child -> parent -> core): S-TUN-008 (site) -> LNK-TUN-01-B (microwave link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `T6`: get_changes(start=2026-09-19 18:00, end=2026-09-20 09:24, node_ids=['S-TUN-003', 'S-TUN-008', 'S-TUN-011', 'AGG-TUN-01'], region_id=TUN, include_ances -> No changes on S-TUN-003, S-TUN-008, S-TUN-011, AGG-TUN-01 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24.\n- `T8`: get_maintenance(start=2026-09-19 18:00, end=2026-09-20 09:24, node_ids=['LNK-TUN-01-B', 'S-TUN-003', 'S-TUN-008', 'S-TUN-011'], include_ancestors=True -> No maintenance window scheduled on LNK-TUN-01-B, S-TUN-003, S-TUN-008, S-TUN-011 and its parents between 2026-09-19 18:00 and 2026-09-20 09:24.\n- `T9`: get_external_events(start=2026-09-19 18:00, end=2026-09-20 09:24, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-19 18:00 and 2026-09-20 09:24.\n- `RB-MICROWAVE-DEGRADATION#02`: Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run...\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-TUN-008 looks sluggish last night; users are complaining about slow data. Why?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-003",
+        "S-TUN-008",
+        "S-TUN-011"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct alarm match, matching KPI timing, and ruled out changes, maintenance, and external events.",
+      "dismissed_signals": [
+        {
+          "reason": "Rule out configuration changes as a root cause since no changes were found on the nodes.",
+          "ref": "T6"
+        },
+        {
+          "reason": "Rule out planned maintenance since no maintenance was scheduled on the nodes or parents.",
+          "ref": "T8"
+        },
+        {
+          "reason": "Rule out external events since none occurred in the TUN region during the incident timeframe.",
+          "ref": "T9"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-TUN-003, S-TUN-008, and S-TUN-011 depend on microwave link LNK-TUN-01-B.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Major LINK_DEGRADED alarm ALM-000407 occurred on LNK-TUN-01-B from 03:52 to 06:58.",
+          "refs": [
+            "ALM-000407"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Latency and volume deviations occurred on six of nine KPI series across the three sites.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes were executed on the affected sites or their parents between 2026-09-19 18:00 and 2026-09-20 09:24.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on the affected nodes or their parents.",
+          "refs": [
+            "T8"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events were recorded for region TUN during the incident window.",
+          "refs": [
+            "T9"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-TUN-01-B",
+          "reason": "Directly matches the major link degraded alarm signature, timing, topology, and runbook description for microwave link degradation.",
+          "refs": [
+            "ALM-000407",
+            "RB-MICROWAVE-DEGRADATION#02"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "No configuration changes were found on the affected nodes or their ancestors during the incident window.",
+          "refs": [
+            "T6"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-20 06:58",
+      "impact_start": "2026-09-20 03:52",
+      "impact_summary": "Latency spikes and volume drops affected three sites sharing LNK-TUN-01-B for nearly three hours.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-TUN-01-B radio hardware and path fading conditions.",
+        "Monitor error-seconds and modulation rates on LNK-TUN-01-B to prevent recurrence."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-TUN-01-B",
+      "root_cause_summary": "Major link degradation on microwave link LNK-TUN-01-B led to reduced modulation and lower capacity, causing soft data degradation on downstream sites.",
+      "root_cause_time": "2026-09-20 03:52",
+      "timeline": [
+        {
+          "event": "Earliest KPI deviation observed with S-TUN-003 dl_volume_mb below baseline.",
+          "refs": [
+            "T3"
+          ],
+          "time": "2026-09-20 03:45"
+        },
+        {
+          "event": "Major LINK_DEGRADED alarm raised on microwave link LNK-TUN-01-B.",
+          "refs": [
+            "ALM-000407"
+          ],
+          "time": "2026-09-20 03:52"
+        },
+        {
+          "event": "Alert ALR-0022 began for latency spikes on S-TUN-003, S-TUN-008, and S-TUN-011.",
+          "refs": [
+            "ALR-0022"
+          ],
+          "time": "2026-09-20 04:00"
+        },
+        {
+          "event": "Major LINK_DEGRADED alarm cleared on LNK-TUN-01-B.",
+          "refs": [
+            "ALM-000407"
+          ],
+          "time": "2026-09-20 06:58"
+        }
+      ],
+      "title": "Microwave Link Degradation Causing Slow Data on S-TUN-008"
+    },
+    "run_id": "RUN-a8918eee5c",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-008"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "slow data / sluggish performance",
+      "unknown_ids": [],
+      "window_end": "2026-09-20T05:00:00Z",
+      "window_start": "2026-09-19T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 386,
+        "latency_ms": 811,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 119,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2424,
+        "latency_ms": 6901,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 305,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3575,
+        "latency_ms": 15661,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 131,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4292,
+        "latency_ms": 11832,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 98,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4461,
+        "latency_ms": 11563,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 199,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4701,
+        "latency_ms": 18535,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 62,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4802,
+        "latency_ms": 11421,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 169,
+        "provider": "gemini",
+        "purpose": "investigate turn 6",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 11423
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3416,
+        "latency_ms": 14320,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1399,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 14327
+      }
+    ],
+    "usage": {
+      "cached_calls": 6,
+      "input_tokens": 28057,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 2
+      },
+      "llm_calls": 8,
+      "output_tokens": 2482,
+      "tool_calls": 9,
+      "wall_seconds": 26.0
+    }
+  },
+  "run_name": "hard-v2",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-TUN-01-B",
+      "S-TUN-003",
+      "S-TUN-011",
+      "S-TUN-008"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-20T05:50:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000407",
+        "table": "alarms",
+        "visible_from": "2026-09-20T02:52:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-20T02:51:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "Rain fade on microwave link LNK-TUN-01-B: throughput limited, sites stayed up.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-TUN-01-B",
+    "severity": "medium",
+    "start_at": "2026-09-20T02:51:00Z"
+  },
+  "variant": "default"
+}
