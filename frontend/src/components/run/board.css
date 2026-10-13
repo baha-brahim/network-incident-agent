@@ -1,0 +1,1019 @@
+/*
+ * The evidence board. Self-contained: every rule is nested under .bd and built from the tokens in
+ * globals.css. data-animate on the root switches its motion on.
+ */
+
+.bd {
+  --label-w: 172px;
+  --cc: var(--crit);
+  position: relative;
+  background: var(--board);
+  border: 1px solid var(--ink);
+
+  & code {
+    font-size: 0.9em;
+  }
+
+  &[data-verdict="planned_maintenance"] {
+    --cc: var(--maint-edge);
+  }
+
+  &[data-verdict="expected_event"] {
+    --cc: var(--event-edge);
+  }
+
+  &[data-verdict="no_impact"] {
+    --cc: var(--ok);
+  }
+
+  &[data-verdict="inconclusive"] {
+    --cc: var(--muted);
+  }
+
+  & .ln {
+    display: grid;
+    grid-template-columns: var(--label-w) minmax(0, 1fr);
+    border-bottom: 1px solid var(--line);
+  }
+
+  & .ln-label {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 11px 12px 8px 14px;
+    border-right: 1px solid var(--line);
+  }
+
+  & .ln-label h3 {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  & .ln-label code {
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+
+  & .ln-note {
+    margin-top: 3px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  & .ln.s-idle .ln-label h3 {
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  & .ln.s-checking .ln-label {
+    background: var(--hl);
+  }
+
+  & .ln.s-checking .ln-label code,
+  & .ln.s-checking .ln-note {
+    color: var(--ink);
+  }
+
+  & .ln.s-checking .ln-track {
+    background: var(--hl-soft);
+  }
+
+  & .ln.is-hover {
+    outline: 1.5px solid var(--ink);
+    outline-offset: -1.5px;
+  }
+
+  & .ln.is-missing {
+    outline: 2px dashed var(--ink);
+    outline-offset: -2px;
+  }
+
+  & .ln.is-missing .ln-label h3 {
+    color: var(--ink);
+  }
+
+  & .ln-track {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  &[data-animate] .ln-track {
+    transition: height 250ms var(--ease-out);
+  }
+
+  & .ln.s-idle .ln-track::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 2px dotted var(--line-strong);
+  }
+
+  & .gl {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  & .ln-state {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: calc(100% - 20px);
+    padding: 1px 8px;
+    transform: translateY(-50%);
+    overflow: hidden;
+    background: var(--board);
+    color: var(--muted);
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  & .ln-state.is-checking {
+    background: var(--hl);
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  & .ln-state.is-pointed {
+    background: var(--board);
+    color: var(--ink);
+    font-weight: 600;
+    outline: 1.5px solid var(--ink);
+  }
+
+  & .ln-clear {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    padding: 0 3px;
+    transform: translateY(calc(-100% - 5px));
+    background: var(--board);
+    color: var(--ink);
+    font-size: 13px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  & .cv {
+    position: absolute;
+    bottom: 4px;
+    height: 0;
+    border-top: 1px solid var(--line-strong);
+    pointer-events: none;
+  }
+
+  & .cv.is-clear {
+    top: 50%;
+    bottom: auto;
+    border-top: 1.5px solid var(--ink);
+  }
+
+  & .cv-cap {
+    position: absolute;
+    top: -3px;
+    width: 1px;
+    height: 5px;
+    background: var(--line-strong);
+  }
+
+  & .cv.is-clear .cv-cap {
+    top: -5px;
+    width: 1.5px;
+    height: 10px;
+    background: var(--ink);
+  }
+
+  & .cv-cap.is-l {
+    left: 0;
+  }
+
+  & .cv-cap.is-r {
+    right: 0;
+  }
+
+  & .sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    animation: bd-sweep 1.7s linear infinite;
+  }
+
+  & .sweep::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--ink);
+  }
+
+  & .sweep::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 3px;
+    bottom: 0;
+    width: 72px;
+    background: linear-gradient(90deg, transparent, oklch(0.9 0.17 100 / 0.75));
+  }
+
+  /* marks */
+
+  & .mk {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  & .mk:focus-visible {
+    outline-offset: 1px;
+  }
+
+  & :is(.mk, .kp, .pin, .kp-toggle) {
+    scroll-margin-top: var(--scroll-pad, 80px);
+  }
+
+  & .mk-shape {
+    position: absolute;
+    top: 5px;
+    height: 10px;
+    transform-origin: left center;
+  }
+
+  & .mk.t-crit {
+    --sy: 5px;
+    --sh: 10px;
+    --mkc: var(--crit);
+  }
+
+  & .mk.t-major {
+    --sy: 6px;
+    --sh: 8px;
+    --mkc: var(--major);
+  }
+
+  & .mk.t-minor {
+    --sy: 7px;
+    --sh: 6px;
+    --mkc: oklch(0.55 0.02 95);
+  }
+
+  & .mk.t-alert {
+    --sy: 4px;
+    --sh: 12px;
+    --mkc: var(--alert);
+  }
+
+  & .mk.t-maint {
+    --sy: 3px;
+    --sh: 14px;
+    --mkc: var(--maint-edge);
+  }
+
+  & .mk.t-event {
+    --sy: 3px;
+    --sh: 14px;
+    --mkc: var(--event-edge);
+  }
+
+  /* The mark began before the left edge of the axis. */
+  & .mk-edge {
+    position: absolute;
+    top: calc(var(--sy) + var(--sh) / 2 - 5px);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 8px 5px 0;
+    border-color: transparent var(--mkc) transparent transparent;
+  }
+
+  & .mk.t-crit .mk-shape {
+    background: var(--crit);
+  }
+
+  & .mk.t-major .mk-shape {
+    top: 6px;
+    height: 8px;
+    background: var(--major);
+  }
+
+  & .mk.t-minor .mk-shape {
+    top: 7px;
+    height: 6px;
+    background: var(--minor);
+    box-shadow: inset 0 0 0 1px oklch(0.55 0.02 95);
+  }
+
+  & .mk.t-alert .mk-shape {
+    top: 4px;
+    height: 12px;
+    border: 1.5px solid var(--alert);
+    background: color-mix(in oklch, var(--alert) 16%, white);
+  }
+
+  & .mk.t-maint .mk-shape {
+    top: 3px;
+    height: 14px;
+    border: 1.5px solid var(--maint-edge);
+    background: color-mix(in oklch, var(--maint) 38%, white);
+  }
+
+  & .mk.t-event .mk-shape {
+    top: 3px;
+    height: 14px;
+    border: 1.5px solid var(--event-edge);
+    background: color-mix(in oklch, var(--event) 26%, white);
+  }
+
+  & .mk.is-tick .mk-shape {
+    top: 2px;
+    height: 17px;
+  }
+
+  & .mk.is-tick .mk-shape::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: var(--ink);
+  }
+
+  & .mk.is-tick .mk-shape::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    background: var(--ink);
+    transform: rotate(45deg) scale(0.9);
+  }
+
+  & .mk.is-open.t-crit .mk-shape,
+  & .mk.is-open.t-major .mk-shape,
+  & .mk.is-open.t-minor .mk-shape {
+    clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 50%, calc(100% - 7px) 100%, 0 100%);
+  }
+
+  & .mk.is-open.t-alert .mk-shape,
+  & .mk.is-open.t-maint .mk-shape,
+  & .mk.is-open.t-event .mk-shape {
+    mask-image: linear-gradient(90deg, #000 calc(100% - 16px), transparent);
+  }
+
+  & .mk-label {
+    position: absolute;
+    top: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 3px;
+    background: var(--board);
+    font-size: 12px;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  & .mk.is-selected {
+    background: var(--hl);
+  }
+
+  & .mk.is-selected .mk-label {
+    background: transparent;
+  }
+
+  & .mk.is-hl {
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+
+  /* KPI rows */
+
+  & .kp {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
+  }
+
+  & .kp:focus-visible {
+    outline-offset: -2px;
+  }
+
+  & .kp.is-selected {
+    background: var(--hl);
+  }
+
+  & .kp.is-selected .kp-title {
+    background: transparent;
+  }
+
+  & .kp.is-hl {
+    outline: 2px solid var(--ink);
+    outline-offset: -2px;
+  }
+
+  & .kp-title {
+    position: absolute;
+    left: 8px;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    max-width: calc(100% - 16px);
+    padding: 0 3px;
+    background: var(--board);
+    font-size: 12px;
+    line-height: 16px;
+    white-space: nowrap;
+  }
+
+  & .kp-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .kp-title em {
+    flex: none;
+    margin-left: 8px;
+    color: var(--muted);
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+  }
+
+  & .kp svg {
+    position: absolute;
+    left: 0;
+    top: 20px;
+    overflow: hidden;
+  }
+
+  & .kp-line {
+    fill: none;
+    stroke: var(--kpi);
+    stroke-width: 1.75;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  & .kp-base {
+    fill: none;
+    stroke: oklch(0.58 0.01 95);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  & .kp-dev {
+    fill: color-mix(in oklch, var(--kpi) 13%, transparent);
+  }
+
+  & .kp-toggle {
+    position: absolute;
+    left: 8px;
+    bottom: 5px;
+    z-index: 3;
+    min-height: 22px;
+    font-size: 13px;
+  }
+
+  /* conclusion */
+
+  & .cc-band {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: color-mix(in oklch, var(--cc) 9%, transparent);
+    pointer-events: none;
+  }
+
+  & .cc-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 1.5px;
+    margin-left: -0.75px;
+    background: var(--cc);
+    pointer-events: none;
+  }
+
+  & .cc-line.is-strip {
+    bottom: auto;
+    height: 54px;
+  }
+
+  &[data-animate] .cc-band {
+    animation: bd-wipe 600ms var(--ease-out) backwards;
+  }
+
+  &[data-animate] .cc-line,
+  &[data-animate] .cc-flag,
+  &[data-animate] .pin,
+  &[data-animate] .pin-leaders {
+    animation: bd-fade 250ms var(--ease-out) 600ms backwards;
+  }
+
+  /* axis and strip */
+
+  & .bd-axis,
+  & .bd-strip {
+    display: grid;
+    grid-template-columns: var(--label-w) minmax(0, 1fr);
+  }
+
+  & .bd-axis-label,
+  & .bd-strip-label {
+    padding: 9px 12px 0 14px;
+    border-right: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+
+  & .bd-axis-track {
+    position: relative;
+    height: 44px;
+    overflow: hidden;
+    border-top: 1px solid var(--ink);
+  }
+
+  & .tk {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
+  }
+
+  & .tk::before {
+    content: "";
+    width: 1px;
+    height: 6px;
+    background: var(--ink);
+  }
+
+  & .tk-time {
+    margin-top: 2px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    line-height: 15px;
+  }
+
+  & .tk-date {
+    font-size: 11.5px;
+    font-weight: 650;
+    line-height: 14px;
+    white-space: nowrap;
+  }
+
+  & .bd-strip {
+    border-top: 1px solid var(--line);
+  }
+
+  & .bd-strip-track {
+    position: relative;
+    height: 64px;
+  }
+
+  & .pin-leaders {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+  }
+
+  & .pin-leaders path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+    opacity: 0.45;
+  }
+
+  & .pin-leaders path.is-on {
+    opacity: 1;
+    stroke-width: 1.5;
+  }
+
+  & .pin {
+    position: absolute;
+    top: 14px;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: var(--board);
+    font-size: 12px;
+    font-weight: 650;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 150ms ease-out;
+  }
+
+  & .pin:active {
+    transform: scale(0.94);
+  }
+
+  & .pin.is-on {
+    background: var(--hl);
+  }
+
+  & .pin-more {
+    position: absolute;
+    left: 14px;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 16px;
+  }
+
+  & .cc-flag {
+    position: absolute;
+    top: 40px;
+    width: max-content;
+    overflow-wrap: anywhere;
+    padding-left: 14px;
+    font-size: 13px;
+    font-weight: 650;
+    line-height: 16px;
+  }
+
+  & .cc-flag::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 9px;
+    height: 9px;
+    background: var(--cc);
+  }
+
+  & .cc-flag.is-flip {
+    padding-left: 0;
+    padding-right: 14px;
+  }
+
+  & .cc-flag.is-flip::before {
+    left: auto;
+    right: 0;
+  }
+
+  /* legend and context rows */
+
+  & .bd-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+
+  & .bd-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  & .lg {
+    display: inline-block;
+    flex: none;
+    width: 20px;
+    height: 8px;
+  }
+
+  & .lg.t-crit {
+    height: 10px;
+    background: var(--crit);
+  }
+
+  & .lg.t-major {
+    height: 8px;
+    background: var(--major);
+  }
+
+  & .lg.t-minor {
+    height: 6px;
+    background: var(--minor);
+    box-shadow: inset 0 0 0 1px oklch(0.55 0.02 95);
+  }
+
+  & .lg.t-alert {
+    height: 12px;
+    border: 1.5px solid var(--alert);
+    background: color-mix(in oklch, var(--alert) 16%, white);
+  }
+
+  & .lg.t-change {
+    width: 2px;
+    height: 14px;
+    margin: 0 9px;
+    background: var(--ink);
+  }
+
+  & .lg.t-maint {
+    height: 12px;
+    border: 1.5px solid var(--maint-edge);
+    background: color-mix(in oklch, var(--maint) 38%, white);
+  }
+
+  & .lg.t-event {
+    height: 12px;
+    border: 1.5px solid var(--event-edge);
+    background: color-mix(in oklch, var(--event) 26%, white);
+  }
+
+  & .lg-kpi {
+    height: 0;
+    border-top: 2px solid var(--kpi);
+  }
+
+  & .lg-base {
+    height: 0;
+    border-top: 1.5px dashed oklch(0.58 0.01 95);
+  }
+
+  & .lg-impact {
+    height: 12px;
+    border: 1px solid color-mix(in oklch, var(--cc) 45%, white);
+    background: color-mix(in oklch, var(--cc) 9%, white);
+  }
+
+  & .lg-cause {
+    width: 1.5px;
+    height: 14px;
+    margin: 0 9px;
+    background: var(--cc);
+  }
+
+  & .ctxrows {
+    display: grid;
+    gap: 4px;
+    padding: 10px 14px 12px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+
+  & .ctxrows li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 6px;
+    min-width: 0;
+  }
+
+  & .ctxrows li > span:not(.chain) {
+    display: -webkit-box;
+    min-width: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow-wrap: anywhere;
+  }
+
+  & .chain {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 6px;
+  }
+
+  & .chain > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  & .bd-wait {
+    padding: 8px 14px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  & .bd-tip {
+    position: absolute;
+    z-index: 40;
+    display: grid;
+    gap: 2px;
+    max-width: min(300px, calc(100% - 16px));
+    padding: 8px 10px;
+    transform: translate(-50%, -100%);
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 12.5px;
+    line-height: 1.4;
+    pointer-events: none;
+    animation: bd-fade 120ms ease-out;
+  }
+
+  & .bd-tip[data-below] {
+    transform: translate(-50%, 0);
+  }
+
+  & .bd-tip strong {
+    font-weight: 650;
+  }
+
+  /* Marks glide when the axis widens as more is found. */
+
+  &[data-animate] .mk,
+  &[data-animate] .cv,
+  &[data-animate] .gl,
+  &[data-animate] .tk,
+  &[data-animate] .cc-band,
+  &[data-animate] .cc-line {
+    transition:
+      left 380ms var(--ease-out),
+      width 380ms var(--ease-out),
+      top 250ms var(--ease-out);
+  }
+
+  &[data-animate] .mk-shape {
+    transition:
+      left 380ms var(--ease-out),
+      width 380ms var(--ease-out);
+    animation: bd-mark 250ms var(--ease-out) backwards;
+  }
+
+  &[data-animate] .mk-label,
+  &[data-animate] .kp {
+    animation: bd-fade 250ms var(--ease-out) backwards;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bd button.mk:hover .mk-label {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+@keyframes bd-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bd-mark {
+  from {
+    opacity: 0;
+    transform: scaleX(0.05);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bd-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bd-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (max-width: 900px) {
+  .bd {
+    & .ln,
+    & .bd-axis,
+    & .bd-strip {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    & .ln-label {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 2px 10px;
+      padding: 9px 12px 0;
+      border-right: 0;
+    }
+
+    & .ln-note {
+      margin-top: 0;
+    }
+
+    & .bd-axis-label,
+    & .bd-strip-label {
+      padding: 8px 12px 0;
+      border-right: 0;
+    }
+
+    & .bd-axis {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    & .bd-axis-label {
+      padding-bottom: 8px;
+    }
+
+    & .bd-strip-label {
+      display: none;
+    }
+  }
+}
+
+@media (pointer: coarse) {
+  .bd {
+    & .kp-toggle {
+      bottom: 0;
+      min-height: 44px;
+    }
+
+    & .pin::after {
+      content: "";
+      position: absolute;
+      inset: -11px -4px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd {
+    & .sweep {
+      display: none;
+    }
+
+    &[data-animate] .mk-shape {
+      animation-name: bd-fade;
+    }
+
+    &[data-animate] .cc-band {
+      animation: bd-fade 200ms ease-out backwards;
+    }
+
+    &[data-animate] .cc-line,
+    &[data-animate] .cc-flag,
+    &[data-animate] .pin,
+    &[data-animate] .pin-leaders {
+      animation-delay: 0ms;
+    }
+
+    &[data-animate] .mk,
+    &[data-animate] .cv,
+    &[data-animate] .gl,
+    &[data-animate] .tk,
+    &[data-animate] .cc-band,
+    &[data-animate] .cc-line,
+    &[data-animate] .mk-shape,
+    &[data-animate] .ln-track {
+      transition: none;
+    }
+
+    & .pin:active {
+      transform: none;
+    }
+  }
+}
+
+
+
+

@@ -1,16 +1,17 @@
 "use client";
 
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { StaticBar } from "@/components/run/run-bar";
-import { RunPanel } from "@/components/run/run-panel";
-import { Notice, Skeleton, buttonStyles } from "@/components/ui/notice";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { RunScreen } from "@/components/run/run-screen";
+import { Skeleton, SlowNote } from "@/components/ui/notice";
 import { useAsync } from "@/hooks/use-async";
 import { api, ApiError } from "@/lib/api";
-import { fmtIso } from "@/lib/format";
+import { fmtIso, toMs } from "@/lib/format";
 import { emptyView, reduceEvents, type RunView } from "@/lib/investigation";
 import type { InvestigationDetail } from "@/lib/types";
-import Link from "next/link";
+import "./incidents.css";
 
 function toView(detail: InvestigationDetail): RunView {
   if (detail.events.length > 0) return reduceEvents(detail.events);
@@ -33,53 +34,88 @@ export function StoredRun({ runId }: { runId: string }) {
   const run = useAsync(load);
   const view = useMemo(() => (run.data ? toView(run.data) : null), [run.data]);
 
-  if (run.loading) {
-    return (
-      <div aria-busy className="mx-auto w-full max-w-[88rem] px-4 pt-8 sm:px-6">
-        <Skeleton className="h-4 w-40" />
-        <Skeleton className="mt-4 h-8 w-2/3" />
-        <div className="mt-8 grid gap-5 lg:grid-cols-[23rem_1fr]">
-          <Skeleton className="h-96 w-full rounded-xl" />
-          <Skeleton className="h-96 w-full rounded-xl" />
-        </div>
-      </div>
-    );
-  }
+  if (run.loading) return <RunSkeleton />;
+
   if (run.error || !view || !run.data) {
-    const notFound = run.error instanceof ApiError && run.error.kind === "not_found";
-    return (
-      <div className="mx-auto w-full max-w-xl px-4 py-16">
-        <Notice
-          role="alert"
-          tone={notFound ? "warn" : "danger"}
-          title={notFound ? "That investigation does not exist" : "The investigation could not be loaded"}
-          action={
-            <>
-              {notFound ? null : (
-                <button type="button" className={buttonStyles.secondary} onClick={run.reload}>
-                  Try again
-                </button>
-              )}
-              <Link href="/incidents" className={buttonStyles.secondary}>
-                Back to incidents
-              </Link>
-            </>
-          }
-        >
-          {notFound ? "It may have been removed, or the link is wrong." : "The server did not answer."}
-        </Notice>
-      </div>
-    );
+    const kind = run.error instanceof ApiError ? run.error.kind : "unreachable";
+    return <RunProblem kind={kind} onRetry={run.reload} />;
   }
 
   return (
-    <RunPanel
+    <RunScreen
       view={view}
-      eyebrow={`Saved run · ${run.data.run_id}`}
       animate={false}
-      onBack={() => router.push("/incidents")}
+      source={`Saved run · ${run.data.run_id}`}
+      note={Number.isNaN(toMs(run.data.asked_at)) ? undefined : `Asked as of ${fmtIso(run.data.asked_at)} (Tunis time)`}
       backLabel="All incidents"
-      bar={<StaticBar view={view} note={`Asked as of ${fmtIso(run.data.asked_at)} (Tunis time)`} />}
+      onBack={() => router.push("/incidents")}
     />
+  );
+}
+
+function RunProblem({ kind, onRetry }: { kind: string; onRetry(): void }) {
+  const notFound = kind === "not_found";
+  const heading = useRef<HTMLHeadingElement>(null);
+  // The page was a loading state a moment ago; focus moves to the news so it is read out.
+  useEffect(() => heading.current?.focus({ preventScroll: true }), []);
+  return (
+    <div className="page run-state">
+      <BackLink />
+      <h1 ref={heading} tabIndex={-1}>
+        {notFound ? "That investigation does not exist" : "The investigation could not be loaded"}
+      </h1>
+      <p>
+        {notFound
+          ? "It may have been removed, or the link is wrong."
+          : kind === "unreachable"
+            ? "The server did not answer. It may be starting up: try again in a moment."
+            : "The server could not read it. Try again, or open another one from the list."}
+      </p>
+      <div className="run-state-actions">
+        {notFound ? null : (
+          <button type="button" className="btn is-primary" onClick={onRetry}>
+            Try again
+          </button>
+        )}
+        <Link href="/incidents" className="btn">
+          See all incidents
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function BackLink() {
+  return (
+    <Link href="/incidents" className="run-back">
+      <ArrowLeft aria-hidden size={16} />
+      All incidents
+    </Link>
+  );
+}
+
+function RunSkeleton() {
+  return (
+    <div className="page run-skeleton" role="status" aria-busy="true">
+      <span className="sr-only">Loading the saved investigation</span>
+      <div aria-hidden>
+        <Skeleton className="h-4 w-36" />
+        <Skeleton className="mt-5 h-10 w-full max-w-xl" />
+        <Skeleton className="mt-3 h-10 w-2/3 max-w-md" />
+        <div className="run-skeleton-controls">
+          <Skeleton className="h-4 w-48" />
+          <Skeleton className="h-9 w-28" />
+        </div>
+        <div className="run-skeleton-board">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div key={i} className="run-skeleton-lane">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <SlowNote />
+    </div>
   );
 }

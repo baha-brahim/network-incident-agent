@@ -18,16 +18,13 @@ export function Define({
   return (
     <Tip
       content={
-        <span className="block">
-          <span className="block font-medium">{term.label}</span>
-          <span className="block text-muted">{term.definition}</span>
-        </span>
+        <>
+          <strong>{term.label}</strong>
+          {term.definition}
+        </>
       }
     >
-      <span
-        tabIndex={0}
-        className={cx("cursor-help underline decoration-muted/60 decoration-dotted underline-offset-[3px]", className)}
-      >
+      <span tabIndex={0} className={cx("def", className)}>
         {children}
       </span>
     </Tip>

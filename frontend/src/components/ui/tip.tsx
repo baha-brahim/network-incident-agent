@@ -13,7 +13,7 @@ export function TipProvider({ children }: { children: ReactNode }) {
 
 /**
  * A tooltip that opens on hover and on focus, and on tap for touch screens (where hover does not exist).
- * `children` must be a single focusable element.
+ * It stays inside the viewport. `children` must be a single focusable element.
  */
 export function Tip({
   content,
@@ -43,12 +43,7 @@ export function Tip({
         {children}
       </Tooltip.Trigger>
       <Tooltip.Portal>
-        <Tooltip.Content
-          side={side}
-          sideOffset={6}
-          collisionPadding={12}
-          className="tip z-50 max-w-[min(22rem,calc(100vw-1.5rem))] rounded-lg border border-line bg-surface px-3 py-2 text-xs leading-relaxed text-fg shadow-pop"
-        >
+        <Tooltip.Content side={side} sideOffset={6} collisionPadding={12} className="tip">
           {content}
         </Tooltip.Content>
       </Tooltip.Portal>

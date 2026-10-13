@@ -1,0 +1,514 @@
+/*
+ * The network diagram. Self-contained: every rule is nested under .nws and built from the tokens in
+ * globals.css. data-animate on the root switches its motion on; data-verdict sets the colour of the
+ * conclusion.
+ */
+
+.nws {
+  --cc: var(--crit);
+  --cc-text: var(--crit-text);
+  --k: 1;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: max(340px, min(520px, calc(100svh - var(--bar-h, 61px) - 32px)));
+  background: var(--board);
+  border: 1px solid var(--ink);
+
+  &[data-verdict="planned_maintenance"] {
+    --cc: var(--maint-edge);
+    --cc-text: var(--maint-edge);
+  }
+
+  &[data-verdict="expected_event"] {
+    --cc: var(--event-edge);
+    --cc-text: var(--event-edge);
+  }
+
+  &[data-verdict="no_impact"] {
+    --cc: var(--ok);
+    --cc-text: var(--ok-text);
+  }
+
+  &[data-verdict="inconclusive"] {
+    --cc: var(--muted);
+    --cc-text: var(--muted);
+  }
+
+  /* ------------------------------------------------------------------ frame */
+
+  & .nws-head {
+    padding: 10px 14px 8px;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  & .nws-head strong {
+    color: var(--ink);
+    font-weight: 650;
+  }
+
+  & .nws-canvas {
+    position: relative;
+    overflow: hidden;
+    background-image: radial-gradient(circle at center, var(--line) 1.1px, transparent 1.3px);
+    background-size: 22px 22px;
+  }
+
+  & .nws-empty {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 0 24px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  & .nws-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 20px;
+    padding: 7px 14px 8px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+  }
+
+  & .nws-readout {
+    flex: 1 1 280px;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--ink);
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  & .nws-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 14px;
+    color: var(--muted);
+  }
+
+  & .nws-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  & .nws-legend-glyph .nws-key-ring {
+    fill: none;
+    stroke: var(--cc);
+    stroke-width: 2.5;
+  }
+
+  & .nws-legend-glyph .nws-key-tint {
+    fill: color-mix(in oklch, var(--cc) 20%, white);
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+
+  /* ------------------------------------------------------------------ lines */
+
+  & .nws-svg {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  & .nws-rowname {
+    fill: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  & .nws-region-name {
+    fill: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 650;
+  }
+
+  & .nws-region-count {
+    fill: var(--muted);
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+
+  & .nws-frame,
+  & .nws-hair,
+  & .nws-stub,
+  & .nws-edge {
+    fill: none;
+    stroke-width: 1.5px;
+  }
+
+  & .nws-frame {
+    stroke: var(--ink);
+  }
+
+  & .nws-hair {
+    stroke: var(--line-strong);
+  }
+
+  & .nws-stub {
+    stroke: var(--line-strong);
+    stroke-dasharray: 3 3;
+  }
+
+  & .nws-edge {
+    stroke: var(--ink);
+    transition:
+      stroke 250ms var(--ease-out),
+      stroke-width 250ms var(--ease-out),
+      opacity 250ms var(--ease-out);
+  }
+
+  & .nws-edge[data-fault] {
+    stroke: var(--cc);
+    stroke-width: 3.5px;
+  }
+
+  & .nws-edge[data-lit] {
+    stroke-width: 3px;
+  }
+
+  & .nws-edge[data-dim] {
+    opacity: 0.25;
+  }
+
+  &[data-animate] .nws-edge {
+    animation: nws-draw 400ms var(--ease-out) 120ms backwards;
+  }
+
+  /* ------------------------------------------------------------------ nodes */
+
+  & .nws-node {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+  }
+
+  & .nws-node:is([data-probe], [data-selected], [data-hl]) {
+    z-index: 2;
+  }
+
+  & .nws-node[data-root] {
+    z-index: 3;
+  }
+
+  & .nws-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  & .nws-btn:focus-visible {
+    outline-offset: 0;
+  }
+
+  &[data-animate] .nws-btn {
+    animation: nws-in 200ms var(--ease-out) backwards;
+  }
+
+  & .nws-glyph {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  & .nws-shape,
+  & .nws-inner,
+  & .nws-mast {
+    stroke: var(--ink);
+    stroke-width: calc(1.5px * var(--k));
+    stroke-linejoin: miter;
+  }
+
+  & .nws-shape {
+    fill: var(--board);
+    transition: fill 250ms var(--ease-out);
+  }
+
+  & .nws-inner,
+  & .nws-mast {
+    fill: none;
+  }
+
+  & .nws-body {
+    transition: opacity 250ms var(--ease-out);
+  }
+
+  & .nws-node[data-dim] .nws-body {
+    opacity: 0.35;
+  }
+
+  & .nws-node[data-affected] .nws-shape {
+    fill: color-mix(in oklch, var(--cc) 16%, white);
+  }
+
+  & .nws-node[data-root] .nws-shape {
+    fill: color-mix(in oklch, var(--cc) 26%, white);
+  }
+
+  /* The highlighter: the agent is here now, or this is the selected node. */
+  & .nws-disc {
+    fill: var(--hl);
+    opacity: 0;
+    transition: opacity 150ms var(--ease-out);
+  }
+
+  & .nws-node:is([data-probe], [data-selected]) .nws-disc {
+    opacity: 1;
+  }
+
+  & .nws-ring-probe {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: calc(1.25px * var(--k));
+    stroke-dasharray: 3 4;
+    opacity: 0;
+  }
+
+  & .nws-node[data-probe] .nws-ring-probe {
+    opacity: 1;
+    animation: nws-spin 2.4s linear infinite;
+  }
+
+  /* Something else on the page points at this node. */
+  & .nws-ring-hl {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: calc(2px * var(--k));
+    opacity: 0;
+    transition: opacity 120ms var(--ease-out);
+  }
+
+  & .nws-node:is([data-hl], [data-selected]) .nws-ring-hl {
+    opacity: 1;
+  }
+
+  & .nws-ring-root {
+    fill: none;
+    stroke: var(--cc);
+    stroke-width: calc(2.5px * var(--k));
+    transform: rotate(-90deg);
+  }
+
+  &[data-animate] .nws-ring-root {
+    animation: nws-ring 450ms var(--ease-out) 150ms backwards;
+  }
+
+  /* ----------------------------------------------------------------- labels */
+
+  & .nws-lab {
+    position: absolute;
+    display: block;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  & .nws-lab[data-side="left"] {
+    text-align: right;
+  }
+
+  & .nws-lab[data-side="below"] {
+    text-align: center;
+  }
+
+  & .nws-l {
+    display: block;
+    color: var(--ink);
+  }
+
+  & .nws-t {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 4px;
+    background: var(--board);
+    transition: background-color 150ms var(--ease-out);
+  }
+
+  & .nws-l[data-kind="id"] {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  & .nws-l[data-kind="root"] {
+    color: var(--cc-text);
+    font-weight: 650;
+  }
+
+  & .nws-l[data-kind="alarm"] {
+    color: var(--muted);
+  }
+
+  & .nws-l[data-kind="alarm"][data-sev="critical"] {
+    color: var(--crit-text);
+  }
+
+  & .nws-l[data-kind="alarm"][data-sev="major"] {
+    color: var(--major-text);
+  }
+
+  & .nws-l[data-kind="marker"][data-marker="maintenance"] {
+    color: var(--maint-edge);
+  }
+
+  & .nws-l[data-kind="marker"][data-marker="event"] {
+    color: var(--event-edge);
+  }
+
+  & .nws-node[data-probe] .nws-l[data-kind="id"] .nws-t {
+    background: var(--hl);
+  }
+
+  & .nws-node[data-dim] .nws-l:not([data-kind="root"]) {
+    color: var(--muted);
+  }
+
+  &[data-animate] .nws-l[data-kind="root"] {
+    animation: nws-fade 250ms var(--ease-out) 450ms backwards;
+  }
+
+  & .nws-badge {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    border-radius: 8px;
+    background: var(--minor);
+    color: var(--ink);
+    font-size: 10.5px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  & .nws-badge[data-sev="critical"] {
+    background: var(--crit);
+    color: #fff;
+  }
+
+  & .nws-badge[data-sev="major"] {
+    background: var(--major);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nws .nws-btn:hover .nws-ring-hl {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 640px) {
+  .nws {
+    height: 360px;
+  }
+
+  /* Four regions side by side become two rows of two, which need the room. */
+  .nws[data-regions] {
+    height: 560px;
+  }
+
+  .nws .nws-head {
+    padding: 8px 12px 6px;
+    font-size: 12.5px;
+  }
+
+  .nws .nws-foot {
+    padding: 6px 12px 7px;
+  }
+}
+
+@keyframes nws-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes nws-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nws-draw {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes nws-ring {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes nws-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Reduced motion: things fade in; nothing is drawn, scaled or rotated. */
+@media (prefers-reduced-motion: reduce) {
+  .nws[data-animate] .nws-btn,
+  .nws[data-animate] .nws-edge,
+  .nws[data-animate] .nws-ring-root {
+    animation-name: nws-fade;
+  }
+
+  .nws .nws-node[data-probe] .nws-ring-probe {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .nws .nws-legend {
+    gap: 0 10px;
+    font-size: 12px;
+  }
+}
+

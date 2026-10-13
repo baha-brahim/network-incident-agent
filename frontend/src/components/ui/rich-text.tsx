@@ -1,10 +1,10 @@
 "use client";
 
-import { Fragment, useMemo, type ReactNode } from "react";
-import { Cite } from "@/components/run/cite";
-import { useRunContext } from "@/components/run/run-context";
+import { useMemo, type ReactNode } from "react";
+import { Cite, useRunCtx } from "@/components/run/citations";
+import { NodeChip } from "@/components/run/node-chip";
 import { Define } from "./term";
-import { ALARM_TYPES, CATEGORIES, METRICS, NODE_ID_PATTERN, lookupTerm, nodeKind } from "@/lib/labels";
+import { ALARM_TYPES, CATEGORIES, METRICS, NODE_ID_PATTERN, lookupTerm } from "@/lib/labels";
 
 const EVIDENCE_ID = String.raw`(?:ALM|ALR|ANM|CHG|MW|EVT)-[0-9A-Z-]+|RB-[A-Z-]+#\d+|T\d{1,3}`;
 // Category names are matched only in their snake_case form, so ordinary words like "capacity" stay plain.
@@ -16,17 +16,15 @@ const TERMS = [
 const NODE_ONLY = new RegExp(`^(?:${NODE_ID_PATTERN.source})$`);
 const TOKEN = new RegExp(`\`?(\\b(?:${NODE_ID_PATTERN.source}|${EVIDENCE_ID}|${TERMS})\\b)\`?`, "g");
 
-const mono = "font-mono text-[0.92em]";
-
 /**
- * Prose from the agent, with the things a reader may want explained marked up: node IDs in
- * monospace, jargon with a definition on its first mention, and references as citation chips.
+ * Prose from the agent, with the things a reader may want explained marked up: node IDs and jargon
+ * in monospace with a definition, and evidence references as citation buttons.
  */
 export function RichText({ text }: { text: string }) {
-  const ctx = useRunContext();
+  const ctx = useRunCtx();
+  const view = ctx?.view;
   const parts = useMemo(() => {
     const out: ReactNode[] = [];
-    const seen = new Set<string>();
     let last = 0;
     for (const match of text.matchAll(TOKEN)) {
       const token = match[1];
@@ -36,47 +34,24 @@ export function RichText({ text }: { text: string }) {
       const key = `${index}`;
 
       if (NODE_ONLY.test(token)) {
-        const kind = nodeKind(token);
-        const chip = <span className={`rounded bg-surface-2 px-0.5 break-anywhere ${mono}`}>{token}</span>;
-        out.push(
-          kind ? (
-            <Define key={key} term={{ label: token, definition: kind }} className="no-underline">
-              {chip}
-            </Define>
-          ) : (
-            <Fragment key={key}>{chip}</Fragment>
-          ),
-        );
+        out.push(<NodeChip key={key} id={token} />);
         continue;
       }
       const term = lookupTerm(token);
       if (term) {
-        if (seen.has(token)) {
-          out.push(
-            <span key={key} className={mono}>
-              {token}
-            </span>,
-          );
-        } else {
-          seen.add(token);
-          out.push(
-            <Define key={key} term={term}>
-              <span className={mono}>{token}</span>
-            </Define>,
-          );
-        }
+        out.push(
+          <Define key={key} term={{ label: token, definition: term.definition }}>
+            <code className="id">{token}</code>
+          </Define>,
+        );
         continue;
       }
-      // An evidence reference: a chip when the run really has it, plain text otherwise.
-      if (ctx && (ctx.view.evidence[token] || ctx.view.origins[token])) {
-        out.push(<Cite key={key} id={token} compact />);
-      } else {
-        out.push(match[0]);
-      }
+      if (view && (view.evidence[token] || view.origins[token])) out.push(<Cite key={key} id={token} />);
+      else out.push(match[0]);
     }
     if (last < text.length) out.push(text.slice(last));
     return out;
-  }, [text, ctx]);
+  }, [text, view]);
 
   return <>{parts}</>;
 }

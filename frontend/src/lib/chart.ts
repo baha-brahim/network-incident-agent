@@ -182,10 +182,12 @@ function clamp(v: number, lo: number, hi: number): number {
   return Math.min(hi, Math.max(lo, v));
 }
 
-/** The KPI name, with its unit unless the name already says it ("Active users"). */
-export function chartTitle(series: KpiSeries): string {
-  const label = metricLabel(series.metric);
-  return label.toLowerCase().includes(series.unit.toLowerCase()) ? label : `${label} · ${series.unit}`;
+/** A deviation from the usual level as a signed percentage; extreme values are capped so they stay readable. */
+export function pctText(pct: number): string {
+  if (!Number.isFinite(pct)) return "";
+  if (pct >= 1000) return "over +999%";
+  if (pct <= -1000) return "under -999%";
+  return `${pct > 0 ? "+" : ""}${Math.round(pct)}%`;
 }
 
 /** The one message of the chart, as a sentence. */
@@ -194,7 +196,7 @@ export function chartCaption(series: KpiSeries, deviationPct?: number): string {
   const d = series.deviation;
   if (!d) return "Stays within its usual range for this time of day.";
   const dir = d.direction === "above" ? "Above" : "Below";
-  const pct = deviationPct !== undefined ? ` (${deviationPct > 0 ? "+" : ""}${Math.round(deviationPct)}% on average)` : "";
+  const pct = deviationPct !== undefined && Number.isFinite(deviationPct) ? ` (${pctText(deviationPct)} on average)` : "";
   const from = d.began_before_window ? "since before this window" : `from ${timeOf(toMs(d.onset))}`;
   const to = d.recovery ? `until ${timeOf(toMs(d.recovery))}` : "and still running";
   return `${dir} its usual level ${from} ${to}${pct}.`;
