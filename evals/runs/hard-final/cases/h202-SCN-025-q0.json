@@ -1,0 +1,932 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-25T08:16:00Z",
+    "case_id": "h202-SCN-025-q0",
+    "question": "Several sites in Grand Tunis went quiet yesterday morning. What happened?",
+    "question_index": 0,
+    "scenario_id": "SCN-025",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T14:45:22.289972Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-25T08:16:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-25 09:16",
+          "entity_id": null,
+          "region_id": "TUN",
+          "start": "2026-09-24 04:00"
+        },
+        "body": "2 alert(s): ALR-0030 2026-09-24 11:15-15:45; ALR-0031 2026-09-24 18:30-22:00. Traffic, active users, availability, UPF throughput and UPF sessions drop on 6 sites in TUN (S-TUN-001, S-T...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0030 high ended, 2026-09-24 11:15 to 2026-09-24 15:45 (4.5 h): Traffic, active users, availability, UPF throughput and UPF sessions drop on 6 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010, S-TUN-013 and 1 more) and on CORE-UPF-01 for 4.5 h\n  active_users drop on 7 entities: worst S-TUN-013 z -13.6, 320 -> 0, 2026-09-24 11:15 to 2026-09-24 15:00\n  availability_pct drop on 7 entities: worst S-TUN-010 z -100.0, 100 -> 0, 2026-09-24 11:15 to 2026-09-24 15:00\n  dl_volume_mb drop on 7 entities: worst S-TUN-008 z -13.5, 10000 -> 0, 2026-09-24 11:45 to 2026-09-24 15:30\n  +2 more metric group(s): session_count drop, throughput_gbps drop\nALR-0031 medium ended, 2026-09-24 18:30 to 2026-09-24 22:00 (3.5 h): RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 3.5 h\n  dl_volume_mb spike on 4 entities: worst S-TUN-003 z 19.6, 35477 -> 106674, 2026-09-24 18:30 to 2026-09-24 22:00\n  active_users spike on 3 entities: worst S-TUN-003 z 24.0, 258 -> 796, 2026-09-24 18:30 to 2026-09-24 22:00\n  latency_ms spike on 3 entities: worst S-TUN-001 z 38.9, 20.4 -> 75, 2026-09-24 20:30 to 2026-09-24 21:45\n  +3 more metric group(s): prb_util_pct spike, drop_rate_pct spike, rrc_success_pct drop",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alert(s): ALR-0030 2026-09-24 11:15-15:45; ALR-0031 2026-09-24 18:30-22:00. Traffic, active users, availability, UPF throughput and UPF sessions drop on 6 sites in TUN (S-TUN-001, S-T...",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0030",
+          "ANM-000325",
+          "ANM-000323",
+          "ANM-000344",
+          "ALR-0031",
+          "ANM-000347",
+          "ANM-000346",
+          "ANM-000354"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-24 16:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "S-TUN-008",
+            "S-TUN-010",
+            "S-TUN-013",
+            "CORE-UPF-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 10:00:00"
+        },
+        "body": "8 alarm(s) on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and nodes below: 8 critical; 0 active. Earliest critical/major: 2026-09-24 11:23 LINK_LOS on LNK-TUN-01-C (ALM-000412).\nEarliest critical/major: 2026-09-24 11:23 LINK_LOS on LNK-TUN-01-C (ALM-000412); within 10 min after: SITE_DOWN x3 (S-TUN-017, S-TUN-013, S-TUN-010).\n2026-09-24 11:23 ALM-000412 critical LINK_LOS LNK-TUN-01-C (below CORE-UPF-01): cleared 2026-09-24 14:59\n2026-09-24 11:24 ALM-000413 critical SITE_DOWN S-TUN-017 (below CORE-UPF-01): cleared 2026-09-24 15:01\n2026-09-24 11:24 ALM-000414 critical SITE_DOWN S-TUN-013: cleared 2026-09-24 15:02\n2026-09-24 11:24 ALM-000415 critical SITE_DOWN S-TUN-010: cleared 2026-09-24 14:59\n2026-09-24 11:48 ALM-000416 critical LINK_LOS LNK-TUN-01-B (below CORE-UPF-01): cleared 2026-09-24 15:34\n2026-09-24 11:49 ALM-000417 critical SITE_DOWN S-TUN-001: cleared 2026-09-24 15:37\n2026-09-24 11:49 ALM-000418 critical SITE_DOWN S-TUN-002: cleared 2026-09-24 15:36\n2026-09-24 11:49 ALM-000419 critical SITE_DOWN S-TUN-008: cleared 2026-09-24 15:35",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "8 alarm(s) on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and nodes below: 8 critical; 0 active. Earliest critical/major: 2026-09-24 11:23 LINK_LOS on LNK-TUN-01-C (ALM-000412).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000412",
+          "ALM-000413",
+          "ALM-000414",
+          "ALM-000415",
+          "ALM-000416",
+          "ALM-000417",
+          "ALM-000418",
+          "ALM-000419"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-24 16:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "S-TUN-008",
+            "S-TUN-010",
+            "S-TUN-013",
+            "CORE-UPF-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 10:00:00"
+        },
+        "body": "No changes on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents between 2026-09-24 10:00 and 2026-09-24 16:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents between 2026-09-24 10:00 and 2026-09-24 16:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-24 16:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "S-TUN-008",
+            "S-TUN-010",
+            "S-TUN-013",
+            "CORE-UPF-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 10:00:00"
+        },
+        "body": "1 maintenance window(s) on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16).\nMW-0010 completed 2026-09-24 11:18 -> 2026-09-24 15:08 on LNK-TUN-01-C (ancestor of S-TUN-010), covers 3 sites below: Planned fibre splice work on LNK-TUN-01-C; expected impact: Downstream sites offline during splicing",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "MW-0010"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-24 16:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "LNK-TUN-01-B",
+            "LNK-TUN-01-C"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 10:00:00"
+        },
+        "body": "1 maintenance window(s) on LNK-TUN-01-B, LNK-TUN-01-C and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16).\nMW-0010 completed 2026-09-24 11:18 -> 2026-09-24 15:08 on LNK-TUN-01-C, covers 3 sites below: Planned fibre splice work on LNK-TUN-01-C; expected impact: Downstream sites offline during splicing",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on LNK-TUN-01-B, LNK-TUN-01-C and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "MW-0010"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 11
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "LNK-TUN-01-C"
+        },
+        "body": "Depends on (child -> parent -> core): LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nLNK-TUN-01-C: fiber link, TUN, 11.1 km, 10.0 Gbps.\nSites below: S-TUN-010, S-TUN-013, S-TUN-017.\nA failure of LNK-TUN-01-C takes down all 3 of them together.\nSiblings under AGG-TUN-01: LNK-TUN-01-A, LNK-TUN-01-B.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "LNK-TUN-01-C",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "LNK-TUN-01-A",
+          "LNK-TUN-01-B",
+          "S-TUN-010",
+          "S-TUN-013",
+          "S-TUN-017"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "LNK-TUN-01-B"
+        },
+        "body": "Depends on (child -> parent -> core): LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nLNK-TUN-01-B: fiber link, TUN, 12.0 km, 10.0 Gbps.\nSites below: S-TUN-001, S-TUN-002, S-TUN-008.\nA failure of LNK-TUN-01-B takes down all 3 of them together.\nSiblings under AGG-TUN-01: LNK-TUN-01-A, LNK-TUN-01-C.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "LNK-TUN-01-A",
+          "LNK-TUN-01-C",
+          "S-TUN-001",
+          "S-TUN-002",
+          "S-TUN-008"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 9
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000412": {
+        "kind": "alarm",
+        "ref": "ALM-000412",
+        "summary": "critical LINK_LOS on LNK-TUN-01-C, raised 2026-09-24 11:23, cleared 2026-09-24 14:59"
+      },
+      "ALM-000413": {
+        "kind": "alarm",
+        "ref": "ALM-000413",
+        "summary": "critical SITE_DOWN on S-TUN-017, raised 2026-09-24 11:24, cleared 2026-09-24 15:01"
+      },
+      "ALM-000414": {
+        "kind": "alarm",
+        "ref": "ALM-000414",
+        "summary": "critical SITE_DOWN on S-TUN-013, raised 2026-09-24 11:24, cleared 2026-09-24 15:02"
+      },
+      "ALM-000415": {
+        "kind": "alarm",
+        "ref": "ALM-000415",
+        "summary": "critical SITE_DOWN on S-TUN-010, raised 2026-09-24 11:24, cleared 2026-09-24 14:59"
+      },
+      "ALM-000416": {
+        "kind": "alarm",
+        "ref": "ALM-000416",
+        "summary": "critical LINK_LOS on LNK-TUN-01-B, raised 2026-09-24 11:48, cleared 2026-09-24 15:34"
+      },
+      "ALM-000417": {
+        "kind": "alarm",
+        "ref": "ALM-000417",
+        "summary": "critical SITE_DOWN on S-TUN-001, raised 2026-09-24 11:49, cleared 2026-09-24 15:37"
+      },
+      "ALM-000418": {
+        "kind": "alarm",
+        "ref": "ALM-000418",
+        "summary": "critical SITE_DOWN on S-TUN-002, raised 2026-09-24 11:49, cleared 2026-09-24 15:36"
+      },
+      "ALM-000419": {
+        "kind": "alarm",
+        "ref": "ALM-000419",
+        "summary": "critical SITE_DOWN on S-TUN-008, raised 2026-09-24 11:49, cleared 2026-09-24 15:35"
+      },
+      "ALR-0030": {
+        "kind": "alert",
+        "ref": "ALR-0030",
+        "summary": "ended alert from 2026-09-24 11:15: 6 site(s) (S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more); core CORE-UPF-01; region-level TUN; metrics: active_users, availabil..."
+      },
+      "ALR-0031": {
+        "kind": "alert",
+        "ref": "ALR-0031",
+        "summary": "ended alert from 2026-09-24 18:30: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); region-level TUN; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_u..."
+      },
+      "ANM-000323": {
+        "kind": "anomaly",
+        "ref": "ANM-000323",
+        "summary": "S-TUN-010 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000325": {
+        "kind": "anomaly",
+        "ref": "ANM-000325",
+        "summary": "S-TUN-013 active_users drop, z -13.6, baseline 320 -> 0"
+      },
+      "ANM-000344": {
+        "kind": "anomaly",
+        "ref": "ANM-000344",
+        "summary": "S-TUN-008 dl_volume_mb drop, z -13.5, baseline 10000 -> 0"
+      },
+      "ANM-000346": {
+        "kind": "anomaly",
+        "ref": "ANM-000346",
+        "summary": "S-TUN-003 active_users spike, z 24.0, baseline 258 -> 796"
+      },
+      "ANM-000347": {
+        "kind": "anomaly",
+        "ref": "ANM-000347",
+        "summary": "S-TUN-003 dl_volume_mb spike, z 19.6, baseline 35477 -> 106674"
+      },
+      "ANM-000354": {
+        "kind": "anomaly",
+        "ref": "ANM-000354",
+        "summary": "S-TUN-001 latency_ms spike, z 38.9, baseline 20.4 -> 75"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-A": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-A",
+        "summary": "fiber link, TUN, 12.8 km, 10.0 Gbps; sibling of LNK-TUN-01-B"
+      },
+      "LNK-TUN-01-B": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-B",
+        "summary": "fiber link, TUN, 12.0 km, 10.0 Gbps; chain: LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01; 3 sites below"
+      },
+      "LNK-TUN-01-C": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-C",
+        "summary": "fiber link, TUN, 11.1 km, 10.0 Gbps; sibling of LNK-TUN-01-B"
+      },
+      "MW-0010": {
+        "kind": "maintenance",
+        "ref": "MW-0010",
+        "summary": "completed window 2026-09-24 11:18 -> 2026-09-24 15:08 on LNK-TUN-01-C: Planned fibre splice work on LNK-TUN-01-C; expected impact: Downstream sites offline during spli..."
+      },
+      "S-TUN-001": {
+        "kind": "node",
+        "ref": "S-TUN-001",
+        "summary": "site, TUN, Ariana, urban, near a venue; under LNK-TUN-01-B"
+      },
+      "S-TUN-002": {
+        "kind": "node",
+        "ref": "S-TUN-002",
+        "summary": "site, TUN, La Marsa, urban, near a venue; under LNK-TUN-01-B"
+      },
+      "S-TUN-008": {
+        "kind": "node",
+        "ref": "S-TUN-008",
+        "summary": "site, TUN, La Goulette, suburban; under LNK-TUN-01-B"
+      },
+      "S-TUN-010": {
+        "kind": "node",
+        "ref": "S-TUN-010",
+        "summary": "site, TUN, Ezzahra, urban; under LNK-TUN-01-C"
+      },
+      "S-TUN-013": {
+        "kind": "node",
+        "ref": "S-TUN-013",
+        "summary": "site, TUN, Lac 1, urban; under LNK-TUN-01-C"
+      },
+      "S-TUN-017": {
+        "kind": "node",
+        "ref": "S-TUN-017",
+        "summary": "site, TUN, Mornag, urban; under LNK-TUN-01-C"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-24 04:00, end=2026-09-25 09:16, region_id=TUN) -> 2 alert(s): ALR-0030 2026-09-24 11:15-15:45; ALR-0031 2026-09-24 18:30-22:00. Traffic, active users, availability, UPF throughput and UPF sessions drop on 6 sites in TUN (S-TUN-001, S-T..."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-24 10:00:00, end=2026-09-24 16:00:00, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-008', 'S-TUN-010', 'S-TUN-013', 'CORE-UPF-01 -> 8 alarm(s) on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and nodes below: 8 critical; 0 active. Earliest critical/major: 2026-09-24 11:23 LINK_LOS on LNK-TUN-01-C (ALM-000412)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-24 10:00:00, end=2026-09-24 16:00:00, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-008', 'S-TUN-010', 'S-TUN-013', 'CORE-UPF-0 -> No changes on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents between 2026-09-24 10:00 and 2026-09-24 16:00."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-24 10:00:00, end=2026-09-24 16:00:00, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-008', 'S-TUN-010', 'S-TUN-013', 'CORE-U -> 1 maintenance window(s) on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-24 10:00:00, end=2026-09-24 16:00:00, node_ids=['LNK-TUN-01-B', 'LNK-TUN-01-C'], include_ancestors=True) -> 1 maintenance window(s) on LNK-TUN-01-B, LNK-TUN-01-C and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_topology(node_id=LNK-TUN-01-C, include=all) -> Depends on (child -> parent -> core): LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_topology(node_id=LNK-TUN-01-B, include=all) -> Depends on (child -> parent -> core): LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "[lookalike] MW-0010 on LNK-TUN-01-C ran 2026-09-24 11:18-15:08, but the affected sites S-TUN-001, S-TUN-002, S-TUN-008 are not on or below LNK-TUN-01-C. A window explains an outage only if it covers it in time and sits on the affected node or a parent; the part outside it is an unplanned incident on that node."
+    ],
+    "markdown": "# Grand Tunis Transport Outage and Maintenance Incident\n\n- **Classification:** incident\n- **Root cause:** transport_failure at `LNK-TUN-01-B`\n- **Confidence:** medium (LNK-TUN-01-B had link loss alarms and site outages without a covering maintenance window, unlike LNK-TUN-01-C. External events NOT CHECKED.)\n- **Impact:** 2026-09-24 11:15 to 2026-09-24 15:37\n- **Cause time:** 2026-09-24 11:48\n- **Affected:** S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010, S-TUN-013, S-TUN-017\n\n## Summary\n\nUnplanned transport link loss on LNK-TUN-01-B caused site outages on S-TUN-001, S-TUN-002, and S-TUN-008 without a covering maintenance window.\n\nSix sites in Grand Tunis experienced outages during the morning of 2026-09-24 due to transport link failures.\n\n## Timeline\n\n- 2026-09-24 11:15: Alert ALR-0030 started covering six affected sites. [ALR-0030]\n- 2026-09-24 11:23: Critical LINK_LOS alarm raised on LNK-TUN-01-C. [ALM-000412]\n- 2026-09-24 11:24: Critical SITE_DOWN alarms raised on S-TUN-010, S-TUN-013, S-TUN-017. [ALM-000413, ALM-000414, ALM-000415]\n- 2026-09-24 11:48: Critical LINK_LOS alarm raised on LNK-TUN-01-B. [ALM-000416]\n- 2026-09-24 11:49: Critical SITE_DOWN alarms raised on S-TUN-001, S-TUN-002, S-TUN-008. [ALM-000417, ALM-000418, ALM-000419]\n- 2026-09-24 15:37: Last site down alarm cleared on S-TUN-001, ending impact. [ALM-000417]\n\n## Evidence\n\n- Alert ALR-0030 recorded six site outages in Grand Tunis starting at 2026-09-24 11:15. [ALR-0030]\n- Maintenance window MW-0010 covered LNK-TUN-01-C but did not cover LNK-TUN-01-B. [MW-0010, T5]\n- No changes occurred on the affected nodes and their parents during the window. [T3]\n- Links LNK-TUN-01-C and LNK-TUN-01-B serve the affected sites via AGG-TUN-01 and CORE-UPF-01. [T6, T7]\n- Critical LINK_LOS and SITE_DOWN alarms occurred on LNK-TUN-01-B and its sites without an associated maintenance window. [ALM-000416, ALM-000417, T5]\n\n## Hypotheses\n\n1. **transport_failure** at LNK-TUN-01-B: confirmed. LNK-TUN-01-B suffered an unplanned link loss and associated site outages without covering maintenance. [ALM-000416, ALM-000417, T5]\n2. **planned_maintenance** at LNK-TUN-01-C: confirmed. MW-0010 covered LNK-TUN-01-C and its downstream sites S-TUN-010, S-TUN-013, and S-TUN-017 during the outage. [MW-0010, T6]\n3. **bad_change**: rejected. Tool checks confirmed no configuration changes occurred on the affected nodes or parents during the window. [T3]\n\n## Ruled out\n\n- ALR-0031: Occurred later in the evening on 2026-09-24 at 18:30 and concerns a different set of sites.\n\n## Recommended actions\n\n- Investigate the root cause of the unplanned link loss on transport link LNK-TUN-01-B.\n- Verify post-incident traffic restoration on all affected Grand Tunis sites.\n- Ensure all transport maintenance windows properly cover all affected sibling links if work spans multiple paths.\n\n## Sources\n\n- `ALR-0030`: ended alert from 2026-09-24 11:15: 6 site(s) (S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more); core CORE-UPF-01; region-level TUN; metrics: active_users, availabil...\n- `ALM-000412`: critical LINK_LOS on LNK-TUN-01-C, raised 2026-09-24 11:23, cleared 2026-09-24 14:59\n- `ALM-000413`: critical SITE_DOWN on S-TUN-017, raised 2026-09-24 11:24, cleared 2026-09-24 15:01\n- `ALM-000414`: critical SITE_DOWN on S-TUN-013, raised 2026-09-24 11:24, cleared 2026-09-24 15:02\n- `ALM-000415`: critical SITE_DOWN on S-TUN-010, raised 2026-09-24 11:24, cleared 2026-09-24 14:59\n- `ALM-000416`: critical LINK_LOS on LNK-TUN-01-B, raised 2026-09-24 11:48, cleared 2026-09-24 15:34\n- `ALM-000417`: critical SITE_DOWN on S-TUN-001, raised 2026-09-24 11:49, cleared 2026-09-24 15:37\n- `ALM-000418`: critical SITE_DOWN on S-TUN-002, raised 2026-09-24 11:49, cleared 2026-09-24 15:36\n- `ALM-000419`: critical SITE_DOWN on S-TUN-008, raised 2026-09-24 11:49, cleared 2026-09-24 15:35\n- `MW-0010`: completed window 2026-09-24 11:18 -> 2026-09-24 15:08 on LNK-TUN-01-C: Planned fibre splice work on LNK-TUN-01-C; expected impact: Downstream sites offline during spli...\n- `T5`: get_maintenance(start=2026-09-24 10:00:00, end=2026-09-24 16:00:00, node_ids=['LNK-TUN-01-B', 'LNK-TUN-01-C'], include_ancestors=True) -> 1 maintenance window(s) on LNK-TUN-01-B, LNK-TUN-01-C and its parents overlap 2026-09-24 10:00 to 2026-09-24 16:00: 1 completed (state as of asked_at 2026-09-25 09:16).\n- `T3`: get_changes(start=2026-09-24 10:00:00, end=2026-09-24 16:00:00, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-008', 'S-TUN-010', 'S-TUN-013', 'CORE-UPF-0 -> No changes on S-TUN-001, S-TUN-002, S-TUN-008, S-TUN-010 +2 more and its parents between 2026-09-24 10:00 and 2026-09-24 16:00.\n- `T6`: get_topology(node_id=LNK-TUN-01-C, include=all) -> Depends on (child -> parent -> core): LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `T7`: get_topology(node_id=LNK-TUN-01-B, include=all) -> Depends on (child -> parent -> core): LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `ALR-0031`: ended alert from 2026-09-24 18:30: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); region-level TUN; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_u...\n\n## Verification notes\n\n- [lookalike] MW-0010 on LNK-TUN-01-C ran 2026-09-24 11:18-15:08, but the affected sites S-TUN-001, S-TUN-002, S-TUN-008 are not on or below LNK-TUN-01-C. A window explains an outage only if it covers it in time and sits on the affected node or a parent; the part outside it is an unplanned incident on that node.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Several sites in Grand Tunis went quiet yesterday morning. What happened?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-001",
+        "S-TUN-002",
+        "S-TUN-008",
+        "S-TUN-010",
+        "S-TUN-013",
+        "S-TUN-017"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "LNK-TUN-01-B had link loss alarms and site outages without a covering maintenance window, unlike LNK-TUN-01-C. External events NOT CHECKED.",
+      "dismissed_signals": [
+        {
+          "reason": "Occurred later in the evening on 2026-09-24 at 18:30 and concerns a different set of sites.",
+          "ref": "ALR-0031"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Alert ALR-0030 recorded six site outages in Grand Tunis starting at 2026-09-24 11:15.",
+          "refs": [
+            "ALR-0030"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Maintenance window MW-0010 covered LNK-TUN-01-C but did not cover LNK-TUN-01-B.",
+          "refs": [
+            "MW-0010",
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes occurred on the affected nodes and their parents during the window.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Links LNK-TUN-01-C and LNK-TUN-01-B serve the affected sites via AGG-TUN-01 and CORE-UPF-01.",
+          "refs": [
+            "T6",
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical LINK_LOS and SITE_DOWN alarms occurred on LNK-TUN-01-B and its sites without an associated maintenance window.",
+          "refs": [
+            "ALM-000416",
+            "ALM-000417",
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-TUN-01-B",
+          "reason": "LNK-TUN-01-B suffered an unplanned link loss and associated site outages without covering maintenance.",
+          "refs": [
+            "ALM-000416",
+            "ALM-000417",
+            "T5"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": "LNK-TUN-01-C",
+          "reason": "MW-0010 covered LNK-TUN-01-C and its downstream sites S-TUN-010, S-TUN-013, and S-TUN-017 during the outage.",
+          "refs": [
+            "MW-0010",
+            "T6"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "Tool checks confirmed no configuration changes occurred on the affected nodes or parents during the window.",
+          "refs": [
+            "T3"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-24 15:37",
+      "impact_start": "2026-09-24 11:15",
+      "impact_summary": "Six sites in Grand Tunis experienced outages during the morning of 2026-09-24 due to transport link failures.",
+      "recommended_actions": [
+        "Investigate the root cause of the unplanned link loss on transport link LNK-TUN-01-B.",
+        "Verify post-incident traffic restoration on all affected Grand Tunis sites.",
+        "Ensure all transport maintenance windows properly cover all affected sibling links if work spans multiple paths."
+      ],
+      "root_cause_category": "transport_failure",
+      "root_cause_node_id": "LNK-TUN-01-B",
+      "root_cause_summary": "Unplanned transport link loss on LNK-TUN-01-B caused site outages on S-TUN-001, S-TUN-002, and S-TUN-008 without a covering maintenance window.",
+      "root_cause_time": "2026-09-24 11:48",
+      "timeline": [
+        {
+          "event": "Alert ALR-0030 started covering six affected sites.",
+          "refs": [
+            "ALR-0030"
+          ],
+          "time": "2026-09-24 11:15"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on LNK-TUN-01-C.",
+          "refs": [
+            "ALM-000412"
+          ],
+          "time": "2026-09-24 11:23"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-TUN-010, S-TUN-013, S-TUN-017.",
+          "refs": [
+            "ALM-000413",
+            "ALM-000414",
+            "ALM-000415"
+          ],
+          "time": "2026-09-24 11:24"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on LNK-TUN-01-B.",
+          "refs": [
+            "ALM-000416"
+          ],
+          "time": "2026-09-24 11:48"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-TUN-001, S-TUN-002, S-TUN-008.",
+          "refs": [
+            "ALM-000417",
+            "ALM-000418",
+            "ALM-000419"
+          ],
+          "time": "2026-09-24 11:49"
+        },
+        {
+          "event": "Last site down alarm cleared on S-TUN-001, ending impact.",
+          "refs": [
+            "ALM-000417"
+          ],
+          "time": "2026-09-24 15:37"
+        }
+      ],
+      "title": "Grand Tunis Transport Outage and Maintenance Incident"
+    },
+    "report_before_checks": {
+      "affected_node_ids": [
+        "S-TUN-001",
+        "S-TUN-002",
+        "S-TUN-008",
+        "S-TUN-010",
+        "S-TUN-013",
+        "S-TUN-017"
+      ],
+      "classification": "planned_maintenance",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by matching maintenance windows, link loss alarms, site down alarms, and timeline alignment. External events NOT CHECKED.",
+      "dismissed_signals": [
+        {
+          "reason": "Occurred later in the evening on 2026-09-24 at 18:30 and concerns a different set of sites.",
+          "ref": "ALR-0031"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Alert ALR-0030 recorded six site outages in Grand Tunis starting at 2026-09-24 11:15.",
+          "refs": [
+            "ALR-0030"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Maintenance window MW-0010 on LNK-TUN-01-C involved planned fibre splice work.",
+          "refs": [
+            "MW-0010"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes occurred on the affected nodes and their parents during the window.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Links LNK-TUN-01-C and LNK-TUN-01-B serve the affected sites via AGG-TUN-01 and CORE-UPF-01.",
+          "refs": [
+            "T6",
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Link loss and site down alarms matched the timing of the maintenance windows.",
+          "refs": [
+            "ALM-000412",
+            "ALM-000416",
+            "MW-0010"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "planned_maintenance",
+          "node_id": "LNK-TUN-01-C",
+          "reason": "Maintenance windows on transport links directly coincided with link losses and site down alarms.",
+          "refs": [
+            "MW-0010",
+            "ALM-000412",
+            "ALM-000416"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "Tool checks confirmed that no configuration changes occurred on the affected nodes or parents during the window.",
+          "refs": [
+            "T3"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-24 15:37",
+      "impact_start": "2026-09-24 11:15",
+      "impact_summary": "Six sites in Grand Tunis went offline during morning maintenance windows due to fiber link splicing.",
+      "recommended_actions": [
+        "Verify post-maintenance traffic restoration on all affected Grand Tunis sites.",
+        "Ensure future transport maintenance notifications are clearly communicated to stakeholders beforehand."
+      ],
+      "root_cause_category": "planned_maintenance",
+      "root_cause_node_id": "LNK-TUN-01-C",
+      "root_cause_summary": "Planned fibre splice work on transport links caused temporary downstream site outages in Grand Tunis matching the maintenance schedule.",
+      "root_cause_time": "2026-09-24 11:18",
+      "timeline": [
+        {
+          "event": "Alert ALR-0030 started covering six affected sites.",
+          "refs": [
+            "ALR-0030"
+          ],
+          "time": "2026-09-24 11:15"
+        },
+        {
+          "event": "Planned maintenance MW-0010 started on LNK-TUN-01-C.",
+          "refs": [
+            "MW-0010"
+          ],
+          "time": "2026-09-24 11:18"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on LNK-TUN-01-C.",
+          "refs": [
+            "ALM-000412"
+          ],
+          "time": "2026-09-24 11:23"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-TUN-010, S-TUN-013, S-TUN-017.",
+          "refs": [
+            "ALM-000413",
+            "ALM-000414",
+            "ALM-000415"
+          ],
+          "time": "2026-09-24 11:24"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on LNK-TUN-01-B.",
+          "refs": [
+            "ALM-000416"
+          ],
+          "time": "2026-09-24 11:48"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-TUN-001, S-TUN-002, S-TUN-008.",
+          "refs": [
+            "ALM-000417",
+            "ALM-000418",
+            "ALM-000419"
+          ],
+          "time": "2026-09-24 11:49"
+        },
+        {
+          "event": "Maintenance window MW-0010 completed.",
+          "refs": [
+            "MW-0010"
+          ],
+          "time": "2026-09-24 15:08"
+        },
+        {
+          "event": "Last site down alarm cleared on S-TUN-001, ending impact.",
+          "refs": [
+            "ALM-000417"
+          ],
+          "time": "2026-09-24 15:37"
+        }
+      ],
+      "title": "Grand Tunis Sites Outage During Planned Fibre Splice Maintenance"
+    },
+    "run_id": "RUN-29e65a2f05",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "sites went quiet",
+      "unknown_ids": [],
+      "window_end": "2026-09-24T11:00:00Z",
+      "window_start": "2026-09-24T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 378,
+        "latency_ms": 1890,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1894
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2788,
+        "latency_ms": 8513,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 374,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 11108
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4083,
+        "latency_ms": 6134,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 138,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6136
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4796,
+        "latency_ms": 7956,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 148,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7959
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4984,
+        "latency_ms": 1265,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 107,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1267
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4263,
+        "latency_ms": 5399,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1649,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8642
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5613,
+        "latency_ms": 7653,
+        "model": "gemini-3.5-flash-lite",
+        "node": "repair",
+        "output_tokens": 1739,
+        "provider": "gemini",
+        "purpose": "lookalike repair 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7661
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 26905,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 4258,
+      "tool_calls": 7,
+      "wall_seconds": 44.76
+    }
+  },
+  "run_name": "hard-final",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-TUN-01-B",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-008"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [
+      {
+        "id": "MW-0010",
+        "table": "maintenance",
+        "visible_from": null,
+        "why": "A real window, but on LNK-TUN-01-C: it covers that link's outage, not LNK-TUN-01-B."
+      },
+      {
+        "id": "ALM-000412",
+        "table": "alarms",
+        "visible_from": "2026-09-24T10:23:00+00:00",
+        "why": "LINK_LOS on LNK-TUN-01-C raised by its planned works."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-24T14:33:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000416",
+        "table": "alarms",
+        "visible_from": "2026-09-24T10:48:00+00:00"
+      },
+      {
+        "id": "ALM-000417",
+        "table": "alarms",
+        "visible_from": "2026-09-24T10:49:00+00:00"
+      },
+      {
+        "id": "ALM-000418",
+        "table": "alarms",
+        "visible_from": "2026-09-24T10:49:00+00:00"
+      },
+      {
+        "id": "ALM-000419",
+        "table": "alarms",
+        "visible_from": "2026-09-24T10:49:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "get_topology",
+      "query_kpis",
+      "get_maintenance"
+    ],
+    "impact_start_at": "2026-09-24T10:48:00Z",
+    "is_incident": true,
+    "kind": "fiber_cut",
+    "notes": "trap=near_miss_maintenance; Fibre cut on LNK-TUN-01-B; all 3 downstream sites lost service until repair. Trap: a maintenance window for the same hours exists on LNK-TUN-01-C, another link under the same router (AGG-TUN-01), and its own outage raises the same alarms. Settled by: (1) the window is on LNK-TUN-01-C, not on LNK-TUN-01-B, its sites or the router above; (2) the sites that lost service are the children of LNK-TUN-01-B, not of LNK-TUN-01-C; (3) the outage of LNK-TUN-01-B starts at its own LINK_LOS and does not follow the window.",
+    "root_cause_category": "transport_failure",
+    "root_cause_node_id": "LNK-TUN-01-B",
+    "severity": "medium",
+    "start_at": "2026-09-24T10:48:00Z"
+  },
+  "variant": "default"
+}

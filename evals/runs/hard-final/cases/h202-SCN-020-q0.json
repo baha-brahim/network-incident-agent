@@ -1,0 +1,695 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-22T08:56:00Z",
+    "case_id": "h202-SCN-020-q0",
+    "question": "S-SAH-009 looks sluggish yesterday afternoon; users are complaining about slow data. Why?",
+    "question_index": 0,
+    "scenario_id": "SCN-020",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T14:18:28.962742Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-22T08:56:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-22 09:56",
+          "entity_id": "S-SAH-009",
+          "region_id": null,
+          "start": "2026-09-21 10:00"
+        },
+        "body": "2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0024 high ended, 2026-09-21 12:30 to 2026-09-21 14:00 (1.5 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 43 more) and on CORE-DNS-01 for 1.5 h\n  latency_ms spike on 1 entity: worst S-SAH-009 z 17.6, 37.3 -> 78.4, 2026-09-21 12:30 to 2026-09-21 14:00\nALR-0025 low ended, 2026-09-21 16:45 to 2026-09-21 21:00 (4.2 h): Latency spikes on 3 sites in SAH (S-SAH-003, S-SAH-009, S-SAH-010) for 4 h\n  latency_ms spike on 1 entity: worst S-SAH-009 z 7.1, 36.3 -> 53.7, 2026-09-21 16:45 to 2026-09-21 20:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0...",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0024",
+          "ANM-000239",
+          "ALR-0025",
+          "ANM-000284"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-009"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-009 (site) -> LNK-SAH-02-B (microwave link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-009: site, SAH, Moknine, urban.\nCells: C-SAH-009-1, C-SAH-009-2, C-SAH-009-3.\nSiblings under LNK-SAH-02-B: S-SAH-003, S-SAH-010.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-009 (site) -> LNK-SAH-02-B (microwave link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-009",
+          "LNK-SAH-02-B",
+          "AGG-SAH-02",
+          "CORE-UPF-01",
+          "S-SAH-003",
+          "S-SAH-010"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-21 21:00",
+          "entity_ids": [
+            "S-SAH-009",
+            "S-SAH-003",
+            "S-SAH-010"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "dl_volume_mb",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-21 11:00"
+        },
+        "body": "Deviation in 6 of 9 series. Earliest onset 2026-09-21 12:30: S-SAH-009 dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-22 09:56). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SAH-009 dl_volume_mb: mean 12545 vs 13900 (-10%); below baseline from 2026-09-21 12:30, recovered 2026-09-21 13:00.\nS-SAH-009 latency_ms: mean 48.6 vs 36.5 (+33%); above baseline from 2026-09-21 16:45, recovered 2026-09-21 20:45.\nS-SAH-003 latency_ms: mean 57.9 vs 43.5 (+33%); above baseline from 2026-09-21 16:45, recovered 2026-09-21 21:00.\nS-SAH-010 latency_ms: mean 54.5 vs 41.5 (+32%); above baseline from 2026-09-21 16:45, recovered 2026-09-21 21:00.\nS-SAH-003 dl_volume_mb: mean 2546 vs 2993 (-15%); below baseline from 2026-09-21 17:30, recovered 2026-09-21 19:15.\nS-SAH-010 dl_volume_mb: mean 2312 vs 2711 (-15%); below baseline from 2026-09-21 18:30, recovered 2026-09-21 20:45.\nS-SAH-003 prb_util_pct: mean 6.56 vs 7.71 (-15%); no deviation.\nS-SAH-010 prb_util_pct: mean 6.27 vs 7.35 (-15%); no deviation.\nS-SAH-009 prb_util_pct: mean 33.7 vs 37.3 (-10%); no deviation.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 6 of 9 series. Earliest onset 2026-09-21 12:30: S-SAH-009 dl_volume_mb below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 96
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-21 21:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SAH-009",
+            "S-SAH-003",
+            "S-SAH-010",
+            "AGG-SAH-02",
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 11:00"
+        },
+        "body": "2 alarm(s) on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and nodes below: 2 major; 0 active. Earliest critical/major: 2026-09-21 12:35 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000365).\nEarliest critical/major: 2026-09-21 12:35 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000365).\n2026-09-21 12:35 ALM-000365 major DNS_TIMEOUT_RATE CORE-DNS-01: cleared 2026-09-21 14:11\n2026-09-21 16:37 ALM-000366 major LINK_DEGRADED LNK-SAH-02-B (below AGG-SAH-02): cleared 2026-09-21 21:04",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and nodes below: 2 major; 0 active. Earliest critical/major: 2026-09-21 12:35 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000365).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "ALM-000365",
+          "ALM-000366"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-21 21:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-009",
+            "AGG-SAH-02",
+            "LNK-SAH-02-B",
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 11:00"
+        },
+        "body": "2 change(s) on S-SAH-009, AGG-SAH-02, LNK-SAH-02-B, CORE-DNS-01 and its parents, 2026-09-21 11:00 to 2026-09-21 21:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-22 09:56).\n2026-09-21 11:12 CHG-2026-0056 software_upgrade on CORE-DNS-01: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)\n2026-09-21 11:15 CHG-2026-0058 software_upgrade on CORE-UPF-01 (ancestor of S-SAH-009): Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-SAH-009, AGG-SAH-02, LNK-SAH-02-B, CORE-DNS-01 and its parents, 2026-09-21 11:00 to 2026-09-21 21:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-22 09:56).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "CHG-2026-0056",
+          "CHG-2026-0058"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "DNS_TIMEOUT_RATE LINK_DEGRADED"
+        },
+        "body": "4 runbook chunk(s) for 'DNS_TIMEOUT_RATE LINK_DEGRADED', best first (excerpts):\n[RB-ALARM-REFERENCE#07] Alarm reference > Core and router alarms: - **`DNS_TIMEOUT_RATE`** (major, on the DNS node). Timeout rate above 5 percent. Means DNS degradation. It can lag the onset by minutes to an hour, or never appear, so check `core_kpis`. - **`CPU_HIGH`** (warning, on a router or core node). CPU load high. Brief spikes are normal. By itself it does not show an outage.\n[RB-MICROWAVE-DEGRADATION#03] Microwave link degradation > Differential diagnosis: Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on links all the time (\"minor errored seconds, link still within SLA\"). They last 5 to 30 minutes, flap, and the sites' KPIs do not move. ... Versus a fiber cut ... On a fiber link, a minor `LINK_DEGRADED` with falling optical power can precede a cut by up to an hour. ... Versus congestion ...\n[RB-DNS-DEGRADATION#03] Core DNS degradation > Differential diagnosis: Versus a public holiday or other expected demand change A holiday also lowers traffic in every region, but latency does not rise, the dip lasts all day, it follows a business-versus-residential pattern, and an `external_events` row exists. In a DNS fault the dip lasts hours, latency rises, and the DNS KPIs are off. Versus congestion ... Versus a bad change ... Versus AMF or UPF trouble ...\n[RB-DNS-DEGRADATION#02] Core DNS degradation > Signature in the data: Core KPIs on the DNS node. `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms` rises five to twenty times from its normal 8 to 15 ms. These two series are the direct evidence and sit in `core_kpis`, not in cell KPIs. Cell KPIs in every region, starting in the same step. ... What stays normal. ... A `DNS_TIMEOUT_RATE` alarm, severity `major`, on the DNS node. ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'DNS_TIMEOUT_RATE LINK_DEGRADED', best first (excerpts):",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "RB-ALARM-REFERENCE#07",
+          "RB-MICROWAVE-DEGRADATION#03",
+          "RB-DNS-DEGRADATION#03",
+          "RB-DNS-DEGRADATION#02"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 17
+      },
+      {
+        "args": {
+          "end": "2026-09-21 21:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-009",
+            "S-SAH-003",
+            "S-SAH-010",
+            "AGG-SAH-02",
+            "CORE-DNS-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-21 11:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and its parents between 2026-09-21 11:00 and 2026-09-21 21:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and its parents between 2026-09-21 11:00 and 2026-09-21 21:00.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-21 21:00",
+          "region_id": "SAH"
+        },
+        "body": "Invalid arguments - start: Field required",
+        "duplicate_of": null,
+        "error": "Invalid arguments - start: Field required",
+        "headline": "get_external_events error: Invalid arguments - start: Field required",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 0
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-02": {
+        "kind": "node",
+        "ref": "AGG-SAH-02",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000365": {
+        "kind": "alarm",
+        "ref": "ALM-000365",
+        "summary": "major DNS_TIMEOUT_RATE on CORE-DNS-01, raised 2026-09-21 12:35, cleared 2026-09-21 14:11"
+      },
+      "ALM-000366": {
+        "kind": "alarm",
+        "ref": "ALM-000366",
+        "summary": "major LINK_DEGRADED on LNK-SAH-02-B, raised 2026-09-21 16:37, cleared 2026-09-21 21:04"
+      },
+      "ALR-0024": {
+        "kind": "alert",
+        "ref": "ALR-0024",
+        "summary": "ended alert from 2026-09-21 12:30: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc..."
+      },
+      "ALR-0025": {
+        "kind": "alert",
+        "ref": "ALR-0025",
+        "summary": "ended alert from 2026-09-21 16:45: 3 site(s) (S-SAH-003, S-SAH-009, S-SAH-010); metrics: latency_ms"
+      },
+      "ANM-000239": {
+        "kind": "anomaly",
+        "ref": "ANM-000239",
+        "summary": "S-SAH-009 latency_ms spike, z 17.6, baseline 37.3 -> 78.4"
+      },
+      "ANM-000284": {
+        "kind": "anomaly",
+        "ref": "ANM-000284",
+        "summary": "S-SAH-009 latency_ms spike, z 7.1, baseline 36.3 -> 53.7"
+      },
+      "CHG-2026-0056": {
+        "kind": "change",
+        "ref": "CHG-2026-0056",
+        "summary": "software_upgrade on CORE-DNS-01 at 2026-09-21 11:12: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)"
+      },
+      "CHG-2026-0058": {
+        "kind": "change",
+        "ref": "CHG-2026-0058",
+        "summary": "software_upgrade on CORE-UPF-01 at 2026-09-21 11:15: Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-02-B": {
+        "kind": "node",
+        "ref": "LNK-SAH-02-B",
+        "summary": "microwave link, SAH, 6.9 km, 1.0 Gbps"
+      },
+      "RB-ALARM-REFERENCE#07": {
+        "kind": "runbook",
+        "ref": "RB-ALARM-REFERENCE#07",
+        "summary": "Alarm reference > Core and router alarms: - **`DNS_TIMEOUT_RATE`** (major, on the DNS node). Timeout rate above 5 percent. Means DNS degradation. It can lag..."
+      },
+      "RB-DNS-DEGRADATION#02": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#02",
+        "summary": "Core DNS degradation > Signature in the data: - **Core KPIs on the DNS node.** `query_success_pct` falls from about 99.9 to between 85 and 93. `resolution_ms..."
+      },
+      "RB-DNS-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-DNS-DEGRADATION#03",
+        "summary": "Core DNS degradation > Differential diagnosis: ### Versus a public holiday or other expected demand change A holiday also lowers traffic in every region, but..."
+      },
+      "RB-MICROWAVE-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#03",
+        "summary": "Microwave link degradation > Differential diagnosis: ### Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on link..."
+      },
+      "S-SAH-003": {
+        "kind": "node",
+        "ref": "S-SAH-003",
+        "summary": "site, SAH, Kantaoui, rural; sibling of S-SAH-009"
+      },
+      "S-SAH-009": {
+        "kind": "node",
+        "ref": "S-SAH-009",
+        "summary": "site, SAH, Moknine, urban; chain: S-SAH-009 -> LNK-SAH-02-B -> AGG-SAH-02 -> CORE-UPF-01"
+      },
+      "S-SAH-010": {
+        "kind": "node",
+        "ref": "S-SAH-010",
+        "summary": "site, SAH, Jemmal, rural; sibling of S-SAH-009"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-21 10:00, end=2026-09-22 09:56, entity_id=S-SAH-009) -> 2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0..."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-009, include=all) -> Depends on (child -> parent -> core): S-SAH-009 (site) -> LNK-SAH-02-B (microwave link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-009', 'S-SAH-003', 'S-SAH-010'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct'], start=2026-09 -> Deviation in 6 of 9 series. Earliest onset 2026-09-21 12:30: S-SAH-009 dl_volume_mb below baseline."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_alarms(start=2026-09-21 11:00, end=2026-09-21 21:00, node_ids=['S-SAH-009', 'S-SAH-003', 'S-SAH-010', 'AGG-SAH-02', 'CORE-DNS-01'], include_descen -> 2 alarm(s) on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and nodes below: 2 major; 0 active. Earliest critical/major: 2026-09-21 12:35 DNS_TIMEOUT_RATE on CORE-DNS-01 (ALM-000365)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-21 11:00, end=2026-09-21 21:00, node_ids=['S-SAH-009', 'AGG-SAH-02', 'LNK-SAH-02-B', 'CORE-DNS-01'], include_ancestors=True) -> 2 change(s) on S-SAH-009, AGG-SAH-02, LNK-SAH-02-B, CORE-DNS-01 and its parents, 2026-09-21 11:00 to 2026-09-21 21:00 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-22 09:56)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "search_runbooks(query=DNS_TIMEOUT_RATE LINK_DEGRADED, k=4) -> 4 runbook chunk(s) for 'DNS_TIMEOUT_RATE LINK_DEGRADED', best first (excerpts):"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_maintenance(start=2026-09-21 11:00, end=2026-09-21 21:00, node_ids=['S-SAH-009', 'S-SAH-003', 'S-SAH-010', 'AGG-SAH-02', 'CORE-DNS-01'], include_a -> No maintenance window scheduled on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and its parents between 2026-09-21 11:00 and 2026-09-21 21:00."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_external_events(region_id=SAH, end=2026-09-21 21:00) -> get_external_events error: Invalid arguments - start: Field required"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Slow Data on S-SAH-009 Due to DNS and Link Degradation\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-SAH-02-B`\n- **Confidence:** medium (Direct alarm, KPI deviations, and topology match the timing and scope of the link degradation.)\n- **Impact:** 2026-09-21 12:30 to 2026-09-21 21:04\n- **Cause time:** 2026-09-21 16:37\n- **Affected:** S-SAH-009, S-SAH-003, S-SAH-010\n\n## Summary\n\nMicrowave link degradation on LNK-SAH-02-B caused high latency and slow data affecting S-SAH-009 and its sibling sites.\n\nUsers experienced slow data and high latency on S-SAH-009 during afternoon incidents.\n\n## Timeline\n\n- 2026-09-21 11:12: Software upgrade on CORE-DNS-01. [CHG-2026-0056]\n- 2026-09-21 12:30: Nationwide alert ALR-0024 and earliest KPI deviation onset. [T3, ALR-0024]\n- 2026-09-21 12:35: DNS_TIMEOUT_RATE alarm raised on CORE-DNS-01. [ALM-000365]\n- 2026-09-21 14:11: DNS_TIMEOUT_RATE alarm cleared. [ALM-000365]\n- 2026-09-21 16:37: LINK_DEGRADED alarm raised on LNK-SAH-02-B. [ALM-000366]\n- 2026-09-21 16:45: Alert ALR-0025 started for latency_ms on S-SAH-003, S-SAH-009, S-SAH-010. [ALR-0025]\n- 2026-09-21 21:04: LINK_DEGRADED alarm cleared on LNK-SAH-02-B. [ALM-000366]\n\n## Evidence\n\n- S-SAH-009 dl_volume_mb fell below baseline starting at 2026-09-21 12:30. [T3]\n- CORE-DNS-01 experienced a DNS_TIMEOUT_RATE major alarm following a software upgrade. [ALM-000365, CHG-2026-0056]\n- LNK-SAH-02-B experienced a LINK_DEGRADED major alarm from 16:37 to 21:04. [ALM-000366]\n- Alert ALR-0025 affected S-SAH-009, S-SAH-003, and S-SAH-010 with latency issues. [ALR-0025]\n- No maintenance windows were scheduled on the affected nodes during the incident. [T7]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-SAH-02-B: confirmed. LINK_DEGRADED alarm and latency alerts directly match the second period of slowness. [ALM-000366, ALR-0025]\n2. **core_degradation** at CORE-DNS-01: confirmed. DNS timeout rate alarm and traffic volume dip align with the first incident period. [ALM-000365, CHG-2026-0056]\n\n## Ruled out\n\n- CHG-2026-0058: Software upgrade on CORE-UPF-01 did not correlate with any specific targeted link failure on S-SAH-009.\n\n## Recommended actions\n\n- Inspect microwave link LNK-SAH-02-B for environmental or hardware degradation.\n- Review CORE-DNS-01 software upgrade stability and resolution times.\n\n## Sources\n\n- `CHG-2026-0056`: software_upgrade on CORE-DNS-01 at 2026-09-21 11:12: Software patch 21.4.2 -> 21.4.3 on CORE-DNS-01 (resolver service restart)\n- `T3`: query_kpis(entity_type=site, entity_ids=['S-SAH-009', 'S-SAH-003', 'S-SAH-010'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct'], start=2026-09 -> Deviation in 6 of 9 series. Earliest onset 2026-09-21 12:30: S-SAH-009 dl_volume_mb below baseline.\n- `ALR-0024`: ended alert from 2026-09-21 12:30: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc...\n- `ALM-000365`: major DNS_TIMEOUT_RATE on CORE-DNS-01, raised 2026-09-21 12:35, cleared 2026-09-21 14:11\n- `ALM-000366`: major LINK_DEGRADED on LNK-SAH-02-B, raised 2026-09-21 16:37, cleared 2026-09-21 21:04\n- `ALR-0025`: ended alert from 2026-09-21 16:45: 3 site(s) (S-SAH-003, S-SAH-009, S-SAH-010); metrics: latency_ms\n- `T7`: get_maintenance(start=2026-09-21 11:00, end=2026-09-21 21:00, node_ids=['S-SAH-009', 'S-SAH-003', 'S-SAH-010', 'AGG-SAH-02', 'CORE-DNS-01'], include_a -> No maintenance window scheduled on S-SAH-009, S-SAH-003, S-SAH-010, AGG-SAH-02 +1 more and its parents between 2026-09-21 11:00 and 2026-09-21 21:00.\n- `CHG-2026-0058`: software_upgrade on CORE-UPF-01 at 2026-09-21 11:15: Software patch 21.4.2 -> 21.4.3 on CORE-UPF-01 (service restart)\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-SAH-009 looks sluggish yesterday afternoon; users are complaining about slow data. Why?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-009",
+        "S-SAH-003",
+        "S-SAH-010"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct alarm, KPI deviations, and topology match the timing and scope of the link degradation.",
+      "dismissed_signals": [
+        {
+          "reason": "Software upgrade on CORE-UPF-01 did not correlate with any specific targeted link failure on S-SAH-009.",
+          "ref": "CHG-2026-0058"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SAH-009 dl_volume_mb fell below baseline starting at 2026-09-21 12:30.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "CORE-DNS-01 experienced a DNS_TIMEOUT_RATE major alarm following a software upgrade.",
+          "refs": [
+            "ALM-000365",
+            "CHG-2026-0056"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "LNK-SAH-02-B experienced a LINK_DEGRADED major alarm from 16:37 to 21:04.",
+          "refs": [
+            "ALM-000366"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Alert ALR-0025 affected S-SAH-009, S-SAH-003, and S-SAH-010 with latency issues.",
+          "refs": [
+            "ALR-0025"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on the affected nodes during the incident.",
+          "refs": [
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-SAH-02-B",
+          "reason": "LINK_DEGRADED alarm and latency alerts directly match the second period of slowness.",
+          "refs": [
+            "ALM-000366",
+            "ALR-0025"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "core_degradation",
+          "node_id": "CORE-DNS-01",
+          "reason": "DNS timeout rate alarm and traffic volume dip align with the first incident period.",
+          "refs": [
+            "ALM-000365",
+            "CHG-2026-0056"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-21 21:04",
+      "impact_start": "2026-09-21 12:30",
+      "impact_summary": "Users experienced slow data and high latency on S-SAH-009 during afternoon incidents.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-SAH-02-B for environmental or hardware degradation.",
+        "Review CORE-DNS-01 software upgrade stability and resolution times."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-SAH-02-B",
+      "root_cause_summary": "Microwave link degradation on LNK-SAH-02-B caused high latency and slow data affecting S-SAH-009 and its sibling sites.",
+      "root_cause_time": "2026-09-21 16:37",
+      "timeline": [
+        {
+          "event": "Software upgrade on CORE-DNS-01.",
+          "refs": [
+            "CHG-2026-0056"
+          ],
+          "time": "2026-09-21 11:12"
+        },
+        {
+          "event": "Nationwide alert ALR-0024 and earliest KPI deviation onset.",
+          "refs": [
+            "T3",
+            "ALR-0024"
+          ],
+          "time": "2026-09-21 12:30"
+        },
+        {
+          "event": "DNS_TIMEOUT_RATE alarm raised on CORE-DNS-01.",
+          "refs": [
+            "ALM-000365"
+          ],
+          "time": "2026-09-21 12:35"
+        },
+        {
+          "event": "DNS_TIMEOUT_RATE alarm cleared.",
+          "refs": [
+            "ALM-000365"
+          ],
+          "time": "2026-09-21 14:11"
+        },
+        {
+          "event": "LINK_DEGRADED alarm raised on LNK-SAH-02-B.",
+          "refs": [
+            "ALM-000366"
+          ],
+          "time": "2026-09-21 16:37"
+        },
+        {
+          "event": "Alert ALR-0025 started for latency_ms on S-SAH-003, S-SAH-009, S-SAH-010.",
+          "refs": [
+            "ALR-0025"
+          ],
+          "time": "2026-09-21 16:45"
+        },
+        {
+          "event": "LINK_DEGRADED alarm cleared on LNK-SAH-02-B.",
+          "refs": [
+            "ALM-000366"
+          ],
+          "time": "2026-09-21 21:04"
+        }
+      ],
+      "title": "Slow Data on S-SAH-009 Due to DNS and Link Degradation"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-6e84035680",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-009"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "slow data",
+      "unknown_ids": [],
+      "window_end": "2026-09-21T17:00:00Z",
+      "window_start": "2026-09-21T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 387,
+        "latency_ms": 3177,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3179
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2674,
+        "latency_ms": 1677,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 338,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2986
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4166,
+        "latency_ms": 899,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 26,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3605
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4710,
+        "latency_ms": 4044,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 182,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7624
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4937,
+        "latency_ms": 8440,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 150,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8880
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4773,
+        "latency_ms": 8950,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 188,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8952
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3184,
+        "latency_ms": 5066,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1545,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5071
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 24831,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2547,
+      "tool_calls": 8,
+      "wall_seconds": 40.47
+    }
+  },
+  "run_name": "hard-final",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SAH-02-B",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-003"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-21T20:00:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000366",
+        "table": "alarms",
+        "visible_from": "2026-09-21T15:37:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-21T15:35:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "Rain fade on microwave link LNK-SAH-02-B: throughput limited, sites stayed up.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-SAH-02-B",
+    "severity": "medium",
+    "start_at": "2026-09-21T15:35:00Z"
+  },
+  "variant": "default"
+}

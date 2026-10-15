@@ -1,0 +1,604 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-07T08:19:00Z",
+    "case_id": "h202-SCN-003-q0",
+    "question": "Total traffic was noticeably lower across the country today. Anything to worry about?",
+    "question_index": 0,
+    "scenario_id": "SCN-003",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T14:22:56.709934Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-07T08:19:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-06 22:00"
+        },
+        "body": "1 alert(s), 1 ongoing: ALR-0004 2026-09-07 09:00-ongoing. 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; active_...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0004 ONGOING since 2026-09-07 09:00 (19 min so far); 9 anomalies so far on 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; severity not final\n  active_users drop on 5 entities: ongoing, e.g. S-SFX-004 since 2026-09-07 09:00, so far 163 vs baseline 230 (-29%)\n  dl_volume_mb drop on 3 entities: ongoing, e.g. S-SFX-004 since 2026-09-07 09:00, so far 17276 vs baseline 24726 (-30%)\n  throughput_gbps drop on 1 entity: ongoing, e.g. CORE-UPF-02 since 2026-09-07 09:15, so far 1.6 vs baseline 2.03 (-21%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s), 1 ongoing: ALR-0004 2026-09-07 09:00-ongoing. 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; active_...",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0004",
+          "ANM-000019",
+          "ANM-000020",
+          "ANM-000022"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 43
+      },
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "entity_ids": [],
+          "entity_type": "national",
+          "metrics": [
+            "dl_volume_mb",
+            "ul_volume_mb",
+            "active_users"
+          ],
+          "start": "2026-09-07 00:00"
+        },
+        "body": "Deviation in 3 of 3 series. Earliest onset 2026-09-07 05:15: NATIONAL active_users below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-07 09:19). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nNATIONAL active_users: mean 2699 vs baseline 3184 (-15%); min 1075 at 2026-09-07 03:45, max 5536 at 2026-09-07 09:15.\nDeviation below baseline: onset 2026-09-07 05:15; worst 1419 vs 1656 at 2026-09-07 05:15; recovery 2026-09-07 09:00.\nseries (60 min buckets from 2026-09-07 00:00): 4122 2398 1459 1123 1141 1516 2373 3747 5000 5512\nbaseline: 4573 2640 1630 1255 1286 1776 2903 4581 6184 6832\nNATIONAL dl_volume_mb: mean 294815 vs baseline 352563 (-16%); min 116583 at 2026-09-07 03:45, max 604782 at 2026-09-07 09:15.\nDeviation below baseline: onset 2026-09-07 05:30; worst 173092 vs 206026 at 2026-09-07 05:30; not recovered by the last step (2026-09-07 09:15).\nseries (60 min buckets from 2026-09-07 00:00): 444051 257640 157416 121363 124146 167924 262761 413104 550419 603839\nbaseline: 492729 285241 178025 137903 142795 197281 323558 514841 693926 766090\nNATIONAL ul_volume_mb: mean 45904 vs baseline 55012 (-17%); min 18088 at 2026-09-07 03:45, max 94694 at 2026-09-07 09:15.\nDeviation below baseline: onset 2026-09-07 05:30; worst 26863 vs 32279 at 2026-09-07 05:30; not recovered by the last step (2026-09-07 09:15).\nseries (60 min buckets from 2026-09-07 00:00): 69050 40103 24458 18876 19277 26154 40916 64370 85677 94414\nbaseline: 76802 44362 27685 21474 22327 30867 50412 80623 108366 119385",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 3 of 3 series. Earliest onset 2026-09-07 05:15: NATIONAL active_users below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 44
+      },
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "region_id": null,
+          "start": "2026-09-07 00:00"
+        },
+        "body": "1 external event(s) for all regions, 2026-09-07 00:00 to 2026-09-07 09:19; 1 in progress at asked_at (2026-09-07 09:19).\nEVT-001 public_holiday (nationwide) since 2026-09-07 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for all regions, 2026-09-07 00:00 to 2026-09-07 09:19; 1 in progress at asked_at (2026-09-07 09:19).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "EVT-001"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "include_ancestors": true,
+          "node_ids": null,
+          "region_id": "SFX",
+          "start": "2026-09-07 00:00"
+        },
+        "body": "No maintenance window scheduled on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "region_id": "SFX",
+          "start": "2026-09-07 00:00"
+        },
+        "body": "1 external event(s) for region SFX (and nationwide), 2026-09-07 00:00 to 2026-09-07 09:19; 1 in progress at asked_at (2026-09-07 09:19).\nEVT-001 public_holiday (nationwide) since 2026-09-07 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for region SFX (and nationwide), 2026-09-07 00:00 to 2026-09-07 09:19; 1 in progress at asked_at (2026-09-07 09:19).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "EVT-001"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-07 09:19",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": null,
+          "region_id": "SFX",
+          "start": "2026-09-07 00:00"
+        },
+        "body": "No alarms on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No alarms on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "include_ancestors": true,
+          "node_ids": null,
+          "region_id": "SFX",
+          "start": "2026-09-07 00:00"
+        },
+        "body": "No changes on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-07 09:19",
+          "entity_id": null,
+          "region_id": "SFX",
+          "start": "2026-09-07 00:00"
+        },
+        "body": "1 alert(s), 1 ongoing: ALR-0004 2026-09-07 09:00-ongoing. 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; active_...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0004 ONGOING since 2026-09-07 09:00 (19 min so far); 9 anomalies so far on 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SFX-004 since 2026-09-07 09:00, so far 163 vs baseline 230 (-29%)\n  dl_volume_mb drop on 2 entities: ongoing, e.g. S-SFX-004 since 2026-09-07 09:00, so far 17276 vs baseline 24726 (-30%)\n  throughput_gbps drop on 1 entity: ongoing, e.g. CORE-UPF-02 since 2026-09-07 09:15, so far 1.6 vs baseline 2.03 (-21%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s), 1 ongoing: ALR-0004 2026-09-07 09:00-ongoing. 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; active_...",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "ALR-0004",
+          "ANM-000019",
+          "ANM-000020",
+          "ANM-000022"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 38
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALR-0004": {
+        "kind": "alert",
+        "ref": "ALR-0004",
+        "summary": "ongoing alert from 2026-09-07 09:00: 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; metrics: active_users, dl_volu..."
+      },
+      "ANM-000019": {
+        "kind": "anomaly",
+        "ref": "ANM-000019",
+        "summary": "S-SFX-004 active_users drop, ongoing since 2026-09-07 09:00"
+      },
+      "ANM-000020": {
+        "kind": "anomaly",
+        "ref": "ANM-000020",
+        "summary": "S-SFX-004 dl_volume_mb drop, ongoing since 2026-09-07 09:00"
+      },
+      "ANM-000022": {
+        "kind": "anomaly",
+        "ref": "ANM-000022",
+        "summary": "CORE-UPF-02 throughput_gbps drop, ongoing since 2026-09-07 09:15"
+      },
+      "EVT-001": {
+        "kind": "event",
+        "ref": "EVT-001",
+        "summary": "public_holiday (nationwide) since 2026-09-07 00:00, in progress: National public holiday: government offices and most businesses closed"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-06 22:00, end=2026-09-07 09:19) -> 1 alert(s), 1 ongoing: ALR-0004 2026-09-07 09:00-ongoing. 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; active_..."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-07 00:00, end=2026-09-07 09:19) -> Deviation in 3 of 3 series. Earliest onset 2026-09-07 05:15: NATIONAL active_users below baseline."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_external_events(start=2026-09-07 00:00, end=2026-09-07 09:19) -> 1 external event(s) for all regions, 2026-09-07 00:00 to 2026-09-07 09:19; 1 in progress at asked_at (2026-09-07 09:19)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX, include_ancestors=True) -> No maintenance window scheduled on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_external_events(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX) -> 1 external event(s) for region SFX (and nationwide), 2026-09-07 00:00 to 2026-09-07 09:19; 1 in progress at asked_at (2026-09-07 09:19)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX, include_descendants=True, min_severity=minor) -> No alarms on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX, include_ancestors=True) -> No changes on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_anomalies(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX) -> 1 alert(s), 1 ongoing: ALR-0004 2026-09-07 09:00-ongoing. 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; active_..."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# National lower traffic due to public holiday\n\n- **Classification:** expected_event\n- **Root cause:** expected_event\n- **Confidence:** high (External event EVT-001 directly explains the nationwide KPI drops, and checks for failures, changes, and alarms found nothing.)\n- **Impact:** 2026-09-07 00:00 to 2026-09-07 09:19\n- **Cause time:** 2026-09-07 00:00\n- **Affected:** S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001, CORE-UPF-02\n\n## Summary\n\nNational public holiday where government offices and most businesses are closed, reducing overall traffic and active users.\n\nNationwide lower traffic and active users compared to baseline throughout the morning.\n\n## Timeline\n\n- 2026-09-07 00:00: National public holiday EVT-001 starts. [EVT-001]\n- 2026-09-07 05:15: National active users drop below baseline begins. [T2]\n- 2026-09-07 05:30: National download and upload volume drops below baseline begin. [T2]\n- 2026-09-07 09:00: Anomaly ALR-0004 starts. [ALR-0004]\n\n## Evidence\n\n- National active users, download volume, and upload volume were below baseline. [T2]\n- A national public holiday was in progress with government offices and most businesses closed. [EVT-001]\n- No maintenance was scheduled on region SFX and core nodes between 2026-09-07 00:00 and 2026-09-07 09:19. [T4]\n- No alarms were recorded on region SFX and core nodes between 2026-09-07 00:00 and 2026-09-07 09:19. [T6]\n- No changes were made on region SFX and core nodes between 2026-09-07 00:00 and 2026-09-07 09:19. [T7]\n\n## Hypotheses\n\n1. **expected_event**: confirmed. Nationwide traffic drop matches the timing and nature of public holiday EVT-001. [T2, EVT-001]\n2. **transport_failure**: rejected. No alarms or changes were found in the region or core nodes. [T6, T7]\n\n## Ruled out\n\n- ALR-0004: Started much later than the traffic drop and represents minor localized fluctuations associated with holiday traffic profiles.\n\n## Recommended actions\n\n- Monitor national traffic recovery as the public holiday concludes.\n- No further troubleshooting is required.\n\n## Sources\n\n- `EVT-001`: public_holiday (nationwide) since 2026-09-07 00:00, in progress: National public holiday: government offices and most businesses closed\n- `T2`: query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb', 'active_users'], start=2026-09-07 00:00, end=2026-09-07 09:19) -> Deviation in 3 of 3 series. Earliest onset 2026-09-07 05:15: NATIONAL active_users below baseline.\n- `ALR-0004`: ongoing alert from 2026-09-07 09:00: 6 site(s) (S-SFX-001, S-SFX-004, S-SFX-006, S-TUN-001 +2 more); core CORE-UPF-02; region-level SFX; metrics: active_users, dl_volu...\n- `T4`: get_maintenance(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX, include_ancestors=True) -> No maintenance window scheduled on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.\n- `T6`: get_alarms(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX, include_descendants=True, min_severity=minor) -> No alarms on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.\n- `T7`: get_changes(start=2026-09-07 00:00, end=2026-09-07 09:19, region_id=SFX, include_ancestors=True) -> No changes on region SFX between 2026-09-07 00:00 and 2026-09-07 09:19. Scope: region SFX plus core nodes.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Total traffic was noticeably lower across the country today. Anything to worry about?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-001",
+        "S-SFX-004",
+        "S-SFX-006",
+        "S-TUN-001",
+        "CORE-UPF-02"
+      ],
+      "classification": "expected_event",
+      "confidence": "high",
+      "confidence_reason": "External event EVT-001 directly explains the nationwide KPI drops, and checks for failures, changes, and alarms found nothing.",
+      "dismissed_signals": [
+        {
+          "reason": "Started much later than the traffic drop and represents minor localized fluctuations associated with holiday traffic profiles.",
+          "ref": "ALR-0004"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "National active users, download volume, and upload volume were below baseline.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A national public holiday was in progress with government offices and most businesses closed.",
+          "refs": [
+            "EVT-001"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance was scheduled on region SFX and core nodes between 2026-09-07 00:00 and 2026-09-07 09:19.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No alarms were recorded on region SFX and core nodes between 2026-09-07 00:00 and 2026-09-07 09:19.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes were made on region SFX and core nodes between 2026-09-07 00:00 and 2026-09-07 09:19.",
+          "refs": [
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "expected_event",
+          "node_id": null,
+          "reason": "Nationwide traffic drop matches the timing and nature of public holiday EVT-001.",
+          "refs": [
+            "T2",
+            "EVT-001"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": null,
+          "reason": "No alarms or changes were found in the region or core nodes.",
+          "refs": [
+            "T6",
+            "T7"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-07 09:19",
+      "impact_start": "2026-09-07 00:00",
+      "impact_summary": "Nationwide lower traffic and active users compared to baseline throughout the morning.",
+      "recommended_actions": [
+        "Monitor national traffic recovery as the public holiday concludes.",
+        "No further troubleshooting is required."
+      ],
+      "root_cause_category": "expected_event",
+      "root_cause_node_id": null,
+      "root_cause_summary": "National public holiday where government offices and most businesses are closed, reducing overall traffic and active users.",
+      "root_cause_time": "2026-09-07 00:00",
+      "timeline": [
+        {
+          "event": "National public holiday EVT-001 starts.",
+          "refs": [
+            "EVT-001"
+          ],
+          "time": "2026-09-07 00:00"
+        },
+        {
+          "event": "National active users drop below baseline begins.",
+          "refs": [
+            "T2"
+          ],
+          "time": "2026-09-07 05:15"
+        },
+        {
+          "event": "National download and upload volume drops below baseline begin.",
+          "refs": [
+            "T2"
+          ],
+          "time": "2026-09-07 05:30"
+        },
+        {
+          "event": "Anomaly ALR-0004 starts.",
+          "refs": [
+            "ALR-0004"
+          ],
+          "time": "2026-09-07 09:00"
+        }
+      ],
+      "title": "National lower traffic due to public holiday"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-8439522289",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": true,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "low total traffic across the country",
+      "unknown_ids": [],
+      "window_end": "2026-09-07T08:19:00Z",
+      "window_start": "2026-09-06T23:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 380,
+        "latency_ms": 1482,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 82,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 23
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2352,
+        "latency_ms": 11782,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 200,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3739,
+        "latency_ms": 1228,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 63,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3926,
+        "latency_ms": 12236,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 201,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4637,
+        "latency_ms": 1263,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 138,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4009,
+        "latency_ms": 3877,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1172,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3882
+      }
+    ],
+    "usage": {
+      "cached_calls": 5,
+      "input_tokens": 19043,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 6,
+      "output_tokens": 1856,
+      "tool_calls": 8,
+      "wall_seconds": 4.12
+    }
+  },
+  "run_name": "hard-final",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-07T23:00:00Z",
+    "evidence": [
+      {
+        "id": "EVT-001",
+        "table": "external_events",
+        "visible_from": "2026-09-06T23:00:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_external_events"
+    ],
+    "impact_start_at": "2026-09-06T23:00:00Z",
+    "is_incident": false,
+    "kind": "public_holiday",
+    "notes": "Nationwide public holiday: business-area traffic down, residential up.",
+    "root_cause_category": "expected_event",
+    "root_cause_node_id": null,
+    "severity": "low",
+    "start_at": "2026-09-06T23:00:00Z"
+  },
+  "variant": "default"
+}

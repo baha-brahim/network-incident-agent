@@ -1,0 +1,703 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-19T08:50:00Z",
+    "case_id": "h202-SCN-014-q0",
+    "question": "Why did traffic jump in Grand Tunis yesterday evening?",
+    "question_index": 0,
+    "scenario_id": "SCN-014",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T14:23:58.568420Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-19T08:50:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-19 09:50",
+          "entity_id": null,
+          "region_id": "TUN",
+          "start": "2026-09-18 16:00"
+        },
+        "body": "1 alert(s): ALR-0019 2026-09-18 19:45-22:00. Traffic, active users and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 2 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0019 low ended, 2026-09-18 19:45 to 2026-09-18 22:00 (2.2 h): Traffic, active users and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 2 h\n  active_users spike on 3 entities: worst S-TUN-003 z 14.0, 258 -> 572, 2026-09-18 19:45 to 2026-09-18 22:00\n  dl_volume_mb spike on 3 entities: worst S-TUN-003 z 11.5, 35477 -> 77173, 2026-09-18 19:45 to 2026-09-18 22:00\n  prb_util_pct spike on 3 entities: worst S-TUN-001 z 8.5, 31 -> 66.8, 2026-09-18 20:00 to 2026-09-18 22:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0019 2026-09-18 19:45-22:00. Traffic, active users and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 2 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0019",
+          "ANM-000208",
+          "ANM-000209",
+          "ANM-000211"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "end": "2026-09-18 23:59",
+          "region_id": "TUN",
+          "start": "2026-09-18 18:00"
+        },
+        "body": "1 external event(s) for region TUN (and nationwide), 2026-09-18 18:00 to 2026-09-18 23:59; 0 in progress at asked_at (2026-09-19 09:50).\nEVT-003 stadium_event (TUN, near S-TUN-001) 2026-09-18 19:11 -> 2026-09-18 22:11: Football match at Stade Olympique de Rades (expected attendance 40,000)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for region TUN (and nationwide), 2026-09-18 18:00 to 2026-09-18 23:59; 0 in progress at asked_at (2026-09-19 09:50).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "EVT-003"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-001"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-001 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-001: site, TUN, Ariana, urban, near a venue.\nCells: C-TUN-001-1, C-TUN-001-2, C-TUN-001-3.\nSiblings under LNK-TUN-01-B: S-TUN-002, S-TUN-008.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-001 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "S-TUN-001",
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-002",
+          "S-TUN-008"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-002"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-002: site, TUN, La Marsa, urban, near a venue.\nCells: C-TUN-002-1, C-TUN-002-2, C-TUN-002-3.\nSiblings under LNK-TUN-01-B: S-TUN-001, S-TUN-008.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "S-TUN-002",
+          "LNK-TUN-01-B",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-001",
+          "S-TUN-008"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-18 23:59",
+          "region_id": "TUN",
+          "start": "2026-09-18 18:00"
+        },
+        "body": "Identical to T2; not run again.",
+        "duplicate_of": "T2",
+        "error": null,
+        "headline": "Identical to T2; not run again. Use T2.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "end": "2026-09-18 23:59",
+          "entity_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "S-TUN-003"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "active_users",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-18 18:00"
+        },
+        "body": "Deviation in 9 of 9 series. Earliest onset 2026-09-18 19:30: S-TUN-001 dl_volume_mb above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-19 09:50). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-001 dl_volume_mb: mean 64537 vs 44186 (+46%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-001 active_users: mean 438 vs 300 (+46%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-001 prb_util_pct: mean 36.3 vs 24.7 (+47%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-002 dl_volume_mb: mean 42656 vs 29937 (+42%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-002 active_users: mean 310 vs 214 (+45%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-003 dl_volume_mb: mean 40525 vs 27275 (+49%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-003 active_users: mean 293 vs 194 (+51%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-003 prb_util_pct: mean 24.6 vs 16.6 (+48%); above baseline from 2026-09-18 19:30, recovered 2026-09-18 22:00.\nS-TUN-002 prb_util_pct: mean 26.4 vs 18.5 (+43%); above baseline from 2026-09-18 19:45, recovered 2026-09-18 21:45.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 9 of 9 series. Earliest onset 2026-09-18 19:30: S-TUN-001 dl_volume_mb above baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 81
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-003"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-A (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-003: site, TUN, Carthage, suburban, near a venue.\nCells: C-TUN-003-1, C-TUN-003-2, C-TUN-003-3.\nSiblings under LNK-TUN-01-A: S-TUN-012, S-TUN-018.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-A (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "S-TUN-003",
+          "LNK-TUN-01-A",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-012",
+          "S-TUN-018"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-18 23:59",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "S-TUN-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 18:00"
+        },
+        "body": "No changes on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-18 23:59",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-001",
+            "S-TUN-002",
+            "S-TUN-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-18 18:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALR-0019": {
+        "kind": "alert",
+        "ref": "ALR-0019",
+        "summary": "ended alert from 2026-09-18 19:45: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); metrics: active_users, dl_volume_mb, prb_util_pct"
+      },
+      "ANM-000208": {
+        "kind": "anomaly",
+        "ref": "ANM-000208",
+        "summary": "S-TUN-003 active_users spike, z 14.0, baseline 258 -> 572"
+      },
+      "ANM-000209": {
+        "kind": "anomaly",
+        "ref": "ANM-000209",
+        "summary": "S-TUN-003 dl_volume_mb spike, z 11.5, baseline 35477 -> 77173"
+      },
+      "ANM-000211": {
+        "kind": "anomaly",
+        "ref": "ANM-000211",
+        "summary": "S-TUN-001 prb_util_pct spike, z 8.5, baseline 31 -> 66.8"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "EVT-003": {
+        "kind": "event",
+        "ref": "EVT-003",
+        "summary": "stadium_event (TUN, near S-TUN-001) 2026-09-18 19:11 -> 2026-09-18 22:11: Football match at Stade Olympique de Rades (expected attendance 40,000)"
+      },
+      "LNK-TUN-01-A": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-A",
+        "summary": "fiber link, TUN, 12.8 km, 10.0 Gbps"
+      },
+      "LNK-TUN-01-B": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-B",
+        "summary": "fiber link, TUN, 12.0 km, 10.0 Gbps"
+      },
+      "S-TUN-001": {
+        "kind": "node",
+        "ref": "S-TUN-001",
+        "summary": "site, TUN, Ariana, urban, near a venue; sibling of S-TUN-002"
+      },
+      "S-TUN-002": {
+        "kind": "node",
+        "ref": "S-TUN-002",
+        "summary": "site, TUN, La Marsa, urban, near a venue; chain: S-TUN-002 -> LNK-TUN-01-B -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-003": {
+        "kind": "node",
+        "ref": "S-TUN-003",
+        "summary": "site, TUN, Carthage, suburban, near a venue; chain: S-TUN-003 -> LNK-TUN-01-A -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-008": {
+        "kind": "node",
+        "ref": "S-TUN-008",
+        "summary": "site, TUN, La Goulette, suburban; sibling of S-TUN-002"
+      },
+      "S-TUN-012": {
+        "kind": "node",
+        "ref": "S-TUN-012",
+        "summary": "site, TUN, El Menzah, urban; sibling of S-TUN-003"
+      },
+      "S-TUN-018": {
+        "kind": "node",
+        "ref": "S-TUN-018",
+        "summary": "site, TUN, Mohamedia, rural; sibling of S-TUN-003"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-18 16:00, end=2026-09-19 09:50, region_id=TUN) -> 1 alert(s): ALR-0019 2026-09-18 19:45-22:00. Traffic, active users and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 2 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_external_events(start=2026-09-18 18:00, end=2026-09-18 23:59, region_id=TUN) -> 1 external event(s) for region TUN (and nationwide), 2026-09-18 18:00 to 2026-09-18 23:59; 0 in progress at asked_at (2026-09-19 09:50)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_topology(node_id=S-TUN-001, include=all) -> Depends on (child -> parent -> core): S-TUN-001 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_topology(node_id=S-TUN-002, include=all) -> Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_external_events(end=2026-09-18 23:59, region_id=TUN, start=2026-09-18 18:00) -> Identical to T2; not run again. Use T2."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-003'], metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026- -> Deviation in 9 of 9 series. Earliest onset 2026-09-18 19:30: S-TUN-001 dl_volume_mb above baseline."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_topology(node_id=S-TUN-003, include=all) -> Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-A (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_changes(start=2026-09-18 18:00, end=2026-09-18 23:59, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-003'], include_ancestors=True) -> No changes on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_maintenance(start=2026-09-18 18:00, end=2026-09-18 23:59, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-003'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Grand Tunis Traffic Surge due to Football Match\n\n- **Classification:** expected_event\n- **Root cause:** expected_event at `S-TUN-001`\n- **Confidence:** high (Directly evidenced by stadium event timing, geographic proximity, and ruled out changes and maintenance.)\n- **Impact:** 2026-09-18 19:30 to 2026-09-18 22:00\n- **Cause time:** 2026-09-18 19:11\n- **Affected:** S-TUN-001, S-TUN-002, S-TUN-003\n\n## Summary\n\nA football match at Stade Olympique de Rades caused a large crowd gathering, driving traffic and user spikes on nearby sites.\n\nTraffic, active users, and PRB utilization spiked on three sites in Grand Tunis from 19:30 to 22:00.\n\n## Timeline\n\n- 2026-09-18 19:11: Football match started at Stade Olympique de Rades. [EVT-003]\n- 2026-09-18 19:30: Earliest traffic and user onset detected on S-TUN-001. [T6]\n- 2026-09-18 19:45: Alert ALR-0019 triggered for traffic, active users, and PRB utilization. [ALR-0019, T1]\n- 2026-09-18 22:00: Traffic and KPIs recovered to baseline levels. [T6]\n- 2026-09-18 22:11: Football match at Stade Olympique de Rades ended. [EVT-003]\n\n## Evidence\n\n- Traffic, active users, and PRB utilization spiked on sites S-TUN-001, S-TUN-002, and S-TUN-003. [T1, T6]\n- A football match took place at Stade Olympique de Rades from 19:11 to 22:11. [EVT-003]\n- No changes were executed on the affected sites or their ancestors during the event window. [T8]\n- No maintenance windows were scheduled on the affected sites or their ancestors during the event window. [T9]\n- Sites S-TUN-001, S-TUN-002, and S-TUN-003 are located near a venue. [S-TUN-001, T3, T4, T7]\n\n## Hypotheses\n\n1. **expected_event** at S-TUN-001: confirmed. The stadium event timing matches the KPI surge onset and recovery perfectly. [EVT-003, T6]\n2. **bad_change** at S-TUN-001: rejected. No changes occurred on the affected sites or their parents during the window. [T8]\n\n## Ruled out\n\n- T8: Change log showed zero changes during the relevant timeframe.\n- T9: Maintenance log confirmed no scheduled windows.\n\n## Recommended actions\n\n- Monitor stadium event schedules to proactively anticipate capacity needs.\n\n## Sources\n\n- `EVT-003`: stadium_event (TUN, near S-TUN-001) 2026-09-18 19:11 -> 2026-09-18 22:11: Football match at Stade Olympique de Rades (expected attendance 40,000)\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-003'], metrics=['dl_volume_mb', 'active_users', 'prb_util_pct'], start=2026- -> Deviation in 9 of 9 series. Earliest onset 2026-09-18 19:30: S-TUN-001 dl_volume_mb above baseline.\n- `ALR-0019`: ended alert from 2026-09-18 19:45: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); metrics: active_users, dl_volume_mb, prb_util_pct\n- `T1`: get_anomalies(start=2026-09-18 16:00, end=2026-09-19 09:50, region_id=TUN) -> 1 alert(s): ALR-0019 2026-09-18 19:45-22:00. Traffic, active users and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 2 h\n- `T8`: get_changes(start=2026-09-18 18:00, end=2026-09-18 23:59, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-003'], include_ancestors=True) -> No changes on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59.\n- `T9`: get_maintenance(start=2026-09-18 18:00, end=2026-09-18 23:59, node_ids=['S-TUN-001', 'S-TUN-002', 'S-TUN-003'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-001, S-TUN-002, S-TUN-003 and its parents between 2026-09-18 18:00 and 2026-09-18 23:59.\n- `S-TUN-001`: site, TUN, Ariana, urban, near a venue; sibling of S-TUN-002\n- `T3`: get_topology(node_id=S-TUN-001, include=all) -> Depends on (child -> parent -> core): S-TUN-001 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `T4`: get_topology(node_id=S-TUN-002, include=all) -> Depends on (child -> parent -> core): S-TUN-002 (site) -> LNK-TUN-01-B (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n- `T7`: get_topology(node_id=S-TUN-003, include=all) -> Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-A (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why did traffic jump in Grand Tunis yesterday evening?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-001",
+        "S-TUN-002",
+        "S-TUN-003"
+      ],
+      "classification": "expected_event",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by stadium event timing, geographic proximity, and ruled out changes and maintenance.",
+      "dismissed_signals": [
+        {
+          "reason": "Change log showed zero changes during the relevant timeframe.",
+          "ref": "T8"
+        },
+        {
+          "reason": "Maintenance log confirmed no scheduled windows.",
+          "ref": "T9"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Traffic, active users, and PRB utilization spiked on sites S-TUN-001, S-TUN-002, and S-TUN-003.",
+          "refs": [
+            "T1",
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A football match took place at Stade Olympique de Rades from 19:11 to 22:11.",
+          "refs": [
+            "EVT-003"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes were executed on the affected sites or their ancestors during the event window.",
+          "refs": [
+            "T8"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on the affected sites or their ancestors during the event window.",
+          "refs": [
+            "T9"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sites S-TUN-001, S-TUN-002, and S-TUN-003 are located near a venue.",
+          "refs": [
+            "S-TUN-001",
+            "T3",
+            "T4",
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "expected_event",
+          "node_id": "S-TUN-001",
+          "reason": "The stadium event timing matches the KPI surge onset and recovery perfectly.",
+          "refs": [
+            "EVT-003",
+            "T6"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-TUN-001",
+          "reason": "No changes occurred on the affected sites or their parents during the window.",
+          "refs": [
+            "T8"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-18 22:00",
+      "impact_start": "2026-09-18 19:30",
+      "impact_summary": "Traffic, active users, and PRB utilization spiked on three sites in Grand Tunis from 19:30 to 22:00.",
+      "recommended_actions": [
+        "Monitor stadium event schedules to proactively anticipate capacity needs."
+      ],
+      "root_cause_category": "expected_event",
+      "root_cause_node_id": "S-TUN-001",
+      "root_cause_summary": "A football match at Stade Olympique de Rades caused a large crowd gathering, driving traffic and user spikes on nearby sites.",
+      "root_cause_time": "2026-09-18 19:11",
+      "timeline": [
+        {
+          "event": "Football match started at Stade Olympique de Rades.",
+          "refs": [
+            "EVT-003"
+          ],
+          "time": "2026-09-18 19:11"
+        },
+        {
+          "event": "Earliest traffic and user onset detected on S-TUN-001.",
+          "refs": [
+            "T6"
+          ],
+          "time": "2026-09-18 19:30"
+        },
+        {
+          "event": "Alert ALR-0019 triggered for traffic, active users, and PRB utilization.",
+          "refs": [
+            "ALR-0019",
+            "T1"
+          ],
+          "time": "2026-09-18 19:45"
+        },
+        {
+          "event": "Traffic and KPIs recovered to baseline levels.",
+          "refs": [
+            "T6"
+          ],
+          "time": "2026-09-18 22:00"
+        },
+        {
+          "event": "Football match at Stade Olympique de Rades ended.",
+          "refs": [
+            "EVT-003"
+          ],
+          "time": "2026-09-18 22:11"
+        }
+      ],
+      "title": "Grand Tunis Traffic Surge due to Football Match"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-27058f402b",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "traffic jump",
+      "unknown_ids": [],
+      "window_end": "2026-09-18T22:59:00Z",
+      "window_start": "2026-09-18T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 375,
+        "latency_ms": 12690,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 102,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 13304
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2355,
+        "latency_ms": 14030,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 110,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 14033
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2978,
+        "latency_ms": 1527,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 206,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1530
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4087,
+        "latency_ms": 11822,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 159,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 14684
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4292,
+        "latency_ms": 3628,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 172,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3630
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4588,
+        "latency_ms": 9696,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 157,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10557
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3952,
+        "latency_ms": 3954,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1249,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3966
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 22627,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2155,
+      "tool_calls": 8,
+      "wall_seconds": 61.86
+    }
+  },
+  "run_name": "hard-final",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [
+      {
+        "id": "ALM-000310",
+        "table": "alarms",
+        "visible_from": "2026-09-18T18:58:00+00:00",
+        "why": "A major RECTIFIER_FAULT alarm at the venue site S-TUN-001 that cleared by itself within minutes; availability and quality KPIs were not affected."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-18T21:11:00Z",
+    "evidence": [
+      {
+        "id": "EVT-003",
+        "table": "external_events",
+        "visible_from": "2026-09-18T18:11:00+00:00"
+      },
+      {
+        "id": "ALM-000313",
+        "table": "alarms",
+        "visible_from": "2026-09-18T19:30:00+00:00"
+      },
+      {
+        "id": "ALM-000312",
+        "table": "alarms",
+        "visible_from": "2026-09-18T19:19:00+00:00"
+      },
+      {
+        "id": "ALM-000311",
+        "table": "alarms",
+        "visible_from": "2026-09-18T19:07:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_external_events",
+      "get_topology"
+    ],
+    "impact_start_at": "2026-09-18T18:11:00Z",
+    "is_incident": false,
+    "kind": "stadium_event",
+    "notes": "trap=expected_event_looks_like_fault; Traffic surge around the stadium caused by a scheduled event; not an incident. Trap: every venue site raises HIGH_PRB and S-TUN-001 also raises a major RECTIFIER_FAULT alarm that clears by itself, so the venue looks faulty. Settled by: (1) availability stays at 100 % and RRC success and drop rate stay normal at all venue sites; (2) the major alarm clears within minutes and moves no KPI; (3) the external event covers the region, the evening and the venue sites, and extra traffic with high PRB is what the event explains.",
+    "root_cause_category": "expected_event",
+    "root_cause_node_id": "S-TUN-001",
+    "severity": "low",
+    "start_at": "2026-09-18T18:11:00Z"
+  },
+  "variant": "default"
+}
