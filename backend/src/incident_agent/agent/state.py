@@ -72,6 +72,7 @@ class AgentState(BaseModel):
     scope: Scope | None = None
     calls: list[CallRecord] = Field(default_factory=list)
     evidence: dict[str, EvidenceRef] = Field(default_factory=dict)
+    facts: dict[str, dict[str, Any]] = Field(default_factory=dict)  # evidence ref -> tool row
     notes: list[Note] = Field(default_factory=list)
     steps: list[LLMStep] = Field(default_factory=list)
     iteration: int = 0  # investigate turns taken
@@ -79,6 +80,7 @@ class AgentState(BaseModel):
     gate_fired: bool = False
     investigating: bool = True
     report: Report | None = None
+    report_before_checks: Report | None = None  # set when the look-alike checks found problems
     markdown: str = ""
     issues: list[str] = Field(default_factory=list)
     error: str | None = None
@@ -101,6 +103,7 @@ class RunResult(BaseModel):
     status: Literal["finished", "error"]
     scope: Scope | None
     report: Report
+    report_before_checks: Report | None = None  # the report as written, if the checks changed it
     markdown: str
     usage: UsageTotals
     models_used: list[str]  # "provider:model" of every step, in first-use order

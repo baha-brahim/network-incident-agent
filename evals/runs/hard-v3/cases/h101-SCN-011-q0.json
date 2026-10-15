@@ -1,0 +1,751 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-11T07:44:00Z",
+    "case_id": "h101-SCN-011-q0",
+    "question": "Call setup failures and dropped calls went up in Grand Tunis yesterday morning. What is behind it?",
+    "question_index": 0,
+    "scenario_id": "SCN-011",
+    "seed": 101,
+    "split": "test"
+  },
+  "created_at": "2026-10-13T10:58:55.068671Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-11T07:44:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-11 08:44",
+          "entity_id": null,
+          "region_id": "TUN",
+          "start": "2026-09-10 04:00"
+        },
+        "body": "1 alert(s): ALR-0010 2026-09-10 10:00-19:30. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-005, S-TUN-012, S-TUN-013) for 9.5 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0010 medium ended, 2026-09-10 10:00 to 2026-09-10 19:30 (9.5 h): RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-005, S-TUN-012, S-TUN-013) for 9.5 h\n  rrc_success_pct drop on 4 entities: worst S-TUN-012 z -39.4, 99.4 -> 94, 2026-09-10 10:00 to 2026-09-10 19:30\n  drop_rate_pct spike on 3 entities: worst S-TUN-012 z 14.9, 0.75 -> 3.71, 2026-09-10 10:00 to 2026-09-10 19:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0010 2026-09-10 10:00-19:30. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-005, S-TUN-012, S-TUN-013) for 9.5 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0010",
+          "ANM-000155",
+          "ANM-000154"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 11
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-10 13:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-005",
+            "S-TUN-012",
+            "S-TUN-013"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 09:00:00"
+        },
+        "body": "1 alarm(s) on S-TUN-005, S-TUN-012, S-TUN-013 and nodes below: 1 minor; 0 active. None critical/major.\nNo critical or major alarm in this window.\n2026-09-10 10:42 ALM-000190 minor RRC_FAILURE_RATE_HIGH S-TUN-012: cleared 2026-09-10 19:27",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-TUN-005, S-TUN-012, S-TUN-013 and nodes below: 1 minor; 0 active. None critical/major.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000190"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-10 13:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-005",
+            "S-TUN-012",
+            "S-TUN-013"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 09:00:00"
+        },
+        "body": "3 change(s) on S-TUN-005, S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-11 08:44).\n2026-09-10 10:01 CHG-2026-0021 config_push on S-TUN-005: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-005 -> ROLLED BACK by CHG-2026-0025 at 2026-09-10 19:25\n2026-09-10 10:01 CHG-2026-0022 config_push on S-TUN-012: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-012 -> ROLLED BACK by CHG-2026-0026 at 2026-09-10 19:26\n2026-09-10 10:01 CHG-2026-0023 config_push on S-TUN-013: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-013 -> ROLLED BACK by CHG-2026-0027 at 2026-09-10 19:26",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 change(s) on S-TUN-005, S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-11 08:44).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "CHG-2026-0021",
+          "CHG-2026-0022",
+          "CHG-2026-0023"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-10 13:00:00",
+          "entity_ids": [
+            "S-TUN-005",
+            "S-TUN-012",
+            "S-TUN-013"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-10 08:00:00"
+        },
+        "body": "Deviation in 6 of 9 series. Earliest onset 2026-09-10 10:00: S-TUN-005 rrc_success_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-11 08:44). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-005 rrc_success_pct: mean 96 vs 99.4 (-3%); below baseline from 2026-09-10 10:00, not recovered.\nS-TUN-005 drop_rate_pct: mean 1.7 vs 0.65 (+164%); above baseline from 2026-09-10 10:00, not recovered.\nS-TUN-012 rrc_success_pct: mean 96.1 vs 99.5 (-3%); below baseline from 2026-09-10 10:00, not recovered.\nS-TUN-012 drop_rate_pct: mean 1.73 vs 0.74 (+134%); above baseline from 2026-09-10 10:00, not recovered.\nS-TUN-013 rrc_success_pct: mean 96.1 vs 99.2 (-3%); below baseline from 2026-09-10 10:00, not recovered.\nS-TUN-013 drop_rate_pct: mean 1.63 vs 0.64 (+156%); above baseline from 2026-09-10 10:00, not recovered.\nS-TUN-005 prb_util_pct: mean 11.7 vs 13.1 (-10%); no deviation.\nS-TUN-012 prb_util_pct: mean 26.9 vs 29.7 (-9%); no deviation.\nS-TUN-013 prb_util_pct: mean 37.1 vs 39.2 (-5%); no deviation.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 6 of 9 series. Earliest onset 2026-09-10 10:00: S-TUN-005 rrc_success_pct below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 86
+      },
+      {
+        "args": {
+          "end": "2026-09-10 13:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-005",
+            "S-TUN-012",
+            "S-TUN-013"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 09:00:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-005, S-TUN-012, S-TUN-013 and its parents between 2026-09-10 09:00 and 2026-09-10 13:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-005, S-TUN-012, S-TUN-013 and its parents between 2026-09-10 09:00 and 2026-09-10 13:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-005"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-005 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-005: site, TUN, Manouba, suburban.\nCells: C-TUN-005-1, C-TUN-005-2, C-TUN-005-3.\nSiblings under LNK-TUN-01-C: S-TUN-012, S-TUN-013.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-005 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "S-TUN-005",
+          "LNK-TUN-01-C",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-012",
+          "S-TUN-013"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-10 13:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-012",
+            "S-TUN-013"
+          ],
+          "region_id": null,
+          "start": "2026-09-10 09:00:00"
+        },
+        "body": "2 change(s) on S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 2 rolled back by asked_at 2026-09-11 08:44).\n2026-09-10 10:01 CHG-2026-0022 config_push on S-TUN-012: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-012 -> ROLLED BACK by CHG-2026-0026 at 2026-09-10 19:26\n2026-09-10 10:01 CHG-2026-0023 config_push on S-TUN-013: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-013 -> ROLLED BACK by CHG-2026-0027 at 2026-09-10 19:26",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 change(s) on S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 2 rolled back by asked_at 2026-09-11 08:44).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "CHG-2026-0022",
+          "CHG-2026-0023"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-012"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-012 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-012: site, TUN, El Menzah, urban.\nCells: C-TUN-012-1, C-TUN-012-2, C-TUN-012-3.\nSiblings under LNK-TUN-01-C: S-TUN-005, S-TUN-013.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-012 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "S-TUN-012",
+          "LNK-TUN-01-C",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-005",
+          "S-TUN-013"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-013"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-013: site, TUN, Lac 1, urban.\nCells: C-TUN-013-1, C-TUN-013-2, C-TUN-013-3.\nSiblings under LNK-TUN-01-C: S-TUN-005, S-TUN-012.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [
+          "S-TUN-013",
+          "LNK-TUN-01-C",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-005",
+          "S-TUN-012"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000190": {
+        "kind": "alarm",
+        "ref": "ALM-000190",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-TUN-012, raised 2026-09-10 10:42, cleared 2026-09-10 19:27"
+      },
+      "ALR-0010": {
+        "kind": "alert",
+        "ref": "ALR-0010",
+        "summary": "ended alert from 2026-09-10 10:00: 3 site(s) (S-TUN-005, S-TUN-012, S-TUN-013); region-level TUN; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000154": {
+        "kind": "anomaly",
+        "ref": "ANM-000154",
+        "summary": "S-TUN-012 drop_rate_pct spike, z 14.9, baseline 0.75 -> 3.71"
+      },
+      "ANM-000155": {
+        "kind": "anomaly",
+        "ref": "ANM-000155",
+        "summary": "S-TUN-012 rrc_success_pct drop, z -39.4, baseline 99.4 -> 94"
+      },
+      "CHG-2026-0021": {
+        "kind": "change",
+        "ref": "CHG-2026-0021",
+        "summary": "config_push on S-TUN-005 at 2026-09-10 10:01: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-005 [ROLLED BACK by CHG-2026-0025 at 2026-09-10 19:25]"
+      },
+      "CHG-2026-0022": {
+        "kind": "change",
+        "ref": "CHG-2026-0022",
+        "summary": "config_push on S-TUN-012 at 2026-09-10 10:01: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-012 [ROLLED BACK by CHG-2026-0026 at 2026-09-10 19:26]"
+      },
+      "CHG-2026-0023": {
+        "kind": "change",
+        "ref": "CHG-2026-0023",
+        "summary": "config_push on S-TUN-013 at 2026-09-10 10:01: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-013 [ROLLED BACK by CHG-2026-0027 at 2026-09-10 19:26]"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-C": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-C",
+        "summary": "fiber link, TUN, 10.1 km, 10.0 Gbps"
+      },
+      "S-TUN-005": {
+        "kind": "node",
+        "ref": "S-TUN-005",
+        "summary": "site, TUN, Manouba, suburban; sibling of S-TUN-013"
+      },
+      "S-TUN-012": {
+        "kind": "node",
+        "ref": "S-TUN-012",
+        "summary": "site, TUN, El Menzah, urban; sibling of S-TUN-013"
+      },
+      "S-TUN-013": {
+        "kind": "node",
+        "ref": "S-TUN-013",
+        "summary": "site, TUN, Lac 1, urban; chain: S-TUN-013 -> LNK-TUN-01-C -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-10 04:00, end=2026-09-11 08:44, region_id=TUN) -> 1 alert(s): ALR-0010 2026-09-10 10:00-19:30. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-005, S-TUN-012, S-TUN-013) for 9.5 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], include_descendants=True) -> 1 alarm(s) on S-TUN-005, S-TUN-012, S-TUN-013 and nodes below: 1 minor; 0 active. None critical/major."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], include_ancestors=True) -> 3 change(s) on S-TUN-005, S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-11 08:44)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], metrics=['rrc_success_pct', 'drop_rate_pct', 'prb_util_pct'], start=2 -> Deviation in 6 of 9 series. Earliest onset 2026-09-10 10:00: S-TUN-005 rrc_success_pct below baseline."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-005, S-TUN-012, S-TUN-013 and its parents between 2026-09-10 09:00 and 2026-09-10 13:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_topology(node_id=S-TUN-005, include=all) -> Depends on (child -> parent -> core): S-TUN-005 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-012', 'S-TUN-013'], include_ancestors=True) -> 2 change(s) on S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 2 rolled back by asked_at 2026-09-11 08:44)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_topology(node_id=S-TUN-012, include=all) -> Depends on (child -> parent -> core): S-TUN-012 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_topology(node_id=S-TUN-013, include=all) -> Depends on (child -> parent -> core): S-TUN-013 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Call setup failures and dropped calls in Grand Tunis\n\n- **Classification:** incident\n- **Root cause:** bad_change at `S-TUN-005`\n- **Confidence:** medium (Direct evidence from configuration changes, KPI onset timing, minor alarms, and recovery upon rollback. External events: not checked (no tool call made).)\n- **Impact:** 2026-09-10 10:00 to 2026-09-10 19:30\n- **Cause time:** 2026-09-10 10:01\n- **Affected:** S-TUN-005, S-TUN-012, S-TUN-013\n\n## Summary\n\nParameter optimisation batch RT-2.4 applied to sites S-TUN-005, S-TUN-012, and S-TUN-013 at 2026-09-10 10:01 caused RRC success drops and drop rate spikes.\n\nRRC success rate dropped and drop rates spiked across three sites in Grand Tunis starting 2026-09-10 10:00 and recovering at 19:30.\n\n## Timeline\n\n- 2026-09-10 10:00: RRC success drops and drop rate spikes began on S-TUN-005, S-TUN-012, and S-TUN-013. [T1, T4]\n- 2026-09-10 10:01: Configuration changes CHG-2026-0021, CHG-2026-0022, and CHG-2026-0023 applied. [CHG-2026-0021, CHG-2026-0022, CHG-2026-0023]\n- 2026-09-10 10:42: Minor RRC failure rate high alarm raised on S-TUN-012. [ALM-000190]\n- 2026-09-10 19:26: Rollback changes applied to revert parameter optimisation batch RT-2.4. [T3, T7]\n- 2026-09-10 19:27: Minor alarm cleared on S-TUN-012. [ALM-000190]\n- 2026-09-10 19:30: Alert ALR-0010 ended after 9.5 hours of impact. [ALR-0010]\n\n## Evidence\n\n- RRC success dropped and drop rates spiked on S-TUN-005, S-TUN-012, and S-TUN-013 from 2026-09-10 10:00. [T1, T4]\n- Scheduled parameter optimisation batch RT-2.4 was applied to all three affected sites at 2026-09-10 10:01. [CHG-2026-0021, CHG-2026-0022, CHG-2026-0023]\n- PRB utilization showed no deviation across the affected sites. [T4]\n- No maintenance windows were scheduled on the affected sites and their parents between 2026-09-10 09:00 and 13:00. [T5]\n- All three affected sites recovered when the configuration changes were rolled back in the evening. [T1, T3, T7]\n\n## Hypotheses\n\n1. **bad_change** at S-TUN-005: confirmed. Configuration changes applied precisely at KPI onset and reverted at recovery match the incident timeline. [CHG-2026-0021, CHG-2026-0022, CHG-2026-0023, T1, T4]\n2. **capacity** at S-TUN-005: rejected. PRB utilization showed no deviation during the incident window. [T4]\n\n## Ruled out\n\n- T5: No maintenance windows were scheduled on the affected nodes during the window.\n\n## Recommended actions\n\n- Review parameter optimisation batch RT-2.4 before future deployments.\n- Verify post-change monitoring alerts trigger faster.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-10 04:00, end=2026-09-11 08:44, region_id=TUN) -> 1 alert(s): ALR-0010 2026-09-10 10:00-19:30. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-005, S-TUN-012, S-TUN-013) for 9.5 h\n- `T4`: query_kpis(entity_type=site, entity_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], metrics=['rrc_success_pct', 'drop_rate_pct', 'prb_util_pct'], start=2 -> Deviation in 6 of 9 series. Earliest onset 2026-09-10 10:00: S-TUN-005 rrc_success_pct below baseline.\n- `CHG-2026-0021`: config_push on S-TUN-005 at 2026-09-10 10:01: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-005 [ROLLED BACK by CHG-2026-0025 at 2026-09-10 19:25]\n- `CHG-2026-0022`: config_push on S-TUN-012 at 2026-09-10 10:01: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-012 [ROLLED BACK by CHG-2026-0026 at 2026-09-10 19:26]\n- `CHG-2026-0023`: config_push on S-TUN-013 at 2026-09-10 10:01: Scheduled parameter optimisation batch RT-2.4 applied to S-TUN-013 [ROLLED BACK by CHG-2026-0027 at 2026-09-10 19:26]\n- `ALM-000190`: minor RRC_FAILURE_RATE_HIGH on S-TUN-012, raised 2026-09-10 10:42, cleared 2026-09-10 19:27\n- `T3`: get_changes(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], include_ancestors=True) -> 3 change(s) on S-TUN-005, S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-11 08:44).\n- `T7`: get_changes(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-012', 'S-TUN-013'], include_ancestors=True) -> 2 change(s) on S-TUN-012, S-TUN-013 and its parents, 2026-09-10 09:00 to 2026-09-10 13:00 (0 on upstream nodes, 2 rolled back by asked_at 2026-09-11 08:44).\n- `ALR-0010`: ended alert from 2026-09-10 10:00: 3 site(s) (S-TUN-005, S-TUN-012, S-TUN-013); region-level TUN; metrics: drop_rate_pct, rrc_success_pct\n- `T5`: get_maintenance(start=2026-09-10 09:00:00, end=2026-09-10 13:00:00, node_ids=['S-TUN-005', 'S-TUN-012', 'S-TUN-013'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-005, S-TUN-012, S-TUN-013 and its parents between 2026-09-10 09:00 and 2026-09-10 13:00.\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Call setup failures and dropped calls went up in Grand Tunis yesterday morning. What is behind it?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-005",
+        "S-TUN-012",
+        "S-TUN-013"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct evidence from configuration changes, KPI onset timing, minor alarms, and recovery upon rollback. External events: not checked (no tool call made).",
+      "dismissed_signals": [
+        {
+          "reason": "No maintenance windows were scheduled on the affected nodes during the window.",
+          "ref": "T5"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "RRC success dropped and drop rates spiked on S-TUN-005, S-TUN-012, and S-TUN-013 from 2026-09-10 10:00.",
+          "refs": [
+            "T1",
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Scheduled parameter optimisation batch RT-2.4 was applied to all three affected sites at 2026-09-10 10:01.",
+          "refs": [
+            "CHG-2026-0021",
+            "CHG-2026-0022",
+            "CHG-2026-0023"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "PRB utilization showed no deviation across the affected sites.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on the affected sites and their parents between 2026-09-10 09:00 and 13:00.",
+          "refs": [
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "All three affected sites recovered when the configuration changes were rolled back in the evening.",
+          "refs": [
+            "T1",
+            "T3",
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "S-TUN-005",
+          "reason": "Configuration changes applied precisely at KPI onset and reverted at recovery match the incident timeline.",
+          "refs": [
+            "CHG-2026-0021",
+            "CHG-2026-0022",
+            "CHG-2026-0023",
+            "T1",
+            "T4"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "capacity",
+          "node_id": "S-TUN-005",
+          "reason": "PRB utilization showed no deviation during the incident window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-10 19:30",
+      "impact_start": "2026-09-10 10:00",
+      "impact_summary": "RRC success rate dropped and drop rates spiked across three sites in Grand Tunis starting 2026-09-10 10:00 and recovering at 19:30.",
+      "recommended_actions": [
+        "Review parameter optimisation batch RT-2.4 before future deployments.",
+        "Verify post-change monitoring alerts trigger faster."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "S-TUN-005",
+      "root_cause_summary": "Parameter optimisation batch RT-2.4 applied to sites S-TUN-005, S-TUN-012, and S-TUN-013 at 2026-09-10 10:01 caused RRC success drops and drop rate spikes.",
+      "root_cause_time": "2026-09-10 10:01",
+      "timeline": [
+        {
+          "event": "RRC success drops and drop rate spikes began on S-TUN-005, S-TUN-012, and S-TUN-013.",
+          "refs": [
+            "T1",
+            "T4"
+          ],
+          "time": "2026-09-10 10:00"
+        },
+        {
+          "event": "Configuration changes CHG-2026-0021, CHG-2026-0022, and CHG-2026-0023 applied.",
+          "refs": [
+            "CHG-2026-0021",
+            "CHG-2026-0022",
+            "CHG-2026-0023"
+          ],
+          "time": "2026-09-10 10:01"
+        },
+        {
+          "event": "Minor RRC failure rate high alarm raised on S-TUN-012.",
+          "refs": [
+            "ALM-000190"
+          ],
+          "time": "2026-09-10 10:42"
+        },
+        {
+          "event": "Rollback changes applied to revert parameter optimisation batch RT-2.4.",
+          "refs": [
+            "T3",
+            "T7"
+          ],
+          "time": "2026-09-10 19:26"
+        },
+        {
+          "event": "Minor alarm cleared on S-TUN-012.",
+          "refs": [
+            "ALM-000190"
+          ],
+          "time": "2026-09-10 19:27"
+        },
+        {
+          "event": "Alert ALR-0010 ended after 9.5 hours of impact.",
+          "refs": [
+            "ALR-0010"
+          ],
+          "time": "2026-09-10 19:30"
+        }
+      ],
+      "title": "Call setup failures and dropped calls in Grand Tunis"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-d16ce47df1",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "Call setup failures and dropped calls",
+      "unknown_ids": [],
+      "window_end": "2026-09-10T11:00:00Z",
+      "window_start": "2026-09-10T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 384,
+        "latency_ms": 954,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 106,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2298,
+        "latency_ms": 9701,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 321,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3638,
+        "latency_ms": 6321,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 116,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3993,
+        "latency_ms": 15125,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 130,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4762,
+        "latency_ms": 7570,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 193,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4996,
+        "latency_ms": 13073,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 171,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4097,
+        "latency_ms": 9735,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1571,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 12
+      }
+    ],
+    "usage": {
+      "cached_calls": 7,
+      "input_tokens": 24168,
+      "live_requests": {},
+      "llm_calls": 7,
+      "output_tokens": 2608,
+      "tool_calls": 9,
+      "wall_seconds": 0.22
+    }
+  },
+  "run_name": "hard-v3",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-005",
+      "S-TUN-012",
+      "S-TUN-013"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [
+      {
+        "id": "ALM-000187",
+        "table": "alarms",
+        "visible_from": "2026-09-10T08:34:00+00:00",
+        "why": "A major LINK_DEGRADED alarm on LNK-TUN-01-C, the parent of the pushed sites, flapped and cleared by itself within minutes while the regression went on for hours; availability and volume were not affected by it."
+      },
+      {
+        "id": "ALM-000188",
+        "table": "alarms",
+        "visible_from": "2026-09-10T08:57:00+00:00",
+        "why": "A major LINK_DEGRADED alarm on LNK-TUN-01-C, the parent of the pushed sites, flapped and cleared by itself within minutes while the regression went on for hours; availability and volume were not affected by it."
+      },
+      {
+        "id": "ALM-000189",
+        "table": "alarms",
+        "visible_from": "2026-09-10T09:23:00+00:00",
+        "why": "A major LINK_DEGRADED alarm on LNK-TUN-01-C, the parent of the pushed sites, flapped and cleared by itself within minutes while the regression went on for hours; availability and volume were not affected by it."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-10T18:24:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0021",
+        "table": "changes",
+        "visible_from": "2026-09-10T09:01:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0025",
+        "table": "changes",
+        "visible_from": "2026-09-10T18:25:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0022",
+        "table": "changes",
+        "visible_from": "2026-09-10T09:01:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0026",
+        "table": "changes",
+        "visible_from": "2026-09-10T18:26:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0023",
+        "table": "changes",
+        "visible_from": "2026-09-10T09:01:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0027",
+        "table": "changes",
+        "visible_from": "2026-09-10T18:26:00+00:00"
+      },
+      {
+        "id": "ALM-000190",
+        "table": "alarms",
+        "visible_from": "2026-09-10T09:42:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-10T09:01:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "trap=bad_change_loud_coincidence; A scheduled parameter optimisation batch pushed to the 3 sites of LNK-TUN-01-C regressed RRC success and drop rate until it was rolled back. Root cause node is the first site of the pushed group. Trap: a major alarm on LNK-TUN-01-C, the parent of the pushed sites, flaps around the onset and clears by itself, and the change record looks innocent. Settled by: (1) the alarm clears within minutes while the KPI regression goes on for hours, and availability stays at 100 %; (2) the regression starts at the change time on exactly the pushed sites and ends at the rollback; (3) the sites of the sibling links are normal.",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "S-TUN-005",
+    "severity": "medium",
+    "start_at": "2026-09-10T09:01:00Z"
+  },
+  "variant": "default"
+}

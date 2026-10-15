@@ -115,6 +115,17 @@ Your previous report had these problems. Return the full corrected report.
 Previous report:
 {report}"""
 
+LOOKALIKE_SUFFIX = """\
+\n\nChecks of your report against the records found the contradictions below. Each states \
+facts from the tool results; they are not open to dispute. Reconsider the conclusion and return \
+the full corrected report. Change the classification, the cause and the node if the evidence \
+now points elsewhere (a hypothesis you rejected may be the right one), or answer inconclusive \
+if nothing fits. Do not move times or drop affected nodes to make a contradiction disappear.
+{problems}
+
+Previous report:
+{report}"""
+
 
 def intake_system(ref: Reference) -> str:
     regions = ", ".join(f"{rid} = {name}" for rid, name in sorted(ref.regions.items()))

@@ -15,6 +15,7 @@ from incident_agent.evals.scoring import (
     category_in_top3,
     classify_node,
     confounder_outcomes,
+    dump_score,
     evidence_shares,
     faithfulness,
     score_case,
@@ -26,6 +27,7 @@ from incident_agent.evals.scoring import (
     worst_outcome,
 )
 from incident_agent.evals.stats import bootstrap_mean_ci, mean, percentile, wilson_interval
+from incident_agent.evals.summary import checks_effect, checks_lines
 from incident_agent.evals.types import FindingGrade, ReportGrade
 from tests.agent_support import make_report
 from tests.evals_support import (
@@ -477,3 +479,37 @@ def test_the_trap_is_read_from_the_start_of_the_notes() -> None:
     truth = make_truth(notes="trap=near_miss_maintenance; Window on another link.")
     trapped = score_case(make_artifact(make_result(make_report(**RIGHT)), truth=truth), TOPOLOGY)
     assert trapped.trap == "near_miss_maintenance"
+
+
+def test_a_report_changed_by_the_checks_is_scored_before_and_after() -> None:
+    untouched = score()
+    assert untouched.before_checks is None and "before_checks" not in dump_score(untouched)
+    assert checks_effect([untouched]) is None and checks_lines([untouched]) == []
+
+    def changed(final: dict[str, Any], first: dict[str, Any]) -> CaseScore:
+        result = make_result(make_report(**{**RIGHT, **final}))
+        result.report_before_checks = make_report(**{**RIGHT, **first})
+        return score_case(make_artifact(result), TOPOLOGY)
+
+    wrong_first = {"root_cause_category": "bad_change", "hypotheses": []}
+    gained = changed({"confidence": "medium"}, wrong_first)
+    assert gained.rca_lenient and gained.before_checks is not None
+    b = gained.before_checks
+    assert (b.category, b.rca_lenient, b.confident_wrong) == ("bad_change", False, True)
+    assert dump_score(gained)["before_checks"]["confidence"] == "high"
+    lost = changed({**wrong_first, "confidence": "low"}, {})
+    assert checks_effect([untouched, gained, lost]) == {
+        "n": 3,
+        "fired": 2,
+        "gained": 1,
+        "lost": 1,
+        "rca_lenient_before": 2,
+        "rca_lenient_after": 2,
+        "abstained_before": 0,
+        "abstained_after": 0,
+        "confident_wrong_before": 1,
+        "confident_wrong_after": 0,
+    }
+    lines = checks_lines([untouched, gained, lost])
+    assert "fired on 2 of 3 cases: 1 became right, 1 became wrong" in lines[0]
+    assert "confident and wrong 1 -> 0" in lines[1]

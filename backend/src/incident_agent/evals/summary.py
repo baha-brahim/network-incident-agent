@@ -89,11 +89,51 @@ def summary_lines(scored: ScoredRun) -> list[str]:
         f"p95 {_num(agg.total_tokens.p95)}",
         f"  node matches           {agg.node_counts}",
     ]
+    lines += checks_lines(scored.scores)
     if has_traps(scored.scores):
         lines.append("  by trap (rca lenient):")
         for trap, agg_t in group_by(scored.scores, trap_of_case).items():
             lines.append(f"    {trap:<34} {_rate(agg_t.rca_lenient)}")
     return lines
+
+
+def checks_effect(scores: list[CaseScore]) -> dict[str, int] | None:
+    """What the look-alike checks changed, counted on the same investigations: every case scored
+    as its report stood before the checks, against how it scored after. None if none fired."""
+    done = [s for s in scores if s.status == "scored"]
+    fired = [s for s in done if s.before_checks is not None]
+    if not fired:
+        return None
+
+    def before(s: CaseScore, field: str) -> bool:
+        return bool(getattr(s.before_checks if s.before_checks is not None else s, field))
+
+    return {
+        "n": len(done),
+        "fired": len(fired),
+        "gained": sum(1 for s in fired if s.rca_lenient and not before(s, "rca_lenient")),
+        "lost": sum(1 for s in fired if before(s, "rca_lenient") and not s.rca_lenient),
+        "rca_lenient_before": sum(1 for s in done if before(s, "rca_lenient")),
+        "rca_lenient_after": sum(1 for s in done if s.rca_lenient),
+        "abstained_before": sum(1 for s in done if before(s, "abstained")),
+        "abstained_after": sum(1 for s in done if s.abstained),
+        "confident_wrong_before": sum(1 for s in done if before(s, "confident_wrong")),
+        "confident_wrong_after": sum(1 for s in done if s.confident_wrong),
+    }
+
+
+def checks_lines(scores: list[CaseScore]) -> list[str]:
+    e = checks_effect(scores)
+    if e is None:
+        return []
+    return [
+        f"  look-alike checks      fired on {e['fired']} of {e['n']} cases: "
+        f"{e['gained']} became right, {e['lost']} became wrong",
+        f"    before -> after      rca lenient {e['rca_lenient_before']} -> "
+        f"{e['rca_lenient_after']}, abstained {e['abstained_before']} -> "
+        f"{e['abstained_after']}, confident and wrong {e['confident_wrong_before']} -> "
+        f"{e['confident_wrong_after']}",
+    ]
 
 
 def world_label(meta: RunMeta) -> str:
@@ -148,6 +188,7 @@ def summary_json(scored: ScoredRun) -> dict[str, Any]:
         "by_class": {
             k: v.model_dump(mode="json") for k, v in group_by(scored.scores, class_of_case).items()
         },
+        **({"checks": effect} if (effect := checks_effect(scored.scores)) else {}),
         **by_trap,
         "cases": [dump_score(s) for s in scored.scores],
     }

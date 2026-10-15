@@ -1,0 +1,691 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-10T08:03:00Z",
+    "case_id": "h101-SCN-010-q0",
+    "question": "Some sites in the South went offline last night. Is that an incident?",
+    "question_index": 0,
+    "scenario_id": "SCN-010",
+    "seed": 101,
+    "split": "test"
+  },
+  "created_at": "2026-10-13T10:58:56.072361Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-10T08:03:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-10 09:03",
+          "entity_id": null,
+          "region_id": "SUD",
+          "start": "2026-09-09 16:00"
+        },
+        "body": "1 alert(s): ALR-0009 2026-09-10 03:15-06:30. Traffic, active users and availability drop on 2 sites in SUD (S-SUD-005, S-SUD-007) for 3 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0009 high ended, 2026-09-10 03:15 to 2026-09-10 06:30 (3.2 h): Traffic, active users and availability drop on 2 sites in SUD (S-SUD-005, S-SUD-007) for 3 h\n  availability_pct drop on 3 entities: worst S-SUD-005 z -100.0, 100 -> 0, 2026-09-10 03:15 to 2026-09-10 06:30\n  active_users drop on 2 entities: worst S-SUD-007 z -13.8, 7.05 -> 0, 2026-09-10 03:30 to 2026-09-10 06:30\n  dl_volume_mb drop on 2 entities: worst S-SUD-007 z -13.2, 523 -> 0, 2026-09-10 03:30 to 2026-09-10 06:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0009 2026-09-10 03:15-06:30. Traffic, active users and availability drop on 2 sites in SUD (S-SUD-005, S-SUD-007) for 3 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0009",
+          "ANM-000145",
+          "ANM-000150",
+          "ANM-000151"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-10 09:03",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "S-SUD-005",
+            "S-SUD-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 18:00"
+        },
+        "body": "2 alarm(s) on S-SUD-005, S-SUD-007 and nodes below: 2 critical; 0 active. Earliest critical/major: 2026-09-10 03:28 SITE_DOWN on S-SUD-005 (ALM-000185).\nEarliest critical/major: 2026-09-10 03:28 SITE_DOWN on S-SUD-005 (ALM-000185); within 10 min after: SITE_DOWN x1 (S-SUD-007).\n2026-09-10 03:28 ALM-000185 critical SITE_DOWN S-SUD-005: cleared 2026-09-10 06:31\n2026-09-10 03:28 ALM-000186 critical SITE_DOWN S-SUD-007: cleared 2026-09-10 06:31",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on S-SUD-005, S-SUD-007 and nodes below: 2 critical; 0 active. Earliest critical/major: 2026-09-10 03:28 SITE_DOWN on S-SUD-005 (ALM-000185).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000185",
+          "ALM-000186"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "end": "2026-09-10 09:03",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-005",
+            "S-SUD-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 18:00"
+        },
+        "body": "1 change(s) on S-SUD-005, S-SUD-007 and its parents, 2026-09-09 18:00 to 2026-09-10 09:03 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-10 09:03).\n2026-09-10 02:47 CHG-2026-0019 config_push on LNK-SUD-02-B (ancestor of S-SUD-005): QoS profile refresh on LNK-SUD-02-B",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SUD-005, S-SUD-007 and its parents, 2026-09-09 18:00 to 2026-09-10 09:03 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-10 09:03).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "CHG-2026-0019"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "end": "2026-09-10 09:03",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-005",
+            "S-SUD-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 18:00"
+        },
+        "body": "1 maintenance window(s) on S-SUD-005, S-SUD-007 and its parents overlap 2026-09-09 18:00 to 2026-09-10 09:03: 1 completed (state as of asked_at 2026-09-10 09:03).\nMW-0008 completed 2026-09-10 03:20 -> 2026-09-10 06:38 on LNK-SUD-02-B (ancestor of S-SUD-005), covers 2 sites below: Planned fibre splice work on LNK-SUD-02-B; expected impact: Downstream sites offline during splicing",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on S-SUD-005, S-SUD-007 and its parents overlap 2026-09-09 18:00 to 2026-09-10 09:03: 1 completed (state as of asked_at 2026-09-10 09:03).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "MW-0008"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "ancestors",
+          "node_id": "S-SUD-005"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-005 (site) -> LNK-SUD-02-B (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-005: site, SUD, Tataouine, urban.\nCells: C-SUD-005-1, C-SUD-005-2, C-SUD-005-3.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-005 (site) -> LNK-SUD-02-B (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "S-SUD-005",
+          "LNK-SUD-02-B",
+          "AGG-SUD-02",
+          "CORE-UPF-02"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "include": "ancestors",
+          "node_id": "S-SUD-007"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-B (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-007: site, SUD, Matmata, rural.\nCells: C-SUD-007-1, C-SUD-007-2, C-SUD-007-3.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-B (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "S-SUD-007",
+          "LNK-SUD-02-B",
+          "AGG-SUD-02",
+          "CORE-UPF-02"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-10 09:03",
+          "include_ancestors": true,
+          "node_ids": [
+            "LNK-SUD-02-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-09 18:00"
+        },
+        "body": "1 change(s) on LNK-SUD-02-B and its parents, 2026-09-09 18:00 to 2026-09-10 09:03 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-10 09:03).\n2026-09-10 02:47 CHG-2026-0019 config_push on LNK-SUD-02-B: QoS profile refresh on LNK-SUD-02-B",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on LNK-SUD-02-B and its parents, 2026-09-09 18:00 to 2026-09-10 09:03 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-10 09:03).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "CHG-2026-0019"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "fibre splice maintenance down time"
+        },
+        "body": "4 runbook chunk(s) for 'fibre splice maintenance down time', best first (excerpts):\n[RB-PLANNED-MAINTENANCE#03] Planned maintenance verification > Differential diagnosis: Four tests for an expected outage All four must pass. 1. Scope. The maintenance node is the failed node or one of its ancestors. A window on a link covers its downstream sites. A window on one site does not cover its neighbour. 2. Time. ... 3. ... 4. ... The work did not finish on time, which is itself something to escalate. Versus a power failure at a site with a main...\n[RB-PLANNED-MAINTENANCE#02] Planned maintenance verification > Signature in the data: A row in the maintenance table. It has `node_id`, `start_at`, `end_at`, a description, `expected_impact`, and a status of `planned` or `completed`. ... \"Planned fibre splice work\", \"battery replacement and cabinet inspection\", or a vague \"routine transport network works, possible short service interruptions\". The vague form is still a valid window if the scope and time fit.\n[RB-SYNC-LOSS#04] Timing and synchronisation loss > Verification steps: 1. Find a cluster of neighbouring cells with slowly worsening drop rate. 2. Check for GPS or timing alarms in the platform's native alarm list. 3. Check whether the affected sites share a timing source or a transport path carrying PTP. 4. Look at changes to the transport or timing equipment. 5. ...\n[RB-POWER-FAILURE#03] Site power failure and battery autonomy > Differential diagnosis: Versus a fiber cut A fiber cut takes down every site under a link in the same step and raises `LINK_LOS`. ... Versus planned maintenance Battery replacement or generator tests appear in the maintenance calendar, often with expected impact \"None expected\". Look for a window on that site that covers the outage. ... Versus a change or alarm close to the site-down time ...\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'fibre splice maintenance down time', best first (excerpts):",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [
+          "RB-PLANNED-MAINTENANCE#03",
+          "RB-PLANNED-MAINTENANCE#02",
+          "RB-SYNC-LOSS#04",
+          "RB-POWER-FAILURE#03"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 15
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000185": {
+        "kind": "alarm",
+        "ref": "ALM-000185",
+        "summary": "critical SITE_DOWN on S-SUD-005, raised 2026-09-10 03:28, cleared 2026-09-10 06:31"
+      },
+      "ALM-000186": {
+        "kind": "alarm",
+        "ref": "ALM-000186",
+        "summary": "critical SITE_DOWN on S-SUD-007, raised 2026-09-10 03:28, cleared 2026-09-10 06:31"
+      },
+      "ALR-0009": {
+        "kind": "alert",
+        "ref": "ALR-0009",
+        "summary": "ended alert from 2026-09-10 03:15: 2 site(s) (S-SUD-005, S-SUD-007); region-level SUD; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000145": {
+        "kind": "anomaly",
+        "ref": "ANM-000145",
+        "summary": "S-SUD-005 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000150": {
+        "kind": "anomaly",
+        "ref": "ANM-000150",
+        "summary": "S-SUD-007 active_users drop, z -13.8, baseline 7.05 -> 0"
+      },
+      "ANM-000151": {
+        "kind": "anomaly",
+        "ref": "ANM-000151",
+        "summary": "S-SUD-007 dl_volume_mb drop, z -13.2, baseline 523 -> 0"
+      },
+      "CHG-2026-0019": {
+        "kind": "change",
+        "ref": "CHG-2026-0019",
+        "summary": "config_push on LNK-SUD-02-B at 2026-09-10 02:47: QoS profile refresh on LNK-SUD-02-B"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-02-B": {
+        "kind": "node",
+        "ref": "LNK-SUD-02-B",
+        "summary": "fiber link, SUD, 23.1 km, 10.0 Gbps"
+      },
+      "MW-0008": {
+        "kind": "maintenance",
+        "ref": "MW-0008",
+        "summary": "completed window 2026-09-10 03:20 -> 2026-09-10 06:38 on LNK-SUD-02-B: Planned fibre splice work on LNK-SUD-02-B; expected impact: Downstream sites offline during spli..."
+      },
+      "RB-PLANNED-MAINTENANCE#02": {
+        "kind": "runbook",
+        "ref": "RB-PLANNED-MAINTENANCE#02",
+        "summary": "Planned maintenance verification > Signature in the data: - **A row in the maintenance table.** It has `node_id`, `start_at`, `end_at`, a description, `expec..."
+      },
+      "RB-PLANNED-MAINTENANCE#03": {
+        "kind": "runbook",
+        "ref": "RB-PLANNED-MAINTENANCE#03",
+        "summary": "Planned maintenance verification > Differential diagnosis: ### Four tests for an expected outage All four must pass. 1. **Scope.** The maintenance node is th..."
+      },
+      "RB-POWER-FAILURE#03": {
+        "kind": "runbook",
+        "ref": "RB-POWER-FAILURE#03",
+        "summary": "Site power failure and battery autonomy > Differential diagnosis: ### Versus a fiber cut A fiber cut takes down every site under a link in the same step and..."
+      },
+      "RB-SYNC-LOSS#04": {
+        "kind": "runbook",
+        "ref": "RB-SYNC-LOSS#04",
+        "summary": "Timing and synchronisation loss > Verification steps: 1. Find a cluster of neighbouring cells with slowly worsening drop rate. 2. Check for GPS or timing ala..."
+      },
+      "S-SUD-005": {
+        "kind": "node",
+        "ref": "S-SUD-005",
+        "summary": "site, SUD, Tataouine, urban; chain: S-SUD-005 -> LNK-SUD-02-B -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "S-SUD-007": {
+        "kind": "node",
+        "ref": "S-SUD-007",
+        "summary": "site, SUD, Matmata, rural; chain: S-SUD-007 -> LNK-SUD-02-B -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-09 16:00, end=2026-09-10 09:03, region_id=SUD) -> 1 alert(s): ALR-0009 2026-09-10 03:15-06:30. Traffic, active users and availability drop on 2 sites in SUD (S-SUD-005, S-SUD-007) for 3 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-09 18:00, end=2026-09-10 09:03, node_ids=['S-SUD-005', 'S-SUD-007'], include_descendants=True, min_severity=minor) -> 2 alarm(s) on S-SUD-005, S-SUD-007 and nodes below: 2 critical; 0 active. Earliest critical/major: 2026-09-10 03:28 SITE_DOWN on S-SUD-005 (ALM-000185)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-09 18:00, end=2026-09-10 09:03, node_ids=['S-SUD-005', 'S-SUD-007'], include_ancestors=True) -> 1 change(s) on S-SUD-005, S-SUD-007 and its parents, 2026-09-09 18:00 to 2026-09-10 09:03 (1 on upstream nodes, 0 rolled back by asked_at 2026-09-10 09:03)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-09 18:00, end=2026-09-10 09:03, node_ids=['S-SUD-005', 'S-SUD-007'], include_ancestors=True) -> 1 maintenance window(s) on S-SUD-005, S-SUD-007 and its parents overlap 2026-09-09 18:00 to 2026-09-10 09:03: 1 completed (state as of asked_at 2026-09-10 09:03)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_topology(node_id=S-SUD-005, include=ancestors) -> Depends on (child -> parent -> core): S-SUD-005 (site) -> LNK-SUD-02-B (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_topology(node_id=S-SUD-007, include=ancestors) -> Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-B (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-09 18:00, end=2026-09-10 09:03, node_ids=['LNK-SUD-02-B'], include_ancestors=True) -> 1 change(s) on LNK-SUD-02-B and its parents, 2026-09-09 18:00 to 2026-09-10 09:03 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-10 09:03)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "search_runbooks(query=fibre splice maintenance down time, k=4) -> 4 runbook chunk(s) for 'fibre splice maintenance down time', best first (excerpts):"
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Planned Maintenance Outage on South Sites\n\n- **Classification:** planned_maintenance\n- **Root cause:** planned_maintenance at `LNK-SUD-02-B`\n- **Confidence:** high (Maintenance window matches the affected nodes, timing, and explicitly states the expected impact of downstream sites going offline.)\n- **Impact:** 2026-09-10 03:15 to 2026-09-10 06:31\n- **Cause time:** 2026-09-10 03:20\n- **Affected:** S-SUD-005, S-SUD-007\n\n## Summary\n\nPlanned fibre splice work on the shared transport link caused downstream sites S-SUD-005 and S-SUD-007 to go offline.\n\nTraffic, availability, and active users dropped on two sites for three hours due to planned maintenance.\n\n## Timeline\n\n- 2026-09-10 02:47: QoS profile refresh config push on LNK-SUD-02-B [CHG-2026-0019]\n- 2026-09-10 03:15: Traffic, active users and availability drop alert begins [ALR-0009]\n- 2026-09-10 03:20: Planned fibre splice work starts on LNK-SUD-02-B [MW-0008]\n- 2026-09-10 03:28: Critical SITE_DOWN alarms raised on S-SUD-005 and S-SUD-007 [ALM-000185, ALM-000186]\n- 2026-09-10 06:31: SITE_DOWN alarms cleared on S-SUD-005 and S-SUD-007 [ALM-000185, ALM-000186]\n- 2026-09-10 06:38: Planned maintenance window completed on LNK-SUD-02-B [MW-0008]\n\n## Evidence\n\n- Sites S-SUD-005 and S-SUD-007 experienced an availability and traffic drop starting 2026-09-10 03:15. [ALR-0009]\n- Critical SITE_DOWN alarms were raised on both affected sites at 2026-09-10 03:28. [ALM-000185, ALM-000186]\n- A completed maintenance window for planned fibre splice work covered LNK-SUD-02-B from 2026-09-10 03:20 to 06:38. [MW-0008]\n- Both affected sites depend on the common transport link LNK-SUD-02-B. [S-SUD-005, S-SUD-007]\n- Config push change CHG-2026-0019 occurred prior to the maintenance window on LNK-SUD-02-B. [CHG-2026-0019]\n\n## Hypotheses\n\n1. **planned_maintenance** at LNK-SUD-02-B: confirmed. Maintenance window MW-0008 on common link LNK-SUD-02-B matches the exact outage timeframe and scope. [MW-0008, RB-PLANNED-MAINTENANCE#03]\n2. **bad_change** at LNK-SUD-02-B: rejected. The outage perfectly aligns with the planned fibre splice maintenance window rather than the prior config push. [CHG-2026-0019, MW-0008]\n\n## Ruled out\n\n- CHG-2026-0019: Config push was a QoS profile refresh occurring earlier and did not cause the site downtime, which was governed by the planned maintenance.\n\n## Recommended actions\n\n- Verify post-maintenance traffic restoration on S-SUD-005 and S-SUD-007.\n- Ensure future maintenance notifications are cross-referenced with regional monitoring.\n\n## Sources\n\n- `CHG-2026-0019`: config_push on LNK-SUD-02-B at 2026-09-10 02:47: QoS profile refresh on LNK-SUD-02-B\n- `ALR-0009`: ended alert from 2026-09-10 03:15: 2 site(s) (S-SUD-005, S-SUD-007); region-level SUD; metrics: active_users, availability_pct, dl_volume_mb\n- `MW-0008`: completed window 2026-09-10 03:20 -> 2026-09-10 06:38 on LNK-SUD-02-B: Planned fibre splice work on LNK-SUD-02-B; expected impact: Downstream sites offline during spli...\n- `ALM-000185`: critical SITE_DOWN on S-SUD-005, raised 2026-09-10 03:28, cleared 2026-09-10 06:31\n- `ALM-000186`: critical SITE_DOWN on S-SUD-007, raised 2026-09-10 03:28, cleared 2026-09-10 06:31\n- `S-SUD-005`: site, SUD, Tataouine, urban; chain: S-SUD-005 -> LNK-SUD-02-B -> AGG-SUD-02 -> CORE-UPF-02\n- `S-SUD-007`: site, SUD, Matmata, rural; chain: S-SUD-007 -> LNK-SUD-02-B -> AGG-SUD-02 -> CORE-UPF-02\n- `RB-PLANNED-MAINTENANCE#03`: Planned maintenance verification > Differential diagnosis: ### Four tests for an expected outage All four must pass. 1. **Scope.** The maintenance node is th...\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Some sites in the South went offline last night. Is that an incident?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-005",
+        "S-SUD-007"
+      ],
+      "classification": "planned_maintenance",
+      "confidence": "high",
+      "confidence_reason": "Maintenance window matches the affected nodes, timing, and explicitly states the expected impact of downstream sites going offline.",
+      "dismissed_signals": [
+        {
+          "reason": "Config push was a QoS profile refresh occurring earlier and did not cause the site downtime, which was governed by the planned maintenance.",
+          "ref": "CHG-2026-0019"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Sites S-SUD-005 and S-SUD-007 experienced an availability and traffic drop starting 2026-09-10 03:15.",
+          "refs": [
+            "ALR-0009"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical SITE_DOWN alarms were raised on both affected sites at 2026-09-10 03:28.",
+          "refs": [
+            "ALM-000185",
+            "ALM-000186"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A completed maintenance window for planned fibre splice work covered LNK-SUD-02-B from 2026-09-10 03:20 to 06:38.",
+          "refs": [
+            "MW-0008"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Both affected sites depend on the common transport link LNK-SUD-02-B.",
+          "refs": [
+            "S-SUD-005",
+            "S-SUD-007"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Config push change CHG-2026-0019 occurred prior to the maintenance window on LNK-SUD-02-B.",
+          "refs": [
+            "CHG-2026-0019"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "planned_maintenance",
+          "node_id": "LNK-SUD-02-B",
+          "reason": "Maintenance window MW-0008 on common link LNK-SUD-02-B matches the exact outage timeframe and scope.",
+          "refs": [
+            "MW-0008",
+            "RB-PLANNED-MAINTENANCE#03"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "LNK-SUD-02-B",
+          "reason": "The outage perfectly aligns with the planned fibre splice maintenance window rather than the prior config push.",
+          "refs": [
+            "CHG-2026-0019",
+            "MW-0008"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-10 06:31",
+      "impact_start": "2026-09-10 03:15",
+      "impact_summary": "Traffic, availability, and active users dropped on two sites for three hours due to planned maintenance.",
+      "recommended_actions": [
+        "Verify post-maintenance traffic restoration on S-SUD-005 and S-SUD-007.",
+        "Ensure future maintenance notifications are cross-referenced with regional monitoring."
+      ],
+      "root_cause_category": "planned_maintenance",
+      "root_cause_node_id": "LNK-SUD-02-B",
+      "root_cause_summary": "Planned fibre splice work on the shared transport link caused downstream sites S-SUD-005 and S-SUD-007 to go offline.",
+      "root_cause_time": "2026-09-10 03:20",
+      "timeline": [
+        {
+          "event": "QoS profile refresh config push on LNK-SUD-02-B",
+          "refs": [
+            "CHG-2026-0019"
+          ],
+          "time": "2026-09-10 02:47"
+        },
+        {
+          "event": "Traffic, active users and availability drop alert begins",
+          "refs": [
+            "ALR-0009"
+          ],
+          "time": "2026-09-10 03:15"
+        },
+        {
+          "event": "Planned fibre splice work starts on LNK-SUD-02-B",
+          "refs": [
+            "MW-0008"
+          ],
+          "time": "2026-09-10 03:20"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-SUD-005 and S-SUD-007",
+          "refs": [
+            "ALM-000185",
+            "ALM-000186"
+          ],
+          "time": "2026-09-10 03:28"
+        },
+        {
+          "event": "SITE_DOWN alarms cleared on S-SUD-005 and S-SUD-007",
+          "refs": [
+            "ALM-000185",
+            "ALM-000186"
+          ],
+          "time": "2026-09-10 06:31"
+        },
+        {
+          "event": "Planned maintenance window completed on LNK-SUD-02-B",
+          "refs": [
+            "MW-0008"
+          ],
+          "time": "2026-09-10 06:38"
+        }
+      ],
+      "title": "Planned Maintenance Outage on South Sites"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-04569cd66a",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "sites offline",
+      "unknown_ids": [],
+      "window_end": "2026-09-10T05:00:00Z",
+      "window_start": "2026-09-09T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 380,
+        "latency_ms": 879,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 81,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2338,
+        "latency_ms": 1641,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 250,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3213,
+        "latency_ms": 823,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 64,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3570,
+        "latency_ms": 877,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 90,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4267,
+        "latency_ms": 1266,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 141,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4448,
+        "latency_ms": 1034,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 140,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3455,
+        "latency_ms": 4063,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1530,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 14
+      }
+    ],
+    "usage": {
+      "cached_calls": 7,
+      "input_tokens": 21671,
+      "live_requests": {},
+      "llm_calls": 7,
+      "output_tokens": 2296,
+      "tool_calls": 8,
+      "wall_seconds": 0.18
+    }
+  },
+  "run_name": "hard-v3",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SUD-02-B",
+      "S-SUD-005",
+      "S-SUD-007"
+    ],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0019",
+        "table": "changes",
+        "visible_from": "2026-09-10T01:47:00+00:00",
+        "why": "Harmless config_push on LNK-SUD-02-B 33 min before the maintenance window; the outage follows the window, not the change."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-10T05:38:00Z",
+    "evidence": [
+      {
+        "id": "MW-0008",
+        "table": "maintenance",
+        "visible_from": null
+      },
+      {
+        "id": "ALM-000184",
+        "table": "alarms",
+        "visible_from": "2026-09-10T02:27:00+00:00"
+      },
+      {
+        "id": "ALM-000185",
+        "table": "alarms",
+        "visible_from": "2026-09-10T02:28:00+00:00"
+      },
+      {
+        "id": "ALM-000186",
+        "table": "alarms",
+        "visible_from": "2026-09-10T02:28:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_maintenance",
+      "get_alarms",
+      "query_kpis",
+      "get_changes"
+    ],
+    "impact_start_at": "2026-09-10T02:27:00Z",
+    "is_incident": false,
+    "kind": "planned_maintenance",
+    "notes": "trap=maintenance_with_scary_change; Sites went down inside the maintenance window on LNK-SUD-02-B; not an incident. Trap: a config_push on LNK-SUD-02-B was executed 33 min before the window opened, so a hasty investigator ties the outage to the change. Settled by: the four tests of the maintenance runbook pass: the window covers the node, the outage lies inside it (it starts a few minutes after the window opens and ends before it closes), the works can cause it, and the window is completed; the KPIs were normal between the change and the window, and a change does not explain a loss-of-signal outage that follows the window.",
+    "root_cause_category": "planned_maintenance",
+    "root_cause_node_id": "LNK-SUD-02-B",
+    "severity": "low",
+    "start_at": "2026-09-10T02:20:00Z"
+  },
+  "variant": "default"
+}

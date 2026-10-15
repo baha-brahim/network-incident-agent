@@ -96,7 +96,8 @@ CASES = [
         must_cite=("MW-0001",),
     ),
     # The harder one: nationwide, no site is down, and a harmless software upgrade on the same
-    # node an hour earlier looks like the culprit.
+    # node an hour earlier looks like the culprit. The first report blames that change; the
+    # timing check of the verify step refutes it and the corrected report names the DNS fault.
     Case(
         id="dns-degradation",
         question=(
@@ -109,11 +110,6 @@ CASES = [
         category="core_degradation",
         root_node="CORE-DNS-01",
         must_cite=("ALR-0001",),
-        known_miss=(
-            "The recorded run blames the software upgrade CHG-2026-0001 on CORE-DNS-01, made an "
-            "hour before the degradation, and is highly confident (bad_change). The fixture "
-            "plants that change as a harmless coincidence."
-        ),
     ),
 ]
 

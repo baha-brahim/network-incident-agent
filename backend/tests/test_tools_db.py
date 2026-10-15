@@ -8,6 +8,8 @@ import pytest
 from sqlalchemy import Engine, text
 from sqlalchemy.exc import DBAPIError
 
+from incident_agent.agent.facts import Facts, rows_of
+from incident_agent.agent.reference import Reference
 from incident_agent.agent.tools import execute_tool
 from incident_agent.agent.tools.common import BODY_CHARS
 from incident_agent.agent.tools.timeutil import fmt, iso
@@ -908,3 +910,59 @@ def test_nothing_after_asked_at_leaks_into_any_structured_payload(call: Call) ->
         r = call(name, args, asked)
         for leak in leaks:
             assert leak not in str(r.data) and leak not in r.body, (name, leak)
+
+
+def test_the_rows_the_look_alike_checks_read_are_found_in_every_tool(call: Call) -> None:
+    """A change to a tool's `data` must not leave the checks without records."""
+    rows: dict[str, dict[str, Any]] = {}
+    for tool in (
+        "get_maintenance",
+        "get_external_events",
+        "get_changes",
+        "get_alarms",
+        "get_anomalies",
+    ):
+        result = call(tool, FULL)
+        assert not result.error, tool
+        found = rows_of(tool, result.data)
+        assert found, tool
+        rows |= found
+    facts = Facts.from_rows(rows)
+    assert len(facts.windows) + len(facts.events) + len(facts.changes) == 1 + 1 + 3
+    assert len(facts.alarms) == 3 and len(facts.alerts) == 2
+    assert sum(
+        len(t) for t in (facts.windows, facts.events, facts.changes, facts.alarms, facts.alerts)
+    ) == len(rows)
+    window = facts.windows["MW-0001"]
+    assert window.node_id == "S-SFX-001" and window.end > window.start
+    assert (
+        facts.events["EVT-001"].region_id == "TUN"
+        and facts.events["EVT-001"].node_id == "S-TUN-003"
+    )
+    assert facts.changes["CHG-2026-0003"].rollback_of == "CHG-2026-0002"
+    assert facts.alarms["ALM-000001"].cleared is not None
+    assert facts.alarms["ALM-000003"].cleared is None  # never cleared
+    assert "S-TUN-001" in facts.alerts["ALR-T1"].entities
+
+
+def _mark_venue(engine: Engine, near: bool) -> None:
+    sql = "UPDATE nodes SET attrs = jsonb_set(attrs, '{near_venue}', CAST(:v AS jsonb))"
+    with engine.begin() as conn:
+        conn.execute(text(f"{sql} WHERE node_id = 'S-TUN-003'"), {"v": str(near).lower()})
+
+
+def test_the_reference_learns_node_types_regions_and_venue_sites(world: Engine) -> None:
+    _mark_venue(world, True)
+    try:
+        ref = Reference.load(world)
+    finally:
+        _mark_venue(world, False)
+    assert (
+        ref.node_type["S-TUN-001"] == "site" and ref.node_type["LNK-TUN-01-A"] == "transport_link"
+    )
+    assert ref.region_of["S-SFX-001"] == "SFX" and ref.region_of["CORE-DNS-01"] is None
+    assert ref.venue_sites == {"S-TUN-003"}
+    assert ref.descendants("LNK-TUN-01-A")[:2] == ["S-TUN-001", "S-TUN-002"]
+    assert "C-TUN-001-1" in ref.descendants("AGG-TUN-01")
+    assert ref.lowest_common_ancestor(["S-TUN-001", "S-TUN-003"]) == "AGG-TUN-01"
+    assert ref.lowest_common_ancestor(["S-TUN-001", "S-TUN-002"]) == "LNK-TUN-01-A"

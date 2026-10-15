@@ -215,6 +215,18 @@ def reconstructed_wall_seconds(result: RunResult) -> float:
 # --- the score of a case ----------------------------------------------------------------------
 
 
+class BeforeChecks(BaseModel):
+    """How the report scored before the look-alike checks of the verify step changed it."""
+
+    classification: str
+    category: str
+    node: str | None
+    confidence: str
+    rca_lenient: bool
+    abstained: bool
+    confident_wrong: bool
+
+
 class CaseScore(BaseModel):
     case_id: str
     scenario_id: str
@@ -241,6 +253,7 @@ class CaseScore(BaseModel):
     rca_strict: bool = False
     rca_lenient: bool = False
     confident_wrong: bool = False
+    before_checks: BeforeChecks | None = None  # set when a look-alike check fired
 
     cause_time_error_min: float | None = None
     impact_start_error_min: float | None = None
@@ -294,6 +307,7 @@ def score_case(artifact: CaseArtifact, topology: Topology) -> CaseScore:
     n_visible, found, cited = evidence_shares(truth, result, case.asked_at)
     precision, recall = tool_overlap(result, truth.expected_tools)
     first, unresolved, repaired = verification_counts(result)
+    before = result.report_before_checks
     usage = result.usage
     models = list(result.models_used)
     clean = not result.fell_back and all(m == artifact.agent_model for m in models)
@@ -311,6 +325,7 @@ def score_case(artifact: CaseArtifact, topology: Topology) -> CaseScore:
             "rca_strict": strict,
             "rca_lenient": lenient,
             "confident_wrong": report.confidence == "high" and not lenient,
+            "before_checks": _before_checks(before, base, truth, topology) if before else None,
             "cause_time_error_min": time_error_min(report.root_cause_time, truth.start_at),
             "impact_start_error_min": time_error_min(report.impact_start, truth.impact_start_at),
             "n_evidence_visible": n_visible,
@@ -337,12 +352,33 @@ def score_case(artifact: CaseArtifact, topology: Topology) -> CaseScore:
     )
 
 
+def _before_checks(
+    report: Report, base: CaseScore, truth: Truth, topology: Topology
+) -> BeforeChecks:
+    match = classify_node(report.root_cause_node_id, truth, topology)
+    lenient = (
+        report.classification == base.truth_classification
+        and report.root_cause_category == truth.root_cause_category
+        and match in ("exact", "acceptable")
+    )
+    return BeforeChecks(
+        classification=report.classification,
+        category=report.root_cause_category,
+        node=report.root_cause_node_id,
+        confidence=report.confidence,
+        rca_lenient=lenient,
+        abstained=report.classification == "inconclusive",
+        confident_wrong=report.confidence == "high" and not lenient,
+    )
+
+
 def dump_score(score: CaseScore) -> dict[str, Any]:
-    """JSON form of a score. `trap` is left out when empty, so default-profile files keep
-    their layout."""
+    """JSON form of a score. `trap` and `before_checks` are left out when empty, so files of
+    runs without them keep their layout."""
     out = score.model_dump(mode="json")
-    if out.get("trap") is None:
-        out.pop("trap", None)
+    for key in ("trap", "before_checks"):
+        if out.get(key) is None:
+            out.pop(key, None)
     return out
 
 

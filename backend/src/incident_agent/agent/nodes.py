@@ -14,6 +14,8 @@ from incident_agent.agent import prompts
 from incident_agent.agent.casefile import conclude_message, render_case_file
 from incident_agent.agent.checks import missing_checks
 from incident_agent.agent.config import AgentConfig
+from incident_agent.agent.facts import Facts, rows_of
+from incident_agent.agent.lookalike import lookalike_problems
 from incident_agent.agent.reference import Reference
 from incident_agent.agent.report import (
     MAX_FINDINGS,
@@ -249,12 +251,16 @@ def _run_tool(
     state: AgentState,
     calls: list[CallRecord],
     evidence: dict[str, EvidenceRef],
+    facts: dict[str, dict[str, Any]],
     node: str,
     iteration: int,
     name: str,
     args: dict[str, Any],
 ) -> CallRecord:
-    """Execute one tool call, assign its T-ref, register its evidence. Appends to `calls`."""
+    """Execute one tool call, assign its T-ref, register its evidence and rows.
+
+    Appends to `calls`; `evidence` and `facts` are updated in place.
+    """
     ref = f"T{len(calls) + 1}"
     key = json.dumps([name, args], sort_keys=True, default=str)
     earlier = next(
@@ -296,6 +302,8 @@ def _run_tool(
         )
         for row in result.refs:
             evidence[row.ref] = row
+        if not result.error:
+            facts.update(rows_of(name, result.data))
     args_text = ", ".join(f"{k}={v}" for k, v in record.args.items() if v not in (None, [], ""))
     evidence[ref] = EvidenceRef(
         ref=ref, kind="call", summary=f"{name}({args_text})"[:150] + f" -> {record.headline}"[:200]
@@ -368,6 +376,7 @@ def orient(state: AgentState, deps: Deps) -> dict[str, Any]:
     assert scope is not None
     calls = list(state.calls)
     evidence = dict(state.evidence)
+    facts = dict(state.facts)
     margin = timedelta(hours=deps.config.orient_margin_hours)
     args: dict[str, Any] = {
         "start": fmt(scope.window_start - margin),
@@ -377,10 +386,12 @@ def orient(state: AgentState, deps: Deps) -> dict[str, Any]:
         args["entity_id"] = scope.node_ids[0]
     elif len(scope.region_ids) == 1 and not scope.node_ids and not scope.nationwide:
         args["region_id"] = scope.region_ids[0]
-    _run_tool(deps, state, calls, evidence, "orient", 0, "get_anomalies", args)
+    _run_tool(deps, state, calls, evidence, facts, "orient", 0, "get_anomalies", args)
     for node_id in [*scope.node_ids, *scope.unknown_ids][:2]:
-        _run_tool(deps, state, calls, evidence, "orient", 0, "get_topology", {"node_id": node_id})
-    return {"calls": calls, "evidence": evidence}
+        _run_tool(
+            deps, state, calls, evidence, facts, "orient", 0, "get_topology", {"node_id": node_id}
+        )
+    return {"calls": calls, "evidence": evidence, "facts": facts}
 
 
 def investigate(state: AgentState, deps: Deps) -> dict[str, Any]:
@@ -442,13 +453,17 @@ def investigate(state: AgentState, deps: Deps) -> dict[str, Any]:
 
     calls = list(state.calls)
     evidence = dict(state.evidence)
+    facts = dict(state.facts)
     for call in allowed:
-        _run_tool(deps, state, calls, evidence, "investigate", iteration, call.name, call.args)
+        _run_tool(
+            deps, state, calls, evidence, facts, "investigate", iteration, call.name, call.args
+        )
     used = state.tool_calls_used + len(allowed)
     update.update(
         notes=notes,
         calls=calls,
         evidence=evidence,
+        facts=facts,
         tool_calls_used=used,
         investigating=iteration < cfg.max_iterations and used < cfg.max_tool_calls,
     )
@@ -508,6 +523,21 @@ def _call_findings(state: AgentState) -> list[Finding]:
     ][:10]
 
 
+def _tail(
+    state: AgentState, deps: Deps, report: Report, problems: list[str]
+) -> tuple[Report, list[str]]:
+    """What verify does without a model: strip what stays invalid, cap confidence, check claims."""
+    notes: list[str] = []
+    if problems:
+        notes += [f"unresolved: {p}" for p in problems]
+        report, removed = strip_invalid(report, deps.reference, state.asked_at)
+        notes += removed
+    tool_of = {c.ref: c.tool for c in state.calls}
+    report, capped = cap_confidence(report, state.evidence, tool_of, missing_checks(state))
+    report, faithful = check_faithfulness(report, state.evidence, state.calls, deps.reference)
+    return report, [*notes, *capped, *faithful]
+
+
 def verify(state: AgentState, deps: Deps) -> dict[str, Any]:
     report = state.report
     assert report is not None and state.scope is not None
@@ -542,20 +572,62 @@ def verify(state: AgentState, deps: Deps) -> dict[str, Any]:
         issues += cut
         checked = check_report(bounded, state.evidence, deps.reference, state.asked_at)
         report, problems = checked.report, checked.problems
-    if problems:
-        issues += [f"unresolved: {p}" for p in problems]
-        report, removed = strip_invalid(report, deps.reference, state.asked_at)
-        issues += removed
-    tool_of = {c.ref: c.tool for c in state.calls}
-    report, notes = cap_confidence(report, state.evidence, tool_of, missing_checks(state))
-    issues += notes
-    report, notes = check_faithfulness(report, state.evidence, state.calls, deps.reference)
-    issues += notes
+    report, tail_notes = _tail(state, deps, report, problems)
+
+    before_checks: Report | None = None
+    if cfg.lookalike_checks and not state.error and not is_partial(issues):
+        facts = Facts.from_rows(state.facts)
+
+        def contradictions(candidate: Report) -> list[str]:
+            return lookalike_problems(
+                candidate, facts, deps.reference, state.asked_at, cfg.lookalike_checks
+            )
+
+        found = contradictions(report)
+        if found:
+            before_checks = report
+        for attempt in range(1, cfg.max_lookalike_repairs + 1):
+            if not found:
+                break
+            issues += [f"[lookalike] {p}" for p in found]
+            human = conclude_message(state, cfg) + prompts.LOOKALIKE_SUFFIX.format(
+                problems="\n".join(f"- {p}" for p in found), report=report.model_dump_json()
+            )
+            result, step = _call_llm(
+                deps,
+                state,
+                "repair",
+                f"lookalike repair {attempt}",
+                prompts.CONCLUDE_SYSTEM,
+                human,
+                schema=Report,
+                max_output_tokens=cfg.conclude_max_output_tokens,
+            )
+            steps.append(step)
+            if result is None or not isinstance(result.parsed, Report):
+                issues.append(f"lookalike repair call failed: {step.error}")
+                break
+            bounded, cut = limit_report(result.parsed)
+            issues += cut
+            checked = check_report(bounded, state.evidence, deps.reference, state.asked_at)
+            report, tail_notes = _tail(state, deps, checked.report, checked.problems)
+            found = contradictions(report)
+        if found:
+            report = report.model_copy(update={"confidence": "low"})
+            tail_notes += [f"lookalike unresolved: {p}" for p in found]
+            tail_notes.append(
+                "Confidence set to low: the report still contradicts records the investigation "
+                "fetched."
+            )
+    issues += tail_notes
     if state.error:
         issues.append(state.error)
     issues += deps.store_errors
     emit(state, "report", report=report.model_dump(mode="json"), issues=issues)
-    return {"report": report, "issues": issues, "steps": steps}
+    update: dict[str, Any] = {"report": report, "issues": issues, "steps": steps}
+    if before_checks is not None:
+        update["report_before_checks"] = before_checks
+    return update
 
 
 def render(state: AgentState, deps: Deps) -> dict[str, Any]:

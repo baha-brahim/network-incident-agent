@@ -1,6 +1,8 @@
 """Knobs of one investigation. Defaults follow the design; tests and ablations override them."""
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+from incident_agent.agent.lookalike import CHECKS
 
 
 class AgentConfig(BaseModel):
@@ -13,6 +15,11 @@ class AgentConfig(BaseModel):
     # Tools the model is not told about (ablations).
     disabled_tools: tuple[str, ...] = ()
     max_repairs: int = Field(default=1, ge=0)  # extra LLM calls to fix an invalid report
+    # Deterministic look-alike checks of the verify step (see `lookalike.CHECKS`). When one finds
+    # a contradiction with the fetched records, the model gets up to `max_lookalike_repairs`
+    # calls to correct the report; an empty tuple turns the whole stage off.
+    lookalike_checks: tuple[str, ...] = CHECKS
+    max_lookalike_repairs: int = Field(default=1, ge=0)
     # Output budget of the report (and repair) calls. Reports ran 1.5k-2k tokens and some hit the
     # runner's 2,048 default; compact ones take about 1.2k. 3k leaves headroom and still fits a
     # free tier with an 8k request limit (prompt plus output) for prompts up to ~5k tokens.
@@ -24,3 +31,11 @@ class AgentConfig(BaseModel):
     note_chars: int = 700  # one note is cut to this length when it is rendered
     orient_margin_hours: float = 2.0  # how long before the symptom window orient looks for alerts
     default_window_hours: float = 24.0  # used when intake gives no usable window
+
+    @field_validator("lookalike_checks")
+    @classmethod
+    def _known_checks(cls, value: tuple[str, ...]) -> tuple[str, ...]:
+        unknown = [name for name in value if name not in CHECKS]
+        if unknown:
+            raise ValueError(f"unknown look-alike check(s) {unknown}; choose from {list(CHECKS)}")
+        return value

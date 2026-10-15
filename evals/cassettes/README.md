@@ -36,11 +36,12 @@ embedder) loaded into the test database.
 | `planned-maintenance` | a site that dropped off the air overnight | planned maintenance, `MW-0001` on `S-SFX-001` |
 | `dns-degradation` | pages not loading around lunchtime although signal was full | incident, `core_degradation`, `CORE-DNS-01`; an upgrade on the same node an hour earlier is a coincidence |
 
-The recorded answer to `dns-degradation` is wrong about the category: it blames the upgrade
-(`bad_change`) with high confidence, and gets the classification and the node right. The test
-records this as a known miss: the true category is asserted in a strict `xfail` test, so a
-re-recording that gets it right turns that test red until the `known_miss` field of the case is
-removed.
+The first recorded report of `dns-degradation` is wrong about the category: it blames the upgrade
+(`bad_change`) with high confidence. The verify step refutes that from the timing (the change
+landed an hour before the degradation) and the recording holds the one repair call in which the
+model corrects the report to `core_degradation`. A case whose recorded answer is wrong can be
+marked with `known_miss`: the true category is then asserted in a strict `xfail` test, so a
+re-recording that gets it right turns that test red until the field is removed.
 
 ## How the test uses them
 

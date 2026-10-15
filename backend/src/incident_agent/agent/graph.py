@@ -1,7 +1,8 @@
 """The investigation graph and the entry points `investigate` and `stream`.
 
     intake (LLM) -> orient (code) -> investigate (LLM + tools, loops) -> conclude (LLM)
-        -> verify (code, maybe one repair call) -> render (code)
+        -> verify (code; a repair call for citation problems, one for look-alike problems)
+        -> render (code)
 
 Nodes announce what they do through LangGraph's custom stream; `stream` yields those events and
 `investigate` runs the same generator to the end and returns the result.
@@ -95,6 +96,7 @@ def _result(state: AgentState, started: float) -> RunResult:
         status="error" if state.error else "finished",
         scope=state.scope,
         report=report,
+        report_before_checks=state.report_before_checks,
         markdown=state.markdown,
         usage=usage_totals(state, time.perf_counter() - started),
         models_used=models_used(state),

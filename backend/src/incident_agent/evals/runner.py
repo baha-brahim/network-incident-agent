@@ -68,6 +68,11 @@ VARIANTS: dict[str, Variant] = {
             "The search_runbooks tool is removed from the tool list.",
             disabled_tools=("search_runbooks",),
         ),
+        Variant(
+            "no-checks",
+            "The look-alike checks of the verify step are off.",
+            {"lookalike_checks": ()},
+        ),
     )
 }
 
