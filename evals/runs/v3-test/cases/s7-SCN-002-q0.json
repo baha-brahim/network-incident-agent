@@ -1,0 +1,535 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-05T08:09:00Z",
+    "case_id": "s7-SCN-002-q0",
+    "question": "S-SUD-001 has been down since 01:05, what happened?",
+    "question_index": 0,
+    "scenario_id": "SCN-002",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T13:52:30.904984Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-05T08:09:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-05 09:09",
+          "entity_id": "S-SUD-001",
+          "region_id": null,
+          "start": "2026-09-04 23:05"
+        },
+        "body": "1 alert(s): ALR-0008 2026-09-05 01:00-03:15. Availability drops on 1 site in SUD (S-SUD-001) for 2 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0008 medium ended, 2026-09-05 01:00 to 2026-09-05 03:15 (2.2 h): Availability drops on 1 site in SUD (S-SUD-001) for 2 h\n  availability_pct drop on 1 entity: worst S-SUD-001 z -100.0, 100 -> 0, 2026-09-05 01:00 to 2026-09-05 03:15",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0008 2026-09-05 01:00-03:15. Availability drops on 1 site in SUD (S-SUD-001) for 2 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0008",
+          "ANM-000033"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-001"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-001: site, SUD, Gabes, rural.\nCells: C-SUD-001-1, C-SUD-001-2, C-SUD-001-3.\nSiblings under LNK-SUD-02-B: S-SUD-003.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SUD-001",
+          "LNK-SUD-02-B",
+          "AGG-SUD-02",
+          "CORE-UPF-02",
+          "S-SUD-003"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-05 09:09",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "S-SUD-001",
+            "LNK-SUD-02-B",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 00:00"
+        },
+        "body": "3 alarm(s) on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-04 22:24 MAINS_FAILURE on S-SUD-001 (ALM-000069).\nEarliest critical/major: 2026-09-04 22:24 MAINS_FAILURE on S-SUD-001 (ALM-000069).\n2026-09-04 22:24 ALM-000069 major MAINS_FAILURE S-SUD-001: cleared 2026-09-05 03:08\n2026-09-05 00:48 ALM-000077 major BATTERY_LOW S-SUD-001: cleared 2026-09-05 03:08\n2026-09-05 01:03 ALM-000078 critical SITE_DOWN S-SUD-001: cleared 2026-09-05 03:08",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-04 22:24 MAINS_FAILURE on S-SUD-001 (ALM-000069).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000069",
+          "ALM-000077",
+          "ALM-000078"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-05 09:09",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-001",
+            "LNK-SUD-02-B",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 00:00"
+        },
+        "body": "No changes on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-05 09:09",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-001",
+            "LNK-SUD-02-B",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 00:00"
+        },
+        "body": "No maintenance window scheduled on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000069": {
+        "kind": "alarm",
+        "ref": "ALM-000069",
+        "summary": "major MAINS_FAILURE on S-SUD-001, raised 2026-09-04 22:24, cleared 2026-09-05 03:08"
+      },
+      "ALM-000077": {
+        "kind": "alarm",
+        "ref": "ALM-000077",
+        "summary": "major BATTERY_LOW on S-SUD-001, raised 2026-09-05 00:48, cleared 2026-09-05 03:08"
+      },
+      "ALM-000078": {
+        "kind": "alarm",
+        "ref": "ALM-000078",
+        "summary": "critical SITE_DOWN on S-SUD-001, raised 2026-09-05 01:03, cleared 2026-09-05 03:08"
+      },
+      "ALR-0008": {
+        "kind": "alert",
+        "ref": "ALR-0008",
+        "summary": "ended alert from 2026-09-05 01:00: 1 site(s) (S-SUD-001); region-level SUD; metrics: availability_pct"
+      },
+      "ANM-000033": {
+        "kind": "anomaly",
+        "ref": "ANM-000033",
+        "summary": "S-SUD-001 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-02-B": {
+        "kind": "node",
+        "ref": "LNK-SUD-02-B",
+        "summary": "microwave link, SUD, 11.3 km, 1.0 Gbps"
+      },
+      "S-SUD-001": {
+        "kind": "node",
+        "ref": "S-SUD-001",
+        "summary": "site, SUD, Gabes, rural; chain: S-SUD-001 -> LNK-SUD-02-B -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "S-SUD-003": {
+        "kind": "node",
+        "ref": "S-SUD-003",
+        "summary": "site, SUD, Houmt Souk, suburban; sibling of S-SUD-001"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-04 23:05, end=2026-09-05 09:09, entity_id=S-SUD-001) -> 1 alert(s): ALR-0008 2026-09-05 01:00-03:15. Availability drops on 1 site in SUD (S-SUD-001) for 2 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SUD-001, include=all) -> Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-B (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-05 00:00, end=2026-09-05 09:09, node_ids=['S-SUD-001', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_descendants=True, min_severity= -> 3 alarm(s) on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-04 22:24 MAINS_FAILURE on S-SUD-001 (ALM-000069)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-05 00:00, end=2026-09-05 09:09, node_ids=['S-SUD-001', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=True) -> No changes on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-05 00:00, end=2026-09-05 09:09, node_ids=['S-SUD-001', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Power Failure Causes Site Outage on S-SUD-001\n\n- **Classification:** incident\n- **Root cause:** power_failure at `S-SUD-001`\n- **Confidence:** medium (Direct alarms show mains failure and battery low preceding site down, with no changes or maintenance found.)\n- **Impact:** 2026-09-05 01:00 to 2026-09-05 03:15\n- **Cause time:** 2026-09-04 22:24\n- **Affected:** S-SUD-001\n\n## Summary\n\nSite S-SUD-001 suffered a mains power failure, depleting battery backup and causing a site outage until power was restored.\n\nAvailability dropped to 0 percent for S-SUD-001 for over two hours before recovering.\n\n## Timeline\n\n- 2026-09-04 22:24: Mains failure alarm raised on S-SUD-001. [ALM-000069]\n- 2026-09-05 00:48: Battery low alarm raised on S-SUD-001. [ALM-000077]\n- 2026-09-05 01:00: Availability drop anomaly starts on S-SUD-001. [ALR-0008]\n- 2026-09-05 01:03: Site down critical alarm raised on S-SUD-001. [ALM-000078]\n- 2026-09-05 03:08: All alarms cleared on S-SUD-001. [T3]\n- 2026-09-05 03:15: Availability drop anomaly ended on S-SUD-001. [ALR-0008]\n\n## Evidence\n\n- Availability dropped from 100 to 0 on S-SUD-001 from 2026-09-05 01:00 to 03:15. [ALR-0008]\n- MAINS_FAILURE occurred on S-SUD-001 at 2026-09-04 22:24. [ALM-000069]\n- BATTERY_LOW occurred on S-SUD-001 at 2026-09-05 00:48. [ALM-000077]\n- SITE_DOWN occurred on S-SUD-001 at 2026-09-05 01:03. [ALM-000078]\n- No changes were recorded on S-SUD-001 and its parents between 2026-09-05 00:00 and 09:09. [T4]\n- No maintenance window was scheduled on S-SUD-001 and its parents between 2026-09-05 00:00 and 09:09. [T5]\n\n## Hypotheses\n\n1. **power_failure** at S-SUD-001: confirmed. Mains failure alarm led to battery depletion and site down alarms, perfectly matching the availability drop duration. [ALM-000069, ALM-000077, ALM-000078, ALR-0008]\n2. **bad_change** at S-SUD-001: rejected. No changes were found on the site or its parents during the relevant timeframe. [T4]\n\n## Ruled out\n\n- T4: Changes check returned no changes for S-SUD-001 or its parent nodes.\n- T5: Maintenance check returned no active maintenance windows for S-SUD-001 or its parents.\n\n## Recommended actions\n\n- Inspect site S-SUD-001 mains power supply and electrical infrastructure.\n- Verify battery backup system health and capacity at S-SUD-001.\n\n## Sources\n\n- `ALM-000069`: major MAINS_FAILURE on S-SUD-001, raised 2026-09-04 22:24, cleared 2026-09-05 03:08\n- `ALM-000077`: major BATTERY_LOW on S-SUD-001, raised 2026-09-05 00:48, cleared 2026-09-05 03:08\n- `ALR-0008`: ended alert from 2026-09-05 01:00: 1 site(s) (S-SUD-001); region-level SUD; metrics: availability_pct\n- `ALM-000078`: critical SITE_DOWN on S-SUD-001, raised 2026-09-05 01:03, cleared 2026-09-05 03:08\n- `T3`: get_alarms(start=2026-09-05 00:00, end=2026-09-05 09:09, node_ids=['S-SUD-001', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_descendants=True, min_severity= -> 3 alarm(s) on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-04 22:24 MAINS_FAILURE on S-SUD-001 (ALM-000069).\n- `T4`: get_changes(start=2026-09-05 00:00, end=2026-09-05 09:09, node_ids=['S-SUD-001', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=True) -> No changes on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09.\n- `T5`: get_maintenance(start=2026-09-05 00:00, end=2026-09-05 09:09, node_ids=['S-SUD-001', 'LNK-SUD-02-B', 'AGG-SUD-02'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-001, LNK-SUD-02-B, AGG-SUD-02 and its parents between 2026-09-05 00:00 and 2026-09-05 09:09.\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-SUD-001 has been down since 01:05, what happened?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-001"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct alarms show mains failure and battery low preceding site down, with no changes or maintenance found.",
+      "dismissed_signals": [
+        {
+          "reason": "Changes check returned no changes for S-SUD-001 or its parent nodes.",
+          "ref": "T4"
+        },
+        {
+          "reason": "Maintenance check returned no active maintenance windows for S-SUD-001 or its parents.",
+          "ref": "T5"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Availability dropped from 100 to 0 on S-SUD-001 from 2026-09-05 01:00 to 03:15.",
+          "refs": [
+            "ALR-0008"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "MAINS_FAILURE occurred on S-SUD-001 at 2026-09-04 22:24.",
+          "refs": [
+            "ALM-000069"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "BATTERY_LOW occurred on S-SUD-001 at 2026-09-05 00:48.",
+          "refs": [
+            "ALM-000077"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "SITE_DOWN occurred on S-SUD-001 at 2026-09-05 01:03.",
+          "refs": [
+            "ALM-000078"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes were recorded on S-SUD-001 and its parents between 2026-09-05 00:00 and 09:09.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on S-SUD-001 and its parents between 2026-09-05 00:00 and 09:09.",
+          "refs": [
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "power_failure",
+          "node_id": "S-SUD-001",
+          "reason": "Mains failure alarm led to battery depletion and site down alarms, perfectly matching the availability drop duration.",
+          "refs": [
+            "ALM-000069",
+            "ALM-000077",
+            "ALM-000078",
+            "ALR-0008"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SUD-001",
+          "reason": "No changes were found on the site or its parents during the relevant timeframe.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-05 03:15",
+      "impact_start": "2026-09-05 01:00",
+      "impact_summary": "Availability dropped to 0 percent for S-SUD-001 for over two hours before recovering.",
+      "recommended_actions": [
+        "Inspect site S-SUD-001 mains power supply and electrical infrastructure.",
+        "Verify battery backup system health and capacity at S-SUD-001."
+      ],
+      "root_cause_category": "power_failure",
+      "root_cause_node_id": "S-SUD-001",
+      "root_cause_summary": "Site S-SUD-001 suffered a mains power failure, depleting battery backup and causing a site outage until power was restored.",
+      "root_cause_time": "2026-09-04 22:24",
+      "timeline": [
+        {
+          "event": "Mains failure alarm raised on S-SUD-001.",
+          "refs": [
+            "ALM-000069"
+          ],
+          "time": "2026-09-04 22:24"
+        },
+        {
+          "event": "Battery low alarm raised on S-SUD-001.",
+          "refs": [
+            "ALM-000077"
+          ],
+          "time": "2026-09-05 00:48"
+        },
+        {
+          "event": "Availability drop anomaly starts on S-SUD-001.",
+          "refs": [
+            "ALR-0008"
+          ],
+          "time": "2026-09-05 01:00"
+        },
+        {
+          "event": "Site down critical alarm raised on S-SUD-001.",
+          "refs": [
+            "ALM-000078"
+          ],
+          "time": "2026-09-05 01:03"
+        },
+        {
+          "event": "All alarms cleared on S-SUD-001.",
+          "refs": [
+            "T3"
+          ],
+          "time": "2026-09-05 03:08"
+        },
+        {
+          "event": "Availability drop anomaly ended on S-SUD-001.",
+          "refs": [
+            "ALR-0008"
+          ],
+          "time": "2026-09-05 03:15"
+        }
+      ],
+      "title": "Power Failure Causes Site Outage on S-SUD-001"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-7a9d9c3c29",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SUD-001"
+      ],
+      "ongoing": true,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "site down",
+      "unknown_ids": [],
+      "window_end": "2026-09-05T08:09:00Z",
+      "window_start": "2026-09-05T00:05:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 387,
+        "latency_ms": 911,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2393,
+        "latency_ms": 9180,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 286,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9182
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3126,
+        "latency_ms": 19098,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 185,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 19100
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3352,
+        "latency_ms": 9979,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 172,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9982
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2933,
+        "latency_ms": 12130,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1532,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 12136
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 12191,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 4
+      },
+      "llm_calls": 5,
+      "output_tokens": 2293,
+      "tool_calls": 5,
+      "wall_seconds": 50.46
+    }
+  },
+  "run_name": "v3-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SUD-001"
+    ],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-05T02:06:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000069",
+        "table": "alarms",
+        "visible_from": "2026-09-04T21:24:00+00:00"
+      },
+      {
+        "id": "ALM-000077",
+        "table": "alarms",
+        "visible_from": "2026-09-04T23:48:00+00:00"
+      },
+      {
+        "id": "ALM-000078",
+        "table": "alarms",
+        "visible_from": "2026-09-05T00:03:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-05T00:03:00Z",
+    "is_incident": true,
+    "kind": "power_outage",
+    "notes": "Mains failure at S-SUD-001; battery lasted 2.7 h, so KPIs were normal until the batteries were exhausted. Overlaps in time with group 'night'.",
+    "root_cause_category": "power_failure",
+    "root_cause_node_id": "S-SUD-001",
+    "severity": "low",
+    "start_at": "2026-09-04T21:24:00Z"
+  },
+  "variant": "default"
+}

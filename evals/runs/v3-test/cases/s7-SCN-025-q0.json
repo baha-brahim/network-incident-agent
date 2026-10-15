@@ -1,0 +1,618 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-23T08:17:00Z",
+    "case_id": "s7-SCN-025-q0",
+    "question": "S-SFX-010 has been down since 17:00, what happened?",
+    "question_index": 0,
+    "scenario_id": "SCN-025",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T14:13:03.959238Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-23T08:17:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-23 09:17",
+          "entity_id": "S-SFX-010",
+          "region_id": null,
+          "start": "2026-09-22 15:00"
+        },
+        "body": "2 alert(s), 1 ongoing: ALR-0034 2026-09-23 09:15-ongoing; ALR-0033 2026-09-22 17:00-21:00. 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); active_users\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0033 medium ended, 2026-09-22 17:00 to 2026-09-22 21:00 (4.0 h): Traffic, active users and availability drop on 1 site in SFX (S-SFX-010) for 4 h\n  active_users drop on 1 entity: worst S-SFX-010 z -10.9, 207 -> 0, 2026-09-22 17:00 to 2026-09-22 21:00\n  availability_pct drop on 1 entity: worst S-SFX-010 z -100.0, 100 -> 0, 2026-09-22 17:00 to 2026-09-22 21:00\n  dl_volume_mb drop on 1 entity: worst S-SFX-010 z -10.8, 32120 -> 0, 2026-09-22 17:00 to 2026-09-22 21:00\nALR-0034 ONGOING since 2026-09-23 09:15 (2 min so far); 3 anomalies so far on 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); severity not final\n  active_users drop on 3 entities: ongoing, e.g. S-SAH-001 since 2026-09-23 09:15, so far 142 vs baseline 202 (-30%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alert(s), 1 ongoing: ALR-0034 2026-09-23 09:15-ongoing; ALR-0033 2026-09-22 17:00-21:00. 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); active_users",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0033",
+          "ANM-000266",
+          "ANM-000267",
+          "ANM-000268",
+          "ALR-0034",
+          "ANM-000271"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 28
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-010"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-010 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-010: site, SFX, Agareb, urban.\nCells: C-SFX-010-1, C-SFX-010-2, C-SFX-010-3.\nSiblings under LNK-SFX-02-B: S-SFX-003.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-010 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SFX-010",
+          "LNK-SFX-02-B",
+          "AGG-SFX-02",
+          "CORE-UPF-02",
+          "S-SFX-003"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-23 09:17",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "S-SFX-010",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-22 16:00"
+        },
+        "body": "3 alarm(s) on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-22 13:21 MAINS_FAILURE on S-SFX-010 (ALM-000484).\nEarliest critical/major: 2026-09-22 13:21 MAINS_FAILURE on S-SFX-010 (ALM-000484).\n2026-09-22 13:21 ALM-000484 major MAINS_FAILURE S-SFX-010: cleared 2026-09-22 20:58\n2026-09-22 16:46 ALM-000486 major BATTERY_LOW S-SFX-010: cleared 2026-09-22 20:58\n2026-09-22 17:01 ALM-000488 critical SITE_DOWN S-SFX-010: cleared 2026-09-22 20:58",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-22 13:21 MAINS_FAILURE on S-SFX-010 (ALM-000484).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000484",
+          "ALM-000486",
+          "ALM-000488"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:17",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-010",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": "SFX",
+          "start": "2026-09-22 16:00"
+        },
+        "body": "No changes on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:17",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-010",
+            "LNK-SFX-02-B",
+            "AGG-SFX-02"
+          ],
+          "region_id": "SFX",
+          "start": "2026-09-22 16:00"
+        },
+        "body": "No maintenance window scheduled on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:17",
+          "entity_ids": [
+            "S-SFX-010"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "active_users",
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-22 15:00"
+        },
+        "body": "Deviation in 3 of 3 series. Earliest onset 2026-09-22 17:00: S-SFX-010 availability_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-23 09:17). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SFX-010 availability_pct: mean 78.8 vs baseline 100 (-21%); min 0 at 2026-09-22 17:15, max 100 at 2026-09-22 15:00.\nDeviation below baseline: onset 2026-09-22 17:00; worst 0 vs 100 at 2026-09-22 17:15; recovery 2026-09-22 21:00.\nseries (1.8 h buckets from 2026-09-22 15:00): 100 15.2 0 61 100 100 100 100 100 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100 100\nS-SFX-010 active_users: mean 137 vs baseline 224 (-39%); min 0 at 2026-09-22 17:15, max 396 at 2026-09-22 21:00.\nDeviation below baseline: onset 2026-09-22 17:00; worst 0 vs 205 at 2026-09-22 17:15; recovery 2026-09-22 21:00.\nseries (1.8 h buckets from 2026-09-22 15:00): 255 33.9 0 235 296 125 52.6 45.2 84.3 186 247\nbaseline: 259 215 320 422 324 144 62.7 57.1 116 256 339\nS-SFX-010 dl_volume_mb: mean 21209 vs baseline 34402 (-38%); min 0 at 2026-09-22 17:15, max 62225 at 2026-09-22 21:00.\nDeviation below baseline: onset 2026-09-22 17:00; worst 0 vs 32078 at 2026-09-22 17:15; recovery 2026-09-22 21:00.\nseries (1.8 h buckets from 2026-09-22 15:00): 39023 5250 0 36194 46528 19451 7885 6945 13281 28507 36995\nbaseline: 39917 33156 49081 62913 49979 22465 9587 8808 17721 39797 52935",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 3 of 3 series. Earliest onset 2026-09-22 17:00: S-SFX-010 availability_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 51
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-02": {
+        "kind": "node",
+        "ref": "AGG-SFX-02",
+        "summary": "agg router, SFX"
+      },
+      "ALM-000484": {
+        "kind": "alarm",
+        "ref": "ALM-000484",
+        "summary": "major MAINS_FAILURE on S-SFX-010, raised 2026-09-22 13:21, cleared 2026-09-22 20:58"
+      },
+      "ALM-000486": {
+        "kind": "alarm",
+        "ref": "ALM-000486",
+        "summary": "major BATTERY_LOW on S-SFX-010, raised 2026-09-22 16:46, cleared 2026-09-22 20:58"
+      },
+      "ALM-000488": {
+        "kind": "alarm",
+        "ref": "ALM-000488",
+        "summary": "critical SITE_DOWN on S-SFX-010, raised 2026-09-22 17:01, cleared 2026-09-22 20:58"
+      },
+      "ALR-0033": {
+        "kind": "alert",
+        "ref": "ALR-0033",
+        "summary": "ended alert from 2026-09-22 17:00: 1 site(s) (S-SFX-010); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ALR-0034": {
+        "kind": "alert",
+        "ref": "ALR-0034",
+        "summary": "ongoing alert from 2026-09-23 09:15: 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); metrics: active_users"
+      },
+      "ANM-000266": {
+        "kind": "anomaly",
+        "ref": "ANM-000266",
+        "summary": "S-SFX-010 active_users drop, z -10.9, baseline 207 -> 0"
+      },
+      "ANM-000267": {
+        "kind": "anomaly",
+        "ref": "ANM-000267",
+        "summary": "S-SFX-010 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000268": {
+        "kind": "anomaly",
+        "ref": "ANM-000268",
+        "summary": "S-SFX-010 dl_volume_mb drop, z -10.8, baseline 32120 -> 0"
+      },
+      "ANM-000271": {
+        "kind": "anomaly",
+        "ref": "ANM-000271",
+        "summary": "S-SAH-001 active_users drop, ongoing since 2026-09-23 09:15"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-02-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-02-B",
+        "summary": "fiber link, SFX, 26.6 km, 10.0 Gbps"
+      },
+      "S-SFX-003": {
+        "kind": "node",
+        "ref": "S-SFX-003",
+        "summary": "site, SFX, Sakiet Ezzit, suburban; sibling of S-SFX-010"
+      },
+      "S-SFX-010": {
+        "kind": "node",
+        "ref": "S-SFX-010",
+        "summary": "site, SFX, Agareb, urban; chain: S-SFX-010 -> LNK-SFX-02-B -> AGG-SFX-02 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-22 15:00, end=2026-09-23 09:17, entity_id=S-SFX-010) -> 2 alert(s), 1 ongoing: ALR-0034 2026-09-23 09:15-ongoing; ALR-0033 2026-09-22 17:00-21:00. 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); active_users"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SFX-010, include=all) -> Depends on (child -> parent -> core): S-SFX-010 (site) -> LNK-SFX-02-B (fiber link) -> AGG-SFX-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-22 16:00, end=2026-09-23 09:17, node_ids=['S-SFX-010', 'LNK-SFX-02-B', 'AGG-SFX-02'], include_descendants=True, min_severity= -> 3 alarm(s) on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and nodes below: 1 critical, 2 major; 0 active. Earliest critical/major: 2026-09-22 13:21 MAINS_FAILURE on S-SFX-010 (ALM-000484)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-22 16:00, end=2026-09-23 09:17, node_ids=['S-SFX-010', 'LNK-SFX-02-B', 'AGG-SFX-02'], region_id=SFX, include_ancestors=True) -> No changes on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-22 16:00, end=2026-09-23 09:17, node_ids=['S-SFX-010', 'LNK-SFX-02-B', 'AGG-SFX-02'], region_id=SFX, include_ancestors=T -> No maintenance window scheduled on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SFX-010'], metrics=['availability_pct', 'active_users', 'dl_volume_mb'], start=2026-09-22 15:00, end=2026- -> Deviation in 3 of 3 series. Earliest onset 2026-09-22 17:00: S-SFX-010 availability_pct below baseline."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Power Failure and Site Outage on S-SFX-010\n\n- **Classification:** incident\n- **Root cause:** power_failure at `S-SFX-010`\n- **Confidence:** medium (Direct alarm evidence, exact timing match with KPI drops, and checked absence of changes or maintenance; external events NOT CHECKED.)\n- **Impact:** 2026-09-22 17:00 to 2026-09-22 21:00\n- **Cause time:** 2026-09-22 13:21\n- **Affected:** S-SFX-010\n\n## Summary\n\nA mains power failure on site S-SFX-010 led to battery depletion and subsequent site shutdown.\n\nSite S-SFX-010 experienced a complete outage with zero availability and traffic for four hours.\n\n## Timeline\n\n- 2026-09-22 13:21: Mains failure alarm raised on site S-SFX-010. [ALM-000484]\n- 2026-09-22 16:46: Battery low alarm raised on S-SFX-010. [ALM-000486]\n- 2026-09-22 17:00: Availability and traffic drop detected on S-SFX-010. [ALR-0033, T6]\n- 2026-09-22 17:01: Critical site down alarm raised on S-SFX-010. [ALM-000488]\n- 2026-09-22 20:58: Mains failure, battery low, and site down alarms cleared. [ALM-000484, ALM-000486, ALM-000488]\n- 2026-09-22 21:00: KPIs and active users fully recovered. [ALR-0033, T6]\n\n## Evidence\n\n- S-SFX-010 experienced a mains failure starting at 13:21 on 2026-09-22. [ALM-000484]\n- Battery low alarm occurred at 16:46 on 2026-09-22 preceding the site down state. [ALM-000486]\n- Site down alarm was raised at 17:01 on 2026-09-22. [ALM-000488]\n- Traffic, active users, and availability dropped on S-SFX-010 starting at 17:00. [ALR-0033]\n- No changes or maintenance windows occurred on S-SFX-010 and its parents. [T4, T5]\n- All alarms cleared and KPIs recovered at 21:00 on 2026-09-22. [ALM-000484, T6]\n\n## Hypotheses\n\n1. **power_failure** at S-SFX-010: confirmed. Direct mains failure, battery low, and site down alarms coincide perfectly with the KPI degradation. [ALM-000484, ALM-000486, ALM-000488, T6]\n2. **bad_change** at S-SFX-010: rejected. No configuration changes were made on the site or its parent nodes during the incident window. [T4]\n\n## Ruled out\n\n- T4: No changes were found on S-SFX-010, LNK-SFX-02-B, or AGG-SFX-02.\n- T5: No maintenance was scheduled on S-SFX-010 or its ancestors.\n- ALR-0034: Ongoing alert starting 2026-09-23 affects different sites and occurs after the recovery of S-SFX-010.\n\n## Recommended actions\n\n- Inspect the site power supply and generator status for S-SFX-010.\n- Verify battery backup health and recharge capabilities.\n\n## Sources\n\n- `ALM-000484`: major MAINS_FAILURE on S-SFX-010, raised 2026-09-22 13:21, cleared 2026-09-22 20:58\n- `ALM-000486`: major BATTERY_LOW on S-SFX-010, raised 2026-09-22 16:46, cleared 2026-09-22 20:58\n- `ALR-0033`: ended alert from 2026-09-22 17:00: 1 site(s) (S-SFX-010); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-SFX-010'], metrics=['availability_pct', 'active_users', 'dl_volume_mb'], start=2026-09-22 15:00, end=2026- -> Deviation in 3 of 3 series. Earliest onset 2026-09-22 17:00: S-SFX-010 availability_pct below baseline.\n- `ALM-000488`: critical SITE_DOWN on S-SFX-010, raised 2026-09-22 17:01, cleared 2026-09-22 20:58\n- `T4`: get_changes(start=2026-09-22 16:00, end=2026-09-23 09:17, node_ids=['S-SFX-010', 'LNK-SFX-02-B', 'AGG-SFX-02'], region_id=SFX, include_ancestors=True) -> No changes on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17.\n- `T5`: get_maintenance(start=2026-09-22 16:00, end=2026-09-23 09:17, node_ids=['S-SFX-010', 'LNK-SFX-02-B', 'AGG-SFX-02'], region_id=SFX, include_ancestors=T -> No maintenance window scheduled on S-SFX-010, LNK-SFX-02-B, AGG-SFX-02 and its parents between 2026-09-22 16:00 and 2026-09-23 09:17.\n- `ALR-0034`: ongoing alert from 2026-09-23 09:15: 3 site(s) (S-SAH-001, S-SAH-003, S-SAH-011); metrics: active_users\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-SFX-010 has been down since 17:00, what happened?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-010"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct alarm evidence, exact timing match with KPI drops, and checked absence of changes or maintenance; external events NOT CHECKED.",
+      "dismissed_signals": [
+        {
+          "reason": "No changes were found on S-SFX-010, LNK-SFX-02-B, or AGG-SFX-02.",
+          "ref": "T4"
+        },
+        {
+          "reason": "No maintenance was scheduled on S-SFX-010 or its ancestors.",
+          "ref": "T5"
+        },
+        {
+          "reason": "Ongoing alert starting 2026-09-23 affects different sites and occurs after the recovery of S-SFX-010.",
+          "ref": "ALR-0034"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SFX-010 experienced a mains failure starting at 13:21 on 2026-09-22.",
+          "refs": [
+            "ALM-000484"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Battery low alarm occurred at 16:46 on 2026-09-22 preceding the site down state.",
+          "refs": [
+            "ALM-000486"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Site down alarm was raised at 17:01 on 2026-09-22.",
+          "refs": [
+            "ALM-000488"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Traffic, active users, and availability dropped on S-SFX-010 starting at 17:00.",
+          "refs": [
+            "ALR-0033"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes or maintenance windows occurred on S-SFX-010 and its parents.",
+          "refs": [
+            "T4",
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "All alarms cleared and KPIs recovered at 21:00 on 2026-09-22.",
+          "refs": [
+            "ALM-000484",
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "power_failure",
+          "node_id": "S-SFX-010",
+          "reason": "Direct mains failure, battery low, and site down alarms coincide perfectly with the KPI degradation.",
+          "refs": [
+            "ALM-000484",
+            "ALM-000486",
+            "ALM-000488",
+            "T6"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SFX-010",
+          "reason": "No configuration changes were made on the site or its parent nodes during the incident window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-22 21:00",
+      "impact_start": "2026-09-22 17:00",
+      "impact_summary": "Site S-SFX-010 experienced a complete outage with zero availability and traffic for four hours.",
+      "recommended_actions": [
+        "Inspect the site power supply and generator status for S-SFX-010.",
+        "Verify battery backup health and recharge capabilities."
+      ],
+      "root_cause_category": "power_failure",
+      "root_cause_node_id": "S-SFX-010",
+      "root_cause_summary": "A mains power failure on site S-SFX-010 led to battery depletion and subsequent site shutdown.",
+      "root_cause_time": "2026-09-22 13:21",
+      "timeline": [
+        {
+          "event": "Mains failure alarm raised on site S-SFX-010.",
+          "refs": [
+            "ALM-000484"
+          ],
+          "time": "2026-09-22 13:21"
+        },
+        {
+          "event": "Battery low alarm raised on S-SFX-010.",
+          "refs": [
+            "ALM-000486"
+          ],
+          "time": "2026-09-22 16:46"
+        },
+        {
+          "event": "Availability and traffic drop detected on S-SFX-010.",
+          "refs": [
+            "ALR-0033",
+            "T6"
+          ],
+          "time": "2026-09-22 17:00"
+        },
+        {
+          "event": "Critical site down alarm raised on S-SFX-010.",
+          "refs": [
+            "ALM-000488"
+          ],
+          "time": "2026-09-22 17:01"
+        },
+        {
+          "event": "Mains failure, battery low, and site down alarms cleared.",
+          "refs": [
+            "ALM-000484",
+            "ALM-000486",
+            "ALM-000488"
+          ],
+          "time": "2026-09-22 20:58"
+        },
+        {
+          "event": "KPIs and active users fully recovered.",
+          "refs": [
+            "ALR-0033",
+            "T6"
+          ],
+          "time": "2026-09-22 21:00"
+        }
+      ],
+      "title": "Power Failure and Site Outage on S-SFX-010"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-15954c605b",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SFX-010"
+      ],
+      "ongoing": true,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "Site down",
+      "unknown_ids": [],
+      "window_end": "2026-09-23T08:17:00Z",
+      "window_start": "2026-09-22T16:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 387,
+        "latency_ms": 887,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2729,
+        "latency_ms": 2127,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 304,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2131
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3476,
+        "latency_ms": 11288,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 98,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 13651
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4503,
+        "latency_ms": 2310,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 173,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 2312
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4717,
+        "latency_ms": 22115,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 86,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 24304
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4424,
+        "latency_ms": 5011,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1580,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5021
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 20236,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2359,
+      "tool_calls": 6,
+      "wall_seconds": 47.56
+    }
+  },
+  "run_name": "v3-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SFX-010"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-22T19:56:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000484",
+        "table": "alarms",
+        "visible_from": "2026-09-22T12:21:00+00:00"
+      },
+      {
+        "id": "ALM-000486",
+        "table": "alarms",
+        "visible_from": "2026-09-22T15:46:00+00:00"
+      },
+      {
+        "id": "ALM-000488",
+        "table": "alarms",
+        "visible_from": "2026-09-22T16:01:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-22T16:01:00Z",
+    "is_incident": true,
+    "kind": "power_outage",
+    "notes": "Mains failure at S-SFX-010; battery lasted 3.7 h, so KPIs were normal until the batteries were exhausted.",
+    "root_cause_category": "power_failure",
+    "root_cause_node_id": "S-SFX-010",
+    "severity": "medium",
+    "start_at": "2026-09-22T12:21:00Z"
+  },
+  "variant": "default"
+}

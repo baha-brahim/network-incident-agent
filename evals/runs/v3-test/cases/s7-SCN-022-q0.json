@@ -1,0 +1,677 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-21T07:26:00Z",
+    "case_id": "s7-SCN-022-q0",
+    "question": "S-TUN-003 keeps raising alarms yesterday evening. Is the site in trouble?",
+    "question_index": 0,
+    "scenario_id": "SCN-022",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-13T11:03:39.825706Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-21T07:26:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-21 08:26",
+          "entity_id": "S-TUN-003",
+          "region_id": null,
+          "start": "2026-09-20 16:00"
+        },
+        "body": "No detector alerts for S-TUN-003 or its relatives between 2026-09-20 16:00 and 2026-09-21 08:26.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No detector alerts for S-TUN-003 or its relatives between 2026-09-20 16:00 and 2026-09-21 08:26.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-003"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-003: site, TUN, Carthage, suburban, near a venue.\nCells: C-TUN-003-1, C-TUN-003-2, C-TUN-003-3.\nSiblings under LNK-TUN-01-C: S-TUN-005, S-TUN-006.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-003",
+          "LNK-TUN-01-C",
+          "AGG-TUN-01",
+          "CORE-UPF-01",
+          "S-TUN-005",
+          "S-TUN-006"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-21 08:26",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 16:00"
+        },
+        "body": "23 alarm(s) on S-TUN-003 and nodes below: 11 minor, 12 warning; 0 active. None critical/major.\nNo critical or major alarm in this window. 23 of 23 cleared within 10 min of being raised (self-clearing).\n2026-09-20 20:53 .. 21:51 minor VSWR_HIGH S-TUN-003 x11 (e.g. ALM-000430): all cleared\n2026-09-20 20:57 .. 21:42 warning TEMP_HIGH S-TUN-003 x12 (e.g. ALM-000431): all cleared",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "23 alarm(s) on S-TUN-003 and nodes below: 11 minor, 12 warning; 0 active. None critical/major.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000430",
+          "ALM-000431"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:26",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-003",
+            "LNK-TUN-01-C",
+            "AGG-TUN-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 16:00"
+        },
+        "body": "No changes on S-TUN-003, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-20 16:00 and 2026-09-21 08:26.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-TUN-003, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-20 16:00 and 2026-09-21 08:26.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:26",
+          "entity_ids": [
+            "S-TUN-003"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "dl_volume_mb",
+            "rrc_success_pct",
+            "drop_rate_pct"
+          ],
+          "start": "2026-09-20 16:00"
+        },
+        "body": "No series deviates from its baseline between 2026-09-20 16:00 and 2026-09-21 08:26.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-21 08:26). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-TUN-003 drop_rate_pct: mean 0.61 vs baseline 0.6 (+2%); min 0.44 at 2026-09-20 19:45, max 0.79 at 2026-09-21 06:15.\nNo sustained deviation from baseline in the steps that reported.\nseries (1.5 h buckets from 2026-09-20 16:00): 0.56 0.64 0.51 0.59 0.57 0.65 0.64 0.66 0.55 0.62 0.68\nbaseline: 0.62 0.66 0.6 0.6 0.54 0.58 0.59 0.58 0.59 0.61 0.59\nS-TUN-003 dl_volume_mb: mean 18390 vs baseline 18503 (-1%); min 3776 at 2026-09-21 03:45, max 49117 at 2026-09-20 21:15.\nNo sustained deviation from baseline in the steps that reported.\nseries (1.5 h buckets from 2026-09-20 16:00): 15375 19355 34680 46786 34753 16384 6649 4050 4387 7407 12467\nbaseline: 15552 20554 35181 43066 34051 16945 7171 4330 4699 8080 13905\nS-TUN-003 rrc_success_pct: mean 99.5 vs baseline 99.4 (+0%); min 99.3 at 2026-09-20 19:30, max 99.5 at 2026-09-21 08:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (1.5 h buckets from 2026-09-20 16:00): 99.5 99.4 99.4 99.5 99.5 99.5 99.4 99.5 99.5 99.5 99.5\nbaseline: 99.4 99.5 99.4 99.4 99.4 99.5 99.5 99.5 99.5 99.4 99.5\nS-TUN-003 availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-20 16:00, max 100 at 2026-09-20 16:00.\nNo sustained deviation from baseline in the steps that reported.\nseries (1.5 h buckets from 2026-09-20 16:00): 100 100 100 100 100 100 100 100 100 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100 100",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No series deviates from its baseline between 2026-09-20 16:00 and 2026-09-21 08:26.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 66
+      },
+      {
+        "args": {
+          "end": "2026-09-20 23:59",
+          "region_id": "TUN",
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No external events for region TUN (and nationwide) between 2026-09-20 18:00 and 2026-09-20 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region TUN (and nationwide) between 2026-09-20 18:00 and 2026-09-20 23:59.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-20 23:59",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-TUN-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No maintenance window scheduled on S-TUN-003 and its parents between 2026-09-20 18:00 and 2026-09-20 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-TUN-003 and its parents between 2026-09-20 18:00 and 2026-09-20 23:59.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 6
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-01": {
+        "kind": "node",
+        "ref": "AGG-TUN-01",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000430": {
+        "kind": "alarm",
+        "ref": "ALM-000430",
+        "summary": "minor VSWR_HIGH on S-TUN-003, 11 occurrences from 2026-09-20 20:53 .. 21:51; all cleared"
+      },
+      "ALM-000431": {
+        "kind": "alarm",
+        "ref": "ALM-000431",
+        "summary": "warning TEMP_HIGH on S-TUN-003, 12 occurrences from 2026-09-20 20:57 .. 21:42; all cleared"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-01-C": {
+        "kind": "node",
+        "ref": "LNK-TUN-01-C",
+        "summary": "fiber link, TUN, 18.1 km, 10.0 Gbps"
+      },
+      "S-TUN-003": {
+        "kind": "node",
+        "ref": "S-TUN-003",
+        "summary": "site, TUN, Carthage, suburban, near a venue; chain: S-TUN-003 -> LNK-TUN-01-C -> AGG-TUN-01 -> CORE-UPF-01"
+      },
+      "S-TUN-005": {
+        "kind": "node",
+        "ref": "S-TUN-005",
+        "summary": "site, TUN, Manouba, urban; sibling of S-TUN-003"
+      },
+      "S-TUN-006": {
+        "kind": "node",
+        "ref": "S-TUN-006",
+        "summary": "site, TUN, Ben Arous, suburban; sibling of S-TUN-003"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:26, entity_id=S-TUN-003) -> No detector alerts for S-TUN-003 or its relatives between 2026-09-20 16:00 and 2026-09-21 08:26."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-003, include=all) -> Depends on (child -> parent -> core): S-TUN-003 (site) -> LNK-TUN-01-C (fiber link) -> AGG-TUN-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-20 16:00, end=2026-09-21 08:26, node_ids=['S-TUN-003'], include_descendants=True) -> 23 alarm(s) on S-TUN-003 and nodes below: 11 minor, 12 warning; 0 active. None critical/major."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-20 16:00, end=2026-09-21 08:26, node_ids=['S-TUN-003', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_ancestors=True) -> No changes on S-TUN-003, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-20 16:00 and 2026-09-21 08:26."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-TUN-003'], metrics=['availability_pct', 'dl_volume_mb', 'rrc_success_pct', 'drop_rate_pct'], start=2026-09 -> No series deviates from its baseline between 2026-09-20 16:00 and 2026-09-21 08:26."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_external_events(start=2026-09-20 18:00, end=2026-09-20 23:59, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-20 18:00 and 2026-09-20 23:59."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_maintenance(start=2026-09-20 18:00, end=2026-09-20 23:59, node_ids=['S-TUN-003'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-003 and its parents between 2026-09-20 18:00 and 2026-09-20 23:59."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# S-TUN-003 Alarms Investigation\n\n- **Classification:** no_impact\n- **Root cause:** no_impact at `S-TUN-003`\n- **Confidence:** high (Direct alarm and KPI data were checked, confirming normal operation despite transient alarms.)\n- **Impact:** unknown start to not established or ongoing\n- **Affected:** S-TUN-003\n\n## Summary\n\nSelf-clearing minor and warning alarms were raised due to transient environmental or RF fluctuations while site KPIs remained entirely normal.\n\nNo operational impact; KPIs and traffic volumes remained normal throughout the alarm occurrences.\n\n## Timeline\n\n- 2026-09-20 20:53: Minor VSWR_HIGH alarms started on S-TUN-003. [ALM-000430, T3]\n- 2026-09-20 20:57: Warning TEMP_HIGH alarms started on S-TUN-003. [ALM-000431, T3]\n- 2026-09-20 21:42: All warning TEMP_HIGH alarms cleared. [ALM-000431, T3]\n- 2026-09-20 21:51: All minor VSWR_HIGH alarms cleared. [ALM-000430, T3]\n\n## Evidence\n\n- Site S-TUN-003 raised 11 minor VSWR_HIGH alarms and 12 warning TEMP_HIGH alarms which all self-cleared within 10 minutes. [ALM-000430, ALM-000431, T3]\n- No detector alerts were triggered for S-TUN-003 or its relatives between 2026-09-20 16:00 and 2026-09-21 08:26. [T1]\n- No series deviates from its baseline for availability, drop rate, RRC success rate, or downlink volume. [T5]\n- No changes occurred on S-TUN-003, LNK-TUN-01-C, AGG-TUN-01 or its parents between 2026-09-20 16:00 and 2026-09-21 08:26. [T4]\n- No maintenance window was scheduled on S-TUN-003 and its parents between 2026-09-20 18:00 and 2026-09-20 23:59. [T7]\n- No external events were reported for region TUN between 2026-09-20 18:00 and 2026-09-20 23:59. [T6]\n\n## Hypotheses\n\n1. **no_impact** at S-TUN-003: confirmed. Alarms were purely transient and self-clearing, and all KPIs remained normal without service degradation. [T3, T5]\n2. **transport_failure** at LNK-TUN-01-C: rejected. No changes, anomalies, or KPI impacts were observed on the parent link or aggregation router. [T1, T4, T5]\n\n## Ruled out\n\n- ALM-000430: Minor VSWR_HIGH alarms were transient and self-clearing, with zero impact on site traffic or availability KPIs.\n- ALM-000431: Warning TEMP_HIGH alarms were transient and self-clearing, with zero impact on site traffic or availability KPIs.\n\n## Recommended actions\n\n- Continue normal monitoring of site S-TUN-003.\n- Observe if transient VSWR or temperature alarms recur during peak loads.\n\n## Sources\n\n- `ALM-000430`: minor VSWR_HIGH on S-TUN-003, 11 occurrences from 2026-09-20 20:53 .. 21:51; all cleared\n- `T3`: get_alarms(start=2026-09-20 16:00, end=2026-09-21 08:26, node_ids=['S-TUN-003'], include_descendants=True) -> 23 alarm(s) on S-TUN-003 and nodes below: 11 minor, 12 warning; 0 active. None critical/major.\n- `ALM-000431`: warning TEMP_HIGH on S-TUN-003, 12 occurrences from 2026-09-20 20:57 .. 21:42; all cleared\n- `T1`: get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:26, entity_id=S-TUN-003) -> No detector alerts for S-TUN-003 or its relatives between 2026-09-20 16:00 and 2026-09-21 08:26.\n- `T5`: query_kpis(entity_type=site, entity_ids=['S-TUN-003'], metrics=['availability_pct', 'dl_volume_mb', 'rrc_success_pct', 'drop_rate_pct'], start=2026-09 -> No series deviates from its baseline between 2026-09-20 16:00 and 2026-09-21 08:26.\n- `T4`: get_changes(start=2026-09-20 16:00, end=2026-09-21 08:26, node_ids=['S-TUN-003', 'LNK-TUN-01-C', 'AGG-TUN-01'], include_ancestors=True) -> No changes on S-TUN-003, LNK-TUN-01-C, AGG-TUN-01 and its parents between 2026-09-20 16:00 and 2026-09-21 08:26.\n- `T7`: get_maintenance(start=2026-09-20 18:00, end=2026-09-20 23:59, node_ids=['S-TUN-003'], include_ancestors=True) -> No maintenance window scheduled on S-TUN-003 and its parents between 2026-09-20 18:00 and 2026-09-20 23:59.\n- `T6`: get_external_events(start=2026-09-20 18:00, end=2026-09-20 23:59, region_id=TUN) -> No external events for region TUN (and nationwide) between 2026-09-20 18:00 and 2026-09-20 23:59.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-TUN-003 keeps raising alarms yesterday evening. Is the site in trouble?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-003"
+      ],
+      "classification": "no_impact",
+      "confidence": "high",
+      "confidence_reason": "Direct alarm and KPI data were checked, confirming normal operation despite transient alarms.",
+      "dismissed_signals": [
+        {
+          "reason": "Minor VSWR_HIGH alarms were transient and self-clearing, with zero impact on site traffic or availability KPIs.",
+          "ref": "ALM-000430"
+        },
+        {
+          "reason": "Warning TEMP_HIGH alarms were transient and self-clearing, with zero impact on site traffic or availability KPIs.",
+          "ref": "ALM-000431"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Site S-TUN-003 raised 11 minor VSWR_HIGH alarms and 12 warning TEMP_HIGH alarms which all self-cleared within 10 minutes.",
+          "refs": [
+            "ALM-000430",
+            "ALM-000431",
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No detector alerts were triggered for S-TUN-003 or its relatives between 2026-09-20 16:00 and 2026-09-21 08:26.",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No series deviates from its baseline for availability, drop rate, RRC success rate, or downlink volume.",
+          "refs": [
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes occurred on S-TUN-003, LNK-TUN-01-C, AGG-TUN-01 or its parents between 2026-09-20 16:00 and 2026-09-21 08:26.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on S-TUN-003 and its parents between 2026-09-20 18:00 and 2026-09-20 23:59.",
+          "refs": [
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events were reported for region TUN between 2026-09-20 18:00 and 2026-09-20 23:59.",
+          "refs": [
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "no_impact",
+          "node_id": "S-TUN-003",
+          "reason": "Alarms were purely transient and self-clearing, and all KPIs remained normal without service degradation.",
+          "refs": [
+            "T3",
+            "T5"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-TUN-01-C",
+          "reason": "No changes, anomalies, or KPI impacts were observed on the parent link or aggregation router.",
+          "refs": [
+            "T1",
+            "T4",
+            "T5"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": null,
+      "impact_summary": "No operational impact; KPIs and traffic volumes remained normal throughout the alarm occurrences.",
+      "recommended_actions": [
+        "Continue normal monitoring of site S-TUN-003.",
+        "Observe if transient VSWR or temperature alarms recur during peak loads."
+      ],
+      "root_cause_category": "no_impact",
+      "root_cause_node_id": "S-TUN-003",
+      "root_cause_summary": "Self-clearing minor and warning alarms were raised due to transient environmental or RF fluctuations while site KPIs remained entirely normal.",
+      "root_cause_time": null,
+      "timeline": [
+        {
+          "event": "Minor VSWR_HIGH alarms started on S-TUN-003.",
+          "refs": [
+            "ALM-000430",
+            "T3"
+          ],
+          "time": "2026-09-20 20:53"
+        },
+        {
+          "event": "Warning TEMP_HIGH alarms started on S-TUN-003.",
+          "refs": [
+            "ALM-000431",
+            "T3"
+          ],
+          "time": "2026-09-20 20:57"
+        },
+        {
+          "event": "All warning TEMP_HIGH alarms cleared.",
+          "refs": [
+            "ALM-000431",
+            "T3"
+          ],
+          "time": "2026-09-20 21:42"
+        },
+        {
+          "event": "All minor VSWR_HIGH alarms cleared.",
+          "refs": [
+            "ALM-000430",
+            "T3"
+          ],
+          "time": "2026-09-20 21:51"
+        }
+      ],
+      "title": "S-TUN-003 Alarms Investigation"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-d5ccca64fb",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-TUN-003"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "site raising alarms",
+      "unknown_ids": [],
+      "window_end": "2026-09-20T22:59:00Z",
+      "window_start": "2026-09-20T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 384,
+        "latency_ms": 1526,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 117,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 12
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2201,
+        "latency_ms": 1904,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 269,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1907
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3721,
+        "latency_ms": 931,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 62,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3451
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3822,
+        "latency_ms": 849,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 66,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4399
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3939,
+        "latency_ms": 1150,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 117,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4795
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3307,
+        "latency_ms": 10070,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1390,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 13407
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 17374,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2021,
+      "tool_calls": 7,
+      "wall_seconds": 28.12
+    }
+  },
+  "run_name": "v3-test",
+  "truth": {
+    "affected_node_ids": [],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-20T21:03:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000430",
+        "table": "alarms",
+        "visible_from": "2026-09-20T19:53:00+00:00"
+      },
+      {
+        "id": "ALM-000431",
+        "table": "alarms",
+        "visible_from": "2026-09-20T19:57:00+00:00"
+      },
+      {
+        "id": "ALM-000432",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:01:00+00:00"
+      },
+      {
+        "id": "ALM-000433",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:07:00+00:00"
+      },
+      {
+        "id": "ALM-000434",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:09:00+00:00"
+      },
+      {
+        "id": "ALM-000435",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:14:00+00:00"
+      },
+      {
+        "id": "ALM-000436",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:15:00+00:00"
+      },
+      {
+        "id": "ALM-000437",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:17:00+00:00"
+      },
+      {
+        "id": "ALM-000438",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:19:00+00:00"
+      },
+      {
+        "id": "ALM-000439",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:19:00+00:00"
+      },
+      {
+        "id": "ALM-000440",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:21:00+00:00"
+      },
+      {
+        "id": "ALM-000441",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:24:00+00:00"
+      },
+      {
+        "id": "ALM-000442",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:25:00+00:00"
+      },
+      {
+        "id": "ALM-000443",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:27:00+00:00"
+      },
+      {
+        "id": "ALM-000444",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:29:00+00:00"
+      },
+      {
+        "id": "ALM-000445",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:31:00+00:00"
+      },
+      {
+        "id": "ALM-000446",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:31:00+00:00"
+      },
+      {
+        "id": "ALM-000447",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:32:00+00:00"
+      },
+      {
+        "id": "ALM-000448",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:34:00+00:00"
+      },
+      {
+        "id": "ALM-000449",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:36:00+00:00"
+      },
+      {
+        "id": "ALM-000450",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:37:00+00:00"
+      },
+      {
+        "id": "ALM-000451",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:42:00+00:00"
+      },
+      {
+        "id": "ALM-000452",
+        "table": "alarms",
+        "visible_from": "2026-09-20T20:51:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis"
+    ],
+    "impact_start_at": "2026-09-20T19:53:00Z",
+    "is_incident": false,
+    "kind": "alarm_storm",
+    "notes": "S-TUN-003 raised 23 minor/warning alarms in an hour with no KPI impact.",
+    "root_cause_category": "no_impact",
+    "root_cause_node_id": "S-TUN-003",
+    "severity": "low",
+    "start_at": "2026-09-20T19:53:00Z"
+  },
+  "variant": "default"
+}

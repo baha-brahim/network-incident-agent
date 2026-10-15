@@ -1,0 +1,635 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-28T08:11:00Z",
+    "case_id": "s7-SCN-031-q0",
+    "question": "A lot of alarms came from S-SUD-004 yesterday morning. Should we worry?",
+    "question_index": 0,
+    "scenario_id": "SCN-031",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-15T13:54:38.875591Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-28T08:11:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-28 09:11",
+          "entity_id": "S-SUD-004",
+          "region_id": null,
+          "start": "2026-09-27 04:00"
+        },
+        "body": "No detector alerts for S-SUD-004 or its relatives between 2026-09-27 04:00 and 2026-09-28 09:11.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No detector alerts for S-SUD-004 or its relatives between 2026-09-27 04:00 and 2026-09-28 09:11.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-004"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-004 (site) -> LNK-SUD-02-A (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-004: site, SUD, Zarzis, rural.\nCells: C-SUD-004-1, C-SUD-004-2, C-SUD-004-3.\nSiblings under LNK-SUD-02-A: S-SUD-007.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-004 (site) -> LNK-SUD-02-A (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SUD-004",
+          "LNK-SUD-02-A",
+          "AGG-SUD-02",
+          "CORE-UPF-02",
+          "S-SUD-007"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-27 12:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SUD-004",
+            "LNK-SUD-02-A",
+            "S-SUD-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-27 06:00:00"
+        },
+        "body": "21 alarm(s) on S-SUD-004, LNK-SUD-02-A, S-SUD-007 and nodes below: 9 minor, 12 warning; 0 active. None critical/major.\nNo critical or major alarm in this window. 21 of 21 cleared within 10 min of being raised (self-clearing).\n2026-09-27 09:13 .. 10:02 warning TEMP_HIGH S-SUD-004 x12 (e.g. ALM-000595): all cleared\n2026-09-27 09:14 .. 09:57 minor VSWR_HIGH S-SUD-004 x9 (e.g. ALM-000596): all cleared",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "21 alarm(s) on S-SUD-004, LNK-SUD-02-A, S-SUD-007 and nodes below: 9 minor, 12 warning; 0 active. None critical/major.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000595",
+          "ALM-000596"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-27 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-004",
+            "LNK-SUD-02-A"
+          ],
+          "region_id": null,
+          "start": "2026-09-27 06:00:00"
+        },
+        "body": "No changes on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-27 12:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-004",
+            "LNK-SUD-02-A"
+          ],
+          "region_id": null,
+          "start": "2026-09-27 06:00:00"
+        },
+        "body": "No maintenance window scheduled on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-27 12:00:00",
+          "entity_ids": [
+            "S-SUD-004",
+            "S-SUD-007"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "rrc_success_pct",
+            "drop_rate_pct",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-27 06:00:00"
+        },
+        "body": "No series deviates from its baseline between 2026-09-27 06:00 and 2026-09-27 12:00.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-28 09:11). Times are local step starts (15 min): an onset can precede its cause by up to 15 min. Thin baseline: only 3 earlier Sundays with data; treat small deviations with caution.\nS-SUD-007 prb_util_pct: mean 19.3 vs baseline 22.1 (-13%); min 7.49 at 2026-09-27 06:00, max 25.5 at 2026-09-27 09:45.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-004 prb_util_pct: mean 5.2 vs baseline 5.67 (-8%); min 2.74 at 2026-09-27 06:00, max 6.4 at 2026-09-27 08:45.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-007 drop_rate_pct: mean 0.41 vs baseline 0.44 (-7%); min 0.3 at 2026-09-27 10:30, max 0.51 at 2026-09-27 12:00.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-004 drop_rate_pct: mean 0.71 vs baseline 0.67 (+7%); min 0.54 at 2026-09-27 06:00, max 0.84 at 2026-09-27 11:00.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-004 rrc_success_pct: mean 99.2 vs baseline 99.2 (+0%); min 99.1 at 2026-09-27 09:30, max 99.3 at 2026-09-27 06:45.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-007 rrc_success_pct: mean 99.2 vs baseline 99.2 (+0%); min 99.1 at 2026-09-27 08:15, max 99.4 at 2026-09-27 07:00.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-004 availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-27 06:00, max 100 at 2026-09-27 06:00.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-007 availability_pct: mean 100 vs baseline 100 (+0%); min 100 at 2026-09-27 06:00, max 100 at 2026-09-27 06:00.\nNo sustained deviation from baseline in the steps that reported.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No series deviates from its baseline between 2026-09-27 06:00 and 2026-09-27 12:00.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 104
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000595": {
+        "kind": "alarm",
+        "ref": "ALM-000595",
+        "summary": "warning TEMP_HIGH on S-SUD-004, 12 occurrences from 2026-09-27 09:13 .. 10:02; all cleared"
+      },
+      "ALM-000596": {
+        "kind": "alarm",
+        "ref": "ALM-000596",
+        "summary": "minor VSWR_HIGH on S-SUD-004, 9 occurrences from 2026-09-27 09:14 .. 09:57; all cleared"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-02-A": {
+        "kind": "node",
+        "ref": "LNK-SUD-02-A",
+        "summary": "microwave link, SUD, 10.0 km, 1.0 Gbps"
+      },
+      "S-SUD-004": {
+        "kind": "node",
+        "ref": "S-SUD-004",
+        "summary": "site, SUD, Zarzis, rural; chain: S-SUD-004 -> LNK-SUD-02-A -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "S-SUD-007": {
+        "kind": "node",
+        "ref": "S-SUD-007",
+        "summary": "site, SUD, Matmata, urban; sibling of S-SUD-004"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-27 04:00, end=2026-09-28 09:11, entity_id=S-SUD-004) -> No detector alerts for S-SUD-004 or its relatives between 2026-09-27 04:00 and 2026-09-28 09:11."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SUD-004, include=all) -> Depends on (child -> parent -> core): S-SUD-004 (site) -> LNK-SUD-02-A (microwave link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-27 06:00:00, end=2026-09-27 12:00:00, node_ids=['S-SUD-004', 'LNK-SUD-02-A', 'S-SUD-007'], include_descendants=True) -> 21 alarm(s) on S-SUD-004, LNK-SUD-02-A, S-SUD-007 and nodes below: 9 minor, 12 warning; 0 active. None critical/major."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-27 06:00:00, end=2026-09-27 12:00:00, node_ids=['S-SUD-004', 'LNK-SUD-02-A'], include_ancestors=True) -> No changes on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-27 06:00:00, end=2026-09-27 12:00:00, node_ids=['S-SUD-004', 'LNK-SUD-02-A'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-004', 'S-SUD-007'], metrics=['availability_pct', 'rrc_success_pct', 'drop_rate_pct', 'prb_util_pct'],  -> No series deviates from its baseline between 2026-09-27 06:00 and 2026-09-27 12:00."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered to low: nothing positive explains the report (symptom not found)."
+    ],
+    "markdown": "# Alarms on S-SUD-004\n\n- **Classification:** no_impact\n- **Root cause:** no_impact at `S-SUD-004`\n- **Confidence:** low (All 21 alarms self-cleared, KPIs showed zero deviation from baseline, and no changes or maintenance were found.)\n- **Impact:** 2026-09-27 09:13 to 2026-09-27 10:02\n- **Affected:** S-SUD-004\n\n## Summary\n\nNo service impact: noisy minor and warning alarms on S-SUD-004 cleared quickly while KPIs remained normal.\n\nNo service degradation or customer impact occurred; availability remained at 100%.\n\n## Timeline\n\n- 2026-09-27 09:13: Warning TEMP_HIGH alarms started on S-SUD-004. [ALM-000595]\n- 2026-09-27 09:14: Minor VSWR_HIGH alarms started on S-SUD-004. [ALM-000596]\n- 2026-09-27 09:57: All VSWR_HIGH alarms cleared. [ALM-000596]\n- 2026-09-27 10:02: All TEMP_HIGH alarms cleared. [ALM-000595]\n\n## Evidence\n\n- 21 alarms were raised on S-SUD-004 and related nodes, consisting of 9 minor and 12 warning alarms with zero critical or major alerts. [T3]\n- All 21 alarms cleared within 10 minutes of being raised, classified as self-clearing. [T3]\n- No changes were executed on S-SUD-004, LNK-SUD-02-A or its parents during the window. [T4]\n- No maintenance window was scheduled on S-SUD-004, LNK-SUD-02-A and its parents during the window. [T5]\n- KPI series for S-SUD-004 and S-SUD-007 showed no sustained deviation from baseline, maintaining 100% availability. [T6]\n- No detector alerts were recorded for S-SUD-004 or its relatives. [T1]\n\n## Hypotheses\n\n1. **no_impact** at S-SUD-004: confirmed. Alarms were purely low-severity and self-clearing, KPIs remained entirely normal, and no outages or service degradation occurred. [T3, T6]\n2. **transport_failure** at LNK-SUD-02-A: rejected. Sibling site S-SUD-007 and link LNK-SUD-02-A showed no critical alarms or KPI drops indicating transport failure. [T3, T6]\n\n## Ruled out\n\n- ALM-000595: Warning TEMP_HIGH alarms self-cleared quickly and did not impact site availability or performance KPIs.\n- ALM-000596: Minor VSWR_HIGH alarms self-cleared quickly and did not impact site availability or performance KPIs.\n\n## Recommended actions\n\n- No action is needed as the alarms self-cleared and KPIs remained completely normal.\n\n## Sources\n\n- `ALM-000595`: warning TEMP_HIGH on S-SUD-004, 12 occurrences from 2026-09-27 09:13 .. 10:02; all cleared\n- `ALM-000596`: minor VSWR_HIGH on S-SUD-004, 9 occurrences from 2026-09-27 09:14 .. 09:57; all cleared\n- `T3`: get_alarms(start=2026-09-27 06:00:00, end=2026-09-27 12:00:00, node_ids=['S-SUD-004', 'LNK-SUD-02-A', 'S-SUD-007'], include_descendants=True) -> 21 alarm(s) on S-SUD-004, LNK-SUD-02-A, S-SUD-007 and nodes below: 9 minor, 12 warning; 0 active. None critical/major.\n- `T4`: get_changes(start=2026-09-27 06:00:00, end=2026-09-27 12:00:00, node_ids=['S-SUD-004', 'LNK-SUD-02-A'], include_ancestors=True) -> No changes on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00.\n- `T5`: get_maintenance(start=2026-09-27 06:00:00, end=2026-09-27 12:00:00, node_ids=['S-SUD-004', 'LNK-SUD-02-A'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-004, LNK-SUD-02-A and its parents between 2026-09-27 06:00 and 2026-09-27 12:00.\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-SUD-004', 'S-SUD-007'], metrics=['availability_pct', 'rrc_success_pct', 'drop_rate_pct', 'prb_util_pct'],  -> No series deviates from its baseline between 2026-09-27 06:00 and 2026-09-27 12:00.\n- `T1`: get_anomalies(start=2026-09-27 04:00, end=2026-09-28 09:11, entity_id=S-SUD-004) -> No detector alerts for S-SUD-004 or its relatives between 2026-09-27 04:00 and 2026-09-28 09:11.\n\n## Verification notes\n\n- Confidence lowered to low: nothing positive explains the report (symptom not found).\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "A lot of alarms came from S-SUD-004 yesterday morning. Should we worry?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-004"
+      ],
+      "classification": "no_impact",
+      "confidence": "low",
+      "confidence_reason": "All 21 alarms self-cleared, KPIs showed zero deviation from baseline, and no changes or maintenance were found.",
+      "dismissed_signals": [
+        {
+          "reason": "Warning TEMP_HIGH alarms self-cleared quickly and did not impact site availability or performance KPIs.",
+          "ref": "ALM-000595"
+        },
+        {
+          "reason": "Minor VSWR_HIGH alarms self-cleared quickly and did not impact site availability or performance KPIs.",
+          "ref": "ALM-000596"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "21 alarms were raised on S-SUD-004 and related nodes, consisting of 9 minor and 12 warning alarms with zero critical or major alerts.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "All 21 alarms cleared within 10 minutes of being raised, classified as self-clearing.",
+          "refs": [
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes were executed on S-SUD-004, LNK-SUD-02-A or its parents during the window.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on S-SUD-004, LNK-SUD-02-A and its parents during the window.",
+          "refs": [
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "KPI series for S-SUD-004 and S-SUD-007 showed no sustained deviation from baseline, maintaining 100% availability.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No detector alerts were recorded for S-SUD-004 or its relatives.",
+          "refs": [
+            "T1"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "no_impact",
+          "node_id": "S-SUD-004",
+          "reason": "Alarms were purely low-severity and self-clearing, KPIs remained entirely normal, and no outages or service degradation occurred.",
+          "refs": [
+            "T3",
+            "T6"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-SUD-02-A",
+          "reason": "Sibling site S-SUD-007 and link LNK-SUD-02-A showed no critical alarms or KPI drops indicating transport failure.",
+          "refs": [
+            "T3",
+            "T6"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-27 10:02",
+      "impact_start": "2026-09-27 09:13",
+      "impact_summary": "No service degradation or customer impact occurred; availability remained at 100%.",
+      "recommended_actions": [
+        "No action is needed as the alarms self-cleared and KPIs remained completely normal."
+      ],
+      "root_cause_category": "no_impact",
+      "root_cause_node_id": "S-SUD-004",
+      "root_cause_summary": "No service impact: noisy minor and warning alarms on S-SUD-004 cleared quickly while KPIs remained normal.",
+      "root_cause_time": null,
+      "timeline": [
+        {
+          "event": "Warning TEMP_HIGH alarms started on S-SUD-004.",
+          "refs": [
+            "ALM-000595"
+          ],
+          "time": "2026-09-27 09:13"
+        },
+        {
+          "event": "Minor VSWR_HIGH alarms started on S-SUD-004.",
+          "refs": [
+            "ALM-000596"
+          ],
+          "time": "2026-09-27 09:14"
+        },
+        {
+          "event": "All VSWR_HIGH alarms cleared.",
+          "refs": [
+            "ALM-000596"
+          ],
+          "time": "2026-09-27 09:57"
+        },
+        {
+          "event": "All TEMP_HIGH alarms cleared.",
+          "refs": [
+            "ALM-000595"
+          ],
+          "time": "2026-09-27 10:02"
+        }
+      ],
+      "title": "Alarms on S-SUD-004"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-b99f8fbe29",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SUD-004"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "A lot of alarms",
+      "unknown_ids": [],
+      "window_end": "2026-09-27T11:00:00Z",
+      "window_start": "2026-09-27T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 386,
+        "latency_ms": 725,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 92,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2206,
+        "latency_ms": 12442,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 135,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 12446
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2390,
+        "latency_ms": 7410,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 277,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7412
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2985,
+        "latency_ms": 938,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 127,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 939
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3953,
+        "latency_ms": 13294,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 118,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 16751
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3308,
+        "latency_ms": 11370,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1281,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 11375
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 15228,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2030,
+      "tool_calls": 6,
+      "wall_seconds": 49.09
+    }
+  },
+  "run_name": "v3-test",
+  "truth": {
+    "affected_node_ids": [],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-27T09:18:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000595",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:13:00+00:00"
+      },
+      {
+        "id": "ALM-000596",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:14:00+00:00"
+      },
+      {
+        "id": "ALM-000597",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:16:00+00:00"
+      },
+      {
+        "id": "ALM-000598",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:19:00+00:00"
+      },
+      {
+        "id": "ALM-000599",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:19:00+00:00"
+      },
+      {
+        "id": "ALM-000600",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:22:00+00:00"
+      },
+      {
+        "id": "ALM-000601",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:23:00+00:00"
+      },
+      {
+        "id": "ALM-000602",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:23:00+00:00"
+      },
+      {
+        "id": "ALM-000603",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:28:00+00:00"
+      },
+      {
+        "id": "ALM-000604",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:28:00+00:00"
+      },
+      {
+        "id": "ALM-000605",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:30:00+00:00"
+      },
+      {
+        "id": "ALM-000606",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:31:00+00:00"
+      },
+      {
+        "id": "ALM-000607",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:38:00+00:00"
+      },
+      {
+        "id": "ALM-000608",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:41:00+00:00"
+      },
+      {
+        "id": "ALM-000609",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:45:00+00:00"
+      },
+      {
+        "id": "ALM-000610",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:46:00+00:00"
+      },
+      {
+        "id": "ALM-000611",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:48:00+00:00"
+      },
+      {
+        "id": "ALM-000612",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:53:00+00:00"
+      },
+      {
+        "id": "ALM-000613",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:55:00+00:00"
+      },
+      {
+        "id": "ALM-000614",
+        "table": "alarms",
+        "visible_from": "2026-09-27T08:57:00+00:00"
+      },
+      {
+        "id": "ALM-000615",
+        "table": "alarms",
+        "visible_from": "2026-09-27T09:02:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis"
+    ],
+    "impact_start_at": "2026-09-27T08:08:00Z",
+    "is_incident": false,
+    "kind": "alarm_storm",
+    "notes": "S-SUD-004 raised 21 minor/warning alarms in an hour with no KPI impact.",
+    "root_cause_category": "no_impact",
+    "root_cause_node_id": "S-SUD-004",
+    "severity": "low",
+    "start_at": "2026-09-27T08:08:00Z"
+  },
+  "variant": "default"
+}

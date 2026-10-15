@@ -1,0 +1,649 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-06T07:20:00Z",
+    "case_id": "s7-SCN-004-q0",
+    "question": "Why is S-SAH-008 struggling yesterday evening? Latency is high and throughput is poor.",
+    "question_index": 0,
+    "scenario_id": "SCN-004",
+    "seed": 7,
+    "split": "test"
+  },
+  "created_at": "2026-10-13T11:05:46.215578Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-06T07:20:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-06 08:20",
+          "entity_id": "S-SAH-008",
+          "region_id": null,
+          "start": "2026-09-05 16:00"
+        },
+        "body": "1 alert(s): ALR-0009 2026-09-05 18:45-22:15. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SAH (S-...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0009 medium ended, 2026-09-05 18:45 to 2026-09-05 22:15 (3.5 h): RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SAH (S-SAH-008) for 3.5 h\n  active_users spike on 1 entity: worst S-SAH-008 z 9.8, 335 -> 714, 2026-09-05 18:45 to 2026-09-05 22:15\n  dl_volume_mb spike on 1 entity: worst S-SAH-008 z 9.5, 25646 -> 64726, 2026-09-05 18:45 to 2026-09-05 21:00\n  drop_rate_pct spike on 1 entity: worst S-SAH-008 z 14.6, 0.76 -> 4.02, 2026-09-05 19:00 to 2026-09-05 22:15\n  +3 more metric group(s): latency_ms spike, prb_util_pct spike, rrc_success_pct drop",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0009 2026-09-05 18:45-22:15. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SAH (S-...",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0009",
+          "ANM-000040",
+          "ANM-000041",
+          "ANM-000043"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-008"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-008 (site) -> LNK-SAH-01-A (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-008: site, SAH, Ksar Hellal, urban.\nCells: C-SAH-008-1, C-SAH-008-2, C-SAH-008-3.\nSiblings under LNK-SAH-01-A: S-SAH-006, S-SAH-010.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-008 (site) -> LNK-SAH-01-A (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-008",
+          "LNK-SAH-01-A",
+          "AGG-SAH-01",
+          "CORE-UPF-01",
+          "S-SAH-006",
+          "S-SAH-010"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-06 00:00",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "S-SAH-008",
+            "AGG-SAH-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 17:00"
+        },
+        "body": "5 alarm(s) on S-SAH-008, AGG-SAH-01 and nodes below: 4 minor, 1 warning; 0 active. None critical/major.\nNo critical or major alarm in this window.\n2026-09-05 19:07 ALM-000088 warning HIGH_PRB S-SAH-008: cleared 2026-09-05 22:21\n2026-09-05 20:44 ALM-000089 minor VSWR_HIGH S-SAH-010 (below AGG-SAH-01): cleared 2026-09-05 20:54\n2026-09-05 21:07 ALM-000090 minor VSWR_HIGH S-SAH-010 (below AGG-SAH-01): cleared 2026-09-05 21:15\n2026-09-05 21:41 ALM-000091 minor VSWR_HIGH S-SAH-010 (below AGG-SAH-01): cleared 2026-09-05 21:52\n2026-09-05 22:04 ALM-000092 minor VSWR_HIGH S-SAH-010 (below AGG-SAH-01): cleared 2026-09-05 22:17",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-SAH-008, AGG-SAH-01 and nodes below: 4 minor, 1 warning; 0 active. None critical/major.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000088",
+          "ALM-000089",
+          "ALM-000090",
+          "ALM-000091",
+          "ALM-000092"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 10
+      },
+      {
+        "args": {
+          "end": "2026-09-06 00:00",
+          "region_id": "SAH",
+          "start": "2026-09-05 17:00"
+        },
+        "body": "No external events for region SAH (and nationwide) between 2026-09-05 17:00 and 2026-09-06 00:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SAH (and nationwide) between 2026-09-05 17:00 and 2026-09-06 00:00.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-06 00:00",
+          "entity_ids": [
+            "S-SAH-008",
+            "S-SAH-006",
+            "S-SAH-010"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "active_users",
+            "latency_ms",
+            "prb_util_pct"
+          ],
+          "start": "2026-09-05 17:00"
+        },
+        "body": "No baseline available for 2026-09-05 17:00 to 2026-09-06 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only.\nBaseline: median of the same time of day on earlier Saturdays (only data before 2026-09-06 08:20). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SAH-008 dl_volume_mb: mean 47305 (no baseline); no deviation.\nS-SAH-008 active_users: mean 393 (no baseline); no deviation.\nS-SAH-008 latency_ms: mean 63.8 (no baseline); no deviation.\nS-SAH-008 prb_util_pct: mean 64.5 (no baseline); no deviation.\nS-SAH-006 dl_volume_mb: mean 9284 (no baseline); no deviation.\nS-SAH-006 active_users: mean 125 (no baseline); no deviation.\nS-SAH-006 latency_ms: mean 37.2 (no baseline); no deviation.\nS-SAH-006 prb_util_pct: mean 26.6 (no baseline); no deviation.\nS-SAH-010 dl_volume_mb: mean 8722 (no baseline); no deviation.\nS-SAH-010 active_users: mean 118 (no baseline); no deviation.\nS-SAH-010 latency_ms: mean 34.8 (no baseline); no deviation.\nS-SAH-010 prb_util_pct: mean 24.9 (no baseline); no deviation.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No baseline available for 2026-09-05 17:00 to 2026-09-06 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 53
+      },
+      {
+        "args": {
+          "end": "2026-09-06 00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-008",
+            "AGG-SAH-01",
+            "S-SAH-006",
+            "S-SAH-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 17:00"
+        },
+        "body": "No changes on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "end": "2026-09-06 00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-008",
+            "AGG-SAH-01",
+            "S-SAH-006",
+            "S-SAH-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-05 17:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "query": "SELECT * FROM cell_kpis WHERE cell_id IN ('C-SAH-008-1', 'C-SAH-008-2', 'C-SAH-008-3') AND timestamp BETWEEN '2026-09-05 18:00:00' AND '2026-09-05 23:00:00';"
+        },
+        "body": "SQL error: column \"timestamp\" does not exist. Columns: cell_kpis(ts, cell_id, dl_volume_mb, ul_volume_mb, active_users, rrc_success_pct, drop_rate_pct, latency_ms, prb_util_pct, availability_pct).",
+        "duplicate_of": null,
+        "error": "SQL error: column \"timestamp\" does not exist. Columns: cell_kpis(ts, cell_id, dl_volume_mb, ul_volume_mb, active_users, rrc_success_pct, drop_rate_pct, latency_ms, prb_util_pct, availability_pct).",
+        "headline": "run_sql error: SQL error: column \"timestamp\" does not exist. Columns: cell_kpis(ts, cell_id, dl_volume_mb, ul_volume_mb, active_users, rrc_success_pct, dro",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "query": "SELECT ts, cell_id, dl_volume_mb, active_users, latency_ms, prb_util_pct FROM cell_kpis WHERE cell_id IN ('C-SAH-008-1', 'C-SAH-008-2', 'C-SAH-008-3') AND ts >= '2026-09-05 18:00:00' AND ts <= '2026-09-05 23:59:00' ORDER BY ts"
+        },
+        "body": "72 row(s), first 50 returned (tables clamped to asked_at 2026-09-06 08:20; times local)\nts | cell_id | dl_volume_mb | active_users | latency_ms | prb_util_pct\n2026-09-05 18:00 | C-SAH-008-2 | 2850 | 40.1 | 33.88 | 21.11\n2026-09-05 18:00 | C-SAH-008-1 | 1.747e+04 | 107 | 18.14 | 41.83\n2026-09-05 18:00 | C-SAH-008-3 | 2352 | 30.9 | 36.32 | 18.87\n2026-09-05 18:15 | C-SAH-008-2 | 3045 | 41.8 | 35.2 | 22.55\n2026-09-05 18:15 | C-SAH-008-3 | 2507 | 33 | 35.88 | 20.12\n2026-09-05 18:15 | C-SAH-008-1 | 1.744e+04 | 102.2 | 17.14 | 41.74\n2026-09-05 18:30 | C-SAH-008-1 | 1.866e+04 | 103.9 | 18.84 | 44.68\n2026-09-05 18:30 | C-SAH-008-2 | 3122 | 42.1 | 36.01 | 23.12\n2026-09-05 18:30 | C-SAH-008-3 | 2430 | 33.5 | 36.7 | 19.49\n2026-09-05 18:45 | C-SAH-008-2 | 8385 | 82.3 | 38.74 | 62.11\n2026-09-05 18:45 | C-SAH-008-1 | 2.787e+04 | 155.8 | 22.03 | 66.72\n2026-09-05 18:45 | C-SAH-008-3 | 7742 | 78.8 | 38.56 | 62.11\n2026-09-05 19:00 | C-SAH-008-1 | 3.991e+04 | 201.4 | 80.6 | 95.56\n2026-09-05 19:00 | C-SAH-008-3 | 1.191e+04 | 106.9 | 96.97 | 95.56\n2026-09-05 19:00 | C-SAH-008-2 | 1.29e+04 | 105.1 | 98.7 | 95.56\n2026-09-05 19:15 | C-SAH-008-2 | 1.29e+04 | 115 | 99.36 | 95.56\n2026-09-05 19:15 | C-SAH-008-1 | 3.991e+04 | 210.1 | 80.31 | 95.56\n2026-09-05 19:15 | C-SAH-008-3 | 1.191e+04 | 110.3 | 96.14 | 95.56\n2026-09-05 19:30 | C-SAH-008-3 | 1.191e+04 | 120.7 | 98.25 | 95.56\n2026-09-05 19:30 | C-SAH-008-1 | 4.124e+04 | 234.9 | 104.1 | 98.72\n2026-09-05 19:30 | C-SAH-008-2 | 1.29e+04 | 130.7 | 97.87 | 95.56\n2026-09-05 19:45 | C-SAH-008-1 | 4.177e+04 | 252.1 | 115.9 | 100\n2026-09-05 19:45 | C-SAH-008-3 | 1.191e+04 | 128.5 | 97.59 | 95.56\n2026-09-05 19:45 | C-SAH-008-2 | 1.29e+04 | 132.4 | 101 | 95.56\n2026-09-05 20:00 | C-SAH-008-1 | 4.177e+04 | 278.9 | 114 | 100\n2026-09-05 20:00 | C-SAH-008-3 | 1.191e+04 | 134.7 | 96.32 | 95.56\nShowing 26 of 72 rows (row cap 50, body budget); aggregate or add LIMIT/filters for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "run_sql: 72 row(s), columns ts, cell_id, dl_volume_mb, active_users, latency_ms, prb_util_pct",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": true,
+        "wall_ms": 7
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-01": {
+        "kind": "node",
+        "ref": "AGG-SAH-01",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000088": {
+        "kind": "alarm",
+        "ref": "ALM-000088",
+        "summary": "warning HIGH_PRB on S-SAH-008, raised 2026-09-05 19:07, cleared 2026-09-05 22:21"
+      },
+      "ALM-000089": {
+        "kind": "alarm",
+        "ref": "ALM-000089",
+        "summary": "minor VSWR_HIGH on S-SAH-010, raised 2026-09-05 20:44, cleared 2026-09-05 20:54"
+      },
+      "ALM-000090": {
+        "kind": "alarm",
+        "ref": "ALM-000090",
+        "summary": "minor VSWR_HIGH on S-SAH-010, raised 2026-09-05 21:07, cleared 2026-09-05 21:15"
+      },
+      "ALM-000091": {
+        "kind": "alarm",
+        "ref": "ALM-000091",
+        "summary": "minor VSWR_HIGH on S-SAH-010, raised 2026-09-05 21:41, cleared 2026-09-05 21:52"
+      },
+      "ALM-000092": {
+        "kind": "alarm",
+        "ref": "ALM-000092",
+        "summary": "minor VSWR_HIGH on S-SAH-010, raised 2026-09-05 22:04, cleared 2026-09-05 22:17"
+      },
+      "ALR-0009": {
+        "kind": "alert",
+        "ref": "ALR-0009",
+        "summary": "ended alert from 2026-09-05 18:45: 1 site(s) (S-SAH-008); region-level SAH; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rrc_success_pct"
+      },
+      "ANM-000040": {
+        "kind": "anomaly",
+        "ref": "ANM-000040",
+        "summary": "S-SAH-008 active_users spike, z 9.8, baseline 335 -> 714"
+      },
+      "ANM-000041": {
+        "kind": "anomaly",
+        "ref": "ANM-000041",
+        "summary": "S-SAH-008 dl_volume_mb spike, z 9.5, baseline 25646 -> 64726"
+      },
+      "ANM-000043": {
+        "kind": "anomaly",
+        "ref": "ANM-000043",
+        "summary": "S-SAH-008 drop_rate_pct spike, z 14.6, baseline 0.76 -> 4.02"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-01-A": {
+        "kind": "node",
+        "ref": "LNK-SAH-01-A",
+        "summary": "fiber link, SAH, 29.5 km, 10.0 Gbps"
+      },
+      "S-SAH-006": {
+        "kind": "node",
+        "ref": "S-SAH-006",
+        "summary": "site, SAH, Msaken, suburban; sibling of S-SAH-008"
+      },
+      "S-SAH-008": {
+        "kind": "node",
+        "ref": "S-SAH-008",
+        "summary": "site, SAH, Ksar Hellal, urban; chain: S-SAH-008 -> LNK-SAH-01-A -> AGG-SAH-01 -> CORE-UPF-01"
+      },
+      "S-SAH-010": {
+        "kind": "node",
+        "ref": "S-SAH-010",
+        "summary": "site, SAH, Jemmal, suburban; sibling of S-SAH-008"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-05 16:00, end=2026-09-06 08:20, entity_id=S-SAH-008) -> 1 alert(s): ALR-0009 2026-09-05 18:45-22:15. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SAH (S-..."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-008, include=all) -> Depends on (child -> parent -> core): S-SAH-008 (site) -> LNK-SAH-01-A (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-05 17:00, end=2026-09-06 00:00, node_ids=['S-SAH-008', 'AGG-SAH-01'], include_descendants=True, min_severity=warning) -> 5 alarm(s) on S-SAH-008, AGG-SAH-01 and nodes below: 4 minor, 1 warning; 0 active. None critical/major."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_external_events(start=2026-09-05 17:00, end=2026-09-06 00:00, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-05 17:00 and 2026-09-06 00:00."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-008', 'S-SAH-006', 'S-SAH-010'], metrics=['dl_volume_mb', 'active_users', 'latency_ms', 'prb_util_pct' -> No baseline available for 2026-09-05 17:00 to 2026-09-06 00:00: fewer than 2 earlier Saturdays with data. Raw statistics only."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-05 17:00, end=2026-09-06 00:00, node_ids=['S-SAH-008', 'AGG-SAH-01', 'S-SAH-006', 'S-SAH-010'], include_ancestors=True) -> No changes on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_maintenance(start=2026-09-05 17:00, end=2026-09-06 00:00, node_ids=['S-SAH-008', 'AGG-SAH-01', 'S-SAH-006', 'S-SAH-010'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "run_sql(query=SELECT * FROM cell_kpis WHERE cell_id IN ('C-SAH-008-1', 'C-SAH-008-2', 'C-SAH-008-3') AND timestamp BETWEEN '2026-09-05 18:00:00' AND ' -> run_sql error: SQL error: column \"timestamp\" does not exist. Columns: cell_kpis(ts, cell_id, dl_volume_mb, ul_volume_mb, active_users, rrc_success_pct, dro"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "run_sql(query=SELECT ts, cell_id, dl_volume_mb, active_users, latency_ms, prb_util_pct FROM cell_kpis WHERE cell_id IN ('C-SAH-008-1', 'C-SAH-008-2',  -> run_sql: 72 row(s), columns ts, cell_id, dl_volume_mb, active_users, latency_ms, prb_util_pct"
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# S-SAH-008 Congestion and High Latency\n\n- **Classification:** incident\n- **Root cause:** capacity at `S-SAH-008`\n- **Confidence:** high (Direct telemetry and anomaly detection show PRB saturation and active user spikes coinciding with latency degradation.)\n- **Impact:** 2026-09-05 18:45 to 2026-09-05 22:21\n- **Cause time:** 2026-09-05 18:45\n- **Affected:** S-SAH-008\n\n## Summary\n\nSite S-SAH-008 experienced high traffic volume and active users surge, leading to PRB exhaustion and congestion.\n\nHigh latency and poor throughput on site S-SAH-008 due to capacity exhaustion.\n\n## Timeline\n\n- 2026-09-05 18:45: Anomaly alert ALR-0009 started on S-SAH-008 with drops in RRC success and spikes in active users and traffic. [ALR-0009, T1]\n- 2026-09-05 19:00: PRB utilization reached 95.56% and latency increased to 80.6 ms on cell C-SAH-008-1. [T9]\n- 2026-09-05 19:07: High PRB utilization warning alarm raised on S-SAH-008. [ALM-000088, T3]\n- 2026-09-05 22:21: High PRB utilization warning alarm cleared on S-SAH-008. [ALM-000088, T3]\n\n## Evidence\n\n- S-SAH-008 active users spiked with a z-score of 9.8. [ANM-000040]\n- S-SAH-008 download volume spiked with a z-score of 9.5. [ANM-000041]\n- S-SAH-008 drop rate spiked with a z-score of 14.6. [ANM-000043]\n- No configuration changes were made on S-SAH-008 or its parents. [T6]\n- No maintenance windows were scheduled on S-SAH-008 or its parents. [T7]\n\n## Hypotheses\n\n1. **capacity** at S-SAH-008: confirmed. PRB utilization reached 100 percent alongside massive spikes in active users and traffic volume. [T9, ANM-000040, ANM-000041]\n2. **bad_change** at S-SAH-008: rejected. No changes were recorded on S-SAH-008 or its parent nodes during the incident window. [T6]\n\n## Ruled out\n\n- ALM-000089: Minor VSWR high alarm on S-SAH-010 occurred on a different site and cleared quickly without affecting S-SAH-008.\n\n## Recommended actions\n\n- Monitor traffic growth on S-SAH-008 to evaluate the need for capacity expansion.\n- Review cell load balancing parameters around S-SAH-008.\n\n## Sources\n\n- `ALR-0009`: ended alert from 2026-09-05 18:45: 1 site(s) (S-SAH-008); region-level SAH; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rrc_success_pct\n- `T1`: get_anomalies(start=2026-09-05 16:00, end=2026-09-06 08:20, entity_id=S-SAH-008) -> 1 alert(s): ALR-0009 2026-09-05 18:45-22:15. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SAH (S-...\n- `T9`: run_sql(query=SELECT ts, cell_id, dl_volume_mb, active_users, latency_ms, prb_util_pct FROM cell_kpis WHERE cell_id IN ('C-SAH-008-1', 'C-SAH-008-2',  -> run_sql: 72 row(s), columns ts, cell_id, dl_volume_mb, active_users, latency_ms, prb_util_pct\n- `ALM-000088`: warning HIGH_PRB on S-SAH-008, raised 2026-09-05 19:07, cleared 2026-09-05 22:21\n- `T3`: get_alarms(start=2026-09-05 17:00, end=2026-09-06 00:00, node_ids=['S-SAH-008', 'AGG-SAH-01'], include_descendants=True, min_severity=warning) -> 5 alarm(s) on S-SAH-008, AGG-SAH-01 and nodes below: 4 minor, 1 warning; 0 active. None critical/major.\n- `ANM-000040`: S-SAH-008 active_users spike, z 9.8, baseline 335 -> 714\n- `ANM-000041`: S-SAH-008 dl_volume_mb spike, z 9.5, baseline 25646 -> 64726\n- `ANM-000043`: S-SAH-008 drop_rate_pct spike, z 14.6, baseline 0.76 -> 4.02\n- `T6`: get_changes(start=2026-09-05 17:00, end=2026-09-06 00:00, node_ids=['S-SAH-008', 'AGG-SAH-01', 'S-SAH-006', 'S-SAH-010'], include_ancestors=True) -> No changes on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00.\n- `T7`: get_maintenance(start=2026-09-05 17:00, end=2026-09-06 00:00, node_ids=['S-SAH-008', 'AGG-SAH-01', 'S-SAH-006', 'S-SAH-010'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-008, AGG-SAH-01, S-SAH-006, S-SAH-010 and its parents between 2026-09-05 17:00 and 2026-09-06 00:00.\n- `ALM-000089`: minor VSWR_HIGH on S-SAH-010, raised 2026-09-05 20:44, cleared 2026-09-05 20:54\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why is S-SAH-008 struggling yesterday evening? Latency is high and throughput is poor.",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-008"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct telemetry and anomaly detection show PRB saturation and active user spikes coinciding with latency degradation.",
+      "dismissed_signals": [
+        {
+          "reason": "Minor VSWR high alarm on S-SAH-010 occurred on a different site and cleared quickly without affecting S-SAH-008.",
+          "ref": "ALM-000089"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SAH-008 active users spiked with a z-score of 9.8.",
+          "refs": [
+            "ANM-000040"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SAH-008 download volume spiked with a z-score of 9.5.",
+          "refs": [
+            "ANM-000041"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SAH-008 drop rate spiked with a z-score of 14.6.",
+          "refs": [
+            "ANM-000043"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No configuration changes were made on S-SAH-008 or its parents.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance windows were scheduled on S-SAH-008 or its parents.",
+          "refs": [
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "capacity",
+          "node_id": "S-SAH-008",
+          "reason": "PRB utilization reached 100 percent alongside massive spikes in active users and traffic volume.",
+          "refs": [
+            "T9",
+            "ANM-000040",
+            "ANM-000041"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SAH-008",
+          "reason": "No changes were recorded on S-SAH-008 or its parent nodes during the incident window.",
+          "refs": [
+            "T6"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-05 22:21",
+      "impact_start": "2026-09-05 18:45",
+      "impact_summary": "High latency and poor throughput on site S-SAH-008 due to capacity exhaustion.",
+      "recommended_actions": [
+        "Monitor traffic growth on S-SAH-008 to evaluate the need for capacity expansion.",
+        "Review cell load balancing parameters around S-SAH-008."
+      ],
+      "root_cause_category": "capacity",
+      "root_cause_node_id": "S-SAH-008",
+      "root_cause_summary": "Site S-SAH-008 experienced high traffic volume and active users surge, leading to PRB exhaustion and congestion.",
+      "root_cause_time": "2026-09-05 18:45",
+      "timeline": [
+        {
+          "event": "Anomaly alert ALR-0009 started on S-SAH-008 with drops in RRC success and spikes in active users and traffic.",
+          "refs": [
+            "ALR-0009",
+            "T1"
+          ],
+          "time": "2026-09-05 18:45"
+        },
+        {
+          "event": "PRB utilization reached 95.56% and latency increased to 80.6 ms on cell C-SAH-008-1.",
+          "refs": [
+            "T9"
+          ],
+          "time": "2026-09-05 19:00"
+        },
+        {
+          "event": "High PRB utilization warning alarm raised on S-SAH-008.",
+          "refs": [
+            "ALM-000088",
+            "T3"
+          ],
+          "time": "2026-09-05 19:07"
+        },
+        {
+          "event": "High PRB utilization warning alarm cleared on S-SAH-008.",
+          "refs": [
+            "ALM-000088",
+            "T3"
+          ],
+          "time": "2026-09-05 22:21"
+        }
+      ],
+      "title": "S-SAH-008 Congestion and High Latency"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-cc7e3357ae",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-008"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "High latency and poor throughput",
+      "unknown_ids": [],
+      "window_end": "2026-09-05T22:59:00Z",
+      "window_start": "2026-09-05T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 388,
+        "latency_ms": 845,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2618,
+        "latency_ms": 9281,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 285,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9284
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3747,
+        "latency_ms": 7701,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 307,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7703
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4277,
+        "latency_ms": 6292,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 139,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6295
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5952,
+        "latency_ms": 1921,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 184,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1924
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4639,
+        "latency_ms": 4277,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1248,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6844
+      }
+    ],
+    "usage": {
+      "cached_calls": 1,
+      "input_tokens": 21621,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 5
+      },
+      "llm_calls": 6,
+      "output_tokens": 2284,
+      "tool_calls": 9,
+      "wall_seconds": 32.3
+    }
+  },
+  "run_name": "v3-test",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-008"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-05T21:12:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000088",
+        "table": "alarms",
+        "visible_from": "2026-09-05T18:07:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "get_external_events",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-05T17:46:00Z",
+    "is_incident": true,
+    "kind": "congestion",
+    "notes": "Demand surge saturated the radio resources of S-SAH-008; there was no external event to explain it.",
+    "root_cause_category": "capacity",
+    "root_cause_node_id": "S-SAH-008",
+    "severity": "medium",
+    "start_at": "2026-09-05T17:46:00Z"
+  },
+  "variant": "default"
+}
