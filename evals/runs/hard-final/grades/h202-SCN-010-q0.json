@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-010-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2740,
+      "live_tokens": 3066,
+      "output_tokens": 326
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows a LINK_LOS alarm on LNK-SUD-01-A and subsequent SITE_DOWN alarms on the sites, supporting the inference of a transport failure causing the outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and ALR-0014 explicitly state that traffic, active users, and availability dropped on S-SUD-003 and S-SUD-001 between 15:15 and 20:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 and ALM-000233 confirm a critical LINK_LOS alarm on LNK-SUD-01-A raised at 15:27.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T3, ALM-000234, and ALM-000235 confirm critical SITE_DOWN alarms on S-SUD-003 and S-SUD-001 starting at 15:28.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 explicitly reports no changes on the specified nodes and their ancestors during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 explicitly reports no maintenance windows scheduled on the specified nodes and their ancestors during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

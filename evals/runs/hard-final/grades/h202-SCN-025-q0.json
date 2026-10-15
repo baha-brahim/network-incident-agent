@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-025-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2502,
+      "live_tokens": 2774,
+      "output_tokens": 272
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "Evidence confirms the alarm and lack of maintenance, but does not prove the loss was 'unplanned' or definitively the root cause of the outages.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert text lists the sites and time but does not explicitly state the location is 'Grand Tunis'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence explicitly states MW-0010 was on LNK-TUN-01-C and T5 confirms no maintenance on LNK-TUN-01-B.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output explicitly reports 'No changes' for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The topology outputs confirm the parent-child relationships and that the links serve the specific sites via the stated core.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The alarms are cited for the correct nodes, and T5 confirms no maintenance window covered LNK-TUN-01-B during the incident.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

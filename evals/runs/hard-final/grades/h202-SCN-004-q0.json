@@ -1,0 +1,52 @@
+{
+  "case_id": "h202-SCN-004-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T7"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2675,
+      "live_tokens": 2925,
+      "output_tokens": 250
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows the metrics and capacity saturation, but does not identify the specific cause of the traffic surge.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T7 explicitly lists deviations and spikes for active users, dl_volume_mb, prb_util_pct, and latency_ms.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T7 states the max prb_util_pct was 100 at 2026-09-08 21:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 output confirms no maintenance windows for S-TUN-010 and parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 output confirms no external events for region TUN in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T2 only lists the sibling sites; it provides no data or evidence regarding their performance or issues.",
+      "verdict": "unsupported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

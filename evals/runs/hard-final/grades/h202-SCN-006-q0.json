@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-006-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2152,
+      "live_tokens": 2430,
+      "output_tokens": 278
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarm and traffic anomalies but does not explicitly state the cause is reduced modulation or capacity reduction.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The topology outputs for all three sites explicitly list LNK-TUN-02-C and AGG-TUN-02 in their dependency chains.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The alarm record explicitly states the major LINK_DEGRADED alarm on LNK-TUN-02-C was raised at 18:47 and cleared at 23:54.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The alert record explicitly states traffic drops and latency spikes on the three sites between 18:45 and 23:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The maintenance check output explicitly reports no scheduled maintenance windows for the listed nodes and parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The runbook describes the signature of microwave link degradation involving reduced modulation, matching the observed alarm and traffic patterns.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-029-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2427,
+      "live_tokens": 2810,
+      "output_tokens": 383
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms simultaneous outages on sites sharing LNK-TUN-01-A and the link's topology, but does not explicitly identify a transport failure on the link as the cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0034 explicitly states the drop in traffic, active users, and availability for the three sites starting at 2026-09-27 15:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 and T10 both confirm that S-TUN-003, S-TUN-012, and S-TUN-018 depend on LNK-TUN-01-A, which connects to AGG-TUN-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000479, ALM-000480, and ALM-000481 all show critical SITE_DOWN alarms raised at 2026-09-27 15:41 on the three sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T3 explicitly reports no changes on the specified nodes and their parents between 2026-09-27 15:00 and 2026-09-27 20:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T8 reports no maintenance windows and T9 reports no external events for the specified nodes and region during the incident window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

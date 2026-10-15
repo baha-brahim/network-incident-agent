@@ -1,0 +1,47 @@
+{
+  "case_id": "h202-SCN-013-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T4"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2619,
+      "live_tokens": 2839,
+      "output_tokens": 220
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows traffic and latency spikes but does not prove 'capacity exhaustion' as the specific cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T4 explicitly lists mean latency 75.5 ms and PRB 66.3% with onset at 17:30 for S-TUN-005.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 and anomalies confirm spikes in active users and data volume starting at 17:30 on S-TUN-005.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T7 output explicitly states no changes on the listed nodes and parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 output explicitly states no maintenance windows on the listed nodes and parents in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

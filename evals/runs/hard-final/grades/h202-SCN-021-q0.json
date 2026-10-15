@@ -1,0 +1,55 @@
+{
+  "case_id": "h202-SCN-021-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2086,
+      "live_tokens": 2454,
+      "output_tokens": 368
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarm and maintenance window but does not explicitly state the cause was 'unplanned' or that it affected 'sibling sites' before maintenance.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence shows a SITE_DOWN alarm and alert, but does not specify the cause as a 'power failure'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALR-0028 confirms an ongoing alert from 2026-09-23 05:30 involving S-SFX-007, S-SFX-003, and S-SFX-005.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000396 confirms a critical LINK_LOS alarm on LNK-SFX-01-B raised at 2026-09-23 05:41.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "MW-0008 started at 07:04 and ALM-000396 was raised at 05:41, confirming maintenance began after the failure.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 output explicitly states no changes were found on the listed nodes and parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T7 output explicitly states no external events were recorded for region SFX in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

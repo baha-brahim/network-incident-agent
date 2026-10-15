@@ -1,0 +1,45 @@
+{
+  "case_id": "h202-SCN-026-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2452,
+      "live_tokens": 2673,
+      "output_tokens": 221
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the event and the traffic spikes, but does not explicitly link the event as the cause of the surge.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence explicitly states the event details, location, attendance, and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The alert text lists all five metrics (active users, dl_volume, drop_rate, latency, prb_util) as spiking on the three sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The T2 output explicitly states the earliest onset was 18:30 on S-TUN-001 dl_volume_mb.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited alarms are VSWR_HIGH (hardware) and HIGH_PRB (congestion), both occurring within the event window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-033-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3172,
+      "live_tokens": 3510,
+      "output_tokens": 338
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarms and the runbook verification steps, but does not explicitly confirm the physical cause (fiber cut) or the specific topology relationship (siblings) required for the root cause conclusion.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T8 shows S-SAH-012 availability onset at 05:00 and min 0 at 05:15; ANM-000427 confirms the drop since 05:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T8 shows both sites had availability onset at 05:00 and min 0 at 05:15, confirming simultaneous drops to zero.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000534 explicitly states a critical LINK_LOS on LNK-SAH-01-A raised at 2026-09-30 05:07.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 output explicitly states no changes on the listed nodes and parents between 00:00 and 09:06.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 output explicitly states no maintenance windows on the listed nodes and parents between 00:00 and 09:06.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

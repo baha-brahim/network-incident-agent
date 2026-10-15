@@ -1,0 +1,52 @@
+{
+  "case_id": "h202-SCN-012-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T5"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3887,
+      "live_tokens": 4203,
+      "output_tokens": 316
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows KPI deviations and topology, but contains no data indicating transport degradation on the fiber link.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and T5 both explicitly state the alert and KPI onset began at 2026-09-16 03:30 for the three sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 shows config pushes at 03:42 and T5 shows KPI onset at 03:30, confirming the pushes occurred after the onset.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T14 shows no deviations for S-TUN-007, S-TUN-009, and S-TUN-015, which are not identified as siblings of the affected sites in the cited evidence.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 3,
+      "reason": "T7 explicitly reports no maintenance windows scheduled on the specified nodes and their parents in the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T2 shows S-TUN-016 depends on LNK-TUN-02-B and lists S-TUN-004 and S-TUN-005 as siblings under that link.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

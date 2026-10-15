@@ -1,0 +1,55 @@
+{
+  "case_id": "h202-SCN-005-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2484,
+      "live_tokens": 2822,
+      "output_tokens": 338
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert confirm the sequence of power failure, battery low, and site down, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000130 explicitly states a major MAINS_FAILURE on S-SFX-002 raised at 13:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000132 explicitly states a major BATTERY_LOW on S-SFX-002 raised at 15:07.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000134 explicitly states a critical SITE_DOWN on S-SFX-002 raised at 15:22.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T3 output confirms no changes on S-SFX-002 and its parents between 14:00 and 19:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 output confirms no maintenance windows on S-SFX-002 and its parents between 14:00 and 19:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T6 shows no alarms and T8 shows no KPI deviations for S-SFX-001 during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

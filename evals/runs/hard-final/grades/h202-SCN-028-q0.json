@@ -1,0 +1,45 @@
+{
+  "case_id": "h202-SCN-028-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1403,
+      "live_tokens": 1657,
+      "output_tokens": 254
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the maintenance window and alarm occurred on the same node and time, supporting the inference that the planned maintenance caused the outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert explicitly lists active_users, availability_pct, and dl_volume_mb as the metrics that dropped on S-SAH-010.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record explicitly states a critical SITE_DOWN alarm on S-SAH-010.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited change record shows a parameter_tuning change on S-SAH-010 at 00:49, which is prior to the 01:43 alarm start.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited maintenance record shows a completed window for battery replacement on S-SAH-010 from 01:38 to 03:38, overlapping the 01:43 alarm.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

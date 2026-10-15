@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-015-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1804,
+      "live_tokens": 2136,
+      "output_tokens": 332
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and runbook support the power failure sequence, but the claim's specific mention of a 'traffic drop' is not explicitly detailed in the provided evidence text.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence explicitly states ALM-000323 is a major MAINS_FAILURE on S-TUN-004 raised at 2026-09-19 15:43.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence explicitly states ALM-000326 is a major BATTERY_LOW on S-TUN-004 raised at 2026-09-19 17:16.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence explicitly states ALM-000327 is a critical SITE_DOWN on S-TUN-004 raised at 2026-09-19 17:31.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The output of T3 explicitly reports no changes on S-TUN-004 and its parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The output of T8 explicitly reports no external events for region TUN within the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

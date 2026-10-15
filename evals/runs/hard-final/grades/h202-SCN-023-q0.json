@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-023-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1954,
+      "live_tokens": 2205,
+      "output_tokens": 251
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarm and maintenance but does not establish the causal link between the link failure and the site outages.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence explicitly states the alert started at 05:30 and affects three specific sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence confirms a critical LINK_LOS alarm on LNK-SFX-01-B raised at 05:41.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarms confirm SITE_DOWN status for all three sites at 05:42.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The evidence lists the maintenance window as 07:04 to 10:35 on LNK-SFX-01-B.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The tool output explicitly reports no external events for region SFX in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

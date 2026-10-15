@@ -1,0 +1,55 @@
+{
+  "case_id": "h202-SCN-022-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2908,
+      "live_tokens": 3208,
+      "output_tokens": 300
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarms and timing but does not explicitly state the physical cause (fiber loss) or the causal mechanism.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence confirms the drop to zero and the time window, but the specific metrics listed do not include 'traffic' (only volume/users).",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence explicitly lists a critical LINK_LOS alarm on LNK-SFX-02-A raised at 14:12.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence shows SITE_DOWN alarms at 14:13, which is one minute after the 14:12 link alarm.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no changes on the specified nodes and parents in the given window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no maintenance windows on the specified nodes and parents in the given window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited tool output explicitly reports no external events for the SFX region in the given window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,55 @@
+{
+  "case_id": "h202-SCN-030-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3208,
+      "live_tokens": 3524,
+      "output_tokens": 316
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the maintenance window and alarms, but does not prove the link degraded or that the cause was transport degradation rather than other factors.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert ALR-0035 explicitly states the drop in traffic, users, and availability on the three sites for 6 hours.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarms and tool output confirm critical SITE_DOWN alarms on all three sites raised at 09:29.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output T3 explicitly reports no changes on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited maintenance record and tool output confirm MW-0013 ran on LNK-SAH-01-B from 09:21 to 11:56.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited topology outputs show that all three sites depend on LNK-SAH-01-B as their parent link.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited tool output T9 explicitly reports no external events for region SAH during the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-017-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1687,
+      "live_tokens": 1967,
+      "output_tokens": 280
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and latency spikes but does not provide data on modulation, capacity loss, or the specific causal mechanism.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence explicitly states a major LINK_DEGRADED alarm on LNK-SAH-02-A raised at 02:22 and cleared at 05:56.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence lists latency spikes on three sites (S-SAH-001, S-SAH-002, S-SAH-007) from 02:30 to 05:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The tool output confirms no changes on the specified nodes and parents within the stated time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output confirms no maintenance windows scheduled on the affected nodes and parents during the incident window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The tool output confirms no external events for region SAH between the specified start and end times.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

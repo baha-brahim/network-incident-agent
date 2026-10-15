@@ -1,0 +1,45 @@
+{
+  "case_id": "h202-SCN-019-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3206,
+      "live_tokens": 3437,
+      "output_tokens": 231
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the degradation on CORE-DNS-01 but does not explicitly state it caused the nationwide traffic drop.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and T2 explicitly show the onset at 12:30 for both metrics on CORE-DNS-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 and ALM-000365 confirm the alarm type, node, raise time 12:35, and clear time 14:11.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 explicitly reports no maintenance window for CORE-DNS-01 and parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T9 explicitly reports no external events for all regions between 12:00 and 18:00.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

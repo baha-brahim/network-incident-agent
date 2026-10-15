@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-016-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2391,
+      "live_tokens": 2632,
+      "output_tokens": 241
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows the alarms and drop but does not identify 'local power failure' as the cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 explicitly lists availability, active users, and download volume dropping to 0 on S-SFX-010.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarms and T3 output confirm the specific types, times, and sequence of the alarms.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 output explicitly states no changes on S-SFX-010 and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 output explicitly states no maintenance windows on S-SFX-010 and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 output explicitly states no external events for region SFX in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

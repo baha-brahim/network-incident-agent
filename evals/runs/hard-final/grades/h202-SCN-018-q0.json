@@ -1,0 +1,55 @@
+{
+  "case_id": "h202-SCN-018-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2531,
+      "live_tokens": 2899,
+      "output_tokens": 368
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms show the sequence of events (mains failure, battery low, site down) but do not explicitly state the causal link between them.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000361 explicitly states a major MAINS_FAILURE on S-SAH-006 raised at 2026-09-21 02:33.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000362 confirms the alarm time and type, but the evidence does not state the cause was 'ongoing power loss'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000363 explicitly states a critical SITE_DOWN alarm on S-SAH-006 raised at 2026-09-21 04:20.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 shows availability and active users dropping to 0 at 04:30 with onset at 04:15, but does not mention traffic dropping to zero.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 output explicitly reports no changes on S-SAH-006 and its parents during the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T5 output explicitly reports no maintenance window scheduled on S-SAH-006 and its parents during the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

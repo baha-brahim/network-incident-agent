@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-002-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3189,
+      "live_tokens": 3450,
+      "output_tokens": 261
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the simultaneous outage and lack of changes/maintenance, but does not identify the specific cause as power failure or transmission issue.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The topology outputs explicitly list LNK-TUN-01-C and AGG-TUN-01 as shared parents for all three sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The T4 output explicitly states no changes occurred on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The T6 output explicitly states no maintenance windows were scheduled on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The T12 output explicitly states no external events were recorded for region TUN within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The alarm outputs list only the three SITE_DOWN alarms and report 0 active alarms, implying no other underlying failures are currently active.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

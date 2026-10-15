@@ -1,0 +1,45 @@
+{
+  "case_id": "h202-SCN-008-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2014,
+      "live_tokens": 2268,
+      "output_tokens": 254
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the maintenance and link loss, but does not cite the SITE_DOWN alarms for the specific sites S-SUD-006 and S-SUD-007.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The text of MW-0004 explicitly states the expected impact was downstream sites offline during splicing.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T5 and T6 both show S-SUD-006 and S-SUD-007 depend directly on LNK-SUD-02-A in the parent chain.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The timestamps for the alarms (02:52-05:36) fall within the maintenance window (02:47-05:48), confirming concurrency.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALR-0012 states metrics dropped but does not specify that they dropped to zero.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

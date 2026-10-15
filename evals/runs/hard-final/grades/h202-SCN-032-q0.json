@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-032-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3272,
+      "live_tokens": 3581,
+      "output_tokens": 309
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the change and the anomaly, but does not prove causality; the root cause is an inference not explicitly stated in the cited text.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and T6 both explicitly state that RRC success drops and drop rate spikes affected the three sites starting at 2026-09-29 17:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change records confirm that OPT-21 was applied to the three specific sites at 2026-09-29 17:31.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 explicitly reports 'no deviation' for prb_util_pct on S-TUN-007, S-TUN-009, and S-TUN-015.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T7 explicitly states that no maintenance window was scheduled on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited changes confirm the rollback at 01:13, but the evidence does not state that this action resolved the issue.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

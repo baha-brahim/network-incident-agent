@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-007-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2277,
+      "live_tokens": 2543,
+      "output_tokens": 266
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the changes, rollback, and alert, but does not explicitly state the causal link between the changes and the RRC drops.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0011 explicitly lists the alert description as traffic and RRC success drop with drop rate spikes on the three specified sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The three cited change records all confirm the execution of batch RT-2.5 on the specified sites at the stated time.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 output explicitly states no maintenance window was scheduled on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 output explicitly states no external events were recorded for region TUN within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited runbook text is truncated and does not contain the specific statement about RRC success drops being confined to the changed subtree.",
+      "verdict": "not_verifiable"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

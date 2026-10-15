@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-009-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1503,
+      "live_tokens": 1786,
+      "output_tokens": 283
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited anomalies show the metrics dropped/spiked on CORE-DNS-01, but do not explicitly state that this caused the nationwide impact.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence confirms the alert ID, node, and time window, but describes it as affecting 46 sites across 4 regions, not explicitly 'nationwide'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence shows the baseline drop to 90.9 but does not specify the time 11:00 or that it was the minimum.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence shows the spike to 95.5 but does not specify the time 10:30 or that it was the maximum.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly states no alarms were found on the specified nodes within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly states no maintenance window was scheduled on the specified nodes within the given time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

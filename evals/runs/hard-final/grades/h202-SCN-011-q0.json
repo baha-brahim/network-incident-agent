@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-011-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2021,
+      "live_tokens": 2289,
+      "output_tokens": 268
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change and the alert, but does not prove the change caused the disruption.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0015 explicitly lists the start time 12:30 and the metrics for both sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The alarms were raised at 12:45, but cleared at 17:39 and 17:41, not 'around 17:40'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "CHG-2026-0042 confirms the ID, node, time, and description of the change.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 and T6 both show the dependency chain including LNK-SFX-02-A and AGG-SFX-02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 explicitly reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}
