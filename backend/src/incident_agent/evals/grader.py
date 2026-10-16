@@ -407,8 +407,31 @@ def _usage_dict(usage: GradeUsage) -> dict[str, Any]:
     return usage.model_dump()
 
 
+FORMAT_RETRIES = 2  # extra tries of a request whose answer was not valid JSON
+_BAD_FORMAT = re.compile(r"json_validate_failed|Failed to generate JSON|MalformedOutput")
+
+
+def is_bad_format(exc: AllModelsFailed) -> bool:
+    """True if every model that answered failed only on the shape of its answer.
+
+    The judge sometimes writes invalid JSON for a request it answers fine on the next try.
+    A rate limit, a quota or any other error is not retried here.
+    """
+    errors = [a.error or "" for a in exc.attempts if a.status == "error"]
+    return bool(errors) and all(_BAD_FORMAT.search(e) for e in errors)
+
+
 def _ask(runner: Runner, batch: Batch, usage: GradeUsage) -> tuple[list[ItemVerdict], str]:
-    result = runner.invoke(batch.messages(), schema=VerdictBatch, purpose="grade report")
+    failures = 0
+    while True:
+        try:
+            result = runner.invoke(batch.messages(), schema=VerdictBatch, purpose="grade report")
+        except AllModelsFailed as exc:
+            failures += 1
+            if failures > FORMAT_RETRIES or not is_bad_format(exc):
+                raise
+            continue
+        break
     usage.calls += 1
     usage.input_tokens += result.usage.input_tokens
     usage.output_tokens += result.usage.output_tokens

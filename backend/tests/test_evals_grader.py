@@ -1,5 +1,7 @@
 """The faithfulness grader: items, evidence text, packing into requests, verdicts, arithmetic."""
 
+from typing import Any
+
 import pytest
 
 from incident_agent.agent.report import Finding, HypothesisEntry
@@ -291,6 +293,46 @@ def test_usage_is_summed_over_calls() -> None:
     usage = grade.extra["usage"]
     assert usage["calls"] == 2 and usage["input_tokens"] > 0
     assert usage["live_tokens"] == usage["input_tokens"] + usage["output_tokens"]
+
+
+JSON_FAILED = (
+    "BadRequestError: Error code: 400 - {'error': {'message': \"Failed to generate JSON.\", "
+    "'code': 'json_validate_failed'}}"
+)
+
+
+def flaky(script: Any, errors: list[str]) -> Any:
+    """A judge that raises the given errors on its first calls, then answers with `script`."""
+    pending = list(errors)
+
+    def judge(call: Any) -> Any:
+        return failing(pending.pop(0)) if pending else script(call)
+
+    return judge
+
+
+def test_an_answer_in_invalid_json_is_asked_again() -> None:
+    malformed = "MalformedOutput: structured output invalid (finish_reason=stop)"
+    runner = ScriptedRunner(flaky(verdict_script(), [JSON_FAILED, malformed]))
+    grade = grade_report(make_artifact(), runner)
+    assert len(runner.calls) == 3 and grade.extra["usage"]["calls"] == 1
+    assert {f.verdict for f in grade.findings} == {"supported"}
+
+
+def test_invalid_json_every_time_still_fails_after_the_retries() -> None:
+    runner = ScriptedRunner(flaky(verdict_script(), [JSON_FAILED] * 3))
+    with pytest.raises(AllModelsFailed):
+        grade_report(make_artifact(), runner)
+    assert len(runner.calls) == 1 + grader.FORMAT_RETRIES
+
+
+def test_a_rate_limit_is_not_retried_by_the_grader() -> None:
+    runner = ScriptedRunner(flaky(verdict_script(), ["Rate limit reached: tokens per day (TPD)"]))
+    with pytest.raises(AllModelsFailed):
+        grade_report(make_artifact(), runner)
+    assert len(runner.calls) == 1
+    skipped = AllModelsFailed([Attempt(model="groq:m", status="skipped", error="cooling down")])
+    assert not grader.is_bad_format(skipped) and grader.is_bad_format(failing(JSON_FAILED))
 
 
 def test_the_daily_limit_is_recognised_in_the_attempts() -> None:
