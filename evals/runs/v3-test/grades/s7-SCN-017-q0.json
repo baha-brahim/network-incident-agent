@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-017-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2335,
+      "live_tokens": 2617,
+      "output_tokens": 282
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms show the link failure and site down, but do not explicitly state the 'degradation' phase or the specific 'transport_failure' classification.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0025 explicitly lists the three sites, the time window, and the drop in availability and traffic metrics.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2 and the node references confirm LNK-SAH-01-A is the parent link for all three sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000333 and ALM-000335 confirm the minor degradation at 23:08 and critical LINK_LOS at 23:53 on the link.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 and T7 outputs explicitly state no changes or maintenance windows for the specified nodes and time range.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited alarms confirm the link loss and site down, supporting the inference of direct causation for service loss.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

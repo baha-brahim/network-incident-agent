@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-028-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2341,
+      "live_tokens": 2562,
+      "output_tokens": 221
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm signature and node, but does not show availability dropping to zero.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert explicitly states the drop on the three sites for 7 hours starting at the specified time.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record confirms the type, severity, node, and time exactly as stated.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarm records confirm critical SITE_DOWN alarms on all three sites at the specified time.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no changes for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

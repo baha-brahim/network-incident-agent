@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-005-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1712,
+      "live_tokens": 1946,
+      "output_tokens": 234
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the degradation on the node but does not show that the impact was nationwide.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The anomaly record explicitly states the drop in query_success_pct from 99.9 to 87.7 on CORE-DNS-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The tool output confirms no changes on the node and parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The tool output confirms no maintenance windows on the node and parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output confirms no external events for region TUN within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The alarm record confirms a major DNS_TIMEOUT_RATE alarm was raised on CORE-DNS-01.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

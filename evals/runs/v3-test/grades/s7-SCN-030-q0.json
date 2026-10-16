@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-030-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2856,
+      "live_tokens": 3123,
+      "output_tokens": 267
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and runbook signature but does not explicitly state the specific cause of reduced modulation or RSL below threshold.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly lists a major LINK_DEGRADED alarm on LNK-SUD-02-A raised at 19:04.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited KPI data shows deviations for both sites: volume drops and latency increases for S-SUD-004 and S-SUD-007.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited tool output explicitly states no changes occurred on the specified nodes and parents during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly states no maintenance windows were scheduled on the specified nodes and parents.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited evidence explicitly states the alarm was cleared at 2026-09-26 23:22.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

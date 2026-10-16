@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-032-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3654,
+      "live_tokens": 3951,
+      "output_tokens": 297
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change and its timing but does not contain KPI data or causal links to prove the degradation.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 0,
+      "reason": "T2 explicitly lists the dependency chain S-SFX-004 -> LNK-SFX-01-B -> AGG-SFX-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T8 states 'Deviation in 8 of 8 series' and 'Earliest onset 2026-09-28 01:30'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T14 lists CHG-2026-0071 on AGG-SFX-01 at 01:36 with description 'Push RAN parameter template RT-2.4'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T9 states 'No series deviates from its baseline' for S-SFX-002 and S-SFX-003 in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-027-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2535,
+      "live_tokens": 2801,
+      "output_tokens": 266
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows local degradation on CORE-DNS-01 but does not support the claim of 'nationwide' impact.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T2 shows resolution_ms and query_success_pct deviations, and ANM-000322 confirms the query success drop.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 and ALM-000525 confirm a major DNS_TIMEOUT_RATE alarm on CORE-DNS-01 from 10:52 to 12:05.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 explicitly states no changes on CORE-DNS-01 and its parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly states no maintenance window was scheduled on CORE-DNS-01 and its parents.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T9 explicitly states no external events were found for all regions in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

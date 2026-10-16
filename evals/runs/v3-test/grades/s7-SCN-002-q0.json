@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-002-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1896,
+      "live_tokens": 2246,
+      "output_tokens": 350
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert confirm the sequence of power failure, battery depletion, and site outage, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence states availability drops but does not specify the values 100 to 0, only the duration and site.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence explicitly lists ALM-000069 as MAINS_FAILURE on S-SUD-001 raised at 2026-09-04 22:24.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence explicitly lists ALM-000077 as BATTERY_LOW on S-SUD-001 raised at 2026-09-05 00:48.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The evidence explicitly lists ALM-000078 as SITE_DOWN on S-SUD-001 raised at 2026-09-05 01:03.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The T4 output confirms no changes on the specified nodes and parents within the stated time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The T5 output confirms no maintenance windows on the specified nodes and parents within the stated time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

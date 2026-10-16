@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-007-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3909,
+      "live_tokens": 4185,
+      "output_tokens": 276
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms confirm the failure and outage, but the topology evidence proving the shared link dependency is not cited.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "Both topology references explicitly list LNK-SFX-02-A as the parent link for both sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The alarm record explicitly states a critical LINK_LOS on LNK-SFX-02-A raised at 02:13.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "Both alarm records show SITE_DOWN raised at 02:14, one minute after the link alarm.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output explicitly reports no changes on the specified nodes and parents in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The tool output explicitly reports no maintenance windows on the specified nodes and parents.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T7 shows availability dropping to 0 and recovering at 08:45, matching the claim.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

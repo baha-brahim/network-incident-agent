@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-019-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3560,
+      "live_tokens": 3865,
+      "output_tokens": 305
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows high PRB and user spikes but does not explicitly confirm the 'sharp surge' as the sole driver or rule out other causes like backhaul degradation.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1, T7, and ALR-0028 all confirm latency and active user anomalies on both sites starting at 18:30 on 2026-09-18.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ANM-000204 explicitly states the active users spike on S-SFX-002 from baseline 319 to 695.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ANM-000205 explicitly states the dl_volume_mb spike on S-SFX-002 from baseline 23438 to 67001.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T9 output confirms no maintenance windows were scheduled on the specified nodes and parents during the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 output confirms no external events were recorded for region SFX during the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-034-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3898,
+      "live_tokens": 4205,
+      "output_tokens": 307
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the KPI deviations on CORE-DNS-01 and the runbook description of the impact, supporting the inference of core DNS degradation as the cause.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T6 explicitly states the onset for both metrics is 2026-09-29 14:30, and the anomaly records confirm the specific drops and spikes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 and T5 both report no changes on CORE-DNS-01 and its parents between 12:00 and 19:00, covering the incident window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T8 reports no maintenance windows scheduled on CORE-DNS-01 and its parents during the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T9 reports no external events for all regions between 12:00 and 19:00, matching the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T2 shows nationwide latency rising and traffic dipping, and RB-DNS-DEGRADATION#02 states radio signalling metrics remain unaffected, supporting the claim.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

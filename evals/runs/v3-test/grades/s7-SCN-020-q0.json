@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-020-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3105,
+      "live_tokens": 3354,
+      "output_tokens": 249
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the event and the traffic spike, but does not explicitly state the causal link or that the event was 'expected'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and T3 both explicitly report spikes in traffic, active users, and PRB utilization for the three specified sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "EVT-002 explicitly states the event location and the time range from 18:12 to 22:02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T7 explicitly reports no changes on the specified nodes and parents during the stated window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 explicitly reports no maintenance windows scheduled on the specified nodes and parents during the stated window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 lists only warning-level alarms and explicitly states there were no critical or major alarms.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

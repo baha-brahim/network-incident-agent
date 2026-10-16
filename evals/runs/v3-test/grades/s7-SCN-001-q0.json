@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-001-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2660,
+      "live_tokens": 2952,
+      "output_tokens": 292
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change and the runbook signature, but does not contain the KPI data or topology link required to establish causality.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The alert record explicitly lists the start time as 2026-09-03 09:00 and identifies multiple SFX sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The change record states the application time as 09:02 and notes it was rolled back.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The tool output explicitly states 'Deviation in 10 of 10 series' with an earliest onset of 09:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The change record shows the patch occurred at 07:39, which is prior to the 09:00 onset mentioned in the claim context.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "RB-BAD-CHANGE#02 describes the signature, but RB-BAD-CHANGE#05 lists verification steps, not a confirmation of the match.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

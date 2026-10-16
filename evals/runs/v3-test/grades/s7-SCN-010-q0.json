@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-010-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4734,
+      "live_tokens": 5017,
+      "output_tokens": 283
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change and runbook steps but does not prove the change caused the degradation.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited evidence explicitly lists ALR-0017 as ongoing since 02:15 affecting the four specified sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited topology output explicitly shows the dependency chain S-SUD-008 -> LNK-SUD-01-B -> AGG-SUD-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited change record explicitly states the push of OPT-17 to AGG-SUD-01 at 02:27.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited maintenance query output reports no scheduled windows for the listed nodes and ancestors in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited KPI data shows rrc_success_pct onset at 02:15, but drop_rate_pct onset is 02:30, not 02:15.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

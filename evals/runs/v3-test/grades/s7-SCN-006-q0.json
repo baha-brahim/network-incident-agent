@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-006-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2115,
+      "live_tokens": 2434,
+      "output_tokens": 319
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows a link alarm and a site alert, but does not establish a causal link between the two or prove the link caused the site issues.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence confirms 48 sites and core DNS involvement, but does not explicitly state that core DNS issues were the cause of the alert.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence explicitly states the alarm was raised on CORE-DNS-01 at 14:38.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The evidence confirms a major LINK_DEGRADED alarm on LNK-SFX-01-A from 17:41 to 22:19.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The evidence lists S-SFX-005, S-SFX-007, and S-SFX-008 as the affected sites for ALR-0011.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool outputs report no changes on the specified nodes during the incident window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited tool output reports no maintenance windows scheduled on the specified nodes during the incident window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

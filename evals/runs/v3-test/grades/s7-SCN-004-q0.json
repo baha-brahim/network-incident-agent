@@ -1,0 +1,52 @@
+{
+  "case_id": "s7-SCN-004-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T9"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2920,
+      "live_tokens": 3157,
+      "output_tokens": 237
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows spikes in users and volume, but does not show PRB exhaustion or congestion, which are part of the claim.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomaly record explicitly states the active users spike with a z-score of 9.8.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited anomaly record explicitly states the download volume spike with a z-score of 9.5.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited anomaly record explicitly states the drop rate spike with a z-score of 14.6.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output confirms no changes on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output confirms no maintenance windows on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

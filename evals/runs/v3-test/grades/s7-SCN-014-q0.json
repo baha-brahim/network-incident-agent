@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-014-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2268,
+      "live_tokens": 2564,
+      "output_tokens": 296
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence supports the absence of impact and self-clearing alarms, but does not prove the specific cause of environmental or power fluctuations.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 confirms 29 alarms on S-SUD-003 with timestamps ranging from 03:18 to 04:16.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 explicitly states that 29 of 29 alarms cleared within 10 minutes of being raised.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 shows 100% availability and reports no deviation for traffic and drop rates for all three cells.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly reports no changes on S-SUD-003 and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 explicitly reports no maintenance window scheduled on S-SUD-003 and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T9 explicitly reports no external events for region SUD in the specified window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

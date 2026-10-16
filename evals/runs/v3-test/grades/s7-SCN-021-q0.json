@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-021-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2283,
+      "live_tokens": 2545,
+      "output_tokens": 262
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "Evidence shows latency spikes but explicitly reports no deviation in volume, contradicting the claim of volume drop.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T2 explicitly lists the dependency chain S-TUN-009 -> LNK-TUN-02-A -> AGG-TUN-02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 states S-TUN-009 latency was above baseline from 2026-09-20 04:30, matching the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000414 confirms the alarm type, node, raise time, and clear time exactly as stated.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 output explicitly reports no changes on the specified nodes and parents within the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 output explicitly reports no maintenance windows on the specified nodes and parents within the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

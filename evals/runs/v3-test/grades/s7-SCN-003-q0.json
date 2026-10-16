@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-003-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1952,
+      "live_tokens": 2221,
+      "output_tokens": 269
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms confirm the link failure and site down status, but do not explicitly state that the link failure caused the site outage.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The alert confirms the time window and sites, but states 'availability drop' rather than explicitly 'dropping to zero'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The topology output lists S-SAH-004 and S-SAH-011 as siblings under LNK-SAH-02-A, confirming they share the link.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The alarm record explicitly states a critical LINK_LOS on LNK-SAH-02-A raised at 22:52.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output explicitly reports no changes on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The tool output explicitly reports no maintenance windows on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

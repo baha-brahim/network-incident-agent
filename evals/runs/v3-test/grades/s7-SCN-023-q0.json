@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-023-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2728,
+      "live_tokens": 3039,
+      "output_tokens": 311
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the maintenance window and link loss, but does not explicitly state the causal link between them.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The alert text explicitly lists the sites, metrics, and the exact time window 01:15-04:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The topology output shows S-SAH-001 depends on LNK-SAH-01-B and lists S-SAH-002 and S-SAH-012 as siblings under it.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The maintenance record explicitly states the window times and the node LNK-SAH-01-B.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The alarm record explicitly states the type, node, and start time 01:22.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The alarm outputs show SITE_DOWN alarms at 01:23, which is within 10 minutes of the 01:22 link loss.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The change query output explicitly reports no changes for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

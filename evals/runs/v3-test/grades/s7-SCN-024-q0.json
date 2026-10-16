@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-024-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2814,
+      "live_tokens": 3160,
+      "output_tokens": 346
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the change and KPI impact, but does not prove the specific mechanism (admission control/RRC timers) caused the drops.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and T9 both explicitly state the onset of RRC success drop and drop rate spike at 2026-09-22 02:15 for S-TUN-013.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "CHG-2026-0056 explicitly states the parameter tuning change was applied to AGG-TUN-01 at 2026-09-22 02:14.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 explicitly reports no maintenance windows scheduled on the listed nodes and ancestors during the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T10 explicitly reports no external events for region TUN between 2026-09-21 18:00 and 2026-09-22 06:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "CHG-2026-0057 states the rollback occurred at 2026-09-22 07:32 after KPI regression escalated by NOC.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

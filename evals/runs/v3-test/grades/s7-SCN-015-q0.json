@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-015-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2720,
+      "live_tokens": 2953,
+      "output_tokens": 233
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited maintenance record and alarm confirm the site was offline during the planned window, supporting the inference.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomaly alert explicitly states the drop in traffic, users, and availability for 4 hours.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm log shows a critical SITE_DOWN alarm on S-SFX-005 with the exact start and end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited maintenance record confirms the window ID, times, node, and purpose of battery replacement.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited KPI query shows 100% availability for both sites with no deviation from baseline.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited change query reports no changes on the specified nodes and parents during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

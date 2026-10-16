@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-029-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3142,
+      "live_tokens": 3481,
+      "output_tokens": 339
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows high PRB, users, and latency on the specified sites, and the runbook supports the inference of congestion given no external events.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ANM-000397 explicitly states the dl_volume_mb spike on S-SAH-011 with baseline 29249 rising to 107314.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ANM-000396 explicitly states the active_users spike on S-SAH-011 with baseline 202 rising to 424.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ANM-000398 explicitly states the drop_rate_pct spike on S-SAH-011 with baseline 0.56 rising to 4.01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T3 reports no alarms on the listed nodes and descendants within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 reports no changes on the listed nodes and ancestors within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T6 reports no external events for region SAH between 12:00 and 23:59, covering the incident period.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

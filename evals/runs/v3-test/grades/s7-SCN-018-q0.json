@@ -1,0 +1,45 @@
+{
+  "case_id": "s7-SCN-018-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3370,
+      "live_tokens": 3653,
+      "output_tokens": 283
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the change and runbook signature but does not prove the change caused the degradation, as the runbook requires a rollback status not present here.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited T3 output explicitly states deviation in 9 of 9 series with earliest onset at 2026-09-17 01:00 for S-SFX-009 rrc_success_pct.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change records and T12 output confirm config_push of RT-2.4 on the three specified nodes at 2026-09-17 01:13.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited T7 output explicitly reports no maintenance window scheduled on the listed nodes and parents during the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited T1 and ALR-0026 evidence confirms an ongoing alert starting at 2026-09-17 01:00 covering the three specified sites.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

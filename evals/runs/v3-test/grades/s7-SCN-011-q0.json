@@ -1,0 +1,50 @@
+{
+  "case_id": "s7-SCN-011-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2338,
+      "live_tokens": 2595,
+      "output_tokens": 257
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the event and the traffic spikes, supporting the inference that the event caused the demand increase.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomaly confirms the z-score and node, but does not specify the time window 18:45 to 21:30.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited anomaly confirms the node, metric, and z-score of 12.3, though the specific time window is not in the text.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited event text explicitly states the location, type, and expected attendance of 40,000.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no changes on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no maintenance windows on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

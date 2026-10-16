@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-016-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2604,
+      "live_tokens": 3003,
+      "output_tokens": 399
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and alert show the sequence of events (mains failure, battery low, site down) but do not explicitly state the causal link or the specific cause of battery exhaustion.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0023 confirms the drop in traffic, active users, and availability from 12:15 to 16:15, and T5 confirms the availability and traffic drop in the same window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000288 explicitly states a major MAINS_FAILURE on S-TUN-008 raised at 08:49 and cleared at 16:16.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000292 and ALM-000293 confirm the times and types of alarms, but the evidence does not state that the site went down 'due to power exhaustion'; it only lists the alarms.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "T3 explicitly reports no changes on S-TUN-008 and its parents between 10:00 and 18:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 explicitly reports no maintenance window scheduled on S-TUN-008 and its parents between 10:00 and 18:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T7 explicitly reports no external events for region TUN between 10:00 and 18:00.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

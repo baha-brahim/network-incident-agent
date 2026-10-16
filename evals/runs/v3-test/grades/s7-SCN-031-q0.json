@@ -1,0 +1,57 @@
+{
+  "case_id": "s7-SCN-031-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T6"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2511,
+      "live_tokens": 2809,
+      "output_tokens": 298
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "T3 confirms alarms cleared quickly and T6 confirms KPIs remained normal, supporting the inference of no service impact.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly states 21 alarms (9 minor, 12 warning) with 0 critical/major on the cited nodes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 states all 21 alarms cleared within 10 minutes and were self-clearing.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 reports no changes on S-SUD-004, LNK-SUD-02-A and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 reports no maintenance window scheduled on the cited nodes and parents in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 shows no sustained deviation and 100% availability for S-SUD-004 and S-SUD-007.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T1 reports no detector alerts for S-SUD-004 or its relatives in the specified period.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

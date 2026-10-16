@@ -1,0 +1,55 @@
+{
+  "case_id": "s7-SCN-025-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2909,
+      "live_tokens": 3352,
+      "output_tokens": 443
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms and KPIs show the sequence of events (mains failure, battery low, site down) but do not explicitly state the causal link between them.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALM-000484 explicitly states a major MAINS_FAILURE on S-SFX-010 raised at 2026-09-22 13:21.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000486 shows BATTERY_LOW at 16:46, and ALM-000488 (cited in claim 0, but the claim cites only ALM-000486) shows SITE_DOWN at 17:01; however, claim 2 cites only ALM-000486 which does not mention the site down state.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000488 explicitly states a critical SITE_DOWN on S-SFX-010 raised at 2026-09-22 17:01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALR-0033 confirms an alert for S-SFX-010 starting at 17:00 involving active_users, availability_pct, and dl_volume_mb.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T4 and T5 outputs explicitly state no changes or maintenance windows on the specified nodes and parents in the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "ALM-000484 shows clearance at 20:58, not 21:00, contradicting the claim's specific time for alarm clearance.",
+      "verdict": "unsupported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}
