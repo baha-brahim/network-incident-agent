@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-020-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2465,
+      "live_tokens": 2744,
+      "output_tokens": 279
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows a link alarm and latency alert, but does not establish a causal link between the link degradation and the latency issues.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly states S-SAH-009 dl_volume_mb was below baseline from 2026-09-21 12:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000365 shows the alarm and CHG-2026-0056 shows the upgrade occurred earlier on the same node.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000366 confirms the major LINK_DEGRADED alarm on LNK-SAH-02-B with the specified start and end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALR-0025 lists the three sites and identifies latency_ms as the metric.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 reports no maintenance windows for the listed nodes during the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

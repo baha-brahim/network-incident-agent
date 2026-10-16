@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-001-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1971,
+      "live_tokens": 2252,
+      "output_tokens": 281
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows the alarm and maintenance window overlap, but does not prove the maintenance caused the signal loss.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0001 explicitly states the time window and the drop in traffic and availability for the two sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000037 confirms a critical LINK_LOS alarm on LNK-SUD-02-B raised at the specified time.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "MW-0001's window (22:12-03:14) overlaps the alarm time (22:39) on the same node.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALM-000038 and ALM-000039 both confirm critical SITE_DOWN alarms on the respective sites at 22:40.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T3 output explicitly states no changes occurred on the specified nodes and parents within the time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

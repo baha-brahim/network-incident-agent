@@ -1,0 +1,50 @@
+{
+  "case_id": "h202-SCN-034-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4362,
+      "live_tokens": 4675,
+      "output_tokens": 313
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence shows a temporal correlation and rollback, but does not prove the configuration was 'faulty' or definitively the cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 and T1 explicitly show the RRC drop onset at 06:15 and drop rate spike onset at 06:30 for S-SAH-010.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T5 and CHG-2026-0082 confirm the config_push of OPT-21 to S-SAH-010 at 06:26.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 states 'No critical or major alarm in this window' for the specified nodes and descendants.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly reports no maintenance windows for the specified nodes and ancestors in the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T3 shows KPI recovery at 13:45, T4 shows alarm clearance at 13:42/13:46, and CHG-2026-0085 shows rollback at 13:40.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}
