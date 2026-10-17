@@ -1,0 +1,592 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-21T07:17:00Z",
+    "case_id": "h202-SCN-018-q0",
+    "question": "Availability for S-SAH-006 fell to zero last night. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-018",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:32:08.689006Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-21T07:17:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-21 08:17",
+          "entity_id": "S-SAH-006",
+          "region_id": null,
+          "start": "2026-09-20 16:00"
+        },
+        "body": "1 alert(s): ALR-0023 2026-09-21 04:15-06:00. Traffic, active users and availability drop on 1 site in SAH (S-SAH-006) for 2 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0023 medium ended, 2026-09-21 04:15 to 2026-09-21 06:00 (1.8 h): Traffic, active users and availability drop on 1 site in SAH (S-SAH-006) for 2 h\n  active_users drop on 1 entity: worst S-SAH-006 z -12.2, 8.4 -> 0, 2026-09-21 04:15 to 2026-09-21 06:00\n  availability_pct drop on 1 entity: worst S-SAH-006 z -100.0, 100 -> 0, 2026-09-21 04:15 to 2026-09-21 06:00\n  dl_volume_mb drop on 1 entity: worst S-SAH-006 z -11.5, 642 -> 0, 2026-09-21 04:15 to 2026-09-21 06:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0023 2026-09-21 04:15-06:00. Traffic, active users and availability drop on 1 site in SAH (S-SAH-006) for 2 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0023",
+          "ANM-000225",
+          "ANM-000226",
+          "ANM-000227"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-006"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-006 (site) -> LNK-SAH-01-B (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-006: site, SAH, Msaken, rural.\nCells: C-SAH-006-1, C-SAH-006-2, C-SAH-006-3.\nSiblings under LNK-SAH-01-B: S-SAH-005, S-SAH-011.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-006 (site) -> LNK-SAH-01-B (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-006",
+          "LNK-SAH-01-B",
+          "AGG-SAH-01",
+          "CORE-UPF-01",
+          "S-SAH-005",
+          "S-SAH-011"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-21 08:17",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SAH-006",
+            "LNK-SAH-01-B",
+            "AGG-SAH-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "5 alarm(s) on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and nodes below: 1 critical, 2 major, 2 minor; 0 active. Earliest critical/major: 2026-09-21 02:33 MAINS_FAILURE on S-SAH-006 (ALM-000361).\nEarliest critical/major: 2026-09-21 02:33 MAINS_FAILURE on S-SAH-006 (ALM-000361).\n2026-09-20 20:53 ALM-000355 minor LINK_DEGRADED LNK-SAH-01-A (below AGG-SAH-01): cleared 2026-09-20 21:22\n2026-09-20 21:56 ALM-000356 minor LINK_DEGRADED LNK-SAH-01-A (below AGG-SAH-01): cleared 2026-09-20 22:21\n2026-09-21 02:33 ALM-000361 major MAINS_FAILURE S-SAH-006: cleared 2026-09-21 06:00\n2026-09-21 04:05 ALM-000362 major BATTERY_LOW S-SAH-006: cleared 2026-09-21 06:00\n2026-09-21 04:20 ALM-000363 critical SITE_DOWN S-SAH-006: cleared 2026-09-21 06:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and nodes below: 1 critical, 2 major, 2 minor; 0 active. Earliest critical/major: 2026-09-21 02:33 MAINS_FAILURE on S-SAH-006 (ALM-000361).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000355",
+          "ALM-000356",
+          "ALM-000361",
+          "ALM-000362",
+          "ALM-000363"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:17",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-006",
+            "LNK-SAH-01-B",
+            "AGG-SAH-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No changes on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:17",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-006",
+            "LNK-SAH-01-B",
+            "AGG-SAH-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:17",
+          "entity_ids": [
+            "S-SAH-006"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "availability_pct",
+            "active_users"
+          ],
+          "start": "2026-09-20 18:00"
+        },
+        "body": "Deviation in 2 of 2 series. Earliest onset 2026-09-21 04:15: S-SAH-006 availability_pct below baseline.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-21 08:17). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SAH-006 availability_pct: mean 88.7 vs baseline 100 (-11%); min 0 at 2026-09-21 04:30, max 100 at 2026-09-20 18:00.\nDeviation below baseline: onset 2026-09-21 04:15; worst 0 vs 100 at 2026-09-21 04:30; recovery 2026-09-21 06:00.\nseries (75 min buckets from 2026-09-20 18:00): 100 100 100 100 100 100 100 100 26.7 42.7 100 100\nbaseline: 100 100 100 100 100 100 100 100 100 100 100 100\nS-SAH-006 active_users: mean 37.1 vs baseline 36.4 (+2%); min 0 at 2026-09-21 04:30, max 85.3 at 2026-09-20 22:00.\nDeviation below baseline: onset 2026-09-21 04:15; worst 0 vs 8.3 at 2026-09-21 04:30; recovery 2026-09-21 06:00.\nseries (75 min buckets from 2026-09-20 18:00): 51.1 71.9 80.4 79.4 53.1 26.7 14.2 9.5 2.22 5.6 19.5 28.2\nbaseline: 51.4 69.5 77.9 71.6 49.1 26.3 14 9.03 8.43 11.1 17.9 25.8",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 2 series. Earliest onset 2026-09-21 04:15: S-SAH-006 availability_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 34
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-01": {
+        "kind": "node",
+        "ref": "AGG-SAH-01",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000355": {
+        "kind": "alarm",
+        "ref": "ALM-000355",
+        "summary": "minor LINK_DEGRADED on LNK-SAH-01-A, raised 2026-09-20 20:53, cleared 2026-09-20 21:22"
+      },
+      "ALM-000356": {
+        "kind": "alarm",
+        "ref": "ALM-000356",
+        "summary": "minor LINK_DEGRADED on LNK-SAH-01-A, raised 2026-09-20 21:56, cleared 2026-09-20 22:21"
+      },
+      "ALM-000361": {
+        "kind": "alarm",
+        "ref": "ALM-000361",
+        "summary": "major MAINS_FAILURE on S-SAH-006, raised 2026-09-21 02:33, cleared 2026-09-21 06:00"
+      },
+      "ALM-000362": {
+        "kind": "alarm",
+        "ref": "ALM-000362",
+        "summary": "major BATTERY_LOW on S-SAH-006, raised 2026-09-21 04:05, cleared 2026-09-21 06:00"
+      },
+      "ALM-000363": {
+        "kind": "alarm",
+        "ref": "ALM-000363",
+        "summary": "critical SITE_DOWN on S-SAH-006, raised 2026-09-21 04:20, cleared 2026-09-21 06:00"
+      },
+      "ALR-0023": {
+        "kind": "alert",
+        "ref": "ALR-0023",
+        "summary": "ended alert from 2026-09-21 04:15: 1 site(s) (S-SAH-006); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000225": {
+        "kind": "anomaly",
+        "ref": "ANM-000225",
+        "summary": "S-SAH-006 active_users drop, z -12.2, baseline 8.4 -> 0"
+      },
+      "ANM-000226": {
+        "kind": "anomaly",
+        "ref": "ANM-000226",
+        "summary": "S-SAH-006 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000227": {
+        "kind": "anomaly",
+        "ref": "ANM-000227",
+        "summary": "S-SAH-006 dl_volume_mb drop, z -11.5, baseline 642 -> 0"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-01-B": {
+        "kind": "node",
+        "ref": "LNK-SAH-01-B",
+        "summary": "fiber link, SAH, 23.7 km, 10.0 Gbps"
+      },
+      "S-SAH-005": {
+        "kind": "node",
+        "ref": "S-SAH-005",
+        "summary": "site, SAH, Mahdia, urban; sibling of S-SAH-006"
+      },
+      "S-SAH-006": {
+        "kind": "node",
+        "ref": "S-SAH-006",
+        "summary": "site, SAH, Msaken, rural; chain: S-SAH-006 -> LNK-SAH-01-B -> AGG-SAH-01 -> CORE-UPF-01"
+      },
+      "S-SAH-011": {
+        "kind": "node",
+        "ref": "S-SAH-011",
+        "summary": "site, SAH, Khenis, suburban; sibling of S-SAH-006"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:17, entity_id=S-SAH-006) -> 1 alert(s): ALR-0023 2026-09-21 04:15-06:00. Traffic, active users and availability drop on 1 site in SAH (S-SAH-006) for 2 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-006, include=all) -> Depends on (child -> parent -> core): S-SAH-006 (site) -> LNK-SAH-01-B (fiber link) -> AGG-SAH-01 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-20 18:00, end=2026-09-21 08:17, node_ids=['S-SAH-006', 'LNK-SAH-01-B', 'AGG-SAH-01'], include_descendants=True) -> 5 alarm(s) on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and nodes below: 1 critical, 2 major, 2 minor; 0 active. Earliest critical/major: 2026-09-21 02:33 MAINS_FAILURE on S-SAH-006 (ALM-000361)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-20 18:00, end=2026-09-21 08:17, node_ids=['S-SAH-006', 'LNK-SAH-01-B', 'AGG-SAH-01'], include_ancestors=True) -> No changes on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-20 18:00, end=2026-09-21 08:17, node_ids=['S-SAH-006', 'LNK-SAH-01-B', 'AGG-SAH-01'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-006'], metrics=['availability_pct', 'active_users'], start=2026-09-20 18:00, end=2026-09-21 08:17) -> Deviation in 2 of 2 series. Earliest onset 2026-09-21 04:15: S-SAH-006 availability_pct below baseline."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Power Failure at Site S-SAH-006\n\n- **Classification:** incident\n- **Root cause:** power_failure at `S-SAH-006`\n- **Confidence:** medium (Direct alarm evidence for mains failure and battery low matches KPI degradation timing; changes and maintenance were ruled out.)\n- **Impact:** 2026-09-21 04:15 to 2026-09-21 06:00\n- **Cause time:** 2026-09-21 02:33\n- **Affected:** S-SAH-006\n\n## Summary\n\nA mains power failure at site S-SAH-006 led to battery depletion and subsequent site outage.\n\nAvailability and traffic dropped to zero for site S-SAH-006 for nearly two hours before recovering.\n\n## Timeline\n\n- 2026-09-21 02:33: Mains failure alarm raised on site S-SAH-006. [ALM-000361]\n- 2026-09-21 04:05: Battery low alarm raised on S-SAH-006. [ALM-000362]\n- 2026-09-21 04:15: Availability and traffic drop onset on S-SAH-006. [T1, T6]\n- 2026-09-21 04:20: Critical site down alarm raised on S-SAH-006. [ALM-000363]\n- 2026-09-21 06:00: All alarms cleared and impact ended. [T3, T6]\n\n## Evidence\n\n- Major mains failure occurred on S-SAH-006 at 02:33. [ALM-000361]\n- Major battery low alarm was triggered on S-SAH-006 at 04:05. [ALM-000362]\n- Critical site down alarm occurred on S-SAH-006 at 04:20. [ALM-000363]\n- Availability and active users dropped to zero starting 2026-09-21 04:15. [T1, T6]\n- No changes or maintenance windows were scheduled on S-SAH-006 or its parent chain during the incident. [T4, T5]\n\n## Hypotheses\n\n1. **power_failure** at S-SAH-006: confirmed. Mains failure, low battery, and site down alarms directly coincide with the traffic and availability outage. [ALM-000361, ALM-000362, ALM-000363, T1]\n2. **bad_change**: rejected. No changes were recorded on S-SAH-006 or its parents during the time window. [T4]\n\n## Ruled out\n\n- ALM-000355: Minor link degraded on LNK-SAH-01-A occurred earlier and cleared long before the availability drop.\n- ALM-000356: Minor link degraded on LNK-SAH-01-A occurred earlier and cleared long before the availability drop.\n\n## Recommended actions\n\n- Inspect the power supply and mains feed at site S-SAH-006.\n- Verify battery backup system health and recharge capabilities at S-SAH-006.\n\n## Sources\n\n- `ALM-000361`: major MAINS_FAILURE on S-SAH-006, raised 2026-09-21 02:33, cleared 2026-09-21 06:00\n- `ALM-000362`: major BATTERY_LOW on S-SAH-006, raised 2026-09-21 04:05, cleared 2026-09-21 06:00\n- `T1`: get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:17, entity_id=S-SAH-006) -> 1 alert(s): ALR-0023 2026-09-21 04:15-06:00. Traffic, active users and availability drop on 1 site in SAH (S-SAH-006) for 2 h\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-SAH-006'], metrics=['availability_pct', 'active_users'], start=2026-09-20 18:00, end=2026-09-21 08:17) -> Deviation in 2 of 2 series. Earliest onset 2026-09-21 04:15: S-SAH-006 availability_pct below baseline.\n- `ALM-000363`: critical SITE_DOWN on S-SAH-006, raised 2026-09-21 04:20, cleared 2026-09-21 06:00\n- `T3`: get_alarms(start=2026-09-20 18:00, end=2026-09-21 08:17, node_ids=['S-SAH-006', 'LNK-SAH-01-B', 'AGG-SAH-01'], include_descendants=True) -> 5 alarm(s) on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and nodes below: 1 critical, 2 major, 2 minor; 0 active. Earliest critical/major: 2026-09-21 02:33 MAINS_FAILURE on S-SAH-006 (ALM-000361).\n- `T4`: get_changes(start=2026-09-20 18:00, end=2026-09-21 08:17, node_ids=['S-SAH-006', 'LNK-SAH-01-B', 'AGG-SAH-01'], include_ancestors=True) -> No changes on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17.\n- `T5`: get_maintenance(start=2026-09-20 18:00, end=2026-09-21 08:17, node_ids=['S-SAH-006', 'LNK-SAH-01-B', 'AGG-SAH-01'], include_ancestors=True) -> No maintenance window scheduled on S-SAH-006, LNK-SAH-01-B, AGG-SAH-01 and its parents between 2026-09-20 18:00 and 2026-09-21 08:17.\n- `ALM-000355`: minor LINK_DEGRADED on LNK-SAH-01-A, raised 2026-09-20 20:53, cleared 2026-09-20 21:22\n- `ALM-000356`: minor LINK_DEGRADED on LNK-SAH-01-A, raised 2026-09-20 21:56, cleared 2026-09-20 22:21\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Availability for S-SAH-006 fell to zero last night. What is going on?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-006"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct alarm evidence for mains failure and battery low matches KPI degradation timing; changes and maintenance were ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Minor link degraded on LNK-SAH-01-A occurred earlier and cleared long before the availability drop.",
+          "ref": "ALM-000355"
+        },
+        {
+          "reason": "Minor link degraded on LNK-SAH-01-A occurred earlier and cleared long before the availability drop.",
+          "ref": "ALM-000356"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Major mains failure occurred on S-SAH-006 at 02:33.",
+          "refs": [
+            "ALM-000361"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Major battery low alarm was triggered on S-SAH-006 at 04:05.",
+          "refs": [
+            "ALM-000362"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Critical site down alarm occurred on S-SAH-006 at 04:20.",
+          "refs": [
+            "ALM-000363"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Availability and active users dropped to zero starting 2026-09-21 04:15.",
+          "refs": [
+            "T1",
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes or maintenance windows were scheduled on S-SAH-006 or its parent chain during the incident.",
+          "refs": [
+            "T4",
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "power_failure",
+          "node_id": "S-SAH-006",
+          "reason": "Mains failure, low battery, and site down alarms directly coincide with the traffic and availability outage.",
+          "refs": [
+            "ALM-000361",
+            "ALM-000362",
+            "ALM-000363",
+            "T1"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "No changes were recorded on S-SAH-006 or its parents during the time window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-21 06:00",
+      "impact_start": "2026-09-21 04:15",
+      "impact_summary": "Availability and traffic dropped to zero for site S-SAH-006 for nearly two hours before recovering.",
+      "recommended_actions": [
+        "Inspect the power supply and mains feed at site S-SAH-006.",
+        "Verify battery backup system health and recharge capabilities at S-SAH-006."
+      ],
+      "root_cause_category": "power_failure",
+      "root_cause_node_id": "S-SAH-006",
+      "root_cause_summary": "A mains power failure at site S-SAH-006 led to battery depletion and subsequent site outage.",
+      "root_cause_time": "2026-09-21 02:33",
+      "timeline": [
+        {
+          "event": "Mains failure alarm raised on site S-SAH-006.",
+          "refs": [
+            "ALM-000361"
+          ],
+          "time": "2026-09-21 02:33"
+        },
+        {
+          "event": "Battery low alarm raised on S-SAH-006.",
+          "refs": [
+            "ALM-000362"
+          ],
+          "time": "2026-09-21 04:05"
+        },
+        {
+          "event": "Availability and traffic drop onset on S-SAH-006.",
+          "refs": [
+            "T1",
+            "T6"
+          ],
+          "time": "2026-09-21 04:15"
+        },
+        {
+          "event": "Critical site down alarm raised on S-SAH-006.",
+          "refs": [
+            "ALM-000363"
+          ],
+          "time": "2026-09-21 04:20"
+        },
+        {
+          "event": "All alarms cleared and impact ended.",
+          "refs": [
+            "T3",
+            "T6"
+          ],
+          "time": "2026-09-21 06:00"
+        }
+      ],
+      "title": "Power Failure at Site S-SAH-006"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-5aad453753",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-006"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "Availability fell to zero",
+      "unknown_ids": [],
+      "window_end": "2026-09-21T05:00:00Z",
+      "window_start": "2026-09-20T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 386,
+        "latency_ms": 5078,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 120,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 23
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2557,
+        "latency_ms": 2728,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 278,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3430,
+        "latency_ms": 1059,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 90,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4180,
+        "latency_ms": 6115,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 165,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 11
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4015,
+        "latency_ms": 3568,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1338,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4203
+      }
+    ],
+    "usage": {
+      "cached_calls": 4,
+      "input_tokens": 14568,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 5,
+      "output_tokens": 1991,
+      "tool_calls": 6,
+      "wall_seconds": 4.34
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-006"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [
+      {
+        "id": "ALM-000360",
+        "table": "alarms",
+        "visible_from": "2026-09-21T01:22:00+00:00",
+        "why": "A separate, unrelated link_degradation on LNK-SAH-02-A in the same region, overlapping in time; it has its own scenario and must not be merged into this one."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-21T04:58:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000361",
+        "table": "alarms",
+        "visible_from": "2026-09-21T01:33:00+00:00"
+      },
+      {
+        "id": "ALM-000362",
+        "table": "alarms",
+        "visible_from": "2026-09-21T03:05:00+00:00"
+      },
+      {
+        "id": "ALM-000363",
+        "table": "alarms",
+        "visible_from": "2026-09-21T03:20:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-21T03:20:00Z",
+    "is_incident": true,
+    "kind": "power_outage",
+    "notes": "trap=two_incidents_one_region; Mains failure at S-SAH-006; the site went down when its batteries ran out. Trap: two unrelated incidents overlap in one region, so the report can mix them up. Settled by: each has its own node, alarms and KPI signature; asked about one, the report must name that one's cause and keep the other out. Overlaps in time with group 'pair-c'.",
+    "root_cause_category": "power_failure",
+    "root_cause_node_id": "S-SAH-006",
+    "severity": "low",
+    "start_at": "2026-09-21T01:33:00Z"
+  },
+  "variant": "no-gate"
+}

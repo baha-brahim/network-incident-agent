@@ -1,0 +1,457 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-27T08:30:00Z",
+    "case_id": "h202-SCN-028-q0",
+    "question": "Some sites in Sahel went offline last night. Is that an incident?",
+    "question_index": 0,
+    "scenario_id": "SCN-028",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:31:18.521761Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-27T08:30:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-27 09:30",
+          "entity_id": null,
+          "region_id": "SAH",
+          "start": "2026-09-26 16:00"
+        },
+        "body": "1 alert(s): ALR-0033 2026-09-27 01:30-03:30. Traffic, active users and availability drop on 1 site in SAH (S-SAH-010) for 2 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0033 medium ended, 2026-09-27 01:30 to 2026-09-27 03:30 (2.0 h): Traffic, active users and availability drop on 1 site in SAH (S-SAH-010) for 2 h\n  availability_pct drop on 2 entities: worst S-SAH-010 z -100.0, 100 -> 0, 2026-09-27 01:30 to 2026-09-27 03:30\n  active_users drop on 1 entity: worst S-SAH-010 z -7.6, 7.95 -> 0, 2026-09-27 01:45 to 2026-09-27 03:30\n  dl_volume_mb drop on 1 entity: worst S-SAH-010 z -6.7, 561 -> 0, 2026-09-27 01:45 to 2026-09-27 03:30",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0033 2026-09-27 01:30-03:30. Traffic, active users and availability drop on 1 site in SAH (S-SAH-010) for 2 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0033",
+          "ANM-000376",
+          "ANM-000377",
+          "ANM-000378"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-27 06:00:00",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "S-SAH-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-26 18:00:00"
+        },
+        "body": "1 alarm(s) on S-SAH-010 and nodes below: 1 critical; 0 active. Earliest critical/major: 2026-09-27 01:43 SITE_DOWN on S-SAH-010 (ALM-000467).\nEarliest critical/major: 2026-09-27 01:43 SITE_DOWN on S-SAH-010 (ALM-000467).\n2026-09-27 01:43 ALM-000467 critical SITE_DOWN S-SAH-010: cleared 2026-09-27 03:31",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-SAH-010 and nodes below: 1 critical; 0 active. Earliest critical/major: 2026-09-27 01:43 SITE_DOWN on S-SAH-010 (ALM-000467).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000467"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-27 06:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-26 18:00:00"
+        },
+        "body": "1 change(s) on S-SAH-010 and its parents, 2026-09-26 18:00 to 2026-09-27 06:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-27 09:30).\n2026-09-27 00:49 CHG-2026-0070 parameter_tuning on S-SAH-010: Handover hysteresis fine-tuning on S-SAH-010",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SAH-010 and its parents, 2026-09-26 18:00 to 2026-09-27 06:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-27 09:30).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "CHG-2026-0070"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-27 06:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-010"
+          ],
+          "region_id": null,
+          "start": "2026-09-26 18:00:00"
+        },
+        "body": "1 maintenance window(s) on S-SAH-010 and its parents overlap 2026-09-26 18:00 to 2026-09-27 06:00: 1 completed (state as of asked_at 2026-09-27 09:30).\nMW-0012 completed 2026-09-27 01:38 -> 2026-09-27 03:38 on S-SAH-010: Planned battery replacement and cabinet inspection at S-SAH-010; expected impact: Site offline for the works",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on S-SAH-010 and its parents overlap 2026-09-26 18:00 to 2026-09-27 06:00: 1 completed (state as of asked_at 2026-09-27 09:30).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "MW-0012"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALM-000467": {
+        "kind": "alarm",
+        "ref": "ALM-000467",
+        "summary": "critical SITE_DOWN on S-SAH-010, raised 2026-09-27 01:43, cleared 2026-09-27 03:31"
+      },
+      "ALR-0033": {
+        "kind": "alert",
+        "ref": "ALR-0033",
+        "summary": "ended alert from 2026-09-27 01:30: 1 site(s) (S-SAH-010); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000376": {
+        "kind": "anomaly",
+        "ref": "ANM-000376",
+        "summary": "S-SAH-010 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000377": {
+        "kind": "anomaly",
+        "ref": "ANM-000377",
+        "summary": "S-SAH-010 active_users drop, z -7.6, baseline 7.95 -> 0"
+      },
+      "ANM-000378": {
+        "kind": "anomaly",
+        "ref": "ANM-000378",
+        "summary": "S-SAH-010 dl_volume_mb drop, z -6.7, baseline 561 -> 0"
+      },
+      "CHG-2026-0070": {
+        "kind": "change",
+        "ref": "CHG-2026-0070",
+        "summary": "parameter_tuning on S-SAH-010 at 2026-09-27 00:49: Handover hysteresis fine-tuning on S-SAH-010"
+      },
+      "MW-0012": {
+        "kind": "maintenance",
+        "ref": "MW-0012",
+        "summary": "completed window 2026-09-27 01:38 -> 2026-09-27 03:38 on S-SAH-010: Planned battery replacement and cabinet inspection at S-SAH-010; expected impact: Site offline for..."
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-26 16:00, end=2026-09-27 09:30, region_id=SAH) -> 1 alert(s): ALR-0033 2026-09-27 01:30-03:30. Traffic, active users and availability drop on 1 site in SAH (S-SAH-010) for 2 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-26 18:00:00, end=2026-09-27 06:00:00, node_ids=['S-SAH-010'], include_descendants=True, min_severity=warning) -> 1 alarm(s) on S-SAH-010 and nodes below: 1 critical; 0 active. Earliest critical/major: 2026-09-27 01:43 SITE_DOWN on S-SAH-010 (ALM-000467)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-26 18:00:00, end=2026-09-27 06:00:00, node_ids=['S-SAH-010'], include_ancestors=True) -> 1 change(s) on S-SAH-010 and its parents, 2026-09-26 18:00 to 2026-09-27 06:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-27 09:30)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_maintenance(start=2026-09-26 18:00:00, end=2026-09-27 06:00:00, node_ids=['S-SAH-010'], include_ancestors=True) -> 1 maintenance window(s) on S-SAH-010 and its parents overlap 2026-09-26 18:00 to 2026-09-27 06:00: 1 completed (state as of asked_at 2026-09-27 09:30)."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Planned Maintenance Outage on S-SAH-010\n\n- **Classification:** planned_maintenance\n- **Root cause:** planned_maintenance at `S-SAH-010`\n- **Confidence:** high (Directly evidenced by a completed maintenance window matching the exact outage timing, and checked changes and alarms.)\n- **Impact:** 2026-09-27 01:30 to 2026-09-27 03:30\n- **Cause time:** 2026-09-27 01:38\n- **Affected:** S-SAH-010\n\n## Summary\n\nPlanned battery replacement and cabinet inspection caused the site to go offline.\n\nSite S-SAH-010 went offline for two hours, affecting availability, traffic, and active users.\n\n## Timeline\n\n- 2026-09-27 00:49: Parameter tuning CHG-2026-0070 applied on S-SAH-010 [CHG-2026-0070]\n- 2026-09-27 01:30: Traffic, active users and availability drop started on S-SAH-010 [ALR-0033]\n- 2026-09-27 01:38: Maintenance window MW-0012 started for battery replacement [MW-0012]\n- 2026-09-27 01:43: Critical SITE_DOWN alarm raised on S-SAH-010 [ALM-000467]\n- 2026-09-27 03:31: SITE_DOWN alarm cleared on S-SAH-010 [ALM-000467]\n- 2026-09-27 03:30: Anomaly ALR-0033 ended on S-SAH-010 [ALR-0033]\n- 2026-09-27 03:38: Maintenance window MW-0012 completed [MW-0012]\n\n## Evidence\n\n- Availability dropped to zero on S-SAH-010 from 2026-09-27 01:30 to 2026-09-27 03:30. [ALR-0033]\n- A critical SITE_DOWN alarm occurred on S-SAH-010 at 2026-09-27 01:43 and cleared at 2026-09-27 03:31. [ALM-000467]\n- Planned maintenance MW-0012 ran from 2026-09-27 01:38 to 2026-09-27 03:38 for battery replacement. [MW-0012]\n- Parameter tuning CHG-2026-0070 was executed on S-SAH-010 at 2026-09-27 00:49. [CHG-2026-0070]\n\n## Hypotheses\n\n1. **planned_maintenance** at S-SAH-010: confirmed. Maintenance window MW-0012 matches the exact time and expected impact of the site outage. [MW-0012]\n2. **bad_change** at S-SAH-010: rejected. Change CHG-2026-0070 occurred earlier and was parameter tuning, while MW-0012 directly accounts for the site being offline. [CHG-2026-0070, MW-0012]\n\n## Ruled out\n\n- CHG-2026-0070: Ruled out as the cause because planned maintenance MW-0012 explicitly covers the site offline impact at the exact outage time.\n\n## Recommended actions\n\n- Verify post-maintenance KPIs on S-SAH-010.\n- Ensure closure of maintenance ticket MW-0012.\n\n## Sources\n\n- `CHG-2026-0070`: parameter_tuning on S-SAH-010 at 2026-09-27 00:49: Handover hysteresis fine-tuning on S-SAH-010\n- `ALR-0033`: ended alert from 2026-09-27 01:30: 1 site(s) (S-SAH-010); region-level SAH; metrics: active_users, availability_pct, dl_volume_mb\n- `MW-0012`: completed window 2026-09-27 01:38 -> 2026-09-27 03:38 on S-SAH-010: Planned battery replacement and cabinet inspection at S-SAH-010; expected impact: Site offline for...\n- `ALM-000467`: critical SITE_DOWN on S-SAH-010, raised 2026-09-27 01:43, cleared 2026-09-27 03:31\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Some sites in Sahel went offline last night. Is that an incident?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-010"
+      ],
+      "classification": "planned_maintenance",
+      "confidence": "high",
+      "confidence_reason": "Directly evidenced by a completed maintenance window matching the exact outage timing, and checked changes and alarms.",
+      "dismissed_signals": [
+        {
+          "reason": "Ruled out as the cause because planned maintenance MW-0012 explicitly covers the site offline impact at the exact outage time.",
+          "ref": "CHG-2026-0070"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Availability dropped to zero on S-SAH-010 from 2026-09-27 01:30 to 2026-09-27 03:30.",
+          "refs": [
+            "ALR-0033"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A critical SITE_DOWN alarm occurred on S-SAH-010 at 2026-09-27 01:43 and cleared at 2026-09-27 03:31.",
+          "refs": [
+            "ALM-000467"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Planned maintenance MW-0012 ran from 2026-09-27 01:38 to 2026-09-27 03:38 for battery replacement.",
+          "refs": [
+            "MW-0012"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Parameter tuning CHG-2026-0070 was executed on S-SAH-010 at 2026-09-27 00:49.",
+          "refs": [
+            "CHG-2026-0070"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "planned_maintenance",
+          "node_id": "S-SAH-010",
+          "reason": "Maintenance window MW-0012 matches the exact time and expected impact of the site outage.",
+          "refs": [
+            "MW-0012"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SAH-010",
+          "reason": "Change CHG-2026-0070 occurred earlier and was parameter tuning, while MW-0012 directly accounts for the site being offline.",
+          "refs": [
+            "CHG-2026-0070",
+            "MW-0012"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-27 03:30",
+      "impact_start": "2026-09-27 01:30",
+      "impact_summary": "Site S-SAH-010 went offline for two hours, affecting availability, traffic, and active users.",
+      "recommended_actions": [
+        "Verify post-maintenance KPIs on S-SAH-010.",
+        "Ensure closure of maintenance ticket MW-0012."
+      ],
+      "root_cause_category": "planned_maintenance",
+      "root_cause_node_id": "S-SAH-010",
+      "root_cause_summary": "Planned battery replacement and cabinet inspection caused the site to go offline.",
+      "root_cause_time": "2026-09-27 01:38",
+      "timeline": [
+        {
+          "event": "Parameter tuning CHG-2026-0070 applied on S-SAH-010",
+          "refs": [
+            "CHG-2026-0070"
+          ],
+          "time": "2026-09-27 00:49"
+        },
+        {
+          "event": "Traffic, active users and availability drop started on S-SAH-010",
+          "refs": [
+            "ALR-0033"
+          ],
+          "time": "2026-09-27 01:30"
+        },
+        {
+          "event": "Maintenance window MW-0012 started for battery replacement",
+          "refs": [
+            "MW-0012"
+          ],
+          "time": "2026-09-27 01:38"
+        },
+        {
+          "event": "Critical SITE_DOWN alarm raised on S-SAH-010",
+          "refs": [
+            "ALM-000467"
+          ],
+          "time": "2026-09-27 01:43"
+        },
+        {
+          "event": "SITE_DOWN alarm cleared on S-SAH-010",
+          "refs": [
+            "ALM-000467"
+          ],
+          "time": "2026-09-27 03:31"
+        },
+        {
+          "event": "Anomaly ALR-0033 ended on S-SAH-010",
+          "refs": [
+            "ALR-0033"
+          ],
+          "time": "2026-09-27 03:30"
+        },
+        {
+          "event": "Maintenance window MW-0012 completed",
+          "refs": [
+            "MW-0012"
+          ],
+          "time": "2026-09-27 03:38"
+        }
+      ],
+      "title": "Planned Maintenance Outage on S-SAH-010"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-e06ebb629a",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "sites offline",
+      "unknown_ids": [],
+      "window_end": "2026-09-27T05:00:00Z",
+      "window_start": "2026-09-26T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 379,
+        "latency_ms": 1417,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 22
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2320,
+        "latency_ms": 1233,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 235,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3046,
+        "latency_ms": 4023,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 115,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 8
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2515,
+        "latency_ms": 3611,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1481,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4322
+      }
+    ],
+    "usage": {
+      "cached_calls": 3,
+      "input_tokens": 8260,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 4,
+      "output_tokens": 1934,
+      "tool_calls": 4,
+      "wall_seconds": 4.41
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-010"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0070",
+        "table": "changes",
+        "visible_from": "2026-09-26T23:49:00+00:00",
+        "why": "Harmless parameter_tuning on S-SAH-010 49 min before the maintenance window; the outage follows the window, not the change."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-27T02:38:00Z",
+    "evidence": [
+      {
+        "id": "MW-0012",
+        "table": "maintenance",
+        "visible_from": null
+      },
+      {
+        "id": "ALM-000467",
+        "table": "alarms",
+        "visible_from": "2026-09-27T00:43:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_maintenance",
+      "get_alarms",
+      "query_kpis",
+      "get_changes"
+    ],
+    "impact_start_at": "2026-09-27T00:42:00Z",
+    "is_incident": false,
+    "kind": "planned_maintenance",
+    "notes": "trap=maintenance_with_scary_change; Sites went down inside the maintenance window on S-SAH-010; not an incident. Trap: a parameter_tuning on S-SAH-010 was executed 49 min before the window opened, so a hasty investigator ties the outage to the change. Settled by: the four tests of the maintenance runbook pass: the window covers the node, the outage lies inside it (it starts a few minutes after the window opens and ends before it closes), the works can cause it, and the window is completed; the KPIs were normal between the change and the window, and a change does not explain a loss-of-signal outage that follows the window.",
+    "root_cause_category": "planned_maintenance",
+    "root_cause_node_id": "S-SAH-010",
+    "severity": "low",
+    "start_at": "2026-09-27T00:38:00Z"
+  },
+  "variant": "no-gate"
+}

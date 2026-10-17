@@ -1,0 +1,381 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-30T08:39:00Z",
+    "case_id": "h202-SCN-031-q0",
+    "question": "S-SUD-007 keeps raising alarms yesterday afternoon. Is the site in trouble?",
+    "question_index": 0,
+    "scenario_id": "SCN-031",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:30:05.521778Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-30T08:39:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-30 09:39",
+          "entity_id": "S-SUD-007",
+          "region_id": null,
+          "start": "2026-09-29 10:00"
+        },
+        "body": "No detector alerts for S-SUD-007 or its relatives between 2026-09-29 10:00 and 2026-09-30 09:39.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No detector alerts for S-SUD-007 or its relatives between 2026-09-29 10:00 and 2026-09-30 09:39.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-007"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-007: site, SUD, Matmata, urban.\nCells: C-SUD-007-1, C-SUD-007-2, C-SUD-007-3.\nSiblings under LNK-SUD-02-A: S-SUD-006.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SUD-007",
+          "LNK-SUD-02-A",
+          "AGG-SUD-02",
+          "CORE-UPF-02",
+          "S-SUD-006"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-02-A": {
+        "kind": "node",
+        "ref": "LNK-SUD-02-A",
+        "summary": "fiber link, SUD, 4.2 km, 10.0 Gbps"
+      },
+      "S-SUD-006": {
+        "kind": "node",
+        "ref": "S-SUD-006",
+        "summary": "site, SUD, Mareth, suburban; sibling of S-SUD-007"
+      },
+      "S-SUD-007": {
+        "kind": "node",
+        "ref": "S-SUD-007",
+        "summary": "site, SUD, Matmata, urban; chain: S-SUD-007 -> LNK-SUD-02-A -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-29 10:00, end=2026-09-30 09:39, entity_id=S-SUD-007) -> No detector alerts for S-SUD-007 or its relatives between 2026-09-29 10:00 and 2026-09-30 09:39."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SUD-007, include=all) -> Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered to low: nothing positive explains the report (symptom not found)."
+    ],
+    "markdown": "# Site S-SUD-007 Alarms Investigation\n\n- **Classification:** no_impact\n- **Root cause:** no_impact at `S-SUD-007`\n- **Confidence:** low (Anomaly detection checked directly on S-SUD-007 returned no alerts for the entire window.)\n- **Impact:** unknown start to not established or ongoing\n- **Affected:** S-SUD-007\n\n## Summary\n\nNo actual impact or anomalies were found on S-SUD-007 during the queried window, indicating normal site operation despite reported alarms.\n\nNo impact on site S-SUD-007; zero detector alerts were registered.\n\n## Timeline\n\n- 2026-09-29 12:00: Start of queried investigation window for S-SUD-007. [T1]\n- 2026-09-29 18:00: End of queried investigation window. [T1]\n\n## Evidence\n\n- No detector alerts for S-SUD-007 or its relatives between 2026-09-29 10:00 and 2026-09-30 09:39. [T1]\n- S-SUD-007 depends on LNK-SUD-02-A, AGG-SUD-02, and CORE-UPF-02. [T2]\n\n## Hypotheses\n\n1. **no_impact** at S-SUD-007: confirmed. Anomaly checks confirmed zero alerts or operational issues on S-SUD-007. [T1]\n\n## Recommended actions\n\n- Verify local alarm generation systems at site S-SUD-007 to check for noisy transient triggers.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-29 10:00, end=2026-09-30 09:39, entity_id=S-SUD-007) -> No detector alerts for S-SUD-007 or its relatives between 2026-09-29 10:00 and 2026-09-30 09:39.\n- `T2`: get_topology(node_id=S-SUD-007, include=all) -> Depends on (child -> parent -> core): S-SUD-007 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\n\n## Verification notes\n\n- Confidence lowered to low: nothing positive explains the report (symptom not found).\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "S-SUD-007 keeps raising alarms yesterday afternoon. Is the site in trouble?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-007"
+      ],
+      "classification": "no_impact",
+      "confidence": "low",
+      "confidence_reason": "Anomaly detection checked directly on S-SUD-007 returned no alerts for the entire window.",
+      "dismissed_signals": [],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "No detector alerts for S-SUD-007 or its relatives between 2026-09-29 10:00 and 2026-09-30 09:39.",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SUD-007 depends on LNK-SUD-02-A, AGG-SUD-02, and CORE-UPF-02.",
+          "refs": [
+            "T2"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "no_impact",
+          "node_id": "S-SUD-007",
+          "reason": "Anomaly checks confirmed zero alerts or operational issues on S-SUD-007.",
+          "refs": [
+            "T1"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": null,
+      "impact_summary": "No impact on site S-SUD-007; zero detector alerts were registered.",
+      "recommended_actions": [
+        "Verify local alarm generation systems at site S-SUD-007 to check for noisy transient triggers."
+      ],
+      "root_cause_category": "no_impact",
+      "root_cause_node_id": "S-SUD-007",
+      "root_cause_summary": "No actual impact or anomalies were found on S-SUD-007 during the queried window, indicating normal site operation despite reported alarms.",
+      "root_cause_time": null,
+      "timeline": [
+        {
+          "event": "Start of queried investigation window for S-SUD-007.",
+          "refs": [
+            "T1"
+          ],
+          "time": "2026-09-29 12:00"
+        },
+        {
+          "event": "End of queried investigation window.",
+          "refs": [
+            "T1"
+          ],
+          "time": "2026-09-29 18:00"
+        }
+      ],
+      "title": "Site S-SUD-007 Alarms Investigation"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-3264ee2d05",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SUD-007"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "site keeps raising alarms",
+      "unknown_ids": [],
+      "window_end": "2026-09-29T17:00:00Z",
+      "window_start": "2026-09-29T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 385,
+        "latency_ms": 6566,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 120,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2205,
+        "latency_ms": 10504,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 142,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 1483,
+        "latency_ms": 3166,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 661,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3174
+      }
+    ],
+    "usage": {
+      "cached_calls": 2,
+      "input_tokens": 4073,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 3,
+      "output_tokens": 923,
+      "tool_calls": 2,
+      "wall_seconds": 3.22
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-29T12:46:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000498",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:37:00+00:00"
+      },
+      {
+        "id": "ALM-000499",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:38:00+00:00"
+      },
+      {
+        "id": "ALM-000500",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:38:00+00:00"
+      },
+      {
+        "id": "ALM-000501",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:40:00+00:00"
+      },
+      {
+        "id": "ALM-000502",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:44:00+00:00"
+      },
+      {
+        "id": "ALM-000503",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:44:00+00:00"
+      },
+      {
+        "id": "ALM-000504",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:54:00+00:00"
+      },
+      {
+        "id": "ALM-000505",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:54:00+00:00"
+      },
+      {
+        "id": "ALM-000506",
+        "table": "alarms",
+        "visible_from": "2026-09-29T11:55:00+00:00"
+      },
+      {
+        "id": "ALM-000507",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:00:00+00:00"
+      },
+      {
+        "id": "ALM-000508",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:06:00+00:00"
+      },
+      {
+        "id": "ALM-000509",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:11:00+00:00"
+      },
+      {
+        "id": "ALM-000510",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:12:00+00:00"
+      },
+      {
+        "id": "ALM-000511",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:17:00+00:00"
+      },
+      {
+        "id": "ALM-000512",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:21:00+00:00"
+      },
+      {
+        "id": "ALM-000513",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:22:00+00:00"
+      },
+      {
+        "id": "ALM-000514",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:23:00+00:00"
+      },
+      {
+        "id": "ALM-000516",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:27:00+00:00"
+      },
+      {
+        "id": "ALM-000517",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:30:00+00:00"
+      },
+      {
+        "id": "ALM-000518",
+        "table": "alarms",
+        "visible_from": "2026-09-29T12:35:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis"
+    ],
+    "impact_start_at": "2026-09-29T11:36:00Z",
+    "is_incident": false,
+    "kind": "alarm_storm",
+    "notes": "S-SUD-007 raised 20 minor/warning alarms in an hour with no KPI impact.",
+    "root_cause_category": "no_impact",
+    "root_cause_node_id": "S-SUD-007",
+    "severity": "low",
+    "start_at": "2026-09-29T11:36:00Z"
+  },
+  "variant": "no-gate"
+}

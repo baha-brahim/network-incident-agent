@@ -25,7 +25,12 @@ from incident_agent.evals.pricing import LIST_PRICES
 from incident_agent.evals.rundir import RunDir, dumps, write_text
 from incident_agent.evals.scoring import PEER_KINDS, CaseScore, dump_score
 from incident_agent.evals.stats import bootstrap_mean_ci, mean
-from incident_agent.evals.summary import ScoredRun, load_scored_run, world_label
+from incident_agent.evals.summary import (
+    ScoredRun,
+    checks_effect,
+    load_scored_run,
+    world_label,
+)
 
 BASENAME = "evaluation"
 DEV_NOTE = "dev world: the prompts were developed on it, so these numbers are optimistic"
@@ -362,9 +367,10 @@ def render_markdown(
     )
     add("")
     add(
-        "Two worlds are used. **Seed 42 is the dev world**: the prompts were written while looking "
-        "at it, so its numbers are optimistic. **Seed 7 is the test world**: never looked at and "
-        "never tuned on. Headline numbers come from the test world."
+        "**Seed 42 (default profile) is the dev world**: the prompts were written while looking "
+        "at it, so its numbers are optimistic. Every other world is held out: built from another "
+        "seed and not looked at while the prompts were written. Headline numbers come from the "
+        "held-out worlds."
     )
     add("")
 
@@ -627,6 +633,32 @@ def render_markdown(
         )
         add("")
 
+    effects = [(r, e) for r in base if (e := checks_effect(r.scores))]
+    if effects:
+        add("## Effect of the look-alike checks")
+        add("")
+        add(
+            "After the report is written, code checks it against the records the run fetched: a "
+            "maintenance window must cover the outage in time and place, an event explains only "
+            "its venue sites, a bad change must hit when it lands, a link failure without an alarm "
+            "is placed on the shared parent, and an outage wholly inside a window is planned work. "
+            "A contradiction is stated to the model, which gets one call to correct the report. The "
+            "report as it stood before the checks is kept, so each run is scored twice on the same "
+            "investigations."
+        )
+        add("")
+        add(
+            "| run | checks fired | became right | became wrong | root cause, lenient: before -> after | high confidence and wrong: before -> after |"
+        )
+        add("|---|---|---|---|---|---|")
+        for r, e in effects:
+            add(
+                f"| {r.meta.name} | {e['fired']} of {e['n']} | {e['gained']} | {e['lost']} | "
+                f"{e['rca_lenient_before']} -> {e['rca_lenient_after']} | "
+                f"{e['confident_wrong_before']} -> {e['confident_wrong_after']} |"
+            )
+        add("")
+
     add("## Every case")
     add("")
     for r in runs:
@@ -657,9 +689,10 @@ def render_markdown(
 
     add("## Limitations")
     add("")
-    add(
-        "- **The dev world is optimistic.** The prompts and checks were adjusted while looking at seed 42. Only the test world says how the agent does on something new."
-    )
+    if any(r.meta.split == "dev" for r in runs):
+        add(
+            "- **The dev world is optimistic.** The prompts and checks were adjusted while looking at seed 42. Only the held-out worlds say how the agent does on something new."
+        )
     add(
         "- **Small samples.** There are about 34 scenarios per world, so one case moves a rate by about 3 points and the intervals are wide. Breakdowns by kind or difficulty have only a handful of cases each."
     )
@@ -687,9 +720,18 @@ def render_markdown(
     add("")
     add("```")
     add("cd backend")
-    add("uv run python -m incident_agent.evals prepare --seed 7")
-    add("uv run python -m incident_agent.evals run --name baseline-test --seed 7")
-    add("uv run python -m incident_agent.evals score --run baseline-test")
+    prepared: set[tuple[int, str]] = set()
+    for r in runs:
+        profile = f" --profile {r.meta.profile}" if r.meta.profile != "default" else ""
+        variant = f" --variant {r.meta.variant}" if r.meta.variant != "default" else ""
+        if (r.meta.seed, r.meta.profile) not in prepared:
+            prepared.add((r.meta.seed, r.meta.profile))
+            add(f"uv run python -m incident_agent.evals prepare --seed {r.meta.seed}{profile}")
+        add(
+            f"uv run python -m incident_agent.evals run --name {r.meta.name} "
+            f"--seed {r.meta.seed}{profile}{variant}"
+        )
+        add(f"uv run python -m incident_agent.evals score --run {r.meta.name}")
     add(
         "uv run python -m incident_agent.evals report --runs " + " ".join(r.meta.name for r in runs)
     )
@@ -743,6 +785,7 @@ def build_json(runs: Sequence[ScoredRun], ablations: Sequence[dict[str, Any]]) -
                     if has_traps(r.scores)
                     else {}
                 ),
+                **({"checks": e} if (e := checks_effect(r.scores)) else {}),
                 "faithfulness": {
                     "graded": len(faith),
                     "mean": mean(list(faith.values())) if faith else None,

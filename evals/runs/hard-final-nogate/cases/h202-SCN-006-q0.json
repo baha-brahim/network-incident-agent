@@ -1,0 +1,733 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-12T07:52:00Z",
+    "case_id": "h202-SCN-006-q0",
+    "question": "Reports of sluggish data in Grand Tunis yesterday evening. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-006",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:31:14.107074Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-12T07:52:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-12 08:52",
+          "entity_id": null,
+          "region_id": "TUN",
+          "start": "2026-09-11 16:00"
+        },
+        "body": "1 alert(s): ALR-0010 2026-09-11 18:45-23:45. Traffic drops; latency spikes on 3 sites in TUN (S-TUN-006, S-TUN-011, S-TUN-014) for 5 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0010 low ended, 2026-09-11 18:45 to 2026-09-11 23:45 (5.0 h): Traffic drops; latency spikes on 3 sites in TUN (S-TUN-006, S-TUN-011, S-TUN-014) for 5 h\n  dl_volume_mb drop on 3 entities: worst S-TUN-014 z -6.1, 11379 -> 5987, 2026-09-11 20:15 to 2026-09-11 22:30\n  latency_ms spike on 3 entities: worst S-TUN-014 z 16.0, 36.8 -> 73.5, 2026-09-11 18:45 to 2026-09-11 23:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0010 2026-09-11 18:45-23:45. Traffic drops; latency spikes on 3 sites in TUN (S-TUN-006, S-TUN-011, S-TUN-014) for 5 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0010",
+          "ANM-000092",
+          "ANM-000090"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "include": "ancestors",
+          "node_id": "S-TUN-014"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-014 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-014: site, TUN, Lac 2, suburban.\nCells: C-TUN-014-1, C-TUN-014-2, C-TUN-014-3.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-014 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "S-TUN-014",
+          "LNK-TUN-02-C",
+          "AGG-TUN-02",
+          "CORE-UPF-01"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-006"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-006 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-006: site, TUN, Ben Arous, suburban.\nCells: C-TUN-006-1, C-TUN-006-2, C-TUN-006-3.\nSiblings under LNK-TUN-02-C: S-TUN-011, S-TUN-014.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-006 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "S-TUN-006",
+          "LNK-TUN-02-C",
+          "AGG-TUN-02",
+          "CORE-UPF-01",
+          "S-TUN-011",
+          "S-TUN-014"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-TUN-011"
+        },
+        "body": "Depends on (child -> parent -> core): S-TUN-011 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-TUN-011: site, TUN, Hammam-Lif, rural.\nCells: C-TUN-011-1, C-TUN-011-2, C-TUN-011-3.\nSiblings under LNK-TUN-02-C: S-TUN-006, S-TUN-014.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-TUN-011 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "S-TUN-011",
+          "LNK-TUN-02-C",
+          "AGG-TUN-02",
+          "CORE-UPF-01",
+          "S-TUN-006",
+          "S-TUN-014"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-12 08:52",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-TUN-006",
+            "S-TUN-011",
+            "S-TUN-014"
+          ],
+          "region_id": null,
+          "start": "2026-09-11 16:00"
+        },
+        "body": "1 alarm(s) on S-TUN-006, S-TUN-011, S-TUN-014 and nodes below: 1 minor; 0 active. None critical/major.\nNo critical or major alarm in this window.\n2026-09-12 04:11 ALM-000193 minor VSWR_HIGH S-TUN-014: cleared 2026-09-12 04:19",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-TUN-006, S-TUN-011, S-TUN-014 and nodes below: 1 minor; 0 active. None critical/major.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "ALM-000193"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-12 08:52",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "LNK-TUN-02-C",
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-11 16:00"
+        },
+        "body": "2 alarm(s) on LNK-TUN-02-C, AGG-TUN-02 and nodes below: 1 major, 1 minor; 0 active. Earliest critical/major: 2026-09-11 18:47 LINK_DEGRADED on LNK-TUN-02-C (ALM-000191).\nEarliest critical/major: 2026-09-11 18:47 LINK_DEGRADED on LNK-TUN-02-C (ALM-000191).\n2026-09-11 18:47 ALM-000191 major LINK_DEGRADED LNK-TUN-02-C: cleared 2026-09-11 23:54\n2026-09-12 04:11 ALM-000193 minor VSWR_HIGH S-TUN-014 (below LNK-TUN-02-C): cleared 2026-09-12 04:19",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on LNK-TUN-02-C, AGG-TUN-02 and nodes below: 1 major, 1 minor; 0 active. Earliest critical/major: 2026-09-11 18:47 LINK_DEGRADED on LNK-TUN-02-C (ALM-000191).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000191",
+          "ALM-000193"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-12 08:52",
+          "include_ancestors": true,
+          "node_ids": [
+            "LNK-TUN-02-C",
+            "AGG-TUN-02",
+            "S-TUN-006",
+            "S-TUN-011",
+            "S-TUN-014"
+          ],
+          "region_id": null,
+          "start": "2026-09-11 16:00"
+        },
+        "body": "1 change(s) on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents, 2026-09-11 16:00 to 2026-09-12 08:52 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-12 08:52).\n2026-09-11 18:00 CHG-2026-0026 config_push on AGG-TUN-02: Routing policy update on AGG-TUN-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents, 2026-09-11 16:00 to 2026-09-12 08:52 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-12 08:52).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "CHG-2026-0026"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "end": "2026-09-12 08:52",
+          "include_ancestors": true,
+          "node_ids": [
+            "LNK-TUN-02-C",
+            "AGG-TUN-02",
+            "S-TUN-006",
+            "S-TUN-011",
+            "S-TUN-014"
+          ],
+          "region_id": null,
+          "start": "2026-09-11 16:00"
+        },
+        "body": "No maintenance window scheduled on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents between 2026-09-11 16:00 and 2026-09-12 08:52.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents between 2026-09-11 16:00 and 2026-09-12 08:52.",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-12 08:52",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-TUN-02",
+            "LNK-TUN-02-C"
+          ],
+          "region_id": null,
+          "start": "2026-09-11 16:00"
+        },
+        "body": "1 change(s) on AGG-TUN-02, LNK-TUN-02-C and its parents, 2026-09-11 16:00 to 2026-09-12 08:52 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-12 08:52).\n2026-09-11 18:00 CHG-2026-0026 config_push on AGG-TUN-02: Routing policy update on AGG-TUN-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on AGG-TUN-02, LNK-TUN-02-C and its parents, 2026-09-11 16:00 to 2026-09-12 08:52 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-12 08:52).",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [
+          "CHG-2026-0026"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "LINK_DEGRADED microwave link degradation routing policy update"
+        },
+        "body": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation routing policy update', best first (excerpts):\n[RB-MICROWAVE-DEGRADATION#03] Microwave link degradation > Differential diagnosis: Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on links all the time (\"minor errored seconds, link still within SLA\"). ... A major alarm on a microwave link with volume and latency moving is a different thing. ... On a fiber link, a minor `LINK_DEGRADED` with falling optical power can precede a cut by up to an hour. ... Ver...\n[RB-MICROWAVE-DEGRADATION#02] Microwave link degradation > Signature in the data: Alarm. `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"running at reduced modulation, RSL below threshold\"). It clears a few minutes after recovery. Downstream sites (three to five behind that link): `dl_volume_mb` down 20 to 50 percent, `latency_ms` up 30 to 100 percent. Availability. ... Shape. ... Exactly the children of the...\n[RB-MICROWAVE-DEGRADATION#05] Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link is microwave and list its downstream sites. 3. `query_kpis` on those sites: volume down, latency up, availability near 100 percent, PRB not high. 4. ... 5. ... 6. `get_changes` and `get_maintenance` on the link, to rule them out.\n[RB-ALARM-REFERENCE#02] Alarm reference > Transport alarms: `LINK_LOS` (critical, on a transport link). Loss of signal: no light or no carrier on the uplink. All sites behind the link go down. ... `LINK_DEGRADED` (major or minor, on a link). A major alarm on a microwave link (\"reduced modulation\") means capacity loss and a service degradation. ... On a fiber link a minor alarm with falling optical power can precede a cut.\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation routing policy update', best first (excerpts):",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T10",
+        "row_refs": [
+          "RB-MICROWAVE-DEGRADATION#03",
+          "RB-MICROWAVE-DEGRADATION#02",
+          "RB-MICROWAVE-DEGRADATION#05",
+          "RB-ALARM-REFERENCE#02"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 14
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-TUN-02": {
+        "kind": "node",
+        "ref": "AGG-TUN-02",
+        "summary": "agg router, TUN"
+      },
+      "ALM-000191": {
+        "kind": "alarm",
+        "ref": "ALM-000191",
+        "summary": "major LINK_DEGRADED on LNK-TUN-02-C, raised 2026-09-11 18:47, cleared 2026-09-11 23:54"
+      },
+      "ALM-000193": {
+        "kind": "alarm",
+        "ref": "ALM-000193",
+        "summary": "minor VSWR_HIGH on S-TUN-014, raised 2026-09-12 04:11, cleared 2026-09-12 04:19"
+      },
+      "ALR-0010": {
+        "kind": "alert",
+        "ref": "ALR-0010",
+        "summary": "ended alert from 2026-09-11 18:45: 3 site(s) (S-TUN-006, S-TUN-011, S-TUN-014); metrics: dl_volume_mb, latency_ms"
+      },
+      "ANM-000090": {
+        "kind": "anomaly",
+        "ref": "ANM-000090",
+        "summary": "S-TUN-014 latency_ms spike, z 16.0, baseline 36.8 -> 73.5"
+      },
+      "ANM-000092": {
+        "kind": "anomaly",
+        "ref": "ANM-000092",
+        "summary": "S-TUN-014 dl_volume_mb drop, z -6.1, baseline 11379 -> 5987"
+      },
+      "CHG-2026-0026": {
+        "kind": "change",
+        "ref": "CHG-2026-0026",
+        "summary": "config_push on AGG-TUN-02 at 2026-09-11 18:00: Routing policy update on AGG-TUN-02"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-TUN-02-C": {
+        "kind": "node",
+        "ref": "LNK-TUN-02-C",
+        "summary": "microwave link, TUN, 6.7 km, 1.0 Gbps"
+      },
+      "RB-ALARM-REFERENCE#02": {
+        "kind": "runbook",
+        "ref": "RB-ALARM-REFERENCE#02",
+        "summary": "Alarm reference > Transport alarms: - **`LINK_LOS`** (critical, on a transport link). Loss of signal: no light or no carrier on the uplink. All sites behind..."
+      },
+      "RB-MICROWAVE-DEGRADATION#02": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#02",
+        "summary": "Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run..."
+      },
+      "RB-MICROWAVE-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#03",
+        "summary": "Microwave link degradation > Differential diagnosis: ### Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on link..."
+      },
+      "RB-MICROWAVE-DEGRADATION#05": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#05",
+        "summary": "Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link..."
+      },
+      "S-TUN-006": {
+        "kind": "node",
+        "ref": "S-TUN-006",
+        "summary": "site, TUN, Ben Arous, suburban; sibling of S-TUN-011"
+      },
+      "S-TUN-011": {
+        "kind": "node",
+        "ref": "S-TUN-011",
+        "summary": "site, TUN, Hammam-Lif, rural; chain: S-TUN-011 -> LNK-TUN-02-C -> AGG-TUN-02 -> CORE-UPF-01"
+      },
+      "S-TUN-014": {
+        "kind": "node",
+        "ref": "S-TUN-014",
+        "summary": "site, TUN, Lac 2, suburban; sibling of S-TUN-011"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-11 16:00, end=2026-09-12 08:52, region_id=TUN) -> 1 alert(s): ALR-0010 2026-09-11 18:45-23:45. Traffic drops; latency spikes on 3 sites in TUN (S-TUN-006, S-TUN-011, S-TUN-014) for 5 h"
+      },
+      "T10": {
+        "kind": "call",
+        "ref": "T10",
+        "summary": "search_runbooks(query=LINK_DEGRADED microwave link degradation routing policy update, k=4) -> 4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation routing policy update', best first (excerpts):"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-TUN-014, include=ancestors) -> Depends on (child -> parent -> core): S-TUN-014 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_topology(node_id=S-TUN-006, include=all) -> Depends on (child -> parent -> core): S-TUN-006 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_topology(node_id=S-TUN-011, include=all) -> Depends on (child -> parent -> core): S-TUN-011 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_alarms(start=2026-09-11 16:00, end=2026-09-12 08:52, node_ids=['S-TUN-006', 'S-TUN-011', 'S-TUN-014'], include_descendants=True) -> 1 alarm(s) on S-TUN-006, S-TUN-011, S-TUN-014 and nodes below: 1 minor; 0 active. None critical/major."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-11 16:00, end=2026-09-12 08:52, node_ids=['LNK-TUN-02-C', 'AGG-TUN-02'], include_descendants=True, min_severity=warning) -> 2 alarm(s) on LNK-TUN-02-C, AGG-TUN-02 and nodes below: 1 major, 1 minor; 0 active. Earliest critical/major: 2026-09-11 18:47 LINK_DEGRADED on LNK-TUN-02-C (ALM-000191)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_changes(start=2026-09-11 16:00, end=2026-09-12 08:52, node_ids=['LNK-TUN-02-C', 'AGG-TUN-02', 'S-TUN-006', 'S-TUN-011', 'S-TUN-014'], include_ance -> 1 change(s) on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents, 2026-09-11 16:00 to 2026-09-12 08:52 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-12 08:52)."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_maintenance(start=2026-09-11 16:00, end=2026-09-12 08:52, node_ids=['LNK-TUN-02-C', 'AGG-TUN-02', 'S-TUN-006', 'S-TUN-011', 'S-TUN-014'], include_ -> No maintenance window scheduled on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents between 2026-09-11 16:00 and 2026-09-12 08:52."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_changes(start=2026-09-11 16:00, end=2026-09-12 08:52, node_ids=['AGG-TUN-02', 'LNK-TUN-02-C'], include_ancestors=True) -> 1 change(s) on AGG-TUN-02, LNK-TUN-02-C and its parents, 2026-09-11 16:00 to 2026-09-12 08:52 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-12 08:52)."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Sluggish Data in Grand Tunis Due to Microwave Link Degradation\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-TUN-02-C`\n- **Confidence:** medium (Major LINK_DEGRADED alarm timing fits KPI onset, and changes were checked and ruled out.)\n- **Impact:** 2026-09-11 18:45 to 2026-09-11 23:54\n- **Cause time:** 2026-09-11 18:47\n- **Affected:** S-TUN-006, S-TUN-011, S-TUN-014\n\n## Summary\n\nTransport degradation on shared microwave link LNK-TUN-02-C caused traffic drops and latency spikes across three downstream sites in Grand Tunis.\n\nThree sites experienced sluggish data and latency spikes from 18:45 to 23:45 on 2026-09-11.\n\n## Timeline\n\n- 2026-09-11 18:00: Routing policy update performed on aggregation router. [CHG-2026-0026]\n- 2026-09-11 18:45: Traffic drops and latency spikes begin on three sites in TUN. [ALR-0010]\n- 2026-09-11 18:47: Major LINK_DEGRADED alarm raised on microwave link LNK-TUN-02-C. [ALM-000191]\n- 2026-09-11 23:54: LINK_DEGRADED alarm clears on LNK-TUN-02-C. [ALM-000191]\n- 2026-09-11 23:45: Traffic and latency anomaly alert ends. [ALR-0010]\n\n## Evidence\n\n- Sites S-TUN-006, S-TUN-011, and S-TUN-014 share the microwave link LNK-TUN-02-C. [T2, T3, T4]\n- A major LINK_DEGRADED alarm occurred on LNK-TUN-02-C starting at 18:47 and clearing at 23:54. [ALM-000191]\n- An alert for traffic drops and latency spikes on the three sites lasted from 18:45 to 23:45. [ALR-0010]\n- No maintenance window was scheduled on the affected nodes or their parents. [T8]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-TUN-02-C: confirmed. Major LINK_DEGRADED alarm timing closely matches the onset and recovery of the traffic anomaly across all dependent sites. [ALM-000191, ALR-0010]\n2. **bad_change** at AGG-TUN-02: rejected. The configuration change on AGG-TUN-02 preceded the degradation, but the transport link alarm provides the direct signature. [CHG-2026-0026, ALM-000191]\n\n## Ruled out\n\n- CHG-2026-0026: Routing policy update occurred before the link degradation and did not correlate with the transport alarm signature.\n- ALM-000193: VSWR_HIGH minor alarm occurred hours later on 2026-09-12 and did not overlap with the evening incident.\n\n## Recommended actions\n\n- Inspect microwave link LNK-TUN-02-C hardware and path fading logs.\n- Monitor modulation stability on LNK-TUN-02-C.\n\n## Sources\n\n- `CHG-2026-0026`: config_push on AGG-TUN-02 at 2026-09-11 18:00: Routing policy update on AGG-TUN-02\n- `ALR-0010`: ended alert from 2026-09-11 18:45: 3 site(s) (S-TUN-006, S-TUN-011, S-TUN-014); metrics: dl_volume_mb, latency_ms\n- `ALM-000191`: major LINK_DEGRADED on LNK-TUN-02-C, raised 2026-09-11 18:47, cleared 2026-09-11 23:54\n- `T2`: get_topology(node_id=S-TUN-014, include=ancestors) -> Depends on (child -> parent -> core): S-TUN-014 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\n- `T3`: get_topology(node_id=S-TUN-006, include=all) -> Depends on (child -> parent -> core): S-TUN-006 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\n- `T4`: get_topology(node_id=S-TUN-011, include=all) -> Depends on (child -> parent -> core): S-TUN-011 (site) -> LNK-TUN-02-C (microwave link) -> AGG-TUN-02 (agg router) -> CORE-UPF-01 (core upf)\n- `T8`: get_maintenance(start=2026-09-11 16:00, end=2026-09-12 08:52, node_ids=['LNK-TUN-02-C', 'AGG-TUN-02', 'S-TUN-006', 'S-TUN-011', 'S-TUN-014'], include_ -> No maintenance window scheduled on LNK-TUN-02-C, AGG-TUN-02, S-TUN-006, S-TUN-011 +1 more and its parents between 2026-09-11 16:00 and 2026-09-12 08:52.\n- `ALM-000193`: minor VSWR_HIGH on S-TUN-014, raised 2026-09-12 04:11, cleared 2026-09-12 04:19\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Reports of sluggish data in Grand Tunis yesterday evening. What is going on?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-006",
+        "S-TUN-011",
+        "S-TUN-014"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Major LINK_DEGRADED alarm timing fits KPI onset, and changes were checked and ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "Routing policy update occurred before the link degradation and did not correlate with the transport alarm signature.",
+          "ref": "CHG-2026-0026"
+        },
+        {
+          "reason": "VSWR_HIGH minor alarm occurred hours later on 2026-09-12 and did not overlap with the evening incident.",
+          "ref": "ALM-000193"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Sites S-TUN-006, S-TUN-011, and S-TUN-014 share the microwave link LNK-TUN-02-C.",
+          "refs": [
+            "T2",
+            "T3",
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A major LINK_DEGRADED alarm occurred on LNK-TUN-02-C starting at 18:47 and clearing at 23:54.",
+          "refs": [
+            "ALM-000191"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "An alert for traffic drops and latency spikes on the three sites lasted from 18:45 to 23:45.",
+          "refs": [
+            "ALR-0010"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on the affected nodes or their parents.",
+          "refs": [
+            "T8"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-TUN-02-C",
+          "reason": "Major LINK_DEGRADED alarm timing closely matches the onset and recovery of the traffic anomaly across all dependent sites.",
+          "refs": [
+            "ALM-000191",
+            "ALR-0010"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "AGG-TUN-02",
+          "reason": "The configuration change on AGG-TUN-02 preceded the degradation, but the transport link alarm provides the direct signature.",
+          "refs": [
+            "CHG-2026-0026",
+            "ALM-000191"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-11 23:54",
+      "impact_start": "2026-09-11 18:45",
+      "impact_summary": "Three sites experienced sluggish data and latency spikes from 18:45 to 23:45 on 2026-09-11.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-TUN-02-C hardware and path fading logs.",
+        "Monitor modulation stability on LNK-TUN-02-C."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-TUN-02-C",
+      "root_cause_summary": "Transport degradation on shared microwave link LNK-TUN-02-C caused traffic drops and latency spikes across three downstream sites in Grand Tunis.",
+      "root_cause_time": "2026-09-11 18:47",
+      "timeline": [
+        {
+          "event": "Routing policy update performed on aggregation router.",
+          "refs": [
+            "CHG-2026-0026"
+          ],
+          "time": "2026-09-11 18:00"
+        },
+        {
+          "event": "Traffic drops and latency spikes begin on three sites in TUN.",
+          "refs": [
+            "ALR-0010"
+          ],
+          "time": "2026-09-11 18:45"
+        },
+        {
+          "event": "Major LINK_DEGRADED alarm raised on microwave link LNK-TUN-02-C.",
+          "refs": [
+            "ALM-000191"
+          ],
+          "time": "2026-09-11 18:47"
+        },
+        {
+          "event": "LINK_DEGRADED alarm clears on LNK-TUN-02-C.",
+          "refs": [
+            "ALM-000191"
+          ],
+          "time": "2026-09-11 23:54"
+        },
+        {
+          "event": "Traffic and latency anomaly alert ends.",
+          "refs": [
+            "ALR-0010"
+          ],
+          "time": "2026-09-11 23:45"
+        }
+      ],
+      "title": "Sluggish Data in Grand Tunis Due to Microwave Link Degradation"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-bb945db195",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "sluggish data",
+      "unknown_ids": [],
+      "window_end": "2026-09-11T22:59:00Z",
+      "window_start": "2026-09-11T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 380,
+        "latency_ms": 2961,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2279,
+        "latency_ms": 1242,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 164,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2592,
+        "latency_ms": 4890,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 142,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3197,
+        "latency_ms": 4025,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 472,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4173,
+        "latency_ms": 9722,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 362,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4718,
+        "latency_ms": 6832,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 215,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3078,
+        "latency_ms": 3677,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1351,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4764
+      }
+    ],
+    "usage": {
+      "cached_calls": 6,
+      "input_tokens": 20417,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 7,
+      "output_tokens": 2809,
+      "tool_calls": 10,
+      "wall_seconds": 4.91
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-TUN-02-C",
+      "S-TUN-006",
+      "S-TUN-014",
+      "S-TUN-011"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0026",
+        "table": "changes",
+        "visible_from": "2026-09-11T17:00:00+00:00",
+        "why": "Harmless config_push on AGG-TUN-02 45 min before the degradation; the sibling links under the same router were unaffected."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-11T22:52:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000191",
+        "table": "alarms",
+        "visible_from": "2026-09-11T17:47:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-11T17:45:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "trap=change_on_root_node; Rain fade on microwave link LNK-TUN-02-C: throughput limited, sites stayed up. Trap: a config_push on AGG-TUN-02, the router above the link, ran 45 min before the degradation, so a hasty investigator blames the router change. Settled by: (1) only the sites of LNK-TUN-02-C degraded, while the sites of LNK-TUN-02-A, LNK-TUN-02-B under the same router stayed normal, so a router change is not the cause; (2) the KPIs were normal between the change and the onset; (3) the major LINK_DEGRADED alarm is on the microwave link, whose signal fluctuates like weather rather than stepping; (4) it recovered without any rollback.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-TUN-02-C",
+    "severity": "medium",
+    "start_at": "2026-09-11T17:45:00Z"
+  },
+  "variant": "no-gate"
+}

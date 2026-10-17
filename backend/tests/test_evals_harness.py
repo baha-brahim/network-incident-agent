@@ -569,6 +569,26 @@ def test_report_with_test_dev_ablation_and_grades(tmp_path: Path) -> None:
     assert data["ablations"][0]["lost"] == ["s42-SCN-002-q0"]
 
 
+def test_report_shows_what_the_look_alike_checks_changed(tmp_path: Path) -> None:
+    arts = _artifacts(8, "default", wrong=False)
+    shared = arts[1].result
+    assert shared is not None
+    fixed = shared.model_copy(  # the helper shares one result between cases
+        update={"report_before_checks": make_report(root_cause_category="bad_change", **RIGHT)}
+    )
+    arts[1] = arts[1].model_copy(update={"result": fixed})
+    run = _write_run(tmp_path / "runs", "final", 8, arts, total=3)
+    out = tmp_path / "out"
+    write_report([run], out)
+    md = (out / "evaluation.md").read_text(encoding="utf-8")
+    assert "## Effect of the look-alike checks" in md
+    assert "| final | 1 of 2 | 1 | 0 | 1 -> 2 | 1 -> 0 |" in md
+    assert "--name final --seed 8" in md and "prepare --seed 8" in md
+    assert "The dev world is optimistic" not in md
+    data = json.loads((out / "evaluation.json").read_text(encoding="utf-8"))
+    assert data["runs"][0]["checks"]["gained"] == 1
+
+
 def test_report_needs_runs_that_exist(tmp_path: Path) -> None:
     with pytest.raises(FileNotFoundError):
         write_report([RunDir("missing", tmp_path)], tmp_path / "out")

@@ -1,0 +1,380 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-22T08:19:00Z",
+    "case_id": "h202-SCN-019-q0",
+    "question": "Why did nationwide traffic fall and latency rise yesterday afternoon?",
+    "question_index": 0,
+    "scenario_id": "SCN-019",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:31:09.051298Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-22T08:19:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-22 09:19",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-21 10:00"
+        },
+        "body": "2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0024 high ended, 2026-09-21 12:30 to 2026-09-21 14:00 (1.5 h): Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005 and 43 more) and on CORE-DNS-01 for 1.5 h\n  latency_ms spike on 52 entities: worst TUN z 26.1, 25 -> 51.7, 2026-09-21 12:30 to 2026-09-21 14:00\n  query_success_pct drop on 1 entity: worst CORE-DNS-01 z -113.2, 99.9 -> 87.1, 2026-09-21 12:30 to 2026-09-21 14:00\n  resolution_ms spike on 1 entity: worst CORE-DNS-01 z 75.0, 11.3 -> 140, 2026-09-21 12:30 to 2026-09-21 14:00\nALR-0025 low ended, 2026-09-21 16:45 to 2026-09-21 21:00 (4.2 h): Latency spikes on 3 sites in SAH (S-SAH-003, S-SAH-009, S-SAH-010) for 4 h\n  latency_ms spike on 3 entities: worst S-SAH-003 z 9.1, 42.8 -> 65.6, 2026-09-21 16:45 to 2026-09-21 20:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0...",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0024",
+          "ANM-000282",
+          "ANM-000229",
+          "ANM-000230",
+          "ALR-0025",
+          "ANM-000283"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALR-0024": {
+        "kind": "alert",
+        "ref": "ALR-0024",
+        "summary": "ended alert from 2026-09-21 12:30: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc..."
+      },
+      "ALR-0025": {
+        "kind": "alert",
+        "ref": "ALR-0025",
+        "summary": "ended alert from 2026-09-21 16:45: 3 site(s) (S-SAH-003, S-SAH-009, S-SAH-010); metrics: latency_ms"
+      },
+      "ANM-000229": {
+        "kind": "anomaly",
+        "ref": "ANM-000229",
+        "summary": "CORE-DNS-01 query_success_pct drop, z -113.2, baseline 99.9 -> 87.1"
+      },
+      "ANM-000230": {
+        "kind": "anomaly",
+        "ref": "ANM-000230",
+        "summary": "CORE-DNS-01 resolution_ms spike, z 75.0, baseline 11.3 -> 140"
+      },
+      "ANM-000282": {
+        "kind": "anomaly",
+        "ref": "ANM-000282",
+        "summary": "TUN latency_ms spike, z 26.1, baseline 25 -> 51.7"
+      },
+      "ANM-000283": {
+        "kind": "anomaly",
+        "ref": "ANM-000283",
+        "summary": "S-SAH-003 latency_ms spike, z 9.1, baseline 42.8 -> 65.6"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-21 10:00, end=2026-09-22 09:19) -> 2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0..."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide DNS Degradation and Latency Spike\n\n- **Classification:** incident\n- **Root cause:** core_degradation at `CORE-DNS-01`\n- **Confidence:** medium (Direct core DNS anomaly matches nationwide latency onset, but maintenance, changes, and external events were not checked.)\n- **Impact:** 2026-09-21 12:30 to 2026-09-21 14:00\n- **Cause time:** 2026-09-21 12:30\n- **Affected:** CORE-DNS-01, S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004, S-SAH-005, TUN\n\n## Summary\n\nCore DNS degradation causing nationwide DNS query success drop and resolution spike, leading to widespread latency spikes.\n\nNationwide traffic fell and latency rose due to a core DNS issue affecting 52 entities.\n\n## Timeline\n\n- 2026-09-21 12:30: Nationwide DNS query success drop and resolution spike began on CORE-DNS-01 alongside latency spikes. [T1, ALR-0024]\n- 2026-09-21 14:00: Nationwide DNS degradation and associated latency impact ended. [T1, ALR-0024]\n\n## Evidence\n\n- CORE-DNS-01 query success dropped from 99.9 to 87.1 percent. [T1, ANM-000229]\n- CORE-DNS-01 resolution latency spiked from 11.3 ms to 140 ms. [T1, ANM-000230]\n- Latency spiked on 52 entities nationwide, including TUN reaching 51.7 ms. [T1, ALR-0024, ANM-000282]\n\n## Inferences\n\n- The core DNS degradation directly caused the nationwide latency increase. [T1, ALR-0024]\n\n## Hypotheses\n\n1. **core_degradation** at CORE-DNS-01: confirmed. Directly evidenced by query success drop and resolution time spike matching the impact window. [T1, ALR-0024]\n2. **bad_change** at CORE-DNS-01: unresolved. Change logs were not checked to rule out a concurrent configuration change. [T1]\n\n## Ruled out\n\n- ALR-0025: Occurred later from 16:45 to 21:00 and was localized to only 3 SAH sites.\n\n## Recommended actions\n\n- Check the change log for CORE-DNS-01 during the incident window.\n- Inspect maintenance records for CORE-DNS-01 around 2026-09-21 12:30.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-21 10:00, end=2026-09-22 09:19) -> 2 alert(s): ALR-0024 2026-09-21 12:30-14:00; ALR-0025 2026-09-21 16:45-21:00. Nationwide: DNS query success drops; latency and DNS resolution spike on 48 sites across 4 regions (S-SAH-0...\n- `ALR-0024`: ended alert from 2026-09-21 12:30: 48 site(s) (S-SAH-001, S-SAH-002, S-SAH-003, S-SAH-004 +44 more); core CORE-DNS-01; region-level SAH, SFX, SUD, TUN; metrics: latenc...\n- `ANM-000229`: CORE-DNS-01 query_success_pct drop, z -113.2, baseline 99.9 -> 87.1\n- `ANM-000230`: CORE-DNS-01 resolution_ms spike, z 75.0, baseline 11.3 -> 140\n- `ANM-000282`: TUN latency_ms spike, z 26.1, baseline 25 -> 51.7\n- `ALR-0025`: ended alert from 2026-09-21 16:45: 3 site(s) (S-SAH-003, S-SAH-009, S-SAH-010); metrics: latency_ms\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why did nationwide traffic fall and latency rise yesterday afternoon?",
+    "report": {
+      "affected_node_ids": [
+        "CORE-DNS-01",
+        "S-SAH-001",
+        "S-SAH-002",
+        "S-SAH-003",
+        "S-SAH-004",
+        "S-SAH-005",
+        "TUN"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct core DNS anomaly matches nationwide latency onset, but maintenance, changes, and external events were not checked.",
+      "dismissed_signals": [
+        {
+          "reason": "Occurred later from 16:45 to 21:00 and was localized to only 3 SAH sites.",
+          "ref": "ALR-0025"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "CORE-DNS-01 query success dropped from 99.9 to 87.1 percent.",
+          "refs": [
+            "T1",
+            "ANM-000229"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "CORE-DNS-01 resolution latency spiked from 11.3 ms to 140 ms.",
+          "refs": [
+            "T1",
+            "ANM-000230"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Latency spiked on 52 entities nationwide, including TUN reaching 51.7 ms.",
+          "refs": [
+            "T1",
+            "ALR-0024",
+            "ANM-000282"
+          ]
+        },
+        {
+          "basis": "inferred",
+          "claim": "The core DNS degradation directly caused the nationwide latency increase.",
+          "refs": [
+            "T1",
+            "ALR-0024"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "core_degradation",
+          "node_id": "CORE-DNS-01",
+          "reason": "Directly evidenced by query success drop and resolution time spike matching the impact window.",
+          "refs": [
+            "T1",
+            "ALR-0024"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "CORE-DNS-01",
+          "reason": "Change logs were not checked to rule out a concurrent configuration change.",
+          "refs": [
+            "T1"
+          ],
+          "verdict": "unresolved"
+        }
+      ],
+      "impact_end": "2026-09-21 14:00",
+      "impact_start": "2026-09-21 12:30",
+      "impact_summary": "Nationwide traffic fell and latency rose due to a core DNS issue affecting 52 entities.",
+      "recommended_actions": [
+        "Check the change log for CORE-DNS-01 during the incident window.",
+        "Inspect maintenance records for CORE-DNS-01 around 2026-09-21 12:30."
+      ],
+      "root_cause_category": "core_degradation",
+      "root_cause_node_id": "CORE-DNS-01",
+      "root_cause_summary": "Core DNS degradation causing nationwide DNS query success drop and resolution spike, leading to widespread latency spikes.",
+      "root_cause_time": "2026-09-21 12:30",
+      "timeline": [
+        {
+          "event": "Nationwide DNS query success drop and resolution spike began on CORE-DNS-01 alongside latency spikes.",
+          "refs": [
+            "T1",
+            "ALR-0024"
+          ],
+          "time": "2026-09-21 12:30"
+        },
+        {
+          "event": "Nationwide DNS degradation and associated latency impact ended.",
+          "refs": [
+            "T1",
+            "ALR-0024"
+          ],
+          "time": "2026-09-21 14:00"
+        }
+      ],
+      "title": "Nationwide DNS Degradation and Latency Spike"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-fbd1a38fcd",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "traffic fell and latency rose",
+      "unknown_ids": [],
+      "window_end": "2026-09-21T17:00:00Z",
+      "window_start": "2026-09-21T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 376,
+        "latency_ms": 13191,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 97,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 12
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2568,
+        "latency_ms": 11581,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 153,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2027,
+        "latency_ms": 3132,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1071,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4528
+      }
+    ],
+    "usage": {
+      "cached_calls": 2,
+      "input_tokens": 4971,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 3,
+      "output_tokens": 1321,
+      "tool_calls": 1,
+      "wall_seconds": 4.57
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "CORE-DNS-01",
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0056",
+        "table": "changes",
+        "visible_from": "2026-09-21T10:12:00+00:00",
+        "why": "Harmless software_upgrade on CORE-DNS-01 completed 72 min before the degradation; the DNS KPIs stayed normal until the onset and the same patch on other core nodes did nothing."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-21T13:03:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000365",
+        "table": "alarms",
+        "visible_from": "2026-09-21T11:35:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0057",
+        "table": "changes",
+        "visible_from": "2026-09-21T10:14:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0058",
+        "table": "changes",
+        "visible_from": "2026-09-21T10:15:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_changes",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-21T11:24:00Z",
+    "is_incident": true,
+    "kind": "dns_degradation",
+    "notes": "trap=change_on_root_node; CORE-DNS-01 degraded for about 99 min; nationwide latency up, volume down, RRC unaffected. Trap: a software upgrade on CORE-DNS-01 itself ran 72 min before the onset, so a hasty investigator blames the change. Settled by: (1) the DNS and RRC KPIs were normal for 72 min after the upgrade, while a configuration change takes effect at once; (2) the same patch under the same ticket went onto CORE-AMF-01 and CORE-UPF-01 at the same time and both stayed healthy; (3) the degradation ended by itself, with no rollback or other change at the recovery.",
+    "root_cause_category": "core_degradation",
+    "root_cause_node_id": "CORE-DNS-01",
+    "severity": "high",
+    "start_at": "2026-09-21T11:24:00Z"
+  },
+  "variant": "no-gate"
+}

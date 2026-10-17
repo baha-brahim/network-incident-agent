@@ -1,0 +1,738 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-23T07:50:00Z",
+    "case_id": "h202-SCN-023-q0",
+    "question": "Why did traffic drop in Sfax this morning?",
+    "question_index": 0,
+    "scenario_id": "SCN-023",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:32:32.476882Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-23T07:50:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-23 08:50",
+          "entity_id": null,
+          "region_id": "SFX",
+          "start": "2026-09-23 04:00"
+        },
+        "body": "1 alert(s), 1 ongoing: ALR-0028 2026-09-23 05:30-ongoing. 3 site(s) (S-SFX-003, S-SFX-005, S-SFX-007); region-level SFX; active_users, availability_pct, dl_volume_mb\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0028 ONGOING since 2026-09-23 05:30 (3.3 h so far); 10 anomalies so far on 3 site(s) (S-SFX-003, S-SFX-005, S-SFX-007); region-level SFX; severity not final\n  availability_pct drop on 4 entities: ongoing, e.g. S-SFX-003 since 2026-09-23 05:30, so far 0 vs baseline 100 (-100%)\n  active_users drop on 3 entities: ongoing, e.g. S-SFX-003 since 2026-09-23 05:45, so far 0 vs baseline 29.4 (-100%)\n  dl_volume_mb drop on 3 entities: ongoing, e.g. S-SFX-003 since 2026-09-23 05:45, so far 0 vs baseline 3640 (-100%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s), 1 ongoing: ALR-0028 2026-09-23 05:30-ongoing. 3 site(s) (S-SFX-003, S-SFX-005, S-SFX-007); region-level SFX; active_users, availability_pct, dl_volume_mb",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0028",
+          "ANM-000296",
+          "ANM-000300",
+          "ANM-000301"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 73
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SFX-003"
+        },
+        "body": "Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SFX-003: site, SFX, Sakiet Ezzit, suburban.\nCells: C-SFX-003-1, C-SFX-003-2, C-SFX-003-3.\nSiblings under LNK-SFX-01-B: S-SFX-005, S-SFX-007.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "S-SFX-003",
+          "LNK-SFX-01-B",
+          "AGG-SFX-01",
+          "CORE-UPF-02",
+          "S-SFX-005",
+          "S-SFX-007"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-23 08:50",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SFX-003",
+            "S-SFX-005",
+            "S-SFX-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-23 05:00"
+        },
+        "body": "3 alarm(s) on S-SFX-003, S-SFX-005, S-SFX-007 and nodes below: 3 critical; 3 active. Earliest critical/major: 2026-09-23 05:42 SITE_DOWN on S-SFX-003 (ALM-000397).\nEarliest critical/major: 2026-09-23 05:42 SITE_DOWN on S-SFX-003 (ALM-000397); within 10 min after: SITE_DOWN x2 (S-SFX-007, S-SFX-005).\n2026-09-23 05:42 ALM-000397 critical SITE_DOWN S-SFX-003: active\n2026-09-23 05:42 ALM-000398 critical SITE_DOWN S-SFX-007: active\n2026-09-23 05:42 ALM-000399 critical SITE_DOWN S-SFX-005: active",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on S-SFX-003, S-SFX-005, S-SFX-007 and nodes below: 3 critical; 3 active. Earliest critical/major: 2026-09-23 05:42 SITE_DOWN on S-SFX-003 (ALM-000397).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000397",
+          "ALM-000398",
+          "ALM-000399"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-23 08:50",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SFX-003",
+            "S-SFX-005",
+            "S-SFX-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-23 04:00"
+        },
+        "body": "No changes on S-SFX-003, S-SFX-005, S-SFX-007 and its parents between 2026-09-23 04:00 and 2026-09-23 08:50.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SFX-003, S-SFX-005, S-SFX-007 and its parents between 2026-09-23 04:00 and 2026-09-23 08:50.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-23 08:50",
+          "include_descendants": true,
+          "min_severity": "major",
+          "node_ids": [
+            "AGG-SFX-01",
+            "LNK-SFX-01-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-23 05:00"
+        },
+        "body": "4 alarm(s) on AGG-SFX-01, LNK-SFX-01-B and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396).\nEarliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396); within 10 min after: SITE_DOWN x3 (S-SFX-003, S-SFX-007, S-SFX-005).\n2026-09-23 05:41 ALM-000396 critical LINK_LOS LNK-SFX-01-B: active\n2026-09-23 05:42 ALM-000397 critical SITE_DOWN S-SFX-003 (below AGG-SFX-01): active\n2026-09-23 05:42 ALM-000398 critical SITE_DOWN S-SFX-007 (below AGG-SFX-01): active\n2026-09-23 05:42 ALM-000399 critical SITE_DOWN S-SFX-005 (below AGG-SFX-01): active",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 alarm(s) on AGG-SFX-01, LNK-SFX-01-B and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "ALM-000396",
+          "ALM-000397",
+          "ALM-000398",
+          "ALM-000399"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 8
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-23 08:50",
+          "include_descendants": true,
+          "min_severity": "major",
+          "node_ids": [
+            "AGG-SFX-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-23 05:00"
+        },
+        "body": "4 alarm(s) on AGG-SFX-01 and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396).\nEarliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396); within 10 min after: SITE_DOWN x3 (S-SFX-003, S-SFX-007, S-SFX-005).\n2026-09-23 05:41 ALM-000396 critical LINK_LOS LNK-SFX-01-B (below AGG-SFX-01): active\n2026-09-23 05:42 ALM-000397 critical SITE_DOWN S-SFX-003 (below AGG-SFX-01): active\n2026-09-23 05:42 ALM-000398 critical SITE_DOWN S-SFX-007 (below AGG-SFX-01): active\n2026-09-23 05:42 ALM-000399 critical SITE_DOWN S-SFX-005 (below AGG-SFX-01): active",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 alarm(s) on AGG-SFX-01 and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "ALM-000396",
+          "ALM-000397",
+          "ALM-000398",
+          "ALM-000399"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-23 08:50",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-SFX-01",
+            "LNK-SFX-01-B",
+            "S-SFX-003",
+            "S-SFX-005",
+            "S-SFX-007"
+          ],
+          "region_id": null,
+          "start": "2026-09-23 04:00"
+        },
+        "body": "1 maintenance window(s) on AGG-SFX-01, LNK-SFX-01-B, S-SFX-003, S-SFX-005 +1 more and its parents overlap 2026-09-23 04:00 to 2026-09-23 08:50: 1 in progress (state as of asked_at 2026-09-23 08:50).\nMW-0008 IN PROGRESS 2026-09-23 07:04 -> 2026-09-23 10:35 (ends in 1.8 h) on LNK-SFX-01-B, covers 3 sites below: Planned fibre splice work on LNK-SFX-01-B; expected impact: Downstream sites offline during splicing",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 maintenance window(s) on AGG-SFX-01, LNK-SFX-01-B, S-SFX-003, S-SFX-005 +1 more and its parents overlap 2026-09-23 04:00 to 2026-09-23 08:50: 1 in progress (state as of asked_at 2026-09-23 08:50).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "MW-0008"
+        ],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "query": "SELECT * FROM maintenance WHERE maintenance_id = 'MW-0008'"
+        },
+        "body": "SQL error: column \"maintenance_id\" does not exist. Columns: maintenance(mw_id, node_id, start_at, end_at, description, expected_impact, status).",
+        "duplicate_of": null,
+        "error": "SQL error: column \"maintenance_id\" does not exist. Columns: maintenance(mw_id, node_id, start_at, end_at, description, expected_impact, status).",
+        "headline": "run_sql error: SQL error: column \"maintenance_id\" does not exist. Columns: maintenance(mw_id, node_id, start_at, end_at, description, expected_impact, stat",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "query": "SELECT * FROM maintenance WHERE mw_id = 'MW-0008'"
+        },
+        "body": "1 row(s) (tables clamped to asked_at 2026-09-23 08:50; times local)\nmw_id | node_id | start_at | end_at | description | expected_impact | status\nMW-0008 | LNK-SFX-01-B | 2026-09-23 07:04 | 2026-09-23 10:35 | Planned fibre splice work on LNK-SFX-01-B | Downstream sites offline during splicing | in_progress",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "run_sql: 1 row(s), columns mw_id, node_id, start_at, end_at, description, expected_impact, status",
+        "iteration": 5,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "run_sql",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SFX-01": {
+        "kind": "node",
+        "ref": "AGG-SFX-01",
+        "summary": "agg router, SFX"
+      },
+      "ALM-000396": {
+        "kind": "alarm",
+        "ref": "ALM-000396",
+        "summary": "critical LINK_LOS on LNK-SFX-01-B, raised 2026-09-23 05:41, active"
+      },
+      "ALM-000397": {
+        "kind": "alarm",
+        "ref": "ALM-000397",
+        "summary": "critical SITE_DOWN on S-SFX-003, raised 2026-09-23 05:42, active"
+      },
+      "ALM-000398": {
+        "kind": "alarm",
+        "ref": "ALM-000398",
+        "summary": "critical SITE_DOWN on S-SFX-007, raised 2026-09-23 05:42, active"
+      },
+      "ALM-000399": {
+        "kind": "alarm",
+        "ref": "ALM-000399",
+        "summary": "critical SITE_DOWN on S-SFX-005, raised 2026-09-23 05:42, active"
+      },
+      "ALR-0028": {
+        "kind": "alert",
+        "ref": "ALR-0028",
+        "summary": "ongoing alert from 2026-09-23 05:30: 3 site(s) (S-SFX-003, S-SFX-005, S-SFX-007); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb"
+      },
+      "ANM-000296": {
+        "kind": "anomaly",
+        "ref": "ANM-000296",
+        "summary": "S-SFX-003 availability_pct drop, ongoing since 2026-09-23 05:30"
+      },
+      "ANM-000300": {
+        "kind": "anomaly",
+        "ref": "ANM-000300",
+        "summary": "S-SFX-003 active_users drop, ongoing since 2026-09-23 05:45"
+      },
+      "ANM-000301": {
+        "kind": "anomaly",
+        "ref": "ANM-000301",
+        "summary": "S-SFX-003 dl_volume_mb drop, ongoing since 2026-09-23 05:45"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SFX-01-B": {
+        "kind": "node",
+        "ref": "LNK-SFX-01-B",
+        "summary": "fiber link, SFX, 11.9 km, 10.0 Gbps"
+      },
+      "MW-0008": {
+        "kind": "maintenance",
+        "ref": "MW-0008",
+        "summary": "in progress window 2026-09-23 07:04 -> 2026-09-23 10:35 (ends in 1.8 h) on LNK-SFX-01-B: Planned fibre splice work on LNK-SFX-01-B; expected impact: Downstream sites o..."
+      },
+      "S-SFX-003": {
+        "kind": "node",
+        "ref": "S-SFX-003",
+        "summary": "site, SFX, Sakiet Ezzit, suburban; chain: S-SFX-003 -> LNK-SFX-01-B -> AGG-SFX-01 -> CORE-UPF-02"
+      },
+      "S-SFX-005": {
+        "kind": "node",
+        "ref": "S-SFX-005",
+        "summary": "site, SFX, Thyna, rural; sibling of S-SFX-003"
+      },
+      "S-SFX-007": {
+        "kind": "node",
+        "ref": "S-SFX-007",
+        "summary": "site, SFX, Mahres, suburban; sibling of S-SFX-003"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-23 04:00, end=2026-09-23 08:50, region_id=SFX) -> 1 alert(s), 1 ongoing: ALR-0028 2026-09-23 05:30-ongoing. 3 site(s) (S-SFX-003, S-SFX-005, S-SFX-007); region-level SFX; active_users, availability_pct, dl_volume_mb"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SFX-003, include=all) -> Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-23 05:00, end=2026-09-23 08:50, node_ids=['S-SFX-003', 'S-SFX-005', 'S-SFX-007'], include_descendants=True) -> 3 alarm(s) on S-SFX-003, S-SFX-005, S-SFX-007 and nodes below: 3 critical; 3 active. Earliest critical/major: 2026-09-23 05:42 SITE_DOWN on S-SFX-003 (ALM-000397)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-23 04:00, end=2026-09-23 08:50, node_ids=['S-SFX-003', 'S-SFX-005', 'S-SFX-007'], include_ancestors=True) -> No changes on S-SFX-003, S-SFX-005, S-SFX-007 and its parents between 2026-09-23 04:00 and 2026-09-23 08:50."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_alarms(start=2026-09-23 05:00, end=2026-09-23 08:50, node_ids=['AGG-SFX-01', 'LNK-SFX-01-B'], include_descendants=True, min_severity=major) -> 4 alarm(s) on AGG-SFX-01, LNK-SFX-01-B and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_alarms(start=2026-09-23 05:00, end=2026-09-23 08:50, node_ids=['AGG-SFX-01'], include_descendants=True, min_severity=major) -> 4 alarm(s) on AGG-SFX-01 and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_maintenance(start=2026-09-23 04:00, end=2026-09-23 08:50, node_ids=['AGG-SFX-01', 'LNK-SFX-01-B', 'S-SFX-003', 'S-SFX-005', 'S-SFX-007'], include_ -> 1 maintenance window(s) on AGG-SFX-01, LNK-SFX-01-B, S-SFX-003, S-SFX-005 +1 more and its parents overlap 2026-09-23 04:00 to 2026-09-23 08:50: 1 in progress (state as of asked_at 2026-09-23 08:50"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "run_sql(query=SELECT * FROM maintenance WHERE maintenance_id = 'MW-0008') -> run_sql error: SQL error: column \"maintenance_id\" does not exist. Columns: maintenance(mw_id, node_id, start_at, end_at, description, expected_impact, stat"
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "run_sql(query=SELECT * FROM maintenance WHERE mw_id = 'MW-0008') -> run_sql: 1 row(s), columns mw_id, node_id, start_at, end_at, description, expected_impact, status"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# Traffic Drop in Sfax due to Fiber Link Failure\n\n- **Classification:** incident\n- **Root cause:** transport_failure at `LNK-SFX-01-B`\n- **Confidence:** medium (Direct alarm evidence (LINK_LOS at 05:41) on the link, matching KPI and site outage timing, and maintenance started later.)\n- **Impact:** 2026-09-23 05:30 to not established or ongoing\n- **Cause time:** 2026-09-23 05:41\n- **Affected:** S-SFX-003, S-SFX-005, S-SFX-007, LNK-SFX-01-B\n\n## Summary\n\nFiber link LNK-SFX-01-B suffered a loss of signal (LINK_LOS), taking down downstream sites S-SFX-003, S-SFX-005, and S-SFX-007 ahead of planned maintenance.\n\nTraffic drop and outages on three sites (S-SFX-003, S-SFX-005, S-SFX-007) in Sfax starting at 05:30/05:41 and ongoing.\n\n## Timeline\n\n- 2026-09-23 05:30: Region-level traffic alert ALR-0028 and availability drop started. [ALR-0028, ANM-000296]\n- 2026-09-23 05:41: Critical LINK_LOS alarm raised on fiber link LNK-SFX-01-B. [ALM-000396]\n- 2026-09-23 05:42: Critical SITE_DOWN alarms raised on sites S-SFX-003, S-SFX-005, and S-SFX-007. [ALM-000397, ALM-000398, ALM-000399]\n- 2026-09-23 07:04: Planned fiber splice work maintenance window MW-0008 officially began. [MW-0008]\n\n## Evidence\n\n- Sites S-SFX-003, S-SFX-005, and S-SFX-007 depend on fiber link LNK-SFX-01-B. [T2, S-SFX-003]\n- Link LNK-SFX-01-B experienced a critical LINK_LOS alarm at 2026-09-23 05:41. [ALM-000396]\n- Sites S-SFX-003, S-SFX-005, and S-SFX-007 went down at 2026-09-23 05:42. [ALM-000397, ALM-000398, ALM-000399]\n- No configuration changes were found on the affected sites and their parents between 04:00 and 08:50. [T4]\n- Maintenance window MW-0008 for fiber splice work started at 07:04, over an hour after the failure. [MW-0008, T9]\n\n## Hypotheses\n\n1. **transport_failure** at LNK-SFX-01-B: confirmed. Direct LINK_LOS alarm occurred at 05:41 on LNK-SFX-01-B, causing subsequent site outages. [ALM-000396, T5]\n2. **planned_maintenance** at LNK-SFX-01-B: rejected. Maintenance window MW-0008 started at 07:04, whereas the failure and impact started at 05:30/05:41. [MW-0008, T9]\n3. **bad_change**: rejected. No changes were recorded on the affected sites or their parents during the window. [T4]\n\n## Ruled out\n\n- MW-0008: Scheduled start time (07:04) was over an hour after the actual link failure (05:41).\n\n## Recommended actions\n\n- Investigate cause of early fiber cut on link LNK-SFX-01-B prior to scheduled maintenance window MW-0008.\n- Verify restoration of fiber link LNK-SFX-01-B and monitor site recovery for S-SFX-003, S-SFX-005, and S-SFX-007.\n\n## Sources\n\n- `ALR-0028`: ongoing alert from 2026-09-23 05:30: 3 site(s) (S-SFX-003, S-SFX-005, S-SFX-007); region-level SFX; metrics: active_users, availability_pct, dl_volume_mb\n- `ANM-000296`: S-SFX-003 availability_pct drop, ongoing since 2026-09-23 05:30\n- `ALM-000396`: critical LINK_LOS on LNK-SFX-01-B, raised 2026-09-23 05:41, active\n- `ALM-000397`: critical SITE_DOWN on S-SFX-003, raised 2026-09-23 05:42, active\n- `ALM-000398`: critical SITE_DOWN on S-SFX-007, raised 2026-09-23 05:42, active\n- `ALM-000399`: critical SITE_DOWN on S-SFX-005, raised 2026-09-23 05:42, active\n- `MW-0008`: in progress window 2026-09-23 07:04 -> 2026-09-23 10:35 (ends in 1.8 h) on LNK-SFX-01-B: Planned fibre splice work on LNK-SFX-01-B; expected impact: Downstream sites o...\n- `T2`: get_topology(node_id=S-SFX-003, include=all) -> Depends on (child -> parent -> core): S-SFX-003 (site) -> LNK-SFX-01-B (fiber link) -> AGG-SFX-01 (agg router) -> CORE-UPF-02 (core upf)\n- `S-SFX-003`: site, SFX, Sakiet Ezzit, suburban; chain: S-SFX-003 -> LNK-SFX-01-B -> AGG-SFX-01 -> CORE-UPF-02\n- `T4`: get_changes(start=2026-09-23 04:00, end=2026-09-23 08:50, node_ids=['S-SFX-003', 'S-SFX-005', 'S-SFX-007'], include_ancestors=True) -> No changes on S-SFX-003, S-SFX-005, S-SFX-007 and its parents between 2026-09-23 04:00 and 2026-09-23 08:50.\n- `T9`: run_sql(query=SELECT * FROM maintenance WHERE mw_id = 'MW-0008') -> run_sql: 1 row(s), columns mw_id, node_id, start_at, end_at, description, expected_impact, status\n- `T5`: get_alarms(start=2026-09-23 05:00, end=2026-09-23 08:50, node_ids=['AGG-SFX-01', 'LNK-SFX-01-B'], include_descendants=True, min_severity=major) -> 4 alarm(s) on AGG-SFX-01, LNK-SFX-01-B and nodes below: 4 critical; 4 active. Earliest critical/major: 2026-09-23 05:41 LINK_LOS on LNK-SFX-01-B (ALM-000396).\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why did traffic drop in Sfax this morning?",
+    "report": {
+      "affected_node_ids": [
+        "S-SFX-003",
+        "S-SFX-005",
+        "S-SFX-007",
+        "LNK-SFX-01-B"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct alarm evidence (LINK_LOS at 05:41) on the link, matching KPI and site outage timing, and maintenance started later.",
+      "dismissed_signals": [
+        {
+          "reason": "Scheduled start time (07:04) was over an hour after the actual link failure (05:41).",
+          "ref": "MW-0008"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Sites S-SFX-003, S-SFX-005, and S-SFX-007 depend on fiber link LNK-SFX-01-B.",
+          "refs": [
+            "T2",
+            "S-SFX-003"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Link LNK-SFX-01-B experienced a critical LINK_LOS alarm at 2026-09-23 05:41.",
+          "refs": [
+            "ALM-000396"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sites S-SFX-003, S-SFX-005, and S-SFX-007 went down at 2026-09-23 05:42.",
+          "refs": [
+            "ALM-000397",
+            "ALM-000398",
+            "ALM-000399"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No configuration changes were found on the affected sites and their parents between 04:00 and 08:50.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Maintenance window MW-0008 for fiber splice work started at 07:04, over an hour after the failure.",
+          "refs": [
+            "MW-0008",
+            "T9"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-SFX-01-B",
+          "reason": "Direct LINK_LOS alarm occurred at 05:41 on LNK-SFX-01-B, causing subsequent site outages.",
+          "refs": [
+            "ALM-000396",
+            "T5"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "planned_maintenance",
+          "node_id": "LNK-SFX-01-B",
+          "reason": "Maintenance window MW-0008 started at 07:04, whereas the failure and impact started at 05:30/05:41.",
+          "refs": [
+            "MW-0008",
+            "T9"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "bad_change",
+          "node_id": null,
+          "reason": "No changes were recorded on the affected sites or their parents during the window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-23 05:30",
+      "impact_summary": "Traffic drop and outages on three sites (S-SFX-003, S-SFX-005, S-SFX-007) in Sfax starting at 05:30/05:41 and ongoing.",
+      "recommended_actions": [
+        "Investigate cause of early fiber cut on link LNK-SFX-01-B prior to scheduled maintenance window MW-0008.",
+        "Verify restoration of fiber link LNK-SFX-01-B and monitor site recovery for S-SFX-003, S-SFX-005, and S-SFX-007."
+      ],
+      "root_cause_category": "transport_failure",
+      "root_cause_node_id": "LNK-SFX-01-B",
+      "root_cause_summary": "Fiber link LNK-SFX-01-B suffered a loss of signal (LINK_LOS), taking down downstream sites S-SFX-003, S-SFX-005, and S-SFX-007 ahead of planned maintenance.",
+      "root_cause_time": "2026-09-23 05:41",
+      "timeline": [
+        {
+          "event": "Region-level traffic alert ALR-0028 and availability drop started.",
+          "refs": [
+            "ALR-0028",
+            "ANM-000296"
+          ],
+          "time": "2026-09-23 05:30"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on fiber link LNK-SFX-01-B.",
+          "refs": [
+            "ALM-000396"
+          ],
+          "time": "2026-09-23 05:41"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on sites S-SFX-003, S-SFX-005, and S-SFX-007.",
+          "refs": [
+            "ALM-000397",
+            "ALM-000398",
+            "ALM-000399"
+          ],
+          "time": "2026-09-23 05:42"
+        },
+        {
+          "event": "Planned fiber splice work maintenance window MW-0008 officially began.",
+          "refs": [
+            "MW-0008"
+          ],
+          "time": "2026-09-23 07:04"
+        }
+      ],
+      "title": "Traffic Drop in Sfax due to Fiber Link Failure"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-06e9a66919",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": true,
+      "region_ids": [
+        "SFX"
+      ],
+      "source": "model",
+      "symptom": "traffic drop",
+      "unknown_ids": [],
+      "window_end": "2026-09-23T07:50:00Z",
+      "window_start": "2026-09-23T05:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 375,
+        "latency_ms": 5587,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 19
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2318,
+        "latency_ms": 1703,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 211,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3067,
+        "latency_ms": 4919,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 95,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3525,
+        "latency_ms": 6623,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 194,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4294,
+        "latency_ms": 2349,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 228,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4621,
+        "latency_ms": 6027,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 32,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4828,
+        "latency_ms": 2194,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 310,
+        "provider": "gemini",
+        "purpose": "investigate turn 6",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4124,
+        "latency_ms": 4356,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1617,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4364
+      }
+    ],
+    "usage": {
+      "cached_calls": 7,
+      "input_tokens": 27152,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 8,
+      "output_tokens": 2790,
+      "tool_calls": 9,
+      "wall_seconds": 4.59
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SFX-01-B",
+      "S-SFX-003",
+      "S-SFX-007",
+      "S-SFX-005"
+    ],
+    "affected_region_ids": [
+      "SFX"
+    ],
+    "confounders": [
+      {
+        "id": "MW-0008",
+        "table": "maintenance",
+        "visible_from": null,
+        "why": "A window on LNK-SFX-01-B that opens 84 min after the outage began; it covers only the repair, not the start of the outage."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-23T09:37:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000396",
+        "table": "alarms",
+        "visible_from": "2026-09-23T04:41:00+00:00"
+      },
+      {
+        "id": "ALM-000397",
+        "table": "alarms",
+        "visible_from": "2026-09-23T04:42:00+00:00"
+      },
+      {
+        "id": "ALM-000398",
+        "table": "alarms",
+        "visible_from": "2026-09-23T04:42:00+00:00"
+      },
+      {
+        "id": "ALM-000399",
+        "table": "alarms",
+        "visible_from": "2026-09-23T04:42:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "get_topology",
+      "query_kpis",
+      "get_maintenance"
+    ],
+    "impact_start_at": "2026-09-23T04:41:00Z",
+    "is_incident": true,
+    "kind": "fiber_cut",
+    "notes": "trap=near_miss_maintenance; Fibre cut on LNK-SFX-01-B; all 3 downstream sites lost service until repair. The maintenance window opened 84 min after the cut, so the first 84 min of the outage are outside it and only the repair period is inside. Trap: a splice window on the right link covers the end of the outage (LNK-SFX-01-B), but the outage started well before it opened. Settled by: (1) LINK_LOS and SITE_DOWN were raised, and the sites were down, 84 min before the window starts, which fails the time test of the maintenance runbook; (2) the window closes when service returns, so it describes the repair, not the cause.",
+    "root_cause_category": "transport_failure",
+    "root_cause_node_id": "LNK-SFX-01-B",
+    "severity": "medium",
+    "start_at": "2026-09-23T04:41:00Z"
+  },
+  "variant": "no-gate"
+}

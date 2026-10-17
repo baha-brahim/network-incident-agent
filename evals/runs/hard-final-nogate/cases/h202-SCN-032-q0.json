@@ -1,0 +1,350 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-30T08:10:00Z",
+    "case_id": "h202-SCN-032-q0",
+    "question": "Call setup failures and dropped calls went up in Grand Tunis yesterday afternoon. What is behind it?",
+    "question_index": 0,
+    "scenario_id": "SCN-032",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:31:58.684925Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-30T08:10:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-30 09:10",
+          "entity_id": null,
+          "region_id": "TUN",
+          "start": "2026-09-29 10:00"
+        },
+        "body": "2 alert(s): ALR-0037 2026-09-29 17:30-2026-09-30 01:15; ALR-0036 2026-09-29 17:30-21:00. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-007, S-TUN-009, S-TUN-015) for 8 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0036 low ended, 2026-09-29 17:30 to 2026-09-29 21:00 (3.5 h): Traffic, active users and PRB utilisation spike on 3 sites in TUN (S-TUN-001, S-TUN-002, S-TUN-003) for 3.5 h\n  active_users spike on 3 entities: worst S-TUN-002 z 16.3, 143 -> 442, 2026-09-29 17:30 to 2026-09-29 21:00\n  dl_volume_mb spike on 3 entities: worst S-TUN-002 z 15.0, 20500 -> 61591, 2026-09-29 17:30 to 2026-09-29 21:00\n  prb_util_pct spike on 3 entities: worst S-TUN-002 z 11.4, 21.4 -> 72.6, 2026-09-29 17:45 to 2026-09-29 21:00\nALR-0037 medium ended, 2026-09-29 17:30 to 2026-09-30 01:15 (7.8 h): RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-007, S-TUN-009, S-TUN-015) for 8 h\n  rrc_success_pct drop on 4 entities: worst S-TUN-007 z -45.8, 99.3 -> 92.9, 2026-09-29 17:30 to 2026-09-30 01:15\n  drop_rate_pct spike on 3 entities: worst S-TUN-015 z 24.3, 0.7 -> 5.06, 2026-09-29 17:30 to 2026-09-30 01:15",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alert(s): ALR-0037 2026-09-29 17:30-2026-09-30 01:15; ALR-0036 2026-09-29 17:30-21:00. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-007, S-TUN-009, S-TUN-015) for 8 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0036",
+          "ANM-000405",
+          "ANM-000406",
+          "ANM-000416",
+          "ALR-0037",
+          "ANM-000408",
+          "ANM-000411"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 8
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "ALR-0036": {
+        "kind": "alert",
+        "ref": "ALR-0036",
+        "summary": "ended alert from 2026-09-29 17:30: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); metrics: active_users, dl_volume_mb, prb_util_pct"
+      },
+      "ALR-0037": {
+        "kind": "alert",
+        "ref": "ALR-0037",
+        "summary": "ended alert from 2026-09-29 17:30: 3 site(s) (S-TUN-007, S-TUN-009, S-TUN-015); region-level TUN; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000405": {
+        "kind": "anomaly",
+        "ref": "ANM-000405",
+        "summary": "S-TUN-002 active_users spike, z 16.3, baseline 143 -> 442"
+      },
+      "ANM-000406": {
+        "kind": "anomaly",
+        "ref": "ANM-000406",
+        "summary": "S-TUN-002 dl_volume_mb spike, z 15.0, baseline 20500 -> 61591"
+      },
+      "ANM-000408": {
+        "kind": "anomaly",
+        "ref": "ANM-000408",
+        "summary": "S-TUN-007 rrc_success_pct drop, z -45.8, baseline 99.3 -> 92.9"
+      },
+      "ANM-000411": {
+        "kind": "anomaly",
+        "ref": "ANM-000411",
+        "summary": "S-TUN-015 drop_rate_pct spike, z 24.3, baseline 0.7 -> 5.06"
+      },
+      "ANM-000416": {
+        "kind": "anomaly",
+        "ref": "ANM-000416",
+        "summary": "S-TUN-002 prb_util_pct spike, z 11.4, baseline 21.4 -> 72.6"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-29 10:00, end=2026-09-30 09:10, region_id=TUN) -> 2 alert(s): ALR-0037 2026-09-29 17:30-2026-09-30 01:15; ALR-0036 2026-09-29 17:30-21:00. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-007, S-TUN-009, S-TUN-015) for 8 h"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "[repaired] classification incident does not match root_cause_category unknown (expected inconclusive)."
+    ],
+    "markdown": "# Grand Tunis Call Setup Failures and Drop Rate Spikes\n\n- **Classification:** inconclusive\n- **Root cause:** unknown\n- **Confidence:** low (Direct evidence of site KPIs is present, but maintenance, changes, and external events were not checked.)\n- **Impact:** 2026-09-29 17:30 to 2026-09-30 01:15\n- **Affected:** S-TUN-007, S-TUN-009, S-TUN-015\n\n## Summary\n\nCall setup failures and dropped calls occurred across three sites in Grand Tunis, but the root cause remains unknown due to unverified change logs and external events.\n\nRRC success rate dropped and drop rate spiked on three sites in Grand Tunis for over 7 hours.\n\n## Timeline\n\n- 2026-09-29 17:30: RRC success drop and drop rate spike began on sites S-TUN-007, S-TUN-009, S-TUN-015. [T1, ALR-0037]\n- 2026-09-30 01:15: Impact ended and anomaly ALR-0037 cleared. [T1, ALR-0037]\n\n## Evidence\n\n- RRC success dropped and drop rate spiked on S-TUN-007, S-TUN-009, and S-TUN-015 starting at 2026-09-29 17:30. [T1, ALR-0037]\n- Traffic, active users, and PRB utilization spiked on S-TUN-001, S-TUN-002, and S-TUN-003 starting at 2026-09-29 17:30. [T1, ALR-0036]\n\n## Hypotheses\n\n1. **unknown**: unresolved. Insufficient data to determine if external events, changes, or transport issues caused the degradation. [T1]\n\n## Recommended actions\n\n- Check the change log for any configuration updates applied to S-TUN-007, S-TUN-009, and S-TUN-015 around 2026-09-29 17:30.\n- Check the maintenance calendar for planned activities in Grand Tunis during the incident window.\n- Investigate external events such as stadium gatherings near the affected sites.\n\n## Sources\n\n- `T1`: get_anomalies(start=2026-09-29 10:00, end=2026-09-30 09:10, region_id=TUN) -> 2 alert(s): ALR-0037 2026-09-29 17:30-2026-09-30 01:15; ALR-0036 2026-09-29 17:30-21:00. RRC success drops; drop rate spikes on 3 sites in TUN (S-TUN-007, S-TUN-009, S-TUN-015) for 8 h\n- `ALR-0037`: ended alert from 2026-09-29 17:30: 3 site(s) (S-TUN-007, S-TUN-009, S-TUN-015); region-level TUN; metrics: drop_rate_pct, rrc_success_pct\n- `ALR-0036`: ended alert from 2026-09-29 17:30: 3 site(s) (S-TUN-001, S-TUN-002, S-TUN-003); metrics: active_users, dl_volume_mb, prb_util_pct\n\n## Verification notes\n\n- [repaired] classification incident does not match root_cause_category unknown (expected inconclusive).\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Call setup failures and dropped calls went up in Grand Tunis yesterday afternoon. What is behind it?",
+    "report": {
+      "affected_node_ids": [
+        "S-TUN-007",
+        "S-TUN-009",
+        "S-TUN-015"
+      ],
+      "classification": "inconclusive",
+      "confidence": "low",
+      "confidence_reason": "Direct evidence of site KPIs is present, but maintenance, changes, and external events were not checked.",
+      "dismissed_signals": [],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "RRC success dropped and drop rate spiked on S-TUN-007, S-TUN-009, and S-TUN-015 starting at 2026-09-29 17:30.",
+          "refs": [
+            "T1",
+            "ALR-0037"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Traffic, active users, and PRB utilization spiked on S-TUN-001, S-TUN-002, and S-TUN-003 starting at 2026-09-29 17:30.",
+          "refs": [
+            "T1",
+            "ALR-0036"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "unknown",
+          "node_id": null,
+          "reason": "Insufficient data to determine if external events, changes, or transport issues caused the degradation.",
+          "refs": [
+            "T1"
+          ],
+          "verdict": "unresolved"
+        }
+      ],
+      "impact_end": "2026-09-30 01:15",
+      "impact_start": "2026-09-29 17:30",
+      "impact_summary": "RRC success rate dropped and drop rate spiked on three sites in Grand Tunis for over 7 hours.",
+      "recommended_actions": [
+        "Check the change log for any configuration updates applied to S-TUN-007, S-TUN-009, and S-TUN-015 around 2026-09-29 17:30.",
+        "Check the maintenance calendar for planned activities in Grand Tunis during the incident window.",
+        "Investigate external events such as stadium gatherings near the affected sites."
+      ],
+      "root_cause_category": "unknown",
+      "root_cause_node_id": null,
+      "root_cause_summary": "Call setup failures and dropped calls occurred across three sites in Grand Tunis, but the root cause remains unknown due to unverified change logs and external events.",
+      "root_cause_time": null,
+      "timeline": [
+        {
+          "event": "RRC success drop and drop rate spike began on sites S-TUN-007, S-TUN-009, S-TUN-015.",
+          "refs": [
+            "T1",
+            "ALR-0037"
+          ],
+          "time": "2026-09-29 17:30"
+        },
+        {
+          "event": "Impact ended and anomaly ALR-0037 cleared.",
+          "refs": [
+            "T1",
+            "ALR-0037"
+          ],
+          "time": "2026-09-30 01:15"
+        }
+      ],
+      "title": "Grand Tunis Call Setup Failures and Drop Rate Spikes"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-82c48a4374",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "TUN"
+      ],
+      "source": "model",
+      "symptom": "Call setup failures and dropped calls",
+      "unknown_ids": [],
+      "window_end": "2026-09-29T17:00:00Z",
+      "window_start": "2026-09-29T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 384,
+        "latency_ms": 13525,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 106,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2659,
+        "latency_ms": 1508,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 153,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 19
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2177,
+        "latency_ms": 2739,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 846,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4622
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2828,
+        "latency_ms": 2577,
+        "model": "gemini-3.5-flash-lite",
+        "node": "repair",
+        "output_tokens": 849,
+        "provider": "gemini",
+        "purpose": "repair 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4324
+      }
+    ],
+    "usage": {
+      "cached_calls": 2,
+      "input_tokens": 8048,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 2
+      },
+      "llm_calls": 4,
+      "output_tokens": 1954,
+      "tool_calls": 1,
+      "wall_seconds": 9.0
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "S-TUN-007",
+      "S-TUN-009",
+      "S-TUN-015"
+    ],
+    "affected_region_ids": [
+      "TUN"
+    ],
+    "confounders": [
+      {
+        "id": "EVT-006",
+        "table": "external_events",
+        "visible_from": "2026-09-29T16:26:00+00:00",
+        "why": "A real stadium event in the same region and evening; it explains the traffic surge at the venue sites, not the regression on the pushed sites."
+      },
+      {
+        "id": "ALM-000530",
+        "table": "alarms",
+        "visible_from": "2026-09-29T17:36:00+00:00",
+        "why": "HIGH_PRB at a venue site, caused by the event."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-30T00:11:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0073",
+        "table": "changes",
+        "visible_from": "2026-09-29T16:31:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0076",
+        "table": "changes",
+        "visible_from": "2026-09-30T00:13:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0074",
+        "table": "changes",
+        "visible_from": "2026-09-29T16:31:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0077",
+        "table": "changes",
+        "visible_from": "2026-09-30T00:13:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0075",
+        "table": "changes",
+        "visible_from": "2026-09-29T16:31:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0078",
+        "table": "changes",
+        "visible_from": "2026-09-30T00:13:00+00:00"
+      },
+      {
+        "id": "ALM-000528",
+        "table": "alarms",
+        "visible_from": "2026-09-29T17:13:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-29T16:31:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "trap=bad_change_loud_coincidence; A scheduled parameter optimisation batch pushed to the 3 sites of LNK-TUN-02-A regressed RRC success and drop rate until it was rolled back. Root cause node is the first site of the pushed group. Trap: a stadium event in the same region the same evening makes traffic and alarms noisy, and the change record looks innocent. Settled by: (1) the stadium event raises traffic at the venue sites, whereas the pushed sites are other sites that lose RRC success and volume; (2) the regression starts at the change time on exactly the pushed sites and ends at the rollback, long after the event.",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "S-TUN-007",
+    "severity": "medium",
+    "start_at": "2026-09-29T16:31:00Z"
+  },
+  "variant": "no-gate"
+}

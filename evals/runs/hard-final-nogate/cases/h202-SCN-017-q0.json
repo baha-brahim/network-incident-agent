@@ -1,0 +1,595 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-21T07:09:00Z",
+    "case_id": "h202-SCN-017-q0",
+    "question": "Traffic is down and latency is up at S-SAH-007 last night. What is going on?",
+    "question_index": 0,
+    "scenario_id": "SCN-017",
+    "seed": 202,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:31:45.900310Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-21T07:09:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-21 08:09",
+          "entity_id": "S-SAH-007",
+          "region_id": null,
+          "start": "2026-09-20 16:00"
+        },
+        "body": "1 alert(s): ALR-0022 2026-09-21 02:30-05:45. Latency spikes on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-007) for 3 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0022 low ended, 2026-09-21 02:30 to 2026-09-21 05:45 (3.2 h): Latency spikes on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-007) for 3 h\n  latency_ms spike on 1 entity: worst S-SAH-007 z 7.4, 19.7 -> 29.2, 2026-09-21 02:30 to 2026-09-21 05:45",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0022 2026-09-21 02:30-05:45. Latency spikes on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-007) for 3 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0022",
+          "ANM-000224"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-007"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-007 (site) -> LNK-SAH-02-A (microwave link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-007: site, SAH, Kalaa Kebira, urban.\nCells: C-SAH-007-1, C-SAH-007-2, C-SAH-007-3.\nSiblings under LNK-SAH-02-A: S-SAH-001, S-SAH-002.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-007 (site) -> LNK-SAH-02-A (microwave link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-007",
+          "LNK-SAH-02-A",
+          "AGG-SAH-02",
+          "CORE-UPF-01",
+          "S-SAH-001",
+          "S-SAH-002"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-21 08:09",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "S-SAH-007",
+            "S-SAH-001",
+            "S-SAH-002",
+            "AGG-SAH-02",
+            "LNK-SAH-02-A"
+          ],
+          "region_id": null,
+          "start": "2026-09-20 18:00"
+        },
+        "body": "1 alarm(s) on S-SAH-007, S-SAH-001, S-SAH-002, AGG-SAH-02 +1 more and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-21 02:22 LINK_DEGRADED on LNK-SAH-02-A (ALM-000360).\nEarliest critical/major: 2026-09-21 02:22 LINK_DEGRADED on LNK-SAH-02-A (ALM-000360).\n2026-09-21 02:22 ALM-000360 major LINK_DEGRADED LNK-SAH-02-A: cleared 2026-09-21 05:56",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-SAH-007, S-SAH-001, S-SAH-002, AGG-SAH-02 +1 more and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-21 02:22 LINK_DEGRADED on LNK-SAH-02-A (ALM-000360).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000360"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:09",
+          "entity_ids": [
+            "S-SAH-007"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "latency_ms",
+            "active_users"
+          ],
+          "start": "2026-09-20 18:00"
+        },
+        "body": "Deviation in 2 of 3 series. Earliest onset 2026-09-20 19:15: S-SAH-007 active_users above baseline.\nBaseline: median of the same time of day on earlier Sundays (only data before 2026-09-21 08:09). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SAH-007 active_users: mean 161 vs baseline 144 (+12%); min 45.7 at 2026-09-21 03:15, max 294 at 2026-09-20 21:00.\nDeviation above baseline: onset 2026-09-20 19:15; worst 234 vs 197 at 2026-09-20 19:30; recovery 2026-09-20 19:45.\nseries (75 min buckets from 2026-09-20 18:00): 166 241 291 260 180 121 62.6 47.8 57.1 105 195 276\nbaseline: 155 208 260 228 160 114 61.5 44.4 52.1 91.3 171 240\nS-SAH-007 latency_ms: mean 23 vs baseline 20.3 (+13%); min 19.2 at 2026-09-21 01:30, max 30.9 at 2026-09-21 05:00.\nDeviation above baseline: onset 2026-09-21 02:30; worst 30.9 vs 19.9 at 2026-09-21 05:00; recovery 2026-09-21 05:45.\nseries (75 min buckets from 2026-09-20 18:00): 21.9 22.1 22.1 21.5 20.7 20.2 21.8 28.4 29.8 24.2 20.9 21.6\nbaseline: 20.7 20.9 21.3 21.2 20 19.8 19.4 19.6 19.8 20.1 20.7 20.9\nS-SAH-007 dl_volume_mb: mean 22049 vs baseline 20083 (+10%); min 4679 at 2026-09-21 03:15, max 41890 at 2026-09-20 21:30.\nNo sustained deviation from baseline in the steps that reported.\nseries (75 min buckets from 2026-09-20 18:00): 24024 33706 41228 35904 24217 16208 8509 5021 5794 13642 27891 38049\nbaseline: 21921 29075 36774 31798 22138 15916 8557 6077 7166 12636 23465 33567",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 3 series. Earliest onset 2026-09-20 19:15: S-SAH-007 active_users above baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 61
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:09",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-007",
+            "AGG-SAH-02",
+            "LNK-SAH-02-A"
+          ],
+          "region_id": "SAH",
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No changes on S-SAH-007, AGG-SAH-02, LNK-SAH-02-A and its parents between 2026-09-20 18:00 and 2026-09-21 08:09.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SAH-007, AGG-SAH-02, LNK-SAH-02-A and its parents between 2026-09-20 18:00 and 2026-09-21 08:09.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-21 08:09",
+          "region_id": "SAH",
+          "start": "2026-09-20 18:00"
+        },
+        "body": "No external events for region SAH (and nationwide) between 2026-09-20 18:00 and 2026-09-21 08:09.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SAH (and nationwide) between 2026-09-20 18:00 and 2026-09-21 08:09.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "k": 4,
+          "query": "LINK_DEGRADED microwave link degradation"
+        },
+        "body": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation', best first (excerpts):\n[RB-MICROWAVE-DEGRADATION#03] Microwave link degradation > Differential diagnosis: Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on links all the time (\"minor errored seconds, link still within SLA\"). ... A major alarm on a microwave link with volume and latency moving is a different thing. ... Versus a fiber cut ... On a fiber link, a minor `LINK_DEGRADED` with falling optical power can precede a cut by up t...\n[RB-MICROWAVE-DEGRADATION#02] Microwave link degradation > Signature in the data: Alarm. `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"running at reduced modulation, RSL below threshold\"). It clears a few minutes after recovery. Downstream sites (three to five behind that link): `dl_volume_mb` down 20 to 50 percent, `latency_ms` up 30 to 100 percent. Availability. ... Shape. ... Exactly the children of the one link. ...\n[RB-MICROWAVE-DEGRADATION#05] Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link is microwave and list its downstream sites. 3. `query_kpis` on those sites: volume down, latency up, availability near 100 percent, PRB not high. 4. ... 5. ... 6. `get_changes` and `get_maintenance` on the link, to rule them out.\n[RB-ALARM-REFERENCE#02] Alarm reference > Transport alarms: `LINK_LOS` (critical, on a transport link). Loss of signal: no light or no carrier on the uplink. All sites behind the link go down. ... `LINK_DEGRADED` (major or minor, on a link). A major alarm on a microwave link (\"reduced modulation\") means capacity loss and a service degradation. ... On a fiber link a minor alarm with falling optical power can precede a cut.\nExcerpts are cut; search again with a narrower query for the rest.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation', best first (excerpts):",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "RB-MICROWAVE-DEGRADATION#03",
+          "RB-MICROWAVE-DEGRADATION#02",
+          "RB-MICROWAVE-DEGRADATION#05",
+          "RB-ALARM-REFERENCE#02"
+        ],
+        "tool": "search_runbooks",
+        "truncated": true,
+        "wall_ms": 11
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-02": {
+        "kind": "node",
+        "ref": "AGG-SAH-02",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000360": {
+        "kind": "alarm",
+        "ref": "ALM-000360",
+        "summary": "major LINK_DEGRADED on LNK-SAH-02-A, raised 2026-09-21 02:22, cleared 2026-09-21 05:56"
+      },
+      "ALR-0022": {
+        "kind": "alert",
+        "ref": "ALR-0022",
+        "summary": "ended alert from 2026-09-21 02:30: 3 site(s) (S-SAH-001, S-SAH-002, S-SAH-007); metrics: latency_ms"
+      },
+      "ANM-000224": {
+        "kind": "anomaly",
+        "ref": "ANM-000224",
+        "summary": "S-SAH-007 latency_ms spike, z 7.4, baseline 19.7 -> 29.2"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-02-A": {
+        "kind": "node",
+        "ref": "LNK-SAH-02-A",
+        "summary": "microwave link, SAH, 15.2 km, 1.0 Gbps"
+      },
+      "RB-ALARM-REFERENCE#02": {
+        "kind": "runbook",
+        "ref": "RB-ALARM-REFERENCE#02",
+        "summary": "Alarm reference > Transport alarms: - **`LINK_LOS`** (critical, on a transport link). Loss of signal: no light or no carrier on the uplink. All sites behind..."
+      },
+      "RB-MICROWAVE-DEGRADATION#02": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#02",
+        "summary": "Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run..."
+      },
+      "RB-MICROWAVE-DEGRADATION#03": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#03",
+        "summary": "Microwave link degradation > Differential diagnosis: ### Versus the harmless background LINK_DEGRADED The network raises minor `LINK_DEGRADED` alarms on link..."
+      },
+      "RB-MICROWAVE-DEGRADATION#05": {
+        "kind": "runbook",
+        "ref": "RB-MICROWAVE-DEGRADATION#05",
+        "summary": "Microwave link degradation > Verification steps: 1. `get_alarms`: find a major `LINK_DEGRADED` on a link, with the time. 2. `get_topology`: confirm the link..."
+      },
+      "S-SAH-001": {
+        "kind": "node",
+        "ref": "S-SAH-001",
+        "summary": "site, SAH, Sousse Centre, urban; sibling of S-SAH-007"
+      },
+      "S-SAH-002": {
+        "kind": "node",
+        "ref": "S-SAH-002",
+        "summary": "site, SAH, Hammam Sousse, suburban; sibling of S-SAH-007"
+      },
+      "S-SAH-007": {
+        "kind": "node",
+        "ref": "S-SAH-007",
+        "summary": "site, SAH, Kalaa Kebira, urban; chain: S-SAH-007 -> LNK-SAH-02-A -> AGG-SAH-02 -> CORE-UPF-01"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:09, entity_id=S-SAH-007) -> 1 alert(s): ALR-0022 2026-09-21 02:30-05:45. Latency spikes on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-007) for 3 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-007, include=all) -> Depends on (child -> parent -> core): S-SAH-007 (site) -> LNK-SAH-02-A (microwave link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-20 18:00, end=2026-09-21 08:09, node_ids=['S-SAH-007', 'S-SAH-001', 'S-SAH-002', 'AGG-SAH-02', 'LNK-SAH-02-A'], include_desce -> 1 alarm(s) on S-SAH-007, S-SAH-001, S-SAH-002, AGG-SAH-02 +1 more and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-21 02:22 LINK_DEGRADED on LNK-SAH-02-A (ALM-000360)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-007'], metrics=['dl_volume_mb', 'latency_ms', 'active_users'], start=2026-09-20 18:00, end=2026-09-21  -> Deviation in 2 of 3 series. Earliest onset 2026-09-20 19:15: S-SAH-007 active_users above baseline."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_changes(start=2026-09-20 18:00, end=2026-09-21 08:09, node_ids=['S-SAH-007', 'AGG-SAH-02', 'LNK-SAH-02-A'], region_id=SAH, include_ancestors=True) -> No changes on S-SAH-007, AGG-SAH-02, LNK-SAH-02-A and its parents between 2026-09-20 18:00 and 2026-09-21 08:09."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_external_events(start=2026-09-20 18:00, end=2026-09-21 08:09, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-20 18:00 and 2026-09-21 08:09."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "search_runbooks(query=LINK_DEGRADED microwave link degradation, k=4) -> 4 runbook chunk(s) for 'LINK_DEGRADED microwave link degradation', best first (excerpts):"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: the maintenance calendar."
+    ],
+    "markdown": "# Microwave Link Degradation Affecting SAH Sites\n\n- **Classification:** incident\n- **Root cause:** transport_degradation at `LNK-SAH-02-A`\n- **Confidence:** medium (Direct major alarm and KPI correlation; maintenance was not checked.)\n- **Impact:** 2026-09-21 02:30 to 2026-09-21 05:45\n- **Cause time:** 2026-09-21 02:22\n- **Affected:** S-SAH-007, S-SAH-001, S-SAH-002\n\n## Summary\n\nMajor link degradation on microwave link LNK-SAH-02-A caused reduced modulation and increased latency for downstream sites.\n\nLatency increased and active users varied across S-SAH-007, S-SAH-001, and S-SAH-002 due to transport degradation.\n\n## Timeline\n\n- 2026-09-21 02:22: Major LINK_DEGRADED alarm raised on microwave link LNK-SAH-02-A. [ALM-000360, T3]\n- 2026-09-21 02:30: Latency spike anomaly detected on S-SAH-007, S-SAH-001, and S-SAH-002. [ALR-0022, T1]\n- 2026-09-21 05:45: Latency KPI recovery for S-SAH-007. [T4]\n- 2026-09-21 05:56: LINK_DEGRADED alarm cleared on LNK-SAH-02-A. [ALM-000360]\n\n## Evidence\n\n- Major LINK_DEGRADED alarm occurred on LNK-SAH-02-A from 02:22 to 05:56. [ALM-000360, T3]\n- Latency increased on S-SAH-007 with a maximum of 30.9 ms at 05:00. [T4]\n- Three sites in SAH experienced latency spikes matching the link degradation timeframe. [ALR-0022, T1]\n- No configuration changes occurred on S-SAH-007, AGG-SAH-02, or LNK-SAH-02-A. [T5]\n- No external events were recorded for the SAH region. [T6]\n\n## Hypotheses\n\n1. **transport_degradation** at LNK-SAH-02-A: confirmed. Major alarm on microwave link precisely matches latency degradation on downstream sites. [ALM-000360, RB-MICROWAVE-DEGRADATION#02]\n\n## Ruled out\n\n- T5: No changes were recorded on the affected nodes or their ancestors.\n- T6: No external events were reported in the SAH region.\n\n## Recommended actions\n\n- Inspect microwave link LNK-SAH-02-A hardware and RF interference logs.\n- Verify path availability and signal levels on LNK-SAH-02-A.\n\n## Sources\n\n- `ALM-000360`: major LINK_DEGRADED on LNK-SAH-02-A, raised 2026-09-21 02:22, cleared 2026-09-21 05:56\n- `T3`: get_alarms(start=2026-09-20 18:00, end=2026-09-21 08:09, node_ids=['S-SAH-007', 'S-SAH-001', 'S-SAH-002', 'AGG-SAH-02', 'LNK-SAH-02-A'], include_desce -> 1 alarm(s) on S-SAH-007, S-SAH-001, S-SAH-002, AGG-SAH-02 +1 more and nodes below: 1 major; 0 active. Earliest critical/major: 2026-09-21 02:22 LINK_DEGRADED on LNK-SAH-02-A (ALM-000360).\n- `ALR-0022`: ended alert from 2026-09-21 02:30: 3 site(s) (S-SAH-001, S-SAH-002, S-SAH-007); metrics: latency_ms\n- `T1`: get_anomalies(start=2026-09-20 16:00, end=2026-09-21 08:09, entity_id=S-SAH-007) -> 1 alert(s): ALR-0022 2026-09-21 02:30-05:45. Latency spikes on 3 sites in SAH (S-SAH-001, S-SAH-002, S-SAH-007) for 3 h\n- `T4`: query_kpis(entity_type=site, entity_ids=['S-SAH-007'], metrics=['dl_volume_mb', 'latency_ms', 'active_users'], start=2026-09-20 18:00, end=2026-09-21  -> Deviation in 2 of 3 series. Earliest onset 2026-09-20 19:15: S-SAH-007 active_users above baseline.\n- `T5`: get_changes(start=2026-09-20 18:00, end=2026-09-21 08:09, node_ids=['S-SAH-007', 'AGG-SAH-02', 'LNK-SAH-02-A'], region_id=SAH, include_ancestors=True) -> No changes on S-SAH-007, AGG-SAH-02, LNK-SAH-02-A and its parents between 2026-09-20 18:00 and 2026-09-21 08:09.\n- `T6`: get_external_events(start=2026-09-20 18:00, end=2026-09-21 08:09, region_id=SAH) -> No external events for region SAH (and nationwide) between 2026-09-20 18:00 and 2026-09-21 08:09.\n- `RB-MICROWAVE-DEGRADATION#02`: Microwave link degradation > Signature in the data: - **Alarm.** `LINK_DEGRADED`, severity `major`, on the microwave link a few minutes after the start (\"run...\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: the maintenance calendar.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Traffic is down and latency is up at S-SAH-007 last night. What is going on?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-007",
+        "S-SAH-001",
+        "S-SAH-002"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct major alarm and KPI correlation; maintenance was not checked.",
+      "dismissed_signals": [
+        {
+          "reason": "No changes were recorded on the affected nodes or their ancestors.",
+          "ref": "T5"
+        },
+        {
+          "reason": "No external events were reported in the SAH region.",
+          "ref": "T6"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Major LINK_DEGRADED alarm occurred on LNK-SAH-02-A from 02:22 to 05:56.",
+          "refs": [
+            "ALM-000360",
+            "T3"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Latency increased on S-SAH-007 with a maximum of 30.9 ms at 05:00.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Three sites in SAH experienced latency spikes matching the link degradation timeframe.",
+          "refs": [
+            "ALR-0022",
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No configuration changes occurred on S-SAH-007, AGG-SAH-02, or LNK-SAH-02-A.",
+          "refs": [
+            "T5"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No external events were recorded for the SAH region.",
+          "refs": [
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-SAH-02-A",
+          "reason": "Major alarm on microwave link precisely matches latency degradation on downstream sites.",
+          "refs": [
+            "ALM-000360",
+            "RB-MICROWAVE-DEGRADATION#02"
+          ],
+          "verdict": "confirmed"
+        }
+      ],
+      "impact_end": "2026-09-21 05:45",
+      "impact_start": "2026-09-21 02:30",
+      "impact_summary": "Latency increased and active users varied across S-SAH-007, S-SAH-001, and S-SAH-002 due to transport degradation.",
+      "recommended_actions": [
+        "Inspect microwave link LNK-SAH-02-A hardware and RF interference logs.",
+        "Verify path availability and signal levels on LNK-SAH-02-A."
+      ],
+      "root_cause_category": "transport_degradation",
+      "root_cause_node_id": "LNK-SAH-02-A",
+      "root_cause_summary": "Major link degradation on microwave link LNK-SAH-02-A caused reduced modulation and increased latency for downstream sites.",
+      "root_cause_time": "2026-09-21 02:22",
+      "timeline": [
+        {
+          "event": "Major LINK_DEGRADED alarm raised on microwave link LNK-SAH-02-A.",
+          "refs": [
+            "ALM-000360",
+            "T3"
+          ],
+          "time": "2026-09-21 02:22"
+        },
+        {
+          "event": "Latency spike anomaly detected on S-SAH-007, S-SAH-001, and S-SAH-002.",
+          "refs": [
+            "ALR-0022",
+            "T1"
+          ],
+          "time": "2026-09-21 02:30"
+        },
+        {
+          "event": "Latency KPI recovery for S-SAH-007.",
+          "refs": [
+            "T4"
+          ],
+          "time": "2026-09-21 05:45"
+        },
+        {
+          "event": "LINK_DEGRADED alarm cleared on LNK-SAH-02-A.",
+          "refs": [
+            "ALM-000360"
+          ],
+          "time": "2026-09-21 05:56"
+        }
+      ],
+      "title": "Microwave Link Degradation Affecting SAH Sites"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-81bcef42c2",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-007"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "Traffic down and latency up",
+      "unknown_ids": [],
+      "window_end": "2026-09-21T05:00:00Z",
+      "window_start": "2026-09-20T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 18700,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 18
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2451,
+        "latency_ms": 8033,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 325,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3988,
+        "latency_ms": 5420,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 63,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4091,
+        "latency_ms": 6134,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 24,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 10
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": true,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4636,
+        "latency_ms": 3337,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 177,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 9
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3888,
+        "latency_ms": 3287,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1205,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3295
+      }
+    ],
+    "usage": {
+      "cached_calls": 5,
+      "input_tokens": 19443,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 1
+      },
+      "llm_calls": 6,
+      "output_tokens": 1915,
+      "tool_calls": 7,
+      "wall_seconds": 3.47
+    }
+  },
+  "run_name": "hard-final-nogate",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SAH-02-A",
+      "S-SAH-002",
+      "S-SAH-007",
+      "S-SAH-001"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [
+      {
+        "id": "ALM-000361",
+        "table": "alarms",
+        "visible_from": "2026-09-21T01:33:00+00:00",
+        "why": "A separate, unrelated power_outage on S-SAH-006 in the same region, overlapping in time; it has its own scenario and must not be merged into this one."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-21T04:53:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000360",
+        "table": "alarms",
+        "visible_from": "2026-09-21T01:22:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "query_kpis",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-21T01:21:00Z",
+    "is_incident": true,
+    "kind": "link_degradation",
+    "notes": "trap=two_incidents_one_region; Rain fade on microwave link LNK-SAH-02-A: throughput limited, sites stayed up. Trap: two unrelated incidents overlap in one region, so the report can mix them up. Settled by: each has its own node, alarms and KPI signature; asked about one, the report must name that one's cause and keep the other out. Overlaps in time with group 'pair-c'.",
+    "root_cause_category": "transport_degradation",
+    "root_cause_node_id": "LNK-SAH-02-A",
+    "severity": "medium",
+    "start_at": "2026-09-21T01:21:00Z"
+  },
+  "variant": "no-gate"
+}
