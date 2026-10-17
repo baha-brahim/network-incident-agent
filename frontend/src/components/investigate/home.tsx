@@ -45,7 +45,7 @@ export function Home({ mode, onMode, demos, meta, onStartDemo, onStartLive }: Pr
 
         {score ? (
           <p className="home-measure">
-            On development data: right verdict in {score.verdict} planted scenarios, right cause and node in {score.cause}.{" "}
+            On held-out data: right verdict in {score.verdict} planted scenarios, right cause and node in {score.cause}.{" "}
             <Link href="/how-it-works" className="link">
               How it was measured
             </Link>

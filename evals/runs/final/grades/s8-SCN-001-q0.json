@@ -1,0 +1,45 @@
+{
+  "case_id": "s8-SCN-001-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2133,
+      "live_tokens": 2389,
+      "output_tokens": 256
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the change and anomaly but does not establish the causal link or the specific impact of 'call setup failures'.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The T5 output explicitly states 'Deviation in 9 of 9 series' and 'Earliest onset 2026-09-03 01:30'.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The CHG-2026-0006 record confirms the push of RT-2.5 to AGG-TUN-02 at 2026-09-03 01:34.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T7 reports no maintenance windows for S-TUN-010 and AGG-TUN-02 in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T13 reports no external events for region TUN in the specified time range.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

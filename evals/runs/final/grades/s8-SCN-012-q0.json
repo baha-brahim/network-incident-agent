@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-012-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1880,
+      "live_tokens": 2299,
+      "output_tokens": 419
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows a traffic drop on different sites (S-TUN-006, 008, 018) than the event location (S-TUN-001), contradicting the causal link.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The evidence for ALR-0015 lists sites S-TUN-006, S-TUN-008, and S-TUN-018, not S-TUN-001, 002, and 003.",
+      "verdict": "unsupported"
+    },
+    {
+      "index": 1,
+      "reason": "The evidence explicitly states the event was near S-TUN-001 from 18:33 to 22:23.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The alarms (19:41-22:49, 19:42-22:44) fall within the event window (18:33-22:23), supporting the timing match.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output explicitly states no maintenance was scheduled on the listed nodes during the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The anomalies explicitly list the spike values as 719 active users and 108642 MB volume for S-TUN-003.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The evidence shows a drop on unrelated sites (S-TUN-006/008/018) while the event is at S-TUN-001, failing to support the inference of a surge caused by the event.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

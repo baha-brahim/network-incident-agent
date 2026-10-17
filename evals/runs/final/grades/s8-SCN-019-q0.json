@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-019-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3431,
+      "live_tokens": 3712,
+      "output_tokens": 281
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the degradation on CORE-DNS-01 and the national latency impact, supporting the inference of a core DNS incident.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T2 explicitly states the deviation onset for NATIONAL latency_ms is 2026-09-18 14:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 and ANM-000295 both confirm the onset of the query_success_pct drop on CORE-DNS-01 at 2026-09-18 14:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T8 output explicitly reports no changes on CORE-DNS-01 and its parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T9 output explicitly reports no maintenance windows on CORE-DNS-01 and its parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T11 output explicitly reports no external events for all regions in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

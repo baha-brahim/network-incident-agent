@@ -1,0 +1,52 @@
+{
+  "case_id": "s8-SCN-030-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T3"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4193,
+      "live_tokens": 4481,
+      "output_tokens": 288
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the symptoms (spikes, high PRB, latency, RRC drops) and absence of other causes, supporting the inference of a capacity issue.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly lists the max active_users as 544 and max dl_volume_mb as 63984 for S-TUN-018.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3 explicitly lists the max prb_util_pct as 98.5 and max latency_ms as 114 for S-TUN-018.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T8 states 'No series deviates from its baseline' for S-TUN-006 and S-TUN-008 in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 reports no changes and T7 reports no maintenance windows for S-TUN-018 and its ancestors in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 reports no external events for region TUN in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

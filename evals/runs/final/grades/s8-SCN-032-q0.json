@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-032-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2427,
+      "live_tokens": 2683,
+      "output_tokens": 256
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm pattern, lack of KPI deviation, and absence of changes/maintenance, supporting the inference of a benign nuisance storm.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly states 23 alarms (14 TEMP_HIGH, 9 VSWR_HIGH) on S-SUD-002, all cleared, matching the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 explicitly states 'No series deviates from its baseline' for the specified cells and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 explicitly reports 'No changes' on the specified nodes and parents during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly reports 'No maintenance window scheduled' on the site and its parents during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The runbook text describes the signature of nuisance alarms including 'No customer impact', supporting the claim.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

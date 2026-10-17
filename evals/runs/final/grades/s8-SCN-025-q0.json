@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-025-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2443,
+      "live_tokens": 2727,
+      "output_tokens": 284
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the event and traffic spikes, but does not prove the causal link or that the event was the root cause.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited anomaly record explicitly states the spike to 896 with a z-score of 14.1 for S-TUN-002 active users.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited anomaly record explicitly states the spike to 121573 MB with a z-score of 11.5 for S-TUN-002 download volume.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited event record explicitly lists the concert at Stade Olympique de Rades from 19:20 to 22:33 near S-TUN-001.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no changes on the specified nodes and ancestors during the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no maintenance windows scheduled on the specified nodes during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

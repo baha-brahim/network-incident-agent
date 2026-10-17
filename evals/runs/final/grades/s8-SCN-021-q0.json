@@ -1,0 +1,45 @@
+{
+  "case_id": "s8-SCN-021-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1746,
+      "live_tokens": 1980,
+      "output_tokens": 234
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited change records confirm the push and rollback but do not contain evidence of the specific KPI degradation or impact on sibling sites.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The anomalies confirm the metrics but do not provide timestamps, so the specific start time of 01:30 is not shown by the cited evidence.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change record explicitly states that template OPT-17 was pushed to S-SAH-006 at 01:31.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The alarm record confirms the alarm cleared at 07:04, but the cited evidence does not establish a causal link to the rollback.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no maintenance windows for the listed nodes during the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

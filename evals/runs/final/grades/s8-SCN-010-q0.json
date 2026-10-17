@@ -1,0 +1,52 @@
+{
+  "case_id": "s8-SCN-010-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T7"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2859,
+      "live_tokens": 3171,
+      "output_tokens": 312
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the major alarm on the microwave link and the latency spikes on downstream sites, supporting the inference of transport degradation.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 explicitly reports latency spikes on S-SAH-003, S-SAH-005, and S-SAH-010 from 20:45 to 01:00 (approx. 4 hours).",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2 shows the dependency chain S-SAH-010 -> LNK-SAH-01-B (microwave) -> AGG-SAH-01 -> CORE-UPF-01.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 and ALM-000225 both confirm a major LINK_DEGRADED alarm on LNK-SAH-01-B raised at 20:37.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 explicitly states no changes were found on the listed nodes and parents within the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 explicitly states no maintenance window was scheduled on the listed nodes and parents within the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

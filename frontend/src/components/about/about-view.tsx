@@ -57,8 +57,8 @@ export function AboutView() {
       <section aria-labelledby="results" className="hw-section">
         <h2 id="results">What has been measured</h2>
         <p className="hw-results-intro">
-          Read each block with the dataset it comes from. The agent&apos;s figures are from the world its prompts were written on, so they are the optimistic
-          case.
+          Read each block with the dataset it comes from. Every figure here comes from worlds that were not looked at while the agent was written; the
+          hard world is built so that the obvious explanation is often the wrong one.
         </p>
         <div className="hw-blocks">
           {RESULTS.map((block) => (

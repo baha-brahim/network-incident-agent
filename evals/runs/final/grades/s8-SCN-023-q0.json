@@ -1,0 +1,57 @@
+{
+  "case_id": "s8-SCN-023-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T6"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2585,
+      "live_tokens": 2915,
+      "output_tokens": 330
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the metrics (users, volume, PRB, latency) but does not prove the causal link that demand exhausted capacity to cause the incident.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "ANM-000368 explicitly states the active users spike with baseline 313 and value 649.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ANM-000366 explicitly states the download volume spike with value 65721.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 shows S-SUD-008 prb_util_pct max 100 at 2026-09-22 21:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 output reports no changes on S-SUD-008 and its ancestors in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T8 output reports no maintenance scheduled on S-SUD-008 and its ancestors in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T6 shows S-SUD-007 had minor negative deviations (-8%, -7%) in active users and volume, contradicting 'completely normal'.",
+      "verdict": "unsupported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

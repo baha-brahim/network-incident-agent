@@ -1,0 +1,45 @@
+{
+  "case_id": "s8-SCN-024-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1661,
+      "live_tokens": 1939,
+      "output_tokens": 278
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the maintenance window and the LINK_LOS alarm, but does not explicitly state that the work caused the sites to go offline as scheduled.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert ALR-0032 explicitly lists the drop in traffic, active users, and availability on S-SFX-008 and two other sites for 2 hours.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited maintenance record MW-0005 confirms the window, node, work type, and exact times 01:57 to 04:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarms show LINK_LOS (02:00-04:08) and SITE_DOWN (02:01-04:09) occurring within the maintenance window (01:57-04:15).",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output T4 explicitly reports no changes on the specified nodes and ancestors during the relevant time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

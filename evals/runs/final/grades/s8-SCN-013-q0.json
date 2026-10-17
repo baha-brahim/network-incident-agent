@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-013-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2919,
+      "live_tokens": 3319,
+      "output_tokens": 400
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms confirm the sequence of mains failure, battery low, and site down, supporting the inference of power failure causing shutdown.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T5 shows S-SAH-009 availability and active users at 0 in the 03:30 bucket, and ALR-0017 confirms the drop starting at 03:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000256 explicitly states the alarm was raised at 2026-09-12 23:39 and cleared at 2026-09-13 04:44 on S-SAH-009.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000262 explicitly states the BATTERY_LOW alarm was raised at 03:15 and cleared at 04:44 on S-SAH-009.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALM-000263 explicitly states the SITE_DOWN alarm was raised at 03:30 and cleared at 04:44 on S-SAH-009.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 shows availability_pct series for S-SAH-001 and S-SAH-006 as 100 for all buckets in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T4 reports no changes and T6 reports no maintenance for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

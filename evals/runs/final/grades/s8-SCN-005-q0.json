@@ -1,0 +1,52 @@
+{
+  "case_id": "s8-SCN-005-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T15"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3666,
+      "live_tokens": 3999,
+      "output_tokens": 333
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows symptoms (alarms, volume spike) but does not establish the causal link to a traffic surge or reduced speeds.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and ALR-0005 explicitly state RRC success drops and latency spikes on both sites starting at 17:15.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ANM-000056 explicitly reports a dl_volume_mb spike on S-TUN-013 with z 28.0.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ANM-000061 and ANM-000067 confirm latency spike to 108 ms and drop rate spike on S-TUN-018.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALM-000114 and ALM-000115 show HIGH_PRB alarms on both sites within the 17:26-18:23 window, matching the anomalies.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T15 output shows prb_util pct at 100 for C-TUN-018-1 at 17:45 and 18:00, confirming the claim.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "s8-SCN-016-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3668,
+      "live_tokens": 3898,
+      "output_tokens": 230
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the changes and alarms but does not prove causality, which is a conclusion requiring inference from KPI data not cited here.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T7 explicitly shows onset at 04:00 for both metrics on both sites, and ALR-0021 confirms the ongoing alert for these sites and metrics.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited change records and T4 output confirm the specific change IDs, nodes, time, and template details.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarms and T3 output confirm minor RRC failure alarms on both sites raised after the 04:06 changes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 output explicitly states no maintenance windows were scheduled on the specified nodes and ancestors during the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

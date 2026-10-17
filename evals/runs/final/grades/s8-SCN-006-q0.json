@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-006-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4324,
+      "live_tokens": 4660,
+      "output_tokens": 336
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the maintenance window and alarms, but does not prove causality or that the interruptions were 'expected' rather than a failure.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1 and ALR-0006 explicitly state the drop in traffic, active users, and availability on the three sites for 4 hours.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T2, T3, and T4 all show the dependency chain S-TUN-xxx -> LNK-TUN-01-C.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 and ALM-000140 confirm the alarm time and node; T7 and MW-0002 confirm the maintenance window covered that time.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T5 and the specific alarm references confirm SITE_DOWN alarms on the three sites at 02:38, one minute after the link loss.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 and MW-0002 explicitly state the maintenance window times and node.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The evidence shows the upgrade occurred at 03:14 (after start), but does not provide data to prove it 'did not cause' the drop.",
+      "verdict": "partially_supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,57 @@
+{
+  "case_id": "s8-SCN-028-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T8"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 4055,
+      "live_tokens": 4357,
+      "output_tokens": 302
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the changes and the KPI degradation, but does not prove causality or rule out other causes.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T1, T8, and ALR-0037 all confirm the specific metrics, sites, and start time of 09:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T3, CHG-2026-0084, and CHG-2026-0085 confirm the change IDs, sites, and execution time of 09:35.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2 explicitly states there were no critical or major alarms in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 explicitly reports no maintenance windows for the sites and parents in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T10 explicitly reports no external events for region SUD in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T7 explicitly reports no changes on AGG-SUD-01 and its parents in the window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

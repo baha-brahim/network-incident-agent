@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-004-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2356,
+      "live_tokens": 2666,
+      "output_tokens": 310
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarm and runbook support the link degradation and downstream impact, but the specific cause of reduced modulation and RSL below threshold is not explicitly stated in the evidence text.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited topology and node details explicitly show the dependency chain from S-SAH-012 to LNK-SAH-02-A and AGG-SAH-02.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record explicitly states the major LINK_DEGRADED alarm on LNK-SAH-02-A with the exact start and end times.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alert explicitly lists the three sites and the time window for traffic drops and latency spikes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no changes on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no maintenance windows on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited tool output explicitly reports no external events for region SAH within the given time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

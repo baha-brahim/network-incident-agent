@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-033-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1731,
+      "live_tokens": 2004,
+      "output_tokens": 273
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm on the link and the topology dependency, supporting the inference that the link failure caused the site outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The alarm record explicitly states a critical LINK_LOS on LNK-TUN-02-B raised at 2026-09-29 14:43.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The topology output lists S-TUN-004, S-TUN-007, and S-TUN-009 as sites below LNK-TUN-02-B.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited anomalies show availability and traffic metrics dropping to 0 for S-TUN-004.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The maintenance check output reports no scheduled windows for the specified nodes and ancestors in the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The external events check output reports no events for all regions in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

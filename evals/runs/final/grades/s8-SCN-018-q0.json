@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-018-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3254,
+      "live_tokens": 3564,
+      "output_tokens": 310
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the alarm and KPI deviations matching the runbook signature, supporting the inference of link degradation.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 and ALM-000382 explicitly state a major LINK_DEGRADED alarm on LNK-SFX-02-B at 05:38.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T5 shows volume down and latency up for both sites starting at 05:45, and T1/ALR-0025 confirm the alert onset.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T2 topology shows S-SFX-007 and S-SFX-001 depend on LNK-SFX-02-B, placing them downstream.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly reports no changes on the specified nodes and ancestors within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T7 explicitly reports no maintenance windows on the specified nodes and ancestors within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T9 explicitly reports no external events for region SFX within the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,53 @@
+{
+  "case_id": "s8-SCN-009-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [
+      "T3",
+      "T8"
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3970,
+      "live_tokens": 4285,
+      "output_tokens": 315
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the symptoms (alarms and anomalies) but does not contain data to verify the specific root cause of 'localized traffic congestion' or 'capacity' issues.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly lists deviations for all four metrics on S-TUN-015 with an onset time of 2026-09-10 19:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T8 states that no series deviates from baseline for S-TUN-005 and S-TUN-016 in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 reports no changes on S-TUN-015 and its ancestors (AGG-TUN-01, LNK-TUN-01-C) between 18:00 and 23:59.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T7 reports no maintenance windows scheduled on S-TUN-015 and its ancestors during the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 reports no external events for region TUN between 18:00 and 23:59.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

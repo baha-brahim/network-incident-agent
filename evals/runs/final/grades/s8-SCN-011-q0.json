@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-011-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2003,
+      "live_tokens": 2286,
+      "output_tokens": 283
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows local DNS degradation but does not contain data on nationwide traffic or latency, so the scope is not backed.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The alarm record explicitly states ALM-000232 was raised on CORE-DNS-01 at 2026-09-11 09:41.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T8 explicitly reports the minimum query_success_pct as 86.6 at 2026-09-11 09:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T8 explicitly reports the maximum resolution_ms as 116 at 2026-09-11 10:30.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T9 explicitly reports no changes on CORE-DNS-01 and its parents in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 explicitly reports no external events for all regions in the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

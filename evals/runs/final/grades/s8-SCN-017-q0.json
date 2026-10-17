@@ -1,0 +1,45 @@
+{
+  "case_id": "s8-SCN-017-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3209,
+      "live_tokens": 3417,
+      "output_tokens": 208
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the event and the KPI spikes, but does not prove the causal link between the match and the network demand.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alerts explicitly describe spikes in traffic, active users, and PRB utilization on the three specified sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The event record explicitly states the location, start/end times, and expected attendance of 40,000.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The tool output explicitly reports no changes on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The tool output explicitly reports no maintenance windows scheduled on the specified nodes and parents within the given time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

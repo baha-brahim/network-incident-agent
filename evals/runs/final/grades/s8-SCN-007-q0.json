@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-007-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2498,
+      "live_tokens": 2743,
+      "output_tokens": 245
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms show the sequence of mains failure, battery low, and site down, supporting the inference of a power failure chain.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The alert confirms a drop in availability but does not specify the exact values (100 to 0) or the specific metric value at the end.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 1,
+      "reason": "The alarm record explicitly states the type, node, raise time, and clear time matching the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T6 confirms no alarms and T7 confirms no KPI deviations for the specified sites and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 explicitly reports no changes on the specified nodes and ancestors within the time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 explicitly reports no maintenance windows on the specified nodes and ancestors within the time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

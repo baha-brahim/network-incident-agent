@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-026-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 3846,
+      "live_tokens": 4234,
+      "output_tokens": 388
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarm and KPI drops, but does not explicitly state the causal link or rule out other causes.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T4 and T7 both explicitly list LNK-SUD-02-A as the parent link for S-SUD-001 and S-SUD-003.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000569 explicitly states a critical LINK_LOS on LNK-SUD-02-A raised at 2026-09-24 14:42.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000570 and ALM-000571 confirm SITE_DOWN alarms on both sites raised at 2026-09-24 14:43.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 shows availability onset at 14:30 and DL volume onset at 14:45 with values dropping to 0 for both sites.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "CHG-2026-0081 confirms a parameter_tuning change on S-SUD-001 at 2026-09-24 13:41.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T5 shows simultaneous alarms on siblings, T7 confirms they are siblings, and T3 shows only one minor change, supporting the inference.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

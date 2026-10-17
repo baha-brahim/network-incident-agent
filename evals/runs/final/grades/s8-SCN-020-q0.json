@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-020-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2773,
+      "live_tokens": 3120,
+      "output_tokens": 347
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms show the sequence of mains failure, battery low, and site down, supporting the inference of a power failure incident.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 shows availability onset at 02:15 and recovery at 05:45, with a minimum of 0, matching the claim.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000412 explicitly states the alarm was raised at 00:27 and cleared at 05:39 on S-TUN-008.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000413 explicitly states the alarm was raised at 02:12 and cleared at 05:39 on S-TUN-008.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "ALM-000414 explicitly states the alarm was raised at 02:27 and cleared at 05:39 on S-TUN-008.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T5 output confirms no changes on the specified nodes and parents within the stated time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "T6 output confirms no maintenance window on S-TUN-008 and parents within the stated time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

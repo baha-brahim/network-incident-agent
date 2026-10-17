@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-003-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2803,
+      "live_tokens": 3122,
+      "output_tokens": 319
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows 30 self-clearing minor/warning alarms, 100% availability, and no changes/maintenance, matching the runbook signature for nuisance alarms with no impact.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly states 30 alarms (19 minor, 11 warning) on S-TUN-009 between 05:09 and 06:05, all cleared within 10 minutes.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T4 shows availability_pct at 100% for all buckets and stable RRC success rates, indicating no customer traffic impact.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T5 explicitly reports no changes on S-TUN-009 and its parents between 2026-09-05 00:00 and 09:51.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T6 explicitly reports no maintenance window scheduled on S-TUN-009 and its parents in the specified window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The observed alarm types, counts, self-clearing nature, and lack of impact match the signature described in the cited runbook.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

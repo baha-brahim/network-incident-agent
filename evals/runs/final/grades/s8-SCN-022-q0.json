@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-022-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2879,
+      "live_tokens": 3183,
+      "output_tokens": 304
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The evidence confirms the alarm storm and lack of impact, but does not prove the specific root cause of environmental/radio noise.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "T3 explicitly states 20 alarms (11 minor, 9 warning) with 0 active on S-TUN-013.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "T1 explicitly reports no detector alerts for S-TUN-013 or relatives in the specified time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "T4 states no series deviates from baseline and lists metrics matching baseline values.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T8 explicitly reports no maintenance window scheduled for S-TUN-013 and parents in the window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The runbook lists DOOR_OPEN, FAN_FAILURE, and RECTIFIER_FAULT as part of the signature, so the claim is incomplete.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 5,
+      "reason": "CHG-2026-0077 confirms a software upgrade on CORE-UPF-01 at the stated time.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

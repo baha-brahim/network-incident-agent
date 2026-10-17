@@ -1,0 +1,55 @@
+{
+  "case_id": "s8-SCN-002-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 2113,
+      "live_tokens": 2389,
+      "output_tokens": 276
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence shows the alarms but does not explicitly state the causal link or the specific 'transport_failure' classification.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert explicitly lists the three sites, the metrics, and the 6.5-hour duration.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited anomaly states the baseline was 179, whereas the claim states 180.",
+      "verdict": "partially_supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited alarm record confirms the type, node, and exact timestamp.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited alarms show SITE_DOWN on all three sites at 11:12, which is one minute after the 11:11 link loss.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "The cited tool output explicitly reports no changes for the specified nodes and time window.",
+      "verdict": "supported"
+    },
+    {
+      "index": 5,
+      "reason": "The cited tool output explicitly reports no maintenance windows for the specified nodes and time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

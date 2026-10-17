@@ -1,0 +1,50 @@
+{
+  "case_id": "s8-SCN-031-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1714,
+      "live_tokens": 2042,
+      "output_tokens": 328
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited alarms show the sequence of mains failure, battery low, and site down, supporting the inference of a causal chain.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "ALR-0041 explicitly states the drop in traffic, active users, and availability on S-SAH-012 from 07:30 to 09:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "ALM-000636 confirms a major MAINS_FAILURE on S-SAH-012 raised at 2026-09-28 06:06.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "ALM-000638 confirms a critical SITE_DOWN on S-SAH-012 raised at 07:30 and cleared at 09:34.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "T4 output explicitly states no changes on S-SAH-012 and its parents between 06:00 and 12:00.",
+      "verdict": "supported"
+    },
+    {
+      "index": 4,
+      "reason": "T6 output explicitly states no maintenance window scheduled on S-SAH-012 and its parents between 06:00 and 12:00.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}

@@ -1,0 +1,45 @@
+{
+  "case_id": "s8-SCN-034-q0",
+  "comments": "",
+  "extra": {
+    "batches": 1,
+    "no_verdict": [],
+    "reasoning": false,
+    "shortened_refs": [],
+    "usage": {
+      "cached_calls": 0,
+      "calls": 1,
+      "input_tokens": 1479,
+      "live_tokens": 1728,
+      "output_tokens": 249
+    }
+  },
+  "findings": [
+    {
+      "index": -1,
+      "reason": "The cited evidence confirms the maintenance activity and the site offline impact, supporting the inference that the maintenance caused the outage.",
+      "verdict": "supported"
+    },
+    {
+      "index": 0,
+      "reason": "The cited alert explicitly states a drop in traffic, active users, and availability on S-TUN-011 from 03:15 to 05:45.",
+      "verdict": "supported"
+    },
+    {
+      "index": 1,
+      "reason": "The cited alarm record confirms a critical SITE_DOWN alarm on S-TUN-011 raised at 03:23 and cleared at 05:35.",
+      "verdict": "supported"
+    },
+    {
+      "index": 2,
+      "reason": "The cited maintenance record confirms the specific activities and the time window 03:20 to 05:39 on S-TUN-011.",
+      "verdict": "supported"
+    },
+    {
+      "index": 3,
+      "reason": "The cited tool output explicitly reports no changes on S-TUN-011 and its parents during the specified time window.",
+      "verdict": "supported"
+    }
+  ],
+  "grader": "groq:qwen/qwen3.8-27b"
+}
