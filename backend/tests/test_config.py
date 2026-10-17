@@ -57,3 +57,48 @@ def test_get_settings_is_cached() -> None:
     config.get_settings.cache_clear()
     assert config.get_settings() is config.get_settings()
     config.get_settings.cache_clear()
+
+
+@pytest.mark.parametrize(
+    ("given", "expected"),
+    [
+        (
+            "postgresql://u:p@ep-x-pooler.eu-central-1.aws.neon.tech/db?sslmode=require&channel_binding=require",
+            "postgresql+psycopg://u:p@ep-x-pooler.eu-central-1.aws.neon.tech/db"
+            "?sslmode=require&channel_binding=require",
+        ),
+        ("postgres://u:p@h/db", "postgresql+psycopg://u:p@h/db"),
+        ("postgresql+psycopg://u:p@h/db", "postgresql+psycopg://u:p@h/db"),
+    ],
+)
+def test_database_urls_use_the_psycopg_driver(
+    given: str, expected: str, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setenv("DATABASE_URL", given)
+    monkeypatch.setenv("AGENT_DATABASE_URL", given)
+    s = Settings(_env_file=None)
+    assert s.database_url == expected
+    assert s.agent_db_url == expected
+
+
+def test_agent_database_url_is_optional() -> None:
+    s = Settings(_env_file=None)
+    assert s.agent_database_url is None
+    assert s.agent_db_url == "postgresql+psycopg://agent_ro:agent_ro@localhost:5433/incident_agent"
+
+
+def test_client_limit_settings() -> None:
+    s = Settings(_env_file=None)
+    assert s.live_per_client_daily_limit == 3 and s.client_hash_salt is None
+    with pytest.raises(ValueError):
+        Settings(_env_file=None, live_per_client_daily_limit=-1)
+    salted = Settings(_env_file=None, client_hash_salt="pepper")  # type: ignore[arg-type]
+    assert "pepper" not in repr(salted)
+
+
+def test_cache_directories_can_be_moved(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LLM_CACHE_DIR", "/tmp/llm_cache")
+    monkeypatch.setenv("EMBEDDING_CACHE_DIR", "/opt/fastembed")
+    s = Settings(_env_file=None)
+    assert s.llm_cache_dir == Path("/tmp/llm_cache")
+    assert s.embedding_cache_dir == Path("/opt/fastembed")

@@ -46,8 +46,9 @@ def sqlite_engine() -> Engine:
 class MemoryTraceStore(TraceStore):
     """Notes in the repository which runs the agent started and how they ended."""
 
-    def __init__(self, repo: "MemoryRunRepository") -> None:
+    def __init__(self, repo: "MemoryRunRepository", client_hash: str | None = None) -> None:
         self.repo = repo
+        self.client_hash = client_hash
 
     def start_run(  # type: ignore[override]
         self, run_id: str, question: str, asked_at: datetime, *, trigger: str = "user",
@@ -60,6 +61,8 @@ class MemoryTraceStore(TraceStore):
         }  # fmt: skip
         if trigger == "alert":
             self.repo.alert_runs.append(started)
+        if self.client_hash is not None:
+            self.repo.client_runs.append((self.client_hash, started))
 
     def log_step(self, *args: Any, **kwargs: Any) -> None:
         pass
@@ -79,13 +82,17 @@ class MemoryRunRepository:
         self.runs: dict[str, dict[str, Any]] = {}  # every run the agent started, in order
         self.user_runs: list[datetime] = []  # start times that count against the daily limit
         self.alert_runs: list[datetime] = []  # the same for alert-triggered runs
+        self.client_runs: list[tuple[str, datetime]] = []  # (client hash, start) of each run
         self.stopped: list[tuple[str, str]] = []
 
-    def trace_store(self) -> TraceStore | None:
-        return MemoryTraceStore(self)
+    def trace_store(self, client_hash: str | None = None) -> TraceStore | None:
+        return MemoryTraceStore(self, client_hash)
 
     def count_user_runs_since(self, since: datetime) -> int:
         return sum(1 for t in self.user_runs if t >= since)
+
+    def count_client_runs_since(self, client_hash: str, since: datetime) -> int:
+        return sum(1 for h, t in self.client_runs if h == client_hash and t >= since)
 
     def count_alert_runs_since(self, since: datetime) -> int:
         return sum(1 for t in self.alert_runs if t >= since)

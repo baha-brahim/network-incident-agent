@@ -4,7 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import make_url
 
@@ -12,6 +12,17 @@ from sqlalchemy.engine import make_url
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 DEFAULT_DATABASE_URL = "postgresql+psycopg://incident:incident@localhost:5433/incident_agent"
+
+
+def with_psycopg_driver(url: str) -> str:
+    """`postgresql://...` (as hosted databases hand it out) -> `postgresql+psycopg://...`.
+
+    Only the scheme changes, so query parameters such as `sslmode` stay as they are.
+    """
+    for scheme in ("postgresql://", "postgres://"):
+        if url.startswith(scheme):
+            return "postgresql+psycopg://" + url[len(scheme) :]
+    return url
 
 
 class Settings(BaseSettings):
@@ -56,6 +67,15 @@ class Settings(BaseSettings):
     alert_webhook_token: SecretStr | None = None
     # As an env var, give a JSON list: CORS_ORIGINS='["https://demo.example.org"]'
     cors_origins: list[str] = ["http://localhost:3000"]
+    # Live investigations one client may start per UTC day. A client is told apart by its address,
+    # kept only as a salted hash. Without a salt the hash is plain sha256 of the address.
+    live_per_client_daily_limit: int = Field(default=3, ge=0)
+    client_hash_salt: SecretStr | None = None
+
+    @field_validator("database_url", "agent_database_url")
+    @classmethod
+    def _psycopg_driver(cls, value: str | None) -> str | None:
+        return with_psycopg_driver(value) if value else value
 
     @property
     def agent_db_url(self) -> str:

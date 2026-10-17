@@ -13,10 +13,16 @@ from incident_agent.api.schemas import InvestigationDetail, InvestigationSummary
 
 
 class RunRepository(Protocol):
-    def trace_store(self) -> TraceStore | None:
-        """The store the agent writes its trace to, or None to run without one."""
+    def trace_store(self, client_hash: str | None = None) -> TraceStore | None:
+        """The store the agent writes its trace to, or None to run without one.
+
+        With a `client_hash`, the runs it starts are filed under that client.
+        """
 
     def count_user_runs_since(self, since: datetime) -> int: ...
+
+    def count_client_runs_since(self, client_hash: str, since: datetime) -> int:
+        """User runs of one client that started at or after `since`."""
 
     def count_alert_runs_since(self, since: datetime) -> int: ...
 
@@ -72,12 +78,41 @@ def _summary(row: Any) -> InvestigationSummary:
     )
 
 
+class ClientTraceStore(TraceStore):
+    """A trace store that files each run it starts under a client, once the run row exists."""
+
+    def __init__(self, engine: Engine, client_hash: str) -> None:
+        super().__init__(engine)
+        self.client_hash = client_hash
+
+    def start_run(
+        self,
+        run_id: str,
+        question: str,
+        asked_at: datetime,
+        *,
+        trigger: str = "user",
+        alert_id: str | None = None,
+        config: dict[str, Any] | None = None,
+    ) -> None:
+        super().start_run(
+            run_id, question, asked_at, trigger=trigger, alert_id=alert_id, config=config
+        )
+        with self.engine.begin() as conn:
+            conn.execute(
+                text("UPDATE app.agent_runs SET client_hash = :hash WHERE run_id = :id"),
+                {"hash": self.client_hash, "id": run_id},
+            )
+
+
 class PgRunRepository:
     def __init__(self, engine: Callable[[], Engine]) -> None:
         self._engine = engine
 
-    def trace_store(self) -> TraceStore | None:
-        return TraceStore(self._engine())
+    def trace_store(self, client_hash: str | None = None) -> TraceStore | None:
+        if client_hash is None:
+            return TraceStore(self._engine())
+        return ClientTraceStore(self._engine(), client_hash)
 
     def count_user_runs_since(self, since: datetime) -> int:
         with self._engine().connect() as conn:
@@ -87,6 +122,17 @@ class PgRunRepository:
                     "WHERE trigger = 'user' AND started_at >= :since"
                 ),
                 {"since": since},
+            ).scalar_one()
+        return int(count)
+
+    def count_client_runs_since(self, client_hash: str, since: datetime) -> int:
+        with self._engine().connect() as conn:
+            count = conn.execute(
+                text(
+                    "SELECT count(*) FROM app.agent_runs "
+                    "WHERE trigger = 'user' AND client_hash = :hash AND started_at >= :since"
+                ),
+                {"hash": client_hash, "since": since},
             ).scalar_one()
         return int(count)
 

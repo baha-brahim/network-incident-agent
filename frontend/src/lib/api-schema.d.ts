@@ -4,6 +4,26 @@
  */
 
 export interface paths {
+    "/api/ping": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Ping
+         * @description Readiness for the hosting platform. Touches nothing else, not even the database.
+         */
+        get: operations["ping_api_ping_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/health": {
         parameters: {
             query?: never;
@@ -115,7 +135,7 @@ export interface paths {
         put?: never;
         /**
          * Stream Investigation
-         * @description Run a live investigation and stream its events. Limited per day.
+         * @description Run a live investigation and stream its events. Limited per day, and per client.
          */
         post: operations["stream_investigation_api_investigations_stream_post"];
         delete?: never;
@@ -772,6 +792,16 @@ export interface components {
              */
             live_remaining: number;
             /**
+             * Live Client Limit
+             * @description Live investigations one client may start per UTC day.
+             */
+            live_client_limit: number;
+            /**
+             * Live Client Remaining
+             * @description Live investigations left today for the client asking. The client can start the smaller of this and `live_remaining`.
+             */
+            live_client_remaining: number;
+            /**
              * Model
              * @description The model a live investigation starts with.
              */
@@ -806,6 +836,14 @@ export interface components {
              */
             type: "note";
             data: components["schemas"]["NoteData"];
+        };
+        /** Ping */
+        Ping: {
+            /**
+             * Status
+             * @constant
+             */
+            status: "ok";
         };
         /** Recording */
         Recording: {
@@ -1294,6 +1332,26 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    ping_api_ping_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Ping"];
+                };
+            };
+        };
+    };
     health_api_health_get: {
         parameters: {
             query?: never;

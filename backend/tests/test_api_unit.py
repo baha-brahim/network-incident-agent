@@ -724,6 +724,7 @@ def test_the_committed_openapi_file_is_current() -> None:
 def test_the_contract_describes_every_endpoint_and_event() -> None:
     spec = json.loads(render())
     assert set(spec["paths"]) == {
+        "/api/ping",
         "/api/health",
         "/api/meta",
         "/api/demos",

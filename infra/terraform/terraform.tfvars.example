@@ -1,0 +1,20 @@
+# Copy to terraform.tfvars (git-ignored) and fill in. Never commit real values.
+
+budget_email = "you@example.org"
+
+# Pooled Neon endpoints (host contains "-pooler"), one per database role.
+database_url       = "postgresql://api_rw:PASSWORD@ep-example-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+agent_database_url = "postgresql://agent_ro:PASSWORD@ep-example-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require"
+
+gemini_api_key      = "REPLACE_ME"
+groq_api_key        = "REPLACE_ME"
+client_hash_salt    = "REPLACE_ME_WITH_A_LONG_RANDOM_STRING"
+alert_webhook_token = "" # empty switches the alert webhook off
+
+cors_origins = ["https://your-project.vercel.app"]
+
+# github_repository           = "owner/name"
+# live_enabled                = true
+# live_daily_limit            = 20
+# live_per_client_daily_limit = 3
+# alert_daily_limit           = 10

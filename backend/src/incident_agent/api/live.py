@@ -33,6 +33,11 @@ def live_remaining(svc: Services) -> int:
     return max(0, svc.settings.live_daily_limit - used)
 
 
+def live_client_remaining(svc: Services, client_hash: str) -> int:
+    used = svc.runs.count_client_runs_since(client_hash, day_start(svc.clock()))
+    return max(0, svc.settings.live_per_client_daily_limit - used)
+
+
 def live_events(
     svc: Services,
     question: str,
@@ -40,6 +45,7 @@ def live_events(
     *,
     trigger: str = "user",
     alert_id: str | None = None,
+    client_hash: str | None = None,
 ) -> Iterator[ApiEvent]:
     """The events of one investigation. Runs the agent as the iterator is consumed.
 
@@ -59,7 +65,7 @@ def live_events(
             asked_at,
             runner=svc.runner_factory(),
             ctx=ToolContext(engine=agent_engine, asked_at=asked_at, embedder=svc.embedder),
-            store=svc.runs.trace_store(),
+            store=svc.runs.trace_store(client_hash),
             reference=reference,
             tool_executor=recorder,
             trigger=trigger,

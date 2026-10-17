@@ -12,6 +12,7 @@ from sqlalchemy import Engine, text
 from sqlalchemy.exc import DBAPIError
 
 from incident_agent.api.app import create_app
+from incident_agent.api.clients import hash_address
 from incident_agent.api.live import day_start, live_events
 from incident_agent.api.repository import PgRunRepository
 from incident_agent.api.schemas import RunEvent
@@ -152,10 +153,57 @@ def used_today(world: Engine) -> int:
     return PgRunRepository(lambda: world).count_user_runs_since(day_start(datetime.now(UTC)))
 
 
-def test_the_daily_limit_counts_todays_user_runs(world: Engine, agent_ro_engine: Engine) -> None:
-    c = TestClient(
-        create_app(services(world, agent_ro_engine, live_daily_limit=used_today(world) + 1))
+def test_runs_are_filed_under_a_salted_hash_of_their_client(
+    world: Engine, agent_ro_engine: Engine
+) -> None:
+    svc = services(
+        world,
+        agent_ro_engine,
+        live_daily_limit=1000,
+        live_per_client_daily_limit=1,
+        client_hash_salt="pepper",
     )
+    c = TestClient(create_app(svc))
+    mine, other = {"X-Forwarded-For": "203.0.113.7, 10.0.0.1"}, {"X-Forwarded-For": "203.0.113.8"}
+    body = {"question": QUESTION, "asked_at": ASKED.isoformat()}
+
+    first = c.post("/api/investigations/stream", json=body, headers=mine)
+    assert first.status_code == 200, first.text
+    run_id = parse_sse(first.text)[0][1]["run_id"]
+    expected = hash_address("203.0.113.7", svc.settings)
+    with world.connect() as conn:
+        stored = conn.execute(
+            text("SELECT client_hash, trigger FROM app.agent_runs WHERE run_id = :id"),
+            {"id": run_id},
+        ).one()
+        leaked = conn.execute(
+            text("SELECT count(*) FROM app.agent_runs WHERE agent_runs::text LIKE '%203.0.113.%'")
+        ).scalar_one()
+    assert tuple(stored) == (expected, "user") and leaked == 0
+
+    assert c.get("/api/meta", headers=mine).json()["live_client_remaining"] == 0
+    assert c.get("/api/meta", headers=other).json()["live_client_remaining"] == 1
+    refused = c.post("/api/investigations/stream", json=body, headers=mine)
+    assert refused.status_code == 429 and refused.json()["error"]["code"] == "client_limit_reached"
+    assert c.post("/api/investigations/stream", json=body, headers=other).status_code == 200
+
+
+def test_the_client_index_exists(world: Engine) -> None:
+    with world.connect() as conn:
+        definition = conn.execute(
+            text("SELECT indexdef FROM pg_indexes WHERE indexname = 'ix_agent_runs_client'")
+        ).scalar_one()
+    assert "(client_hash, started_at)" in definition
+
+
+def test_the_daily_limit_counts_todays_user_runs(world: Engine, agent_ro_engine: Engine) -> None:
+    svc = services(
+        world,
+        agent_ro_engine,
+        live_daily_limit=used_today(world) + 1,
+        live_per_client_daily_limit=1000,  # this test is about the shared limit
+    )
+    c = TestClient(create_app(svc))
     assert c.get("/api/meta").json()["live_remaining"] == 1
     start_live(c)
     assert c.get("/api/meta").json()["live_remaining"] == 0

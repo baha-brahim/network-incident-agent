@@ -73,7 +73,7 @@ docker-compose.yml           local Postgres + pgvector
 | Python | 3.12, managed by uv |
 | Agent framework | LangGraph |
 | LLM clients | langchain-google-genai, langchain-groq, langchain-ollama |
-| DB | Postgres 17 + pgvector (Docker locally, Neon in prod), SQLAlchemy 2 + psycopg 3, Alembic |
+| DB | Postgres 17 + pgvector in Docker locally, Neon (Postgres 18, pooled endpoint) in prod; SQLAlchemy 2 + psycopg 3, Alembic |
 | Embeddings | fastembed `BAAI/bge-small-en-v1.5` (local, 384 dims) |
 | API | FastAPI with Server-Sent Events, on AWS Lambda with response streaming (Lambda Web Adapter) |
 | Frontend | Next.js (App Router) + TypeScript + Tailwind, on Vercel |
@@ -147,7 +147,7 @@ A LangGraph state machine:
 - **Grader calibration.** The user hand-grades 15–20 reports, and we measure grader-vs-human agreement (Cohen's kappa). We use the same set to decide whether the grader's thinking stays off (default off, to save Groq tokens) or on.
 - **Clean comparisons.** Runs where a fallback model answered any step are flagged, and excluded from per-model comparisons.
 - **Quota timing.** Gemini daily quotas reset at midnight Pacific, which is 08:00–09:00 in Tunisia. Start big live eval runs right after that.
-- CI never calls live APIs. Deploy secrets live in GitHub Actions secrets and AWS Secrets Manager / Lambda env, never in the repo.
+- CI never calls live APIs. Deploy secrets live in the Lambda function's environment (set from a git-ignored Terraform variables file; Secrets Manager costs money) and never in the repo. The deploy workflow signs in to AWS with GitHub's OIDC, so no AWS key is stored anywhere.
 
 ## 7. Milestones
 

@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { Notice, buttonStyles } from "@/components/ui/notice";
 import { cx } from "@/lib/cx";
 import { fmtIso, fmtNumber } from "@/lib/format";
+import { liveQuota } from "@/lib/quota";
 import type { DemoSummary, Meta } from "@/lib/types";
 
 const MIN = 8;
@@ -24,7 +25,8 @@ export function AskLive({ meta, metaError, examples, onSubmit, onWatchRecorded }
   const long = question.length > MAX;
   const valid = question.length >= MIN && !long;
   const switchedOff = meta ? !meta.live_enabled : false;
-  const usedUp = meta ? meta.live_remaining <= 0 : false;
+  const quota = meta ? liveQuota(meta) : null;
+  const usedUp = quota ? quota.left <= 0 : false;
   const blocked = metaError || switchedOff || usedUp;
   const hint =
     question.length === 0
@@ -57,7 +59,7 @@ export function AskLive({ meta, metaError, examples, onSubmit, onWatchRecorded }
         </Notice>
       ) : usedUp ? (
         <Notice tone="warn" title="Today's live runs are used up" action={toRecorded}>
-          Live runs use a free model tier, so only {meta ? fmtNumber(meta.live_daily_limit) : "a few"} are allowed per day. The count resets at midnight UTC.
+          Live runs use a free model tier, so only {quota ? fmtNumber(quota.limit) : "a few"} are allowed per day. The count resets at midnight UTC.
           Recorded cases do not count against it.
         </Notice>
       ) : null}
@@ -117,9 +119,9 @@ export function AskLive({ meta, metaError, examples, onSubmit, onWatchRecorded }
       </div>
 
       <div className="live-aside">
-        {meta ? (
+        {quota ? (
           <p className="live-left">
-            <span className="mono">{fmtNumber(Math.max(0, meta.live_remaining))}</span> of {fmtNumber(meta.live_daily_limit)} live runs left today
+            <span className="mono">{fmtNumber(quota.left)}</span> of {fmtNumber(quota.limit)} live runs left today
           </p>
         ) : null}
         <p className="live-note">

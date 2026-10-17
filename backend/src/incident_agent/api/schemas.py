@@ -218,6 +218,10 @@ class Health(BaseModel):
     database: bool
 
 
+class Ping(BaseModel):
+    status: Literal["ok"]
+
+
 class RegionInfo(BaseModel):
     id: str
     name: str
@@ -233,6 +237,13 @@ class Meta(BaseModel):
     live_enabled: bool
     live_daily_limit: int
     live_remaining: int = Field(description="Live investigations left today (UTC day).")
+    live_client_limit: int = Field(
+        description="Live investigations one client may start per UTC day."
+    )
+    live_client_remaining: int = Field(
+        description="Live investigations left today for the client asking. "
+        "The client can start the smaller of this and `live_remaining`."
+    )
     model: str = Field(description="The model a live investigation starts with.")
 
 

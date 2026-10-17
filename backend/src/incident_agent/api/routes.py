@@ -13,11 +13,17 @@ from sqlalchemy import text
 from incident_agent.agent.tools.timeutil import as_utc
 from incident_agent.api.alert_runs import AlertLimitReached, UnknownAlert, run_alert
 from incident_agent.api.bridge import sse_from_iterator
+from incident_agent.api.clients import client_key
 from incident_agent.api.datasets import list_alerts
 from incident_agent.api.demos import replay_frames
 from incident_agent.api.errors import ERRORS, ApiError
 from incident_agent.api.kpis import KpiInputError, kpi_series
-from incident_agent.api.live import live_events, live_remaining, seconds_to_next_day
+from incident_agent.api.live import (
+    live_client_remaining,
+    live_events,
+    live_remaining,
+    seconds_to_next_day,
+)
 from incident_agent.api.schemas import (
     AlertOut,
     AlertRunOut,
@@ -29,6 +35,7 @@ from incident_agent.api.schemas import (
     KpiSeries,
     LiveRequest,
     Meta,
+    Ping,
     Recording,
     Topology,
 )
@@ -60,6 +67,12 @@ bearer = HTTPBearer(auto_error=False, description="The alert webhook token.")
 # --- status -----------------------------------------------------------------------------------
 
 
+@router.get("/ping", response_model=Ping, tags=["status"])
+def ping() -> Ping:
+    """Readiness for the hosting platform. Touches nothing else, not even the database."""
+    return Ping(status="ok")
+
+
 @router.get("/health", response_model=Health, responses={503: {"model": Health}}, tags=["status"])
 async def health(svc: Svc, response: Response) -> Health:
     """Liveness. Checks the database, giving up after 3 seconds."""
@@ -79,10 +92,13 @@ async def health(svc: Svc, response: Response) -> Health:
 
 
 @router.get("/meta", response_model=Meta, responses=ERRORS, tags=["status"])
-def meta(svc: Svc) -> Meta:
+def meta(svc: Svc, request: Request) -> Meta:
     """Facts about the dataset, and whether a live investigation can be started."""
     facts = svc.facts()
     settings = svc.settings
+    client_remaining = (
+        live_client_remaining(svc, client_key(request, settings)) if settings.live_enabled else 0
+    )
     return Meta(
         dataset_now=facts.now,
         window_start=facts.window_start,
@@ -93,6 +109,8 @@ def meta(svc: Svc) -> Meta:
         live_enabled=settings.live_enabled,
         live_daily_limit=settings.live_daily_limit,
         live_remaining=live_remaining(svc) if settings.live_enabled else 0,
+        live_client_limit=settings.live_per_client_daily_limit,
+        live_client_remaining=client_remaining,
         model=settings.agent_model,
     )
 
@@ -143,23 +161,35 @@ async def replay_demo(
     response_class=StreamingResponse,
     tags=["investigations"],
 )
-async def stream_investigation(body: LiveRequest, svc: Svc) -> StreamingResponse:
-    """Run a live investigation and stream its events. Limited per day."""
+async def stream_investigation(body: LiveRequest, svc: Svc, request: Request) -> StreamingResponse:
+    """Run a live investigation and stream its events. Limited per day, and per client."""
     settings = svc.settings
     if not settings.live_enabled:
         raise ApiError(503, "live_disabled", "Live investigations are switched off.")
+    client = client_key(request, settings)
 
-    def preflight() -> tuple[int, datetime]:
-        return live_remaining(svc), svc.facts().now
+    def preflight() -> tuple[int, int, datetime]:
+        return live_client_remaining(svc, client), live_remaining(svc), svc.facts().now
 
-    remaining, dataset_now = await asyncio.to_thread(preflight)
+    client_remaining, remaining, dataset_now = await asyncio.to_thread(preflight)
+    retry_after = {"Retry-After": str(seconds_to_next_day(svc.clock()))}
+    if client_remaining <= 0:
+        raise ApiError(
+            429,
+            "client_limit_reached",
+            "You have used your live investigations for today. "
+            "Replay a recorded one, or come back tomorrow (the limit resets at 00:00 UTC).",
+            headers=retry_after,
+            limit=settings.live_per_client_daily_limit,
+            remaining=0,
+        )
     if remaining <= 0:
         raise ApiError(
             429,
             "daily_limit_reached",
             "The daily limit of live investigations is reached. "
             "Replay a recorded one, or come back tomorrow (the limit resets at 00:00 UTC).",
-            headers={"Retry-After": str(seconds_to_next_day(svc.clock()))},
+            headers=retry_after,
             limit=settings.live_daily_limit,
             remaining=0,
         )
@@ -170,7 +200,8 @@ async def stream_investigation(body: LiveRequest, svc: Svc) -> StreamingResponse
             422, "asked_at_in_future", f"asked_at cannot be later than {now.isoformat()}."
         )
     frames = sse_from_iterator(
-        lambda: live_events(svc, body.question, asked_at), svc.keepalive_seconds
+        lambda: live_events(svc, body.question, asked_at, client_hash=client),
+        svc.keepalive_seconds,
     )
     return StreamingResponse(frames, media_type="text/event-stream", headers=STREAM_HEADERS)
 

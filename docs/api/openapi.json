@@ -6,6 +6,28 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/api/ping": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "summary": "Ping",
+        "description": "Readiness for the hosting platform. Touches nothing else, not even the database.",
+        "operationId": "ping_api_ping_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ping"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
         "tags": [
@@ -292,7 +314,7 @@
           "investigations"
         ],
         "summary": "Stream Investigation",
-        "description": "Run a live investigation and stream its events. Limited per day.",
+        "description": "Run a live investigation and stream its events. Limited per day, and per client.",
         "operationId": "stream_investigation_api_investigations_stream_post",
         "requestBody": {
           "content": {
@@ -2239,6 +2261,16 @@
             "title": "Live Remaining",
             "description": "Live investigations left today (UTC day)."
           },
+          "live_client_limit": {
+            "type": "integer",
+            "title": "Live Client Limit",
+            "description": "Live investigations one client may start per UTC day."
+          },
+          "live_client_remaining": {
+            "type": "integer",
+            "title": "Live Client Remaining",
+            "description": "Live investigations left today for the client asking. The client can start the smaller of this and `live_remaining`."
+          },
           "model": {
             "type": "string",
             "title": "Model",
@@ -2256,6 +2288,8 @@
           "live_enabled",
           "live_daily_limit",
           "live_remaining",
+          "live_client_limit",
+          "live_client_remaining",
           "model"
         ],
         "title": "Meta"
@@ -2315,6 +2349,20 @@
           "data"
         ],
         "title": "NoteEvent"
+      },
+      "Ping": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "Ping"
       },
       "Recording": {
         "properties": {
