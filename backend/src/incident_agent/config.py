@@ -51,6 +51,9 @@ class Settings(BaseSettings):
     # HTTP API. Live investigations call the model, so they are switchable and limited per day.
     live_enabled: bool = True
     live_daily_limit: int = Field(default=20, ge=0)
+    # Alert-triggered investigations: the webhook needs a token, and runs are limited per day too.
+    alert_daily_limit: int = Field(default=10, ge=0)
+    alert_webhook_token: SecretStr | None = None
     # As an env var, give a JSON list: CORS_ORIGINS='["https://demo.example.org"]'
     cors_origins: list[str] = ["http://localhost:3000"]
 

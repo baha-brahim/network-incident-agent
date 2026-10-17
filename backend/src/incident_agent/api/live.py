@@ -33,7 +33,14 @@ def live_remaining(svc: Services) -> int:
     return max(0, svc.settings.live_daily_limit - used)
 
 
-def live_events(svc: Services, question: str, asked_at: datetime) -> Iterator[ApiEvent]:
+def live_events(
+    svc: Services,
+    question: str,
+    asked_at: datetime,
+    *,
+    trigger: str = "user",
+    alert_id: str | None = None,
+) -> Iterator[ApiEvent]:
     """The events of one investigation. Runs the agent as the iterator is consumed.
 
     When the run ends, its event list is stored. If the iterator is closed before the end (the
@@ -55,7 +62,8 @@ def live_events(svc: Services, question: str, asked_at: datetime) -> Iterator[Ap
             store=svc.runs.trace_store(),
             reference=reference,
             tool_executor=recorder,
-            trigger="user",
+            trigger=trigger,
+            alert_id=alert_id,
         )
 
     try:

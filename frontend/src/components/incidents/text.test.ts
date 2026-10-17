@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { alertSpan, clock, counted, firstNames, humanize, scoreText, secondsText, sentenceCase } from "./text";
+import { alertOrigin, alertSpan, clock, counted, firstNames, humanize, scoreText, secondsText, sentenceCase, triggerText } from "./text";
 
 const at = (iso: string) => Date.parse(iso);
 
@@ -42,6 +42,18 @@ describe("alertSpan", () => {
   it("is plain about an end before the start or a date that cannot be read", () => {
     expect(alertSpan(start, at("2026-09-21T19:00:00Z"))).toBe("ends before it starts");
     expect(alertSpan(start, Number.NaN)).toBe("window unclear");
+  });
+});
+
+describe("triggerText", () => {
+  it("names the alert that started a run", () => {
+    expect(triggerText("alert", "ALR-0019")).toBe("alert ALR-0019");
+    expect(alertOrigin("ALR-0019")).toBe("Started by detector alert ALR-0019");
+  });
+  it("falls back to the plain trigger without an alert id", () => {
+    expect(triggerText("alert")).toBe("alert");
+    expect(triggerText("alert", null)).toBe("alert");
+    expect(triggerText("eval", "")).toBe("eval");
   });
 });
 

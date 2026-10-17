@@ -43,26 +43,86 @@ def sqlite_engine() -> Engine:
     return engine
 
 
+class MemoryTraceStore(TraceStore):
+    """Notes in the repository which runs the agent started and how they ended."""
+
+    def __init__(self, repo: "MemoryRunRepository") -> None:
+        self.repo = repo
+
+    def start_run(  # type: ignore[override]
+        self, run_id: str, question: str, asked_at: datetime, *, trigger: str = "user",
+        alert_id: str | None = None, config: Any = None,
+    ) -> None:  # fmt: skip
+        started = datetime.now(UTC)
+        self.repo.runs[run_id] = {
+            "question": question, "asked_at": asked_at, "started_at": started,
+            "trigger": trigger, "alert_id": alert_id, "status": "running",
+        }  # fmt: skip
+        if trigger == "alert":
+            self.repo.alert_runs.append(started)
+
+    def log_step(self, *args: Any, **kwargs: Any) -> None:
+        pass
+
+    def finish_run(self, result: Any) -> None:
+        self.repo.runs[result.run_id]["status"] = result.status
+
+    def fail_run(self, run_id: str, error: str) -> None:
+        self.repo.runs[run_id]["status"] = "error"
+
+
 class MemoryRunRepository:
     """Keeps live runs in a dict, standing in for the Postgres repository when no database runs."""
 
     def __init__(self) -> None:
         self.events: dict[str, list[ApiEvent]] = {}
+        self.runs: dict[str, dict[str, Any]] = {}  # every run the agent started, in order
         self.user_runs: list[datetime] = []  # start times that count against the daily limit
+        self.alert_runs: list[datetime] = []  # the same for alert-triggered runs
         self.stopped: list[tuple[str, str]] = []
 
     def trace_store(self) -> TraceStore | None:
-        return None
+        return MemoryTraceStore(self)
 
     def count_user_runs_since(self, since: datetime) -> int:
         return sum(1 for t in self.user_runs if t >= since)
 
+    def count_alert_runs_since(self, since: datetime) -> int:
+        return sum(1 for t in self.alert_runs if t >= since)
+
     def save_events(self, run_id: str, events: list[ApiEvent]) -> None:
         self.events[run_id] = events
-        self.user_runs.append(datetime.now(UTC))
+        if events[0]["data"]["trigger"] == "user":
+            self.user_runs.append(datetime.now(UTC))
 
     def mark_stopped(self, run_id: str, reason: str) -> None:
         self.stopped.append((run_id, reason))
+        if run_id in self.runs:
+            self.runs[run_id]["status"] = "error"
+
+    def get_summary(self, run_id: str) -> InvestigationSummary | None:
+        if run_id in self.events:
+            return self._summary(run_id)
+        info = self.runs.get(run_id)
+        if info is None:
+            return None
+        return InvestigationSummary(run_id=run_id, **info)
+
+    def find_alert_run(self, alert_id: str, running_since: datetime) -> InvestigationSummary | None:
+        for run_id, info in reversed(self.runs.items()):
+            alive = info["status"] == "running" and info["started_at"] >= running_since
+            if info["alert_id"] == alert_id and (info["status"] == "finished" or alive):
+                return self.get_summary(run_id)
+        return None
+
+    def latest_alert_run_ids(
+        self, alert_ids: list[str], *, stored_only: bool = False
+    ) -> dict[str, str]:
+        latest: dict[str, str] = {}
+        for run_id, info in self.runs.items():
+            if info["alert_id"] in alert_ids and (run_id in self.events or not stored_only):
+                latest[info["alert_id"]] = run_id
+        return latest
 
     def _summary(self, run_id: str) -> InvestigationSummary:
         events = self.events[run_id]
@@ -73,9 +133,10 @@ class MemoryRunRepository:
             run_id=run_id,
             question=started["question"],
             asked_at=started["asked_at"],
-            started_at=datetime.now(UTC),
+            started_at=self.runs.get(run_id, {}).get("started_at", datetime.now(UTC)),
             status=finished["status"],
             trigger=started["trigger"],
+            alert_id=self.runs.get(run_id, {}).get("alert_id"),
             title=report["title"],
             verdict=report["classification"],
             cause=report["root_cause_category"],

@@ -33,6 +33,17 @@ export function alertSpan(startMs: number, endMs: number): string {
   return `until ${until} · ${minutesText((endMs - startMs) / 60_000)}`;
 }
 
+/** Why a run started, in plain words. A run the detector started says which alert: "alert ALR-0019". */
+export function triggerText(trigger: string, alertId?: string | null): string {
+  const base = humanize(trigger);
+  return alertId ? `${base} ${alertId}` : base;
+}
+
+/** The line a saved run shows for the alert that started it. */
+export function alertOrigin(alertId: string): string {
+  return `Started by detector alert ${alertId}`;
+}
+
 /** At most `max` names, then how many more there are. */
 export function firstNames(names: readonly string[], max: number): { shown: string[]; more: number } {
   return { shown: names.slice(0, max), more: Math.max(0, names.length - max) };

@@ -511,13 +511,101 @@
         }
       }
     },
+    "/api/alerts/{alert_id}/investigate": {
+      "post": {
+        "tags": [
+          "alerts"
+        ],
+        "summary": "Investigate Alert",
+        "description": "Investigate a detector alert and answer when the investigation has ended.\n\nRuns the whole investigation inside the request. An alert that already has a finished run, or\na run started in the last 15 minutes, is not investigated again (`created` is false). A run\nthat ends in an error is still a 200: read `run.status`.",
+        "operationId": "investigate_alert_api_alerts__alert_id__investigate_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Alert Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRunOut"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Daily limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or wrong token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/alerts": {
       "get": {
         "tags": [
           "network"
         ],
         "summary": "Alerts",
-        "description": "Detector alerts, newest first.",
+        "description": "Detector alerts, newest first, each with its newest stored investigation.",
         "operationId": "alerts_api_alerts_get",
         "parameters": [
           {
@@ -866,6 +954,18 @@
           "status": {
             "type": "string",
             "title": "Status"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Id",
+            "description": "The newest stored investigation of this alert, if any."
           }
         },
         "type": "object",
@@ -883,6 +983,24 @@
           "status"
         ],
         "title": "AlertOut"
+      },
+      "AlertRunOut": {
+        "properties": {
+          "created": {
+            "type": "boolean",
+            "title": "Created",
+            "description": "False when the alert was already investigated or is being investigated."
+          },
+          "run": {
+            "$ref": "#/components/schemas/InvestigationSummary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "created",
+          "run"
+        ],
+        "title": "AlertRunOut"
       },
       "DemoCounts": {
         "properties": {
@@ -1369,6 +1487,18 @@
             "type": "string",
             "title": "Trigger"
           },
+          "alert_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alert Id",
+            "description": "The detector alert that started it."
+          },
           "title": {
             "anyOf": [
               {
@@ -1609,6 +1739,18 @@
           "trigger": {
             "type": "string",
             "title": "Trigger"
+          },
+          "alert_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alert Id",
+            "description": "The detector alert that started it."
           },
           "title": {
             "anyOf": [
@@ -3185,6 +3327,13 @@
         },
         "type": "object",
         "title": "UsageTotals"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "description": "The alert webhook token.",
+        "scheme": "bearer"
       }
     }
   }

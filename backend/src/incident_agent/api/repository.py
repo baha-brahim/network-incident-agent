@@ -18,6 +18,8 @@ class RunRepository(Protocol):
 
     def count_user_runs_since(self, since: datetime) -> int: ...
 
+    def count_alert_runs_since(self, since: datetime) -> int: ...
+
     def save_events(self, run_id: str, events: list[ApiEvent]) -> None: ...
 
     def mark_stopped(self, run_id: str, reason: str) -> None:
@@ -27,9 +29,21 @@ class RunRepository(Protocol):
 
     def get_run(self, run_id: str) -> InvestigationDetail | None: ...
 
+    def get_summary(self, run_id: str) -> InvestigationSummary | None:
+        """One run without its events, whether or not they were stored."""
+
+    def find_alert_run(self, alert_id: str, running_since: datetime) -> InvestigationSummary | None:
+        """The newest run of the alert that finished, or is running and started at or after
+        `running_since`: an investigation that must not be started a second time."""
+
+    def latest_alert_run_ids(
+        self, alert_ids: list[str], *, stored_only: bool = False
+    ) -> dict[str, str]:
+        """The newest run of each alert that has one (only runs with stored events if asked)."""
+
 
 _SUMMARY_COLUMNS = (
-    "r.run_id, r.question, r.asked_at, r.started_at, r.status, r.trigger, r.report, "
+    "r.run_id, r.question, r.asked_at, r.started_at, r.status, r.trigger, r.alert_id, r.report, "
     "r.llm_calls, r.tool_calls, r.input_tokens, r.output_tokens, r.wall_seconds, r.models_used"
 )
 
@@ -43,6 +57,7 @@ def _summary(row: Any) -> InvestigationSummary:
         started_at=row.started_at,
         status=row.status,
         trigger=row.trigger,
+        alert_id=row.alert_id,
         title=report.get("title"),
         verdict=report.get("classification"),
         cause=report.get("root_cause_category"),
@@ -70,6 +85,17 @@ class PgRunRepository:
                 text(
                     "SELECT count(*) FROM app.agent_runs "
                     "WHERE trigger = 'user' AND started_at >= :since"
+                ),
+                {"since": since},
+            ).scalar_one()
+        return int(count)
+
+    def count_alert_runs_since(self, since: datetime) -> int:
+        with self._engine().connect() as conn:
+            count = conn.execute(
+                text(
+                    "SELECT count(*) FROM app.agent_runs "
+                    "WHERE trigger = 'alert' AND started_at >= :since"
                 ),
                 {"since": since},
             ).scalar_one()
@@ -113,3 +139,33 @@ class PgRunRepository:
             issues=list(row.issues or []),
             events=row.events,
         )
+
+    def get_summary(self, run_id: str) -> InvestigationSummary | None:
+        sql = text(f"SELECT {_SUMMARY_COLUMNS} FROM app.agent_runs r WHERE r.run_id = :id")
+        with self._engine().connect() as conn:
+            row = conn.execute(sql, {"id": run_id}).first()
+        return None if row is None else _summary(row)
+
+    def find_alert_run(self, alert_id: str, running_since: datetime) -> InvestigationSummary | None:
+        sql = text(
+            f"SELECT {_SUMMARY_COLUMNS} FROM app.agent_runs r WHERE r.alert_id = :alert "
+            "AND (r.status = 'finished' OR (r.status = 'running' AND r.started_at >= :since)) "
+            "ORDER BY r.started_at DESC LIMIT 1"
+        )
+        with self._engine().connect() as conn:
+            row = conn.execute(sql, {"alert": alert_id, "since": running_since}).first()
+        return None if row is None else _summary(row)
+
+    def latest_alert_run_ids(
+        self, alert_ids: list[str], *, stored_only: bool = False
+    ) -> dict[str, str]:
+        if not alert_ids:
+            return {}
+        join = "JOIN" if stored_only else "LEFT JOIN"
+        sql = text(
+            "SELECT DISTINCT ON (r.alert_id) r.alert_id, r.run_id FROM app.agent_runs r "
+            f"{join} app.run_events e ON e.run_id = r.run_id WHERE r.alert_id = ANY(:ids) "
+            "ORDER BY r.alert_id, r.started_at DESC"
+        )
+        with self._engine().connect() as conn:
+            return {row.alert_id: row.run_id for row in conn.execute(sql, {"ids": alert_ids})}

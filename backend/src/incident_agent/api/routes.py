@@ -1,14 +1,17 @@
 """The endpoints."""
 
 import asyncio
+import hmac
 from datetime import datetime, timedelta
 from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, Query, Request, Response
 from fastapi.responses import StreamingResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import text
 
 from incident_agent.agent.tools.timeutil import as_utc
+from incident_agent.api.alert_runs import AlertLimitReached, UnknownAlert, run_alert
 from incident_agent.api.bridge import sse_from_iterator
 from incident_agent.api.datasets import list_alerts
 from incident_agent.api.demos import replay_frames
@@ -17,7 +20,9 @@ from incident_agent.api.kpis import KpiInputError, kpi_series
 from incident_agent.api.live import live_events, live_remaining, seconds_to_next_day
 from incident_agent.api.schemas import (
     AlertOut,
+    AlertRunOut,
     DemoSummary,
+    ErrorResponse,
     Health,
     InvestigationDetail,
     InvestigationSummary,
@@ -48,6 +53,8 @@ def get_services(request: Request) -> Services:
 
 
 Svc = Annotated[Services, Depends(get_services)]
+
+bearer = HTTPBearer(auto_error=False, description="The alert webhook token.")
 
 
 # --- status -----------------------------------------------------------------------------------
@@ -195,13 +202,70 @@ def get_investigation(run_id: str, svc: Svc) -> InvestigationDetail:
     return run
 
 
+# --- alert-triggered investigations -------------------------------------------------------------
+
+
+def check_webhook_token(svc: Services, credentials: HTTPAuthorizationCredentials | None) -> None:
+    token = svc.settings.alert_webhook_token
+    expected = token.get_secret_value() if token is not None else ""
+    if not expected:
+        raise ApiError(503, "alert_hooks_disabled", "Alert webhooks are switched off.")
+    given = credentials.credentials if credentials is not None else ""
+    if not hmac.compare_digest(given.encode(), expected.encode()):
+        raise ApiError(
+            401,
+            "unauthorized",
+            "A valid bearer token is required.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+@router.post(
+    "/alerts/{alert_id}/investigate",
+    response_model=AlertRunOut,
+    responses={**ERRORS, 401: {"model": ErrorResponse, "description": "Missing or wrong token"}},
+    tags=["alerts"],
+)
+async def investigate_alert(
+    alert_id: str,
+    svc: Svc,
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
+) -> AlertRunOut:
+    """Investigate a detector alert and answer when the investigation has ended.
+
+    Runs the whole investigation inside the request. An alert that already has a finished run, or
+    a run started in the last 15 minutes, is not investigated again (`created` is false). A run
+    that ends in an error is still a 200: read `run.status`.
+    """
+    check_webhook_token(svc, credentials)
+    if not svc.settings.live_enabled:
+        raise ApiError(503, "live_disabled", "Live investigations are switched off.")
+    try:
+        return await asyncio.to_thread(run_alert, svc, alert_id)
+    except UnknownAlert:
+        raise ApiError(
+            404, "unknown_alert", f"No alert {alert_id!r} at the dataset's now."
+        ) from None
+    except AlertLimitReached as exc:
+        raise ApiError(
+            429,
+            "alert_limit_reached",
+            "The daily limit of alert investigations is reached (the limit resets at 00:00 UTC).",
+            headers={"Retry-After": str(exc.retry_after)},
+            limit=exc.limit,
+            remaining=0,
+        ) from None
+
+
 # --- the network ------------------------------------------------------------------------------
 
 
 @router.get("/alerts", response_model=list[AlertOut], responses=ERRORS, tags=["network"])
 def alerts(svc: Svc, limit: Annotated[int, Query(ge=1, le=100)] = 20) -> list[AlertOut]:
-    """Detector alerts, newest first."""
-    return list_alerts(svc.agent_engine(), svc.facts().now, limit)
+    """Detector alerts, newest first, each with its newest stored investigation."""
+    found = list_alerts(svc.agent_engine(), svc.facts().now, limit)
+    runs = svc.runs.latest_alert_run_ids([a.id for a in found], stored_only=True)
+    return [a.model_copy(update={"run_id": runs.get(a.id)}) for a in found]
 
 
 @router.get("/kpis", response_model=KpiSeries, responses=ERRORS, tags=["network"])

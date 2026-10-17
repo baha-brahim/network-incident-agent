@@ -164,6 +164,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/alerts/{alert_id}/investigate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Investigate Alert
+         * @description Investigate a detector alert and answer when the investigation has ended.
+         *
+         *     Runs the whole investigation inside the request. An alert that already has a finished run, or
+         *     a run started in the last 15 minutes, is not investigated again (`created` is false). A run
+         *     that ends in an error is still a 200: read `run.status`.
+         */
+        post: operations["investigate_alert_api_alerts__alert_id__investigate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/alerts": {
         parameters: {
             query?: never;
@@ -173,7 +197,7 @@ export interface paths {
         };
         /**
          * Alerts
-         * @description Detector alerts, newest first.
+         * @description Detector alerts, newest first, each with its newest stored investigation.
          */
         get: operations["alerts_api_alerts_get"];
         put?: never;
@@ -258,6 +282,20 @@ export interface components {
             n_anomalies: number;
             /** Status */
             status: string;
+            /**
+             * Run Id
+             * @description The newest stored investigation of this alert, if any.
+             */
+            run_id?: string | null;
+        };
+        /** AlertRunOut */
+        AlertRunOut: {
+            /**
+             * Created
+             * @description False when the alert was already investigated or is being investigated.
+             */
+            created: boolean;
+            run: components["schemas"]["InvestigationSummary"];
         };
         /** DemoCounts */
         DemoCounts: {
@@ -476,6 +514,11 @@ export interface components {
             status: string;
             /** Trigger */
             trigger: string;
+            /**
+             * Alert Id
+             * @description The detector alert that started it.
+             */
+            alert_id?: string | null;
             /** Title */
             title?: string | null;
             /**
@@ -532,6 +575,11 @@ export interface components {
             status: string;
             /** Trigger */
             trigger: string;
+            /**
+             * Alert Id
+             * @description The detector alert that started it.
+             */
+            alert_id?: string | null;
             /** Title */
             title?: string | null;
             /**
@@ -1606,6 +1654,73 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["InvestigationDetail"];
+                };
+            };
+            /** @description Not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Invalid request */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Daily limit reached */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    investigate_alert_api_alerts__alert_id__investigate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                alert_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertRunOut"];
+                };
+            };
+            /** @description Missing or wrong token */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
             /** @description Not found */

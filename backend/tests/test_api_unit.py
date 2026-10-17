@@ -733,6 +733,7 @@ def test_the_contract_describes_every_endpoint_and_event() -> None:
         "/api/investigations",
         "/api/investigations/{run_id}",
         "/api/alerts",
+        "/api/alerts/{alert_id}/investigate",
         "/api/kpis",
         "/api/topology",
     }

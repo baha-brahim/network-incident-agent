@@ -282,6 +282,7 @@ class InvestigationSummary(BaseModel):
     started_at: datetime
     status: str
     trigger: str
+    alert_id: str | None = Field(default=None, description="The detector alert that started it.")
     title: str | None = None
     verdict: str | None = Field(default=None, description="The report's classification.")
     cause: str | None = Field(default=None, description="The report's root cause category.")
@@ -314,6 +315,16 @@ class AlertOut(BaseModel):
     metrics: list[str]
     n_anomalies: int
     status: str
+    run_id: str | None = Field(
+        default=None, description="The newest stored investigation of this alert, if any."
+    )
+
+
+class AlertRunOut(BaseModel):
+    created: bool = Field(
+        description="False when the alert was already investigated or is being investigated."
+    )
+    run: InvestigationSummary
 
 
 class KpiDeviation(BaseModel):

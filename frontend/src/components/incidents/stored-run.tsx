@@ -11,6 +11,7 @@ import { api, ApiError } from "@/lib/api";
 import { fmtIso, toMs } from "@/lib/format";
 import { emptyView, reduceEvents, type RunView } from "@/lib/investigation";
 import type { InvestigationDetail } from "@/lib/types";
+import { alertOrigin } from "./text";
 import "./incidents.css";
 
 function toView(detail: InvestigationDetail): RunView {
@@ -26,6 +27,15 @@ function toView(detail: InvestigationDetail): RunView {
     report: detail.report ?? null,
     issues: detail.issues ?? [],
   };
+}
+
+/** What a saved run says about its question: the alert that started it, and the moment it was asked as of. */
+function noteOf(run: InvestigationDetail): string | undefined {
+  const parts = [
+    run.alert_id ? alertOrigin(run.alert_id) : null,
+    Number.isNaN(toMs(run.asked_at)) ? null : `Asked as of ${fmtIso(run.asked_at)} (Tunis time)`,
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : undefined;
 }
 
 export function StoredRun({ runId }: { runId: string }) {
@@ -46,7 +56,7 @@ export function StoredRun({ runId }: { runId: string }) {
       view={view}
       animate={false}
       source={`Saved run · ${run.data.run_id}`}
-      note={Number.isNaN(toMs(run.data.asked_at)) ? undefined : `Asked as of ${fmtIso(run.data.asked_at)} (Tunis time)`}
+      note={noteOf(run.data)}
       backLabel="All incidents"
       onBack={() => router.push("/incidents")}
     />

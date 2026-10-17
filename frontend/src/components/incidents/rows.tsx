@@ -10,7 +10,7 @@ import { fmtIso, toMs } from "@/lib/format";
 import { CLASSIFICATIONS, CONFIDENCE, REGIONS, categoryLabel, metricLabel } from "@/lib/labels";
 import type { AlertOut, Classification, Confidence, InvestigationSummary } from "@/lib/types";
 import { SeverityMark, VerdictMark } from "./marks";
-import { alertSpan, clock, counted, firstNames, humanize, scoreText, secondsText, sentenceCase } from "./text";
+import { alertSpan, clock, counted, firstNames, humanize, scoreText, secondsText, sentenceCase, triggerText } from "./text";
 
 const MAX_SITES = 3;
 const MAX_METRICS = 5;
@@ -35,7 +35,7 @@ export function RunRow({ run }: { run: InvestigationSummary }) {
   const facts = [
     run.tool_calls != null ? toolCalls(run.tool_calls) : null,
     seconds || null,
-    run.trigger && run.trigger !== "user" ? humanize(run.trigger) : null,
+    run.trigger && run.trigger !== "user" ? triggerText(run.trigger, run.alert_id) : null,
   ].filter(Boolean);
   const cause = !failed && run.cause && run.cause !== run.verdict ? categoryLabel(run.cause) : null;
   const nothing = !failed && !verdictLabel && !cause && !run.node_id && !confidence;
@@ -125,6 +125,7 @@ export function AlertRow({ alert }: { alert: AlertOut }) {
                 {sites.length > MAX_SITES ? ` +${sites.length - MAX_SITES}` : ""}
               </span>
             ) : null}
+            {alert.run_id ? <span className="quiet">Investigated</span> : null}
           </span>
           {metrics.shown.length > 0 ? (
             <span className="row-line quiet">
@@ -183,10 +184,21 @@ export function AlertRow({ alert }: { alert: AlertOut }) {
             </div>
           </dl>
           <div className="panel-action">
-            <button type="button" disabled className="btn" aria-describedby={`${panelId}-why`}>
-              Investigate this alert
-            </button>
-            <p id={`${panelId}-why`}>Not available yet. Investigating alerts automatically comes later; for now, ask about it in live mode.</p>
+            {alert.run_id ? (
+              <>
+                <Link href={`/incidents/${encodeURIComponent(alert.run_id)}`} className="link">
+                  Investigated
+                </Link>
+                <p>The server investigated this alert. Open the saved run to read the report and the steps behind it.</p>
+              </>
+            ) : (
+              <>
+                <button type="button" disabled className="btn" aria-describedby={`${panelId}-why`}>
+                  Investigate this alert
+                </button>
+                <p id={`${panelId}-why`}>Not investigated yet. The server investigates alerts on its own; to ask about this one now, use live mode.</p>
+              </>
+            )}
           </div>
         </div>
       ) : null}
