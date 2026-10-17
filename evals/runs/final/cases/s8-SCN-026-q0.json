@@ -1,0 +1,674 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-25T08:41:00Z",
+    "case_id": "s8-SCN-026-q0",
+    "question": "Why did traffic drop in the South yesterday afternoon?",
+    "question_index": 0,
+    "scenario_id": "SCN-026",
+    "seed": 8,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:24:48.940025Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-25T08:41:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-25 09:41",
+          "entity_id": null,
+          "region_id": "SUD",
+          "start": "2026-09-24 10:00"
+        },
+        "body": "2 alert(s), 1 ongoing: ALR-0037 2026-09-25 09:30-ongoing; ALR-0034 2026-09-24 14:30-21:45. 2 site(s) (S-SUD-002, S-SUD-005); drop_rate_pct, rrc_success_pct\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0034 high ended, 2026-09-24 14:30 to 2026-09-24 21:45 (7.2 h): Traffic, active users and availability drop; latency spikes on 2 sites in SUD (S-SUD-001, S-SUD-003) for 7 h\n  active_users drop on 3 entities: worst S-SUD-001 z -14.3, 62.2 -> 0, 2026-09-24 14:45 to 2026-09-24 21:45\n  availability_pct drop on 3 entities: worst S-SUD-001 z -100.0, 100 -> 0, 2026-09-24 14:30 to 2026-09-24 21:45\n  dl_volume_mb drop on 3 entities: worst S-SUD-001 z -14.0, 12901 -> 0, 2026-09-24 14:45 to 2026-09-24 21:45\n  +1 more metric group(s): latency_ms spike\nALR-0037 ONGOING since 2026-09-25 09:30 (11 min so far); 4 anomalies so far on 2 site(s) (S-SUD-002, S-SUD-005); severity not final\n  drop_rate_pct spike on 2 entities: ongoing, e.g. S-SUD-002 since 2026-09-25 09:30, so far 1.1 vs baseline 0.47 (+133%)\n  rrc_success_pct drop on 2 entities: ongoing, e.g. S-SUD-002 since 2026-09-25 09:30, so far 96.9 vs baseline 99.4 (-2%)",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alert(s), 1 ongoing: ALR-0037 2026-09-25 09:30-ongoing; ALR-0034 2026-09-24 14:30-21:45. 2 site(s) (S-SUD-002, S-SUD-005); drop_rate_pct, rrc_success_pct",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0034",
+          "ANM-000400",
+          "ANM-000397",
+          "ANM-000401",
+          "ALR-0037",
+          "ANM-000420",
+          "ANM-000421"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 76
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-24 18:00:00",
+          "include_descendants": true,
+          "min_severity": null,
+          "node_ids": [
+            "S-SUD-001",
+            "S-SUD-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 12:00:00"
+        },
+        "body": "2 alarm(s) on S-SUD-001, S-SUD-003 and nodes below: 2 critical; 0 active. Earliest critical/major: 2026-09-24 14:43 SITE_DOWN on S-SUD-001 (ALM-000570).\nEarliest critical/major: 2026-09-24 14:43 SITE_DOWN on S-SUD-001 (ALM-000570); within 10 min after: SITE_DOWN x1 (S-SUD-003).\n2026-09-24 14:43 ALM-000570 critical SITE_DOWN S-SUD-001: cleared 2026-09-24 21:48\n2026-09-24 14:43 ALM-000571 critical SITE_DOWN S-SUD-003: cleared 2026-09-24 21:48",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "2 alarm(s) on S-SUD-001, S-SUD-003 and nodes below: 2 critical; 0 active. Earliest critical/major: 2026-09-24 14:43 SITE_DOWN on S-SUD-001 (ALM-000570).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [
+          "ALM-000570",
+          "ALM-000571"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 16
+      },
+      {
+        "args": {
+          "end": "2026-09-24 18:00:00",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-001",
+            "S-SUD-003"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 12:00:00"
+        },
+        "body": "1 change(s) on S-SUD-001, S-SUD-003 and its parents, 2026-09-24 12:00 to 2026-09-24 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-25 09:41).\n2026-09-24 13:41 CHG-2026-0081 parameter_tuning on S-SUD-001: Handover hysteresis fine-tuning on S-SUD-001",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on S-SUD-001, S-SUD-003 and its parents, 2026-09-24 12:00 to 2026-09-24 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-25 09:41).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "CHG-2026-0081"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-001"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-001: site, SUD, Gabes, suburban.\nCells: C-SUD-001-1, C-SUD-001-2, C-SUD-001-3.\nSiblings under LNK-SUD-02-A: S-SUD-003.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "S-SUD-001",
+          "LNK-SUD-02-A",
+          "AGG-SUD-02",
+          "CORE-UPF-02",
+          "S-SUD-003"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-24 18:00:00",
+          "include_descendants": true,
+          "min_severity": "major",
+          "node_ids": [
+            "LNK-SUD-02-A",
+            "AGG-SUD-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-24 12:00:00"
+        },
+        "body": "3 alarm(s) on LNK-SUD-02-A, AGG-SUD-02 and nodes below: 3 critical; 0 active. Earliest critical/major: 2026-09-24 14:42 LINK_LOS on LNK-SUD-02-A (ALM-000569).\nEarliest critical/major: 2026-09-24 14:42 LINK_LOS on LNK-SUD-02-A (ALM-000569); within 10 min after: SITE_DOWN x2 (S-SUD-001, S-SUD-003).\n2026-09-24 14:42 ALM-000569 critical LINK_LOS LNK-SUD-02-A: cleared 2026-09-24 21:46\n2026-09-24 14:43 ALM-000570 critical SITE_DOWN S-SUD-001 (below LNK-SUD-02-A): cleared 2026-09-24 21:48\n2026-09-24 14:43 ALM-000571 critical SITE_DOWN S-SUD-003 (below LNK-SUD-02-A): cleared 2026-09-24 21:48",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "3 alarm(s) on LNK-SUD-02-A, AGG-SUD-02 and nodes below: 3 critical; 0 active. Earliest critical/major: 2026-09-24 14:42 LINK_LOS on LNK-SUD-02-A (ALM-000569).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [
+          "ALM-000569",
+          "ALM-000570",
+          "ALM-000571"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "end": "2026-09-24 18:00:00",
+          "entity_ids": [
+            "S-SUD-001",
+            "S-SUD-003"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "dl_volume_mb",
+            "availability_pct"
+          ],
+          "start": "2026-09-24 12:00:00"
+        },
+        "body": "Deviation in 4 of 4 series. Earliest onset 2026-09-24 14:30: S-SUD-001 availability_pct below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-25 09:41). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-001 availability_pct: mean 43.2 vs baseline 100 (-57%); min 0 at 2026-09-24 14:45, max 100 at 2026-09-24 12:00.\nDeviation below baseline: onset 2026-09-24 14:30; worst 0 vs 100 at 2026-09-24 14:45; not recovered by the last step (2026-09-24 18:00).\nseries (45 min buckets from 2026-09-24 12:00): 100 100 100 60 0 0 0 0 0\nbaseline: 100 100 100 100 100 100 100 100 100\nS-SUD-003 availability_pct: mean 43.2 vs baseline 100 (-57%); min 0 at 2026-09-24 14:45, max 100 at 2026-09-24 12:00.\nDeviation below baseline: onset 2026-09-24 14:30; worst 0 vs 100 at 2026-09-24 14:45; not recovered by the last step (2026-09-24 18:00).\nseries (45 min buckets from 2026-09-24 12:00): 100 100 100 60 0 0 0 0 0\nbaseline: 100 100 100 100 100 100 100 100 100\nS-SUD-001 dl_volume_mb: mean 2414 vs baseline 5250 (-54%); min 0 at 2026-09-24 14:45, max 5929 at 2026-09-24 14:00.\nDeviation below baseline: onset 2026-09-24 14:45; worst 0 vs 5261 at 2026-09-24 14:45; not recovered by the last step (2026-09-24 18:00).\nseries (45 min buckets from 2026-09-24 12:00): 5358 5602 5844 3314 0 0 0 0 0\nbaseline: 5565 5794 5818 5464 5066 4702 4553 4940 5555\nS-SUD-003 dl_volume_mb: mean 18197 vs baseline 38851 (-53%); min 0 at 2026-09-24 14:45, max 46514 at 2026-09-24 12:15.\nDeviation below baseline: onset 2026-09-24 14:45; worst 0 vs 44017 at 2026-09-24 14:45; not recovered by the last step (2026-09-24 18:00).\nseries (45 min buckets from 2026-09-24 12:00): 44654 40287 41938 24762 0 0 0 0 0\nbaseline: 41304 42954 44742 44041 41992 37252 33003 29036 28303",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 4 of 4 series. Earliest onset 2026-09-24 14:30: S-SUD-001 availability_pct below baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 54
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-003"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-003 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-003: site, SUD, Houmt Souk, urban.\nCells: C-SUD-003-1, C-SUD-003-2, C-SUD-003-3.\nSiblings under LNK-SUD-02-A: S-SUD-001.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-003 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [
+          "S-SUD-003",
+          "LNK-SUD-02-A",
+          "AGG-SUD-02",
+          "CORE-UPF-02",
+          "S-SUD-001"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 5
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-02": {
+        "kind": "node",
+        "ref": "AGG-SUD-02",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000569": {
+        "kind": "alarm",
+        "ref": "ALM-000569",
+        "summary": "critical LINK_LOS on LNK-SUD-02-A, raised 2026-09-24 14:42, cleared 2026-09-24 21:46"
+      },
+      "ALM-000570": {
+        "kind": "alarm",
+        "ref": "ALM-000570",
+        "summary": "critical SITE_DOWN on S-SUD-001, raised 2026-09-24 14:43, cleared 2026-09-24 21:48"
+      },
+      "ALM-000571": {
+        "kind": "alarm",
+        "ref": "ALM-000571",
+        "summary": "critical SITE_DOWN on S-SUD-003, raised 2026-09-24 14:43, cleared 2026-09-24 21:48"
+      },
+      "ALR-0034": {
+        "kind": "alert",
+        "ref": "ALR-0034",
+        "summary": "ended alert from 2026-09-24 14:30: 2 site(s) (S-SUD-001, S-SUD-003); region-level SUD; metrics: active_users, availability_pct, dl_volume_mb, latency_ms"
+      },
+      "ALR-0037": {
+        "kind": "alert",
+        "ref": "ALR-0037",
+        "summary": "ongoing alert from 2026-09-25 09:30: 2 site(s) (S-SUD-002, S-SUD-005); metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000397": {
+        "kind": "anomaly",
+        "ref": "ANM-000397",
+        "summary": "S-SUD-001 availability_pct drop, z -100.0, baseline 100 -> 0"
+      },
+      "ANM-000400": {
+        "kind": "anomaly",
+        "ref": "ANM-000400",
+        "summary": "S-SUD-001 active_users drop, z -14.3, baseline 62.2 -> 0"
+      },
+      "ANM-000401": {
+        "kind": "anomaly",
+        "ref": "ANM-000401",
+        "summary": "S-SUD-001 dl_volume_mb drop, z -14.0, baseline 12901 -> 0"
+      },
+      "ANM-000420": {
+        "kind": "anomaly",
+        "ref": "ANM-000420",
+        "summary": "S-SUD-002 drop_rate_pct spike, ongoing since 2026-09-25 09:30"
+      },
+      "ANM-000421": {
+        "kind": "anomaly",
+        "ref": "ANM-000421",
+        "summary": "S-SUD-002 rrc_success_pct drop, ongoing since 2026-09-25 09:30"
+      },
+      "CHG-2026-0081": {
+        "kind": "change",
+        "ref": "CHG-2026-0081",
+        "summary": "parameter_tuning on S-SUD-001 at 2026-09-24 13:41: Handover hysteresis fine-tuning on S-SUD-001"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-02-A": {
+        "kind": "node",
+        "ref": "LNK-SUD-02-A",
+        "summary": "fiber link, SUD, 24.7 km, 10.0 Gbps"
+      },
+      "S-SUD-001": {
+        "kind": "node",
+        "ref": "S-SUD-001",
+        "summary": "site, SUD, Gabes, suburban; sibling of S-SUD-003"
+      },
+      "S-SUD-003": {
+        "kind": "node",
+        "ref": "S-SUD-003",
+        "summary": "site, SUD, Houmt Souk, urban; chain: S-SUD-003 -> LNK-SUD-02-A -> AGG-SUD-02 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-24 10:00, end=2026-09-25 09:41, region_id=SUD) -> 2 alert(s), 1 ongoing: ALR-0037 2026-09-25 09:30-ongoing; ALR-0034 2026-09-24 14:30-21:45. 2 site(s) (S-SUD-002, S-SUD-005); drop_rate_pct, rrc_success_pct"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_alarms(start=2026-09-24 12:00:00, end=2026-09-24 18:00:00, node_ids=['S-SUD-001', 'S-SUD-003'], include_descendants=True) -> 2 alarm(s) on S-SUD-001, S-SUD-003 and nodes below: 2 critical; 0 active. Earliest critical/major: 2026-09-24 14:43 SITE_DOWN on S-SUD-001 (ALM-000570)."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_changes(start=2026-09-24 12:00:00, end=2026-09-24 18:00:00, node_ids=['S-SUD-001', 'S-SUD-003'], include_ancestors=True) -> 1 change(s) on S-SUD-001, S-SUD-003 and its parents, 2026-09-24 12:00 to 2026-09-24 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-25 09:41)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_topology(node_id=S-SUD-001, include=all) -> Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_alarms(start=2026-09-24 12:00:00, end=2026-09-24 18:00:00, node_ids=['LNK-SUD-02-A', 'AGG-SUD-02'], include_descendants=True, min_severity=major) -> 3 alarm(s) on LNK-SUD-02-A, AGG-SUD-02 and nodes below: 3 critical; 0 active. Earliest critical/major: 2026-09-24 14:42 LINK_LOS on LNK-SUD-02-A (ALM-000569)."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-001', 'S-SUD-003'], metrics=['dl_volume_mb', 'availability_pct'], start=2026-09-24 12:00:00, end=2026- -> Deviation in 4 of 4 series. Earliest onset 2026-09-24 14:30: S-SUD-001 availability_pct below baseline."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_topology(node_id=S-SUD-003, include=all) -> Depends on (child -> parent -> core): S-SUD-003 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)"
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: the maintenance calendar, external events."
+    ],
+    "markdown": "# South Region Traffic Drop Due to Fiber Link Failure\n\n- **Classification:** incident\n- **Root cause:** transport_failure at `LNK-SUD-02-A`\n- **Confidence:** medium (Direct evidence of fiber link loss matching site outages and traffic drop onset. Maintenance calendar and external events were NOT CHECKED.)\n- **Impact:** 2026-09-24 14:30 to 2026-09-24 21:48\n- **Cause time:** 2026-09-24 14:42\n- **Affected:** S-SUD-001, S-SUD-003, LNK-SUD-02-A\n\n## Summary\n\nFiber link loss on LNK-SUD-02-A severed connectivity to sites S-SUD-001 and S-SUD-003, causing a complete drop in availability and traffic.\n\nTraffic and availability dropped to zero for sites S-SUD-001 and S-SUD-003 starting at 2026-09-24 14:30 and recovering at 21:48.\n\n## Timeline\n\n- 2026-09-24 13:41: Parameter tuning change applied on S-SUD-001. [CHG-2026-0081]\n- 2026-09-24 14:30: Regional alert ALR-0034 started and availability dropped below baseline. [ALR-0034, T6]\n- 2026-09-24 14:42: Critical LINK_LOS alarm raised on fiber link LNK-SUD-02-A. [ALM-000569]\n- 2026-09-24 14:43: Critical SITE_DOWN alarms raised on S-SUD-001 and S-SUD-003. [ALM-000570, ALM-000571]\n- 2026-09-24 14:45: Traffic volume and availability reached zero on S-SUD-001 and S-SUD-003. [T6]\n- 2026-09-24 21:46: Fiber link alarm cleared on LNK-SUD-02-A. [ALM-000569]\n- 2026-09-24 21:48: Site down alarms cleared on S-SUD-001 and S-SUD-003. [ALM-000570, ALM-000571]\n\n## Evidence\n\n- Sites S-SUD-001 and S-SUD-003 both depend on the shared fiber link LNK-SUD-02-A. [T4, T7]\n- A critical LINK_LOS alarm occurred on LNK-SUD-02-A at 2026-09-24 14:42. [ALM-000569]\n- Sites S-SUD-001 and S-SUD-003 experienced SITE_DOWN alarms starting at 2026-09-24 14:43. [ALM-000570, ALM-000571]\n- Availability and DL volume dropped to zero across both S-SUD-001 and S-SUD-003 starting at 2026-09-24 14:30/14:45. [T6]\n- A parameter tuning change occurred on S-SUD-001 at 2026-09-24 13:41. [CHG-2026-0081]\n\n## Inferences\n\n- Simultaneous outage of sibling sites under LNK-SUD-02-A indicates a shared transport failure rather than a single-site configuration change. [T3, T5, T7]\n\n## Hypotheses\n\n1. **transport_failure** at LNK-SUD-02-A: confirmed. Fiber link loss alarm perfectly matched the timing of simultaneous availability and traffic drops on both dependent sites. [ALM-000569, T6]\n2. **bad_change** at S-SUD-001: rejected. Parameter change on S-SUD-001 cannot account for the simultaneous outage of its sibling site S-SUD-003 on the same transport link. [CHG-2026-0081, T7]\n\n## Ruled out\n\n- CHG-2026-0081: Ruled out because the change was isolated to S-SUD-001, whereas S-SUD-003 suffered an identical simultaneous outage via the shared transport link.\n- ALR-0037: Ongoing alert relates to different sites (S-SUD-002, S-SUD-005) and a later time period starting 2026-09-25 09:30.\n\n## Recommended actions\n\n- Inspect fiber link LNK-SUD-02-A physical path for transient or intermittent loss causes.\n- Review maintenance calendar records for the affected window to formally rule out planned works.\n- Verify redundancy paths for AGG-SUD-02 uplinks to prevent dual-site isolation.\n\n## Sources\n\n- `CHG-2026-0081`: parameter_tuning on S-SUD-001 at 2026-09-24 13:41: Handover hysteresis fine-tuning on S-SUD-001\n- `ALR-0034`: ended alert from 2026-09-24 14:30: 2 site(s) (S-SUD-001, S-SUD-003); region-level SUD; metrics: active_users, availability_pct, dl_volume_mb, latency_ms\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-SUD-001', 'S-SUD-003'], metrics=['dl_volume_mb', 'availability_pct'], start=2026-09-24 12:00:00, end=2026- -> Deviation in 4 of 4 series. Earliest onset 2026-09-24 14:30: S-SUD-001 availability_pct below baseline.\n- `ALM-000569`: critical LINK_LOS on LNK-SUD-02-A, raised 2026-09-24 14:42, cleared 2026-09-24 21:46\n- `ALM-000570`: critical SITE_DOWN on S-SUD-001, raised 2026-09-24 14:43, cleared 2026-09-24 21:48\n- `ALM-000571`: critical SITE_DOWN on S-SUD-003, raised 2026-09-24 14:43, cleared 2026-09-24 21:48\n- `T4`: get_topology(node_id=S-SUD-001, include=all) -> Depends on (child -> parent -> core): S-SUD-001 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\n- `T7`: get_topology(node_id=S-SUD-003, include=all) -> Depends on (child -> parent -> core): S-SUD-003 (site) -> LNK-SUD-02-A (fiber link) -> AGG-SUD-02 (agg router) -> CORE-UPF-02 (core upf)\n- `T3`: get_changes(start=2026-09-24 12:00:00, end=2026-09-24 18:00:00, node_ids=['S-SUD-001', 'S-SUD-003'], include_ancestors=True) -> 1 change(s) on S-SUD-001, S-SUD-003 and its parents, 2026-09-24 12:00 to 2026-09-24 18:00 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-25 09:41).\n- `T5`: get_alarms(start=2026-09-24 12:00:00, end=2026-09-24 18:00:00, node_ids=['LNK-SUD-02-A', 'AGG-SUD-02'], include_descendants=True, min_severity=major) -> 3 alarm(s) on LNK-SUD-02-A, AGG-SUD-02 and nodes below: 3 critical; 0 active. Earliest critical/major: 2026-09-24 14:42 LINK_LOS on LNK-SUD-02-A (ALM-000569).\n- `ALR-0037`: ongoing alert from 2026-09-25 09:30: 2 site(s) (S-SUD-002, S-SUD-005); metrics: drop_rate_pct, rrc_success_pct\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: the maintenance calendar, external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why did traffic drop in the South yesterday afternoon?",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-001",
+        "S-SUD-003",
+        "LNK-SUD-02-A"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Direct evidence of fiber link loss matching site outages and traffic drop onset. Maintenance calendar and external events were NOT CHECKED.",
+      "dismissed_signals": [
+        {
+          "reason": "Ruled out because the change was isolated to S-SUD-001, whereas S-SUD-003 suffered an identical simultaneous outage via the shared transport link.",
+          "ref": "CHG-2026-0081"
+        },
+        {
+          "reason": "Ongoing alert relates to different sites (S-SUD-002, S-SUD-005) and a later time period starting 2026-09-25 09:30.",
+          "ref": "ALR-0037"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "Sites S-SUD-001 and S-SUD-003 both depend on the shared fiber link LNK-SUD-02-A.",
+          "refs": [
+            "T4",
+            "T7"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A critical LINK_LOS alarm occurred on LNK-SUD-02-A at 2026-09-24 14:42.",
+          "refs": [
+            "ALM-000569"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sites S-SUD-001 and S-SUD-003 experienced SITE_DOWN alarms starting at 2026-09-24 14:43.",
+          "refs": [
+            "ALM-000570",
+            "ALM-000571"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Availability and DL volume dropped to zero across both S-SUD-001 and S-SUD-003 starting at 2026-09-24 14:30/14:45.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A parameter tuning change occurred on S-SUD-001 at 2026-09-24 13:41.",
+          "refs": [
+            "CHG-2026-0081"
+          ]
+        },
+        {
+          "basis": "inferred",
+          "claim": "Simultaneous outage of sibling sites under LNK-SUD-02-A indicates a shared transport failure rather than a single-site configuration change.",
+          "refs": [
+            "T3",
+            "T5",
+            "T7"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-SUD-02-A",
+          "reason": "Fiber link loss alarm perfectly matched the timing of simultaneous availability and traffic drops on both dependent sites.",
+          "refs": [
+            "ALM-000569",
+            "T6"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SUD-001",
+          "reason": "Parameter change on S-SUD-001 cannot account for the simultaneous outage of its sibling site S-SUD-003 on the same transport link.",
+          "refs": [
+            "CHG-2026-0081",
+            "T7"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-24 21:48",
+      "impact_start": "2026-09-24 14:30",
+      "impact_summary": "Traffic and availability dropped to zero for sites S-SUD-001 and S-SUD-003 starting at 2026-09-24 14:30 and recovering at 21:48.",
+      "recommended_actions": [
+        "Inspect fiber link LNK-SUD-02-A physical path for transient or intermittent loss causes.",
+        "Review maintenance calendar records for the affected window to formally rule out planned works.",
+        "Verify redundancy paths for AGG-SUD-02 uplinks to prevent dual-site isolation."
+      ],
+      "root_cause_category": "transport_failure",
+      "root_cause_node_id": "LNK-SUD-02-A",
+      "root_cause_summary": "Fiber link loss on LNK-SUD-02-A severed connectivity to sites S-SUD-001 and S-SUD-003, causing a complete drop in availability and traffic.",
+      "root_cause_time": "2026-09-24 14:42",
+      "timeline": [
+        {
+          "event": "Parameter tuning change applied on S-SUD-001.",
+          "refs": [
+            "CHG-2026-0081"
+          ],
+          "time": "2026-09-24 13:41"
+        },
+        {
+          "event": "Regional alert ALR-0034 started and availability dropped below baseline.",
+          "refs": [
+            "ALR-0034",
+            "T6"
+          ],
+          "time": "2026-09-24 14:30"
+        },
+        {
+          "event": "Critical LINK_LOS alarm raised on fiber link LNK-SUD-02-A.",
+          "refs": [
+            "ALM-000569"
+          ],
+          "time": "2026-09-24 14:42"
+        },
+        {
+          "event": "Critical SITE_DOWN alarms raised on S-SUD-001 and S-SUD-003.",
+          "refs": [
+            "ALM-000570",
+            "ALM-000571"
+          ],
+          "time": "2026-09-24 14:43"
+        },
+        {
+          "event": "Traffic volume and availability reached zero on S-SUD-001 and S-SUD-003.",
+          "refs": [
+            "T6"
+          ],
+          "time": "2026-09-24 14:45"
+        },
+        {
+          "event": "Fiber link alarm cleared on LNK-SUD-02-A.",
+          "refs": [
+            "ALM-000569"
+          ],
+          "time": "2026-09-24 21:46"
+        },
+        {
+          "event": "Site down alarms cleared on S-SUD-001 and S-SUD-003.",
+          "refs": [
+            "ALM-000570",
+            "ALM-000571"
+          ],
+          "time": "2026-09-24 21:48"
+        }
+      ],
+      "title": "South Region Traffic Drop Due to Fiber Link Failure"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-e78211a6f5",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "traffic drop",
+      "unknown_ids": [],
+      "window_end": "2026-09-24T17:00:00Z",
+      "window_start": "2026-09-24T11:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 375,
+        "latency_ms": 1141,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 103,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1691
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2581,
+        "latency_ms": 874,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 201,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4161
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3377,
+        "latency_ms": 1197,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 235,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4789
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5259,
+        "latency_ms": 1456,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 247,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4696
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 5551,
+        "latency_ms": 1394,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 299,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4425
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4302,
+        "latency_ms": 4835,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1885,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7928
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 21445,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 6,
+      "output_tokens": 2970,
+      "tool_calls": 7,
+      "wall_seconds": 27.89
+    }
+  },
+  "run_name": "final",
+  "truth": {
+    "affected_node_ids": [
+      "LNK-SUD-02-A",
+      "S-SUD-001",
+      "S-SUD-003"
+    ],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [
+      {
+        "id": "CHG-2026-0081",
+        "table": "changes",
+        "visible_from": "2026-09-24T12:41:00+00:00",
+        "why": "Harmless parameter_tuning on S-SUD-001 completed 61 min before the incident; the KPI impact has a different cause."
+      }
+    ],
+    "difficulty": "hard",
+    "end_at": "2026-09-24T20:45:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000569",
+        "table": "alarms",
+        "visible_from": "2026-09-24T13:42:00+00:00"
+      },
+      {
+        "id": "ALM-000570",
+        "table": "alarms",
+        "visible_from": "2026-09-24T13:43:00+00:00"
+      },
+      {
+        "id": "ALM-000571",
+        "table": "alarms",
+        "visible_from": "2026-09-24T13:43:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_alarms",
+      "get_topology",
+      "query_kpis",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-24T13:42:00Z",
+    "is_incident": true,
+    "kind": "fiber_cut",
+    "notes": "Fibre cut on LNK-SUD-02-A; all 2 downstream sites lost service until repair.",
+    "root_cause_category": "transport_failure",
+    "root_cause_node_id": "LNK-SUD-02-A",
+    "severity": "medium",
+    "start_at": "2026-09-24T13:42:00Z"
+  },
+  "variant": "default"
+}

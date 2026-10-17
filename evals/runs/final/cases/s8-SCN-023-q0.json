@@ -1,0 +1,688 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-23T08:10:00Z",
+    "case_id": "s8-SCN-023-q0",
+    "question": "Why is S-SUD-008 struggling yesterday evening? Latency is high and throughput is poor.",
+    "question_index": 0,
+    "scenario_id": "SCN-023",
+    "seed": 8,
+    "split": "test"
+  },
+  "created_at": "2026-10-16T07:18:22.524434Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-23T08:10:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-23 09:10",
+          "entity_id": "S-SUD-008",
+          "region_id": null,
+          "start": "2026-09-22 16:00"
+        },
+        "body": "1 alert(s): ALR-0031 2026-09-22 18:30-21:30. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SUD (S-...\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0031 medium ended, 2026-09-22 18:30 to 2026-09-22 21:30 (3.0 h): RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SUD (S-SUD-008) for 3 h\n  active_users spike on 1 entity: worst S-SUD-008 z 10.4, 313 -> 649, 2026-09-22 18:45 to 2026-09-22 21:30\n  dl_volume_mb spike on 1 entity: worst S-SUD-008 z 14.1, 19390 -> 65721, 2026-09-22 18:30 to 2026-09-22 21:30\n  drop_rate_pct spike on 1 entity: worst S-SUD-008 z 20.2, 0.63 -> 4.21, 2026-09-22 18:45 to 2026-09-22 21:15\n  +3 more metric group(s): latency_ms spike, prb_util_pct spike, rrc_success_pct drop",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0031 2026-09-22 18:30-21:30. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SUD (S-...",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0031",
+          "ANM-000368",
+          "ANM-000366",
+          "ANM-000369"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 7
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SUD-008"
+        },
+        "body": "Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SUD-008: site, SUD, Ben Gardane, urban.\nCells: C-SUD-008-1, C-SUD-008-2, C-SUD-008-3.\nSiblings under LNK-SUD-01-B: S-SUD-007.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SUD-008",
+          "LNK-SUD-01-B",
+          "AGG-SUD-01",
+          "CORE-UPF-02",
+          "S-SUD-007"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-23 09:10",
+          "include_descendants": true,
+          "min_severity": "warning",
+          "node_ids": [
+            "S-SUD-008",
+            "S-SUD-007",
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-22 16:00"
+        },
+        "body": "1 alarm(s) on S-SUD-008, S-SUD-007, AGG-SUD-01 and nodes below: 1 warning; 0 active. None critical/major.\nNo critical or major alarm in this window.\n2026-09-22 18:46 ALM-000526 warning HIGH_PRB S-SUD-008: cleared 2026-09-22 21:28",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alarm(s) on S-SUD-008, S-SUD-007, AGG-SUD-01 and nodes below: 1 warning; 0 active. None critical/major.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000526"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:10",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-008",
+            "S-SUD-007",
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-22 16:00"
+        },
+        "body": "No changes on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 16:00 and 2026-09-23 09:10.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No changes on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 16:00 and 2026-09-23 09:10.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 5
+      },
+      {
+        "args": {
+          "end": "2026-09-23 09:10",
+          "region_id": "SUD",
+          "start": "2026-09-22 16:00"
+        },
+        "body": "No external events for region SUD (and nationwide) between 2026-09-22 16:00 and 2026-09-23 09:10.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SUD (and nationwide) between 2026-09-22 16:00 and 2026-09-23 09:10.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      },
+      {
+        "args": {
+          "end": "2026-09-22 23:59",
+          "entity_ids": [
+            "S-SUD-008",
+            "S-SUD-007"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "latency_ms",
+            "dl_volume_mb",
+            "prb_util_pct",
+            "active_users"
+          ],
+          "start": "2026-09-22 17:00"
+        },
+        "body": "Deviation in 4 of 8 series. Earliest onset 2026-09-22 18:30: S-SUD-008 dl_volume_mb above baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-23 09:10). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nS-SUD-008 dl_volume_mb: mean 40059 vs baseline 25469 (+57%); min 17107 at 2026-09-22 18:00, max 67658 at 2026-09-22 21:00.\nDeviation above baseline: onset 2026-09-22 18:30; worst 67658 vs 33588 at 2026-09-22 21:00; recovery 2026-09-22 21:30.\nS-SUD-008 prb_util_pct: mean 59.3 vs baseline 37.5 (+58%); min 24.2 at 2026-09-22 18:00, max 100 at 2026-09-22 21:00.\nDeviation above baseline: onset 2026-09-22 18:30; worst 100 vs 49.3 at 2026-09-22 21:00; recovery 2026-09-22 21:30.\nS-SUD-008 active_users: mean 325 vs baseline 237 (+37%); min 156 at 2026-09-22 18:00, max 649 at 2026-09-22 21:00.\nDeviation above baseline: onset 2026-09-22 18:30; worst 649 vs 314 at 2026-09-22 21:00; recovery 2026-09-22 21:30.\nS-SUD-008 latency_ms: mean 53.5 vs baseline 26.9 (+99%); min 24.2 at 2026-09-22 17:30, max 122 at 2026-09-22 21:00.\nDeviation above baseline: onset 2026-09-22 18:45; worst 122 vs 27.6 at 2026-09-22 21:00; recovery 2026-09-22 21:15.\nS-SUD-007 active_users: mean 64.6 vs baseline 70.1 (-8%); min 35.7 at 2026-09-22 17:00, max 90.6 at 2026-09-22 21:00.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-007 dl_volume_mb: mean 4808 vs baseline 5195 (-7%); min 2615 at 2026-09-22 17:00, max 7118 at 2026-09-22 20:45.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-007 prb_util_pct: mean 13.5 vs baseline 14.6 (-7%); min 7.35 at 2026-09-22 17:00, max 20.1 at 2026-09-22 20:45.\nNo sustained deviation from baseline in the steps that reported.\nS-SUD-007 latency_ms: mean 45.3 vs baseline 44.3 (+2%); min 41.9 at 2026-09-22 23:00, max 48.9 at 2026-09-22 23:30.\nNo sustained deviation from baseline in the steps that reported.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 4 of 8 series. Earliest onset 2026-09-22 18:30: S-SUD-008 dl_volume_mb above baseline.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 74
+      },
+      {
+        "args": {
+          "end": "2026-09-22 23:59",
+          "region_id": "SUD",
+          "start": "2026-09-22 17:00"
+        },
+        "body": "No external events for region SUD (and nationwide) between 2026-09-22 17:00 and 2026-09-22 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for region SUD (and nationwide) between 2026-09-22 17:00 and 2026-09-22 23:59.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-22 23:59",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SUD-008",
+            "S-SUD-007",
+            "AGG-SUD-01"
+          ],
+          "region_id": null,
+          "start": "2026-09-22 17:00"
+        },
+        "body": "No maintenance window scheduled on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 17:00 and 2026-09-22 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 17:00 and 2026-09-22 23:59.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-22 23:59",
+          "region_id": "SUD"
+        },
+        "body": "Invalid arguments - start: Field required",
+        "duplicate_of": null,
+        "error": "Invalid arguments - start: Field required",
+        "headline": "get_external_events error: Invalid arguments - start: Field required",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "end": "2026-09-22 23:59",
+          "region_id": null,
+          "start": "2026-09-22 18:00"
+        },
+        "body": "No external events for all regions between 2026-09-22 18:00 and 2026-09-22 23:59.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No external events for all regions between 2026-09-22 18:00 and 2026-09-22 23:59.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T10",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SUD-01": {
+        "kind": "node",
+        "ref": "AGG-SUD-01",
+        "summary": "agg router, SUD"
+      },
+      "ALM-000526": {
+        "kind": "alarm",
+        "ref": "ALM-000526",
+        "summary": "warning HIGH_PRB on S-SUD-008, raised 2026-09-22 18:46, cleared 2026-09-22 21:28"
+      },
+      "ALR-0031": {
+        "kind": "alert",
+        "ref": "ALR-0031",
+        "summary": "ended alert from 2026-09-22 18:30: 1 site(s) (S-SUD-008); region-level SUD; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rrc_success_pct"
+      },
+      "ANM-000366": {
+        "kind": "anomaly",
+        "ref": "ANM-000366",
+        "summary": "S-SUD-008 dl_volume_mb spike, z 14.1, baseline 19390 -> 65721"
+      },
+      "ANM-000368": {
+        "kind": "anomaly",
+        "ref": "ANM-000368",
+        "summary": "S-SUD-008 active_users spike, z 10.4, baseline 313 -> 649"
+      },
+      "ANM-000369": {
+        "kind": "anomaly",
+        "ref": "ANM-000369",
+        "summary": "S-SUD-008 drop_rate_pct spike, z 20.2, baseline 0.63 -> 4.21"
+      },
+      "CORE-UPF-02": {
+        "kind": "node",
+        "ref": "CORE-UPF-02",
+        "summary": "core upf, serves SFX/SUD"
+      },
+      "LNK-SUD-01-B": {
+        "kind": "node",
+        "ref": "LNK-SUD-01-B",
+        "summary": "fiber link, SUD, 28.5 km, 10.0 Gbps"
+      },
+      "S-SUD-007": {
+        "kind": "node",
+        "ref": "S-SUD-007",
+        "summary": "site, SUD, Matmata, rural; sibling of S-SUD-008"
+      },
+      "S-SUD-008": {
+        "kind": "node",
+        "ref": "S-SUD-008",
+        "summary": "site, SUD, Ben Gardane, urban; chain: S-SUD-008 -> LNK-SUD-01-B -> AGG-SUD-01 -> CORE-UPF-02"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-22 16:00, end=2026-09-23 09:10, entity_id=S-SUD-008) -> 1 alert(s): ALR-0031 2026-09-22 18:30-21:30. RRC success drops; traffic, active users, drop rate, latency and PRB utilisation spike on 1 site in SUD (S-..."
+      },
+      "T10": {
+        "kind": "call",
+        "ref": "T10",
+        "summary": "get_external_events(start=2026-09-22 18:00, end=2026-09-22 23:59) -> No external events for all regions between 2026-09-22 18:00 and 2026-09-22 23:59."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SUD-008, include=all) -> Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-22 16:00, end=2026-09-23 09:10, node_ids=['S-SUD-008', 'S-SUD-007', 'AGG-SUD-01'], include_descendants=True, min_severity=war -> 1 alarm(s) on S-SUD-008, S-SUD-007, AGG-SUD-01 and nodes below: 1 warning; 0 active. None critical/major."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-22 16:00, end=2026-09-23 09:10, node_ids=['S-SUD-008', 'S-SUD-007', 'AGG-SUD-01'], include_ancestors=True) -> No changes on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 16:00 and 2026-09-23 09:10."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_external_events(start=2026-09-22 16:00, end=2026-09-23 09:10, region_id=SUD) -> No external events for region SUD (and nationwide) between 2026-09-22 16:00 and 2026-09-23 09:10."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SUD-008', 'S-SUD-007'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct', 'active_users'], start=2026 -> Deviation in 4 of 8 series. Earliest onset 2026-09-22 18:30: S-SUD-008 dl_volume_mb above baseline."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "get_external_events(start=2026-09-22 17:00, end=2026-09-22 23:59, region_id=SUD) -> No external events for region SUD (and nationwide) between 2026-09-22 17:00 and 2026-09-22 23:59."
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_maintenance(start=2026-09-22 17:00, end=2026-09-22 23:59, node_ids=['S-SUD-008', 'S-SUD-007', 'AGG-SUD-01'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 17:00 and 2026-09-22 23:59."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "get_external_events(region_id=SUD, end=2026-09-22 23:59) -> get_external_events error: Invalid arguments - start: Field required"
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# High Latency and Poor Throughput on S-SUD-008 Due to Traffic Congestion\n\n- **Classification:** incident\n- **Root cause:** capacity at `S-SUD-008`\n- **Confidence:** high (Direct KPIs, alarms, and anomaly metrics confirm localized congestion on S-SUD-008; maintenance, external events, and changes were ruled out.)\n- **Impact:** 2026-09-22 18:30 to 2026-09-22 21:30\n- **Cause time:** 2026-09-22 18:30\n- **Affected:** S-SUD-008\n\n## Summary\n\nS-SUD-008 experienced heavy traffic demand with active users spiking to 649 and DL volume reaching 65721 MB, exhausting PRB utilization to 100% and causing high latency and poor throughput.\n\nS-SUD-008 suffered high latency and poor throughput due to user traffic congestion between 18:30 and 21:30 on 2026-09-22.\n\n## Timeline\n\n- 2026-09-22 18:30: Anomaly ALR-0031 and KPI deviations started on S-SUD-008. [ALR-0031, T6]\n- 2026-09-22 18:46: Warning alarm ALM-000526 for high PRB utilization was raised on S-SUD-008. [ALM-000526]\n- 2026-09-22 21:28: Warning alarm ALM-000526 cleared on S-SUD-008. [ALM-000526]\n- 2026-09-22 21:30: Incident impact ended with KPI recovery and ALR-0031 termination. [ALR-0031, T6]\n\n## Evidence\n\n- S-SUD-008 active users spiked to 649 against a baseline of 313. [ANM-000368]\n- S-SUD-008 download volume spiked to 65721 MB. [ANM-000366]\n- S-SUD-008 PRB utilization reached 100% at 21:00. [T6]\n- No changes occurred on S-SUD-008 or its ancestors during the window. [T4]\n- No maintenance was scheduled on S-SUD-008 or its ancestors during the window. [T8]\n- Sibling site S-SUD-007 remained completely normal with no deviations. [T6]\n\n## Hypotheses\n\n1. **capacity** at S-SUD-008: confirmed. Traffic metrics and active users spiked significantly beyond baseline, causing PRB exhaustion and high latency. [ALR-0031, T6]\n2. **bad_change** at S-SUD-008: rejected. Change log showed zero changes on S-SUD-008 and its ancestors during the window. [T4]\n3. **transport_failure** at LNK-SUD-01-B: rejected. Sibling site S-SUD-007 under the same transport link showed normal performance. [T2, T6]\n\n## Ruled out\n\n- T4: No configuration or software changes were executed on S-SUD-008 or its parents.\n- T8: No maintenance windows were scheduled during the incident timeline.\n- T10: No external events were recorded for the region during the incident window.\n- S-SUD-007: Sibling site remained completely unaffected, ruling out shared transport or core degradation.\n\n## Recommended actions\n\n- Monitor traffic growth on S-SUD-008 to evaluate capacity expansion needs.\n- Consider cell splitting or carrier addition for S-SUD-008 to handle peak loads.\n\n## Sources\n\n- `ALR-0031`: ended alert from 2026-09-22 18:30: 1 site(s) (S-SUD-008); region-level SUD; metrics: active_users, dl_volume_mb, drop_rate_pct, latency_ms, prb_util_pct, rrc_success_pct\n- `T6`: query_kpis(entity_type=site, entity_ids=['S-SUD-008', 'S-SUD-007'], metrics=['latency_ms', 'dl_volume_mb', 'prb_util_pct', 'active_users'], start=2026 -> Deviation in 4 of 8 series. Earliest onset 2026-09-22 18:30: S-SUD-008 dl_volume_mb above baseline.\n- `ALM-000526`: warning HIGH_PRB on S-SUD-008, raised 2026-09-22 18:46, cleared 2026-09-22 21:28\n- `ANM-000368`: S-SUD-008 active_users spike, z 10.4, baseline 313 -> 649\n- `ANM-000366`: S-SUD-008 dl_volume_mb spike, z 14.1, baseline 19390 -> 65721\n- `T4`: get_changes(start=2026-09-22 16:00, end=2026-09-23 09:10, node_ids=['S-SUD-008', 'S-SUD-007', 'AGG-SUD-01'], include_ancestors=True) -> No changes on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 16:00 and 2026-09-23 09:10.\n- `T8`: get_maintenance(start=2026-09-22 17:00, end=2026-09-22 23:59, node_ids=['S-SUD-008', 'S-SUD-007', 'AGG-SUD-01'], include_ancestors=True) -> No maintenance window scheduled on S-SUD-008, S-SUD-007, AGG-SUD-01 and its parents between 2026-09-22 17:00 and 2026-09-22 23:59.\n- `T2`: get_topology(node_id=S-SUD-008, include=all) -> Depends on (child -> parent -> core): S-SUD-008 (site) -> LNK-SUD-01-B (fiber link) -> AGG-SUD-01 (agg router) -> CORE-UPF-02 (core upf)\n- `T10`: get_external_events(start=2026-09-22 18:00, end=2026-09-22 23:59) -> No external events for all regions between 2026-09-22 18:00 and 2026-09-22 23:59.\n- `S-SUD-007`: site, SUD, Matmata, rural; sibling of S-SUD-008\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Why is S-SUD-008 struggling yesterday evening? Latency is high and throughput is poor.",
+    "report": {
+      "affected_node_ids": [
+        "S-SUD-008"
+      ],
+      "classification": "incident",
+      "confidence": "high",
+      "confidence_reason": "Direct KPIs, alarms, and anomaly metrics confirm localized congestion on S-SUD-008; maintenance, external events, and changes were ruled out.",
+      "dismissed_signals": [
+        {
+          "reason": "No configuration or software changes were executed on S-SUD-008 or its parents.",
+          "ref": "T4"
+        },
+        {
+          "reason": "No maintenance windows were scheduled during the incident timeline.",
+          "ref": "T8"
+        },
+        {
+          "reason": "No external events were recorded for the region during the incident window.",
+          "ref": "T10"
+        },
+        {
+          "reason": "Sibling site remained completely unaffected, ruling out shared transport or core degradation.",
+          "ref": "S-SUD-007"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SUD-008 active users spiked to 649 against a baseline of 313.",
+          "refs": [
+            "ANM-000368"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SUD-008 download volume spiked to 65721 MB.",
+          "refs": [
+            "ANM-000366"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "S-SUD-008 PRB utilization reached 100% at 21:00.",
+          "refs": [
+            "T6"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No changes occurred on S-SUD-008 or its ancestors during the window.",
+          "refs": [
+            "T4"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance was scheduled on S-SUD-008 or its ancestors during the window.",
+          "refs": [
+            "T8"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Sibling site S-SUD-007 remained completely normal with no deviations.",
+          "refs": [
+            "T6"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "capacity",
+          "node_id": "S-SUD-008",
+          "reason": "Traffic metrics and active users spiked significantly beyond baseline, causing PRB exhaustion and high latency.",
+          "refs": [
+            "ALR-0031",
+            "T6"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "S-SUD-008",
+          "reason": "Change log showed zero changes on S-SUD-008 and its ancestors during the window.",
+          "refs": [
+            "T4"
+          ],
+          "verdict": "rejected"
+        },
+        {
+          "category": "transport_failure",
+          "node_id": "LNK-SUD-01-B",
+          "reason": "Sibling site S-SUD-007 under the same transport link showed normal performance.",
+          "refs": [
+            "T2",
+            "T6"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-22 21:30",
+      "impact_start": "2026-09-22 18:30",
+      "impact_summary": "S-SUD-008 suffered high latency and poor throughput due to user traffic congestion between 18:30 and 21:30 on 2026-09-22.",
+      "recommended_actions": [
+        "Monitor traffic growth on S-SUD-008 to evaluate capacity expansion needs.",
+        "Consider cell splitting or carrier addition for S-SUD-008 to handle peak loads."
+      ],
+      "root_cause_category": "capacity",
+      "root_cause_node_id": "S-SUD-008",
+      "root_cause_summary": "S-SUD-008 experienced heavy traffic demand with active users spiking to 649 and DL volume reaching 65721 MB, exhausting PRB utilization to 100% and causing high latency and poor throughput.",
+      "root_cause_time": "2026-09-22 18:30",
+      "timeline": [
+        {
+          "event": "Anomaly ALR-0031 and KPI deviations started on S-SUD-008.",
+          "refs": [
+            "ALR-0031",
+            "T6"
+          ],
+          "time": "2026-09-22 18:30"
+        },
+        {
+          "event": "Warning alarm ALM-000526 for high PRB utilization was raised on S-SUD-008.",
+          "refs": [
+            "ALM-000526"
+          ],
+          "time": "2026-09-22 18:46"
+        },
+        {
+          "event": "Warning alarm ALM-000526 cleared on S-SUD-008.",
+          "refs": [
+            "ALM-000526"
+          ],
+          "time": "2026-09-22 21:28"
+        },
+        {
+          "event": "Incident impact ended with KPI recovery and ALR-0031 termination.",
+          "refs": [
+            "ALR-0031",
+            "T6"
+          ],
+          "time": "2026-09-22 21:30"
+        }
+      ],
+      "title": "High Latency and Poor Throughput on S-SUD-008 Due to Traffic Congestion"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-d6e8acbd09",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SUD-008"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SUD"
+      ],
+      "source": "model",
+      "symptom": "high latency and poor throughput",
+      "unknown_ids": [],
+      "window_end": "2026-09-22T22:59:00Z",
+      "window_start": "2026-09-22T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 388,
+        "latency_ms": 3614,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 121,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3618
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2604,
+        "latency_ms": 4515,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 255,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5377
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3074,
+        "latency_ms": 1836,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 269,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1838
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4527,
+        "latency_ms": 1581,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 42,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4161
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4594,
+        "latency_ms": 2165,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 54,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5090
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4686,
+        "latency_ms": 4003,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 331,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6317
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4261,
+        "latency_ms": 6093,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1519,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6598
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 24134,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 2591,
+      "tool_calls": 10,
+      "wall_seconds": 33.13
+    }
+  },
+  "run_name": "final",
+  "truth": {
+    "affected_node_ids": [
+      "S-SUD-008"
+    ],
+    "affected_region_ids": [
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "easy",
+    "end_at": "2026-09-22T20:26:00Z",
+    "evidence": [
+      {
+        "id": "ALM-000526",
+        "table": "alarms",
+        "visible_from": "2026-09-22T17:46:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "get_external_events",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-22T17:32:00Z",
+    "is_incident": true,
+    "kind": "congestion",
+    "notes": "Demand surge saturated the radio resources of S-SUD-008; there was no external event to explain it.",
+    "root_cause_category": "capacity",
+    "root_cause_node_id": "S-SUD-008",
+    "severity": "medium",
+    "start_at": "2026-09-22T17:32:00Z"
+  },
+  "variant": "default"
+}

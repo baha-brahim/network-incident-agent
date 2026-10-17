@@ -1,0 +1,619 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-14T08:02:00Z",
+    "case_id": "s8-SCN-015-q0",
+    "question": "Total traffic was noticeably lower across the country today. Anything to worry about?",
+    "question_index": 0,
+    "scenario_id": "SCN-015",
+    "seed": 8,
+    "split": "test"
+  },
+  "created_at": "2026-10-16T07:24:02.296398Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-14T08:02:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "entity_id": null,
+          "region_id": null,
+          "start": "2026-09-13 22:00"
+        },
+        "body": "No detector alerts for the network between 2026-09-13 22:00 and 2026-09-14 09:02.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No detector alerts for the network between 2026-09-13 22:00 and 2026-09-14 09:02.",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "entity_ids": [],
+          "entity_type": "national",
+          "metrics": [
+            "dl_volume_mb",
+            "ul_volume_mb"
+          ],
+          "start": "2026-09-14 00:00"
+        },
+        "body": "Deviation in 2 of 2 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-14 09:02). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nNATIONAL dl_volume_mb: mean 307051 vs baseline 348104 (-12%); min 126974 at 2026-09-14 03:45, max 640849 at 2026-09-14 09:00.\nDeviation below baseline: onset 2026-09-14 07:30; worst 446201 vs 538629 at 2026-09-14 07:30; not recovered by the last step (2026-09-14 09:00).\nseries (60 min buckets from 2026-09-14 00:00): 488610 283216 171442 132076 135551 183469 283869 428419 573359 640849\nbaseline: 520106 302139 186084 143517 145622 195749 317870 510905 703139 779336\nNATIONAL ul_volume_mb: mean 45797 vs baseline 51810 (-12%); min 18972 at 2026-09-14 03:45, max 95324 at 2026-09-14 09:00.\nDeviation below baseline: onset 2026-09-14 07:30; worst 66657 vs 80402 at 2026-09-14 07:30; not recovered by the last step (2026-09-14 09:00).\nseries (60 min buckets from 2026-09-14 00:00): 72877 42096 25583 19741 20215 27327 42235 64070 85651 95324\nbaseline: 77369 44989 27707 21383 21683 29185 47172 76113 104687 115828",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 2 of 2 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T2",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 106
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "region_id": null,
+          "start": "2026-09-14 00:00"
+        },
+        "body": "1 external event(s) for all regions, 2026-09-14 00:00 to 2026-09-14 09:02; 1 in progress at asked_at (2026-09-14 09:02).\nEVT-002 public_holiday (nationwide) since 2026-09-14 00:00, in progress: National public holiday: government offices and most businesses closed",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 external event(s) for all regions, 2026-09-14 00:00 to 2026-09-14 09:02; 1 in progress at asked_at (2026-09-14 09:02).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "EVT-002"
+        ],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 3
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "include_ancestors": true,
+          "node_ids": null,
+          "region_id": null,
+          "start": "2026-09-14 00:00"
+        },
+        "body": "1 change(s) on any node, 2026-09-14 00:00 to 2026-09-14 09:02 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-14 09:02).\n2026-09-14 05:27 CHG-2026-0044 software_upgrade on AGG-TUN-02: Software patch 21.4.2 -> 21.4.3 on AGG-TUN-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on any node, 2026-09-14 00:00 to 2026-09-14 09:02 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-14 09:02).",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "CHG-2026-0044"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "include_ancestors": true,
+          "node_ids": null,
+          "region_id": null,
+          "start": "2026-09-14 00:00"
+        },
+        "body": "No maintenance window scheduled on any node between 2026-09-14 00:00 and 2026-09-14 09:02.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on any node between 2026-09-14 00:00 and 2026-09-14 09:02.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "include_ancestors": true,
+          "node_ids": [
+            "AGG-TUN-02"
+          ],
+          "region_id": null,
+          "start": "2026-09-14 00:00"
+        },
+        "body": "1 change(s) on AGG-TUN-02 and its parents, 2026-09-14 00:00 to 2026-09-14 09:02 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-14 09:02).\n2026-09-14 05:27 CHG-2026-0044 software_upgrade on AGG-TUN-02: Software patch 21.4.2 -> 21.4.3 on AGG-TUN-02",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 change(s) on AGG-TUN-02 and its parents, 2026-09-14 00:00 to 2026-09-14 09:02 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-14 09:02).",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [
+          "CHG-2026-0044"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "entity_ids": [
+            "AGG-TUN-02"
+          ],
+          "entity_type": "core_node",
+          "metrics": [
+            "dl_volume_mb",
+            "ul_volume_mb"
+          ]
+        },
+        "body": "Invalid arguments - start: Field required",
+        "duplicate_of": null,
+        "error": "Invalid arguments - start: Field required",
+        "headline": "query_kpis error: Invalid arguments - start: Field required",
+        "iteration": 3,
+        "node": "investigate",
+        "ref": "T7",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 0
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "region_id": "national",
+          "start": "2026-09-14 00:00"
+        },
+        "body": "Unknown region_id 'NATIONAL'. Regions: SAH, SFX, SUD, TUN.",
+        "duplicate_of": null,
+        "error": "Unknown region_id 'NATIONAL'. Regions: SAH, SFX, SUD, TUN.",
+        "headline": "get_external_events error: Unknown region_id 'NATIONAL'. Regions: SAH, SFX, SUD, TUN.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T8",
+        "row_refs": [],
+        "tool": "get_external_events",
+        "truncated": false,
+        "wall_ms": 2
+      },
+      {
+        "args": {
+          "end": "2026-09-14 09:02",
+          "entity_ids": [],
+          "entity_type": "national",
+          "metrics": [
+            "dl_volume_mb"
+          ],
+          "start": "2026-09-14 00:00"
+        },
+        "body": "Deviation in 1 of 1 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline.\nBaseline: median of the same time of day on earlier weekdays (only data before 2026-09-14 09:02). Times are local step starts (15 min): an onset can precede its cause by up to 15 min.\nNATIONAL dl_volume_mb: mean 307051 vs baseline 348104 (-12%); min 126974 at 2026-09-14 03:45, max 640849 at 2026-09-14 09:00.\nDeviation below baseline: onset 2026-09-14 07:30; worst 446201 vs 538629 at 2026-09-14 07:30; not recovered by the last step (2026-09-14 09:00).\nseries (60 min buckets from 2026-09-14 00:00): 488610 283216 171442 132076 135551 183469 283869 428419 573359 640849\nbaseline: 520106 302139 186084 143517 145622 195749 317870 510905 703139 779336",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Deviation in 1 of 1 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline.",
+        "iteration": 4,
+        "node": "investigate",
+        "ref": "T9",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 56
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "CHG-2026-0044": {
+        "kind": "change",
+        "ref": "CHG-2026-0044",
+        "summary": "software_upgrade on AGG-TUN-02 at 2026-09-14 05:27: Software patch 21.4.2 -> 21.4.3 on AGG-TUN-02"
+      },
+      "EVT-002": {
+        "kind": "event",
+        "ref": "EVT-002",
+        "summary": "public_holiday (nationwide) since 2026-09-14 00:00, in progress: National public holiday: government offices and most businesses closed"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-13 22:00, end=2026-09-14 09:02) -> No detector alerts for the network between 2026-09-13 22:00 and 2026-09-14 09:02."
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb'], start=2026-09-14 00:00, end=2026-09-14 09:02) -> Deviation in 2 of 2 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline."
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_external_events(start=2026-09-14 00:00, end=2026-09-14 09:02) -> 1 external event(s) for all regions, 2026-09-14 00:00 to 2026-09-14 09:02; 1 in progress at asked_at (2026-09-14 09:02)."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-14 00:00, end=2026-09-14 09:02, include_ancestors=True) -> 1 change(s) on any node, 2026-09-14 00:00 to 2026-09-14 09:02 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-14 09:02)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-14 00:00, end=2026-09-14 09:02, include_ancestors=True) -> No maintenance window scheduled on any node between 2026-09-14 00:00 and 2026-09-14 09:02."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "get_changes(start=2026-09-14 00:00, end=2026-09-14 09:02, node_ids=['AGG-TUN-02'], include_ancestors=True) -> 1 change(s) on AGG-TUN-02 and its parents, 2026-09-14 00:00 to 2026-09-14 09:02 (0 on upstream nodes, 0 rolled back by asked_at 2026-09-14 09:02)."
+      },
+      "T7": {
+        "kind": "call",
+        "ref": "T7",
+        "summary": "query_kpis(entity_ids=['AGG-TUN-02'], entity_type=core_node, metrics=['dl_volume_mb', 'ul_volume_mb'], end=2026-09-14 09:02) -> query_kpis error: Invalid arguments - start: Field required"
+      },
+      "T8": {
+        "kind": "call",
+        "ref": "T8",
+        "summary": "get_external_events(start=2026-09-14 00:00, end=2026-09-14 09:02, region_id=national) -> get_external_events error: Unknown region_id 'NATIONAL'. Regions: SAH, SFX, SUD, TUN."
+      },
+      "T9": {
+        "kind": "call",
+        "ref": "T9",
+        "summary": "query_kpis(entity_type=national, metrics=['dl_volume_mb'], start=2026-09-14 00:00, end=2026-09-14 09:02) -> Deviation in 1 of 1 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline."
+      }
+    },
+    "fell_back": false,
+    "issues": [],
+    "markdown": "# Nationwide Traffic Decrease Due to Public Holiday\n\n- **Classification:** expected_event\n- **Root cause:** expected_event\n- **Confidence:** high (A direct public holiday event explains the traffic deviation, and no detector alerts or faults were found.)\n- **Impact:** 2026-09-14 07:30 to not established or ongoing\n- **Cause time:** 2026-09-14 00:00\n- **Affected:** AGG-TUN-02\n\n## Summary\n\nA nationwide public holiday caused government offices and most businesses to close, leading to reduced traffic volume across the network.\n\nNational download and upload traffic volumes dropped below baseline starting at 2026-09-14 07:30 and remained lower through the observation window.\n\n## Timeline\n\n- 2026-09-14 00:00: Nationwide public holiday event started. [EVT-002]\n- 2026-09-14 05:27: Software upgrade CHG-2026-0044 performed on AGG-TUN-02. [CHG-2026-0044]\n- 2026-09-14 07:30: National dl_volume_mb and ul_volume_mb deviation below baseline onset. [T2]\n\n## Evidence\n\n- No detector alerts were registered for the network between 2026-09-13 22:00 and 2026-09-14 09:02. [T1]\n- National download and upload traffic volumes were below baseline with deviation onset at 2026-09-14 07:30. [T2]\n- A nationwide public holiday has been in progress since 2026-09-14 00:00 where government offices and most businesses are closed. [EVT-002]\n- A software upgrade CHG-2026-0044 was executed on AGG-TUN-02 at 2026-09-14 05:27. [CHG-2026-0044]\n- No maintenance window was scheduled on any node between 2026-09-14 00:00 and 2026-09-14 09:02. [T5]\n\n## Hypotheses\n\n1. **expected_event**: confirmed. Nationwide public holiday explains lower traffic volumes due to closed businesses and offices. [EVT-002, T2]\n2. **bad_change** at AGG-TUN-02: rejected. Traffic drop is nationwide while change is localized and traffic deviation started after the change. [CHG-2026-0044, T2]\n\n## Ruled out\n\n- CHG-2026-0044: Change is isolated to AGG-TUN-02, whereas the traffic drop is nationwide and corresponds to a public holiday.\n\n## Recommended actions\n\n- Monitor traffic levels to ensure normal recovery after the public holiday ends.\n- No further network intervention required.\n\n## Sources\n\n- `EVT-002`: public_holiday (nationwide) since 2026-09-14 00:00, in progress: National public holiday: government offices and most businesses closed\n- `CHG-2026-0044`: software_upgrade on AGG-TUN-02 at 2026-09-14 05:27: Software patch 21.4.2 -> 21.4.3 on AGG-TUN-02\n- `T2`: query_kpis(entity_type=national, metrics=['dl_volume_mb', 'ul_volume_mb'], start=2026-09-14 00:00, end=2026-09-14 09:02) -> Deviation in 2 of 2 series. Earliest onset 2026-09-14 07:30: NATIONAL dl_volume_mb below baseline.\n- `T1`: get_anomalies(start=2026-09-13 22:00, end=2026-09-14 09:02) -> No detector alerts for the network between 2026-09-13 22:00 and 2026-09-14 09:02.\n- `T5`: get_maintenance(start=2026-09-14 00:00, end=2026-09-14 09:02, include_ancestors=True) -> No maintenance window scheduled on any node between 2026-09-14 00:00 and 2026-09-14 09:02.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Total traffic was noticeably lower across the country today. Anything to worry about?",
+    "report": {
+      "affected_node_ids": [
+        "AGG-TUN-02"
+      ],
+      "classification": "expected_event",
+      "confidence": "high",
+      "confidence_reason": "A direct public holiday event explains the traffic deviation, and no detector alerts or faults were found.",
+      "dismissed_signals": [
+        {
+          "reason": "Change is isolated to AGG-TUN-02, whereas the traffic drop is nationwide and corresponds to a public holiday.",
+          "ref": "CHG-2026-0044"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "No detector alerts were registered for the network between 2026-09-13 22:00 and 2026-09-14 09:02.",
+          "refs": [
+            "T1"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "National download and upload traffic volumes were below baseline with deviation onset at 2026-09-14 07:30.",
+          "refs": [
+            "T2"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A nationwide public holiday has been in progress since 2026-09-14 00:00 where government offices and most businesses are closed.",
+          "refs": [
+            "EVT-002"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "A software upgrade CHG-2026-0044 was executed on AGG-TUN-02 at 2026-09-14 05:27.",
+          "refs": [
+            "CHG-2026-0044"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on any node between 2026-09-14 00:00 and 2026-09-14 09:02.",
+          "refs": [
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "expected_event",
+          "node_id": null,
+          "reason": "Nationwide public holiday explains lower traffic volumes due to closed businesses and offices.",
+          "refs": [
+            "EVT-002",
+            "T2"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "bad_change",
+          "node_id": "AGG-TUN-02",
+          "reason": "Traffic drop is nationwide while change is localized and traffic deviation started after the change.",
+          "refs": [
+            "CHG-2026-0044",
+            "T2"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": null,
+      "impact_start": "2026-09-14 07:30",
+      "impact_summary": "National download and upload traffic volumes dropped below baseline starting at 2026-09-14 07:30 and remained lower through the observation window.",
+      "recommended_actions": [
+        "Monitor traffic levels to ensure normal recovery after the public holiday ends.",
+        "No further network intervention required."
+      ],
+      "root_cause_category": "expected_event",
+      "root_cause_node_id": null,
+      "root_cause_summary": "A nationwide public holiday caused government offices and most businesses to close, leading to reduced traffic volume across the network.",
+      "root_cause_time": "2026-09-14 00:00",
+      "timeline": [
+        {
+          "event": "Nationwide public holiday event started.",
+          "refs": [
+            "EVT-002"
+          ],
+          "time": "2026-09-14 00:00"
+        },
+        {
+          "event": "Software upgrade CHG-2026-0044 performed on AGG-TUN-02.",
+          "refs": [
+            "CHG-2026-0044"
+          ],
+          "time": "2026-09-14 05:27"
+        },
+        {
+          "event": "National dl_volume_mb and ul_volume_mb deviation below baseline onset.",
+          "refs": [
+            "T2"
+          ],
+          "time": "2026-09-14 07:30"
+        }
+      ],
+      "title": "Nationwide Traffic Decrease Due to Public Holiday"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-8fa145c2ae",
+    "scope": {
+      "nationwide": true,
+      "node_ids": [],
+      "ongoing": true,
+      "region_ids": [],
+      "source": "model",
+      "symptom": "Total traffic noticeably lower",
+      "unknown_ids": [],
+      "window_end": "2026-09-14T08:02:00Z",
+      "window_start": "2026-09-13T23:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 380,
+        "latency_ms": 3466,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 97,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3469
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 1949,
+        "latency_ms": 3477,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 233,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4509
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3073,
+        "latency_ms": 3220,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 104,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4129
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3373,
+        "latency_ms": 4593,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 138,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 5861
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3685,
+        "latency_ms": 3182,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 133,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 3185
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4296,
+        "latency_ms": 2987,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 94,
+        "provider": "gemini",
+        "purpose": "investigate turn 5",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4240
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3470,
+        "latency_ms": 4790,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1157,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 6311
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 20226,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 7
+      },
+      "llm_calls": 7,
+      "output_tokens": 1956,
+      "tool_calls": 9,
+      "wall_seconds": 31.92
+    }
+  },
+  "run_name": "final",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-001",
+      "S-SAH-002",
+      "S-SAH-003",
+      "S-SAH-004",
+      "S-SAH-005",
+      "S-SAH-006",
+      "S-SAH-007",
+      "S-SAH-008",
+      "S-SAH-009",
+      "S-SAH-010",
+      "S-SAH-011",
+      "S-SAH-012",
+      "S-SFX-001",
+      "S-SFX-002",
+      "S-SFX-003",
+      "S-SFX-004",
+      "S-SFX-005",
+      "S-SFX-006",
+      "S-SFX-007",
+      "S-SFX-008",
+      "S-SFX-009",
+      "S-SFX-010",
+      "S-SUD-001",
+      "S-SUD-002",
+      "S-SUD-003",
+      "S-SUD-004",
+      "S-SUD-005",
+      "S-SUD-006",
+      "S-SUD-007",
+      "S-SUD-008",
+      "S-TUN-001",
+      "S-TUN-002",
+      "S-TUN-003",
+      "S-TUN-004",
+      "S-TUN-005",
+      "S-TUN-006",
+      "S-TUN-007",
+      "S-TUN-008",
+      "S-TUN-009",
+      "S-TUN-010",
+      "S-TUN-011",
+      "S-TUN-012",
+      "S-TUN-013",
+      "S-TUN-014",
+      "S-TUN-015",
+      "S-TUN-016",
+      "S-TUN-017",
+      "S-TUN-018"
+    ],
+    "affected_region_ids": [
+      "TUN",
+      "SAH",
+      "SFX",
+      "SUD"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-14T23:00:00Z",
+    "evidence": [
+      {
+        "id": "EVT-002",
+        "table": "external_events",
+        "visible_from": "2026-09-13T23:00:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "query_kpis",
+      "get_external_events"
+    ],
+    "impact_start_at": "2026-09-13T23:00:00Z",
+    "is_incident": false,
+    "kind": "public_holiday",
+    "notes": "Nationwide public holiday: business-area traffic down, residential up.",
+    "root_cause_category": "expected_event",
+    "root_cause_node_id": null,
+    "severity": "low",
+    "start_at": "2026-09-13T23:00:00Z"
+  },
+  "variant": "default"
+}

@@ -1,0 +1,665 @@
+{
+  "agent_model": "gemini:gemini-3.5-flash-lite",
+  "case": {
+    "asked_at": "2026-09-20T08:01:00Z",
+    "case_id": "s8-SCN-021-q0",
+    "question": "Call setup failures and dropped sessions rose at S-SAH-006 last night. What is behind it?",
+    "question_index": 0,
+    "scenario_id": "SCN-021",
+    "seed": 8,
+    "split": "test"
+  },
+  "created_at": "2026-10-17T15:29:28.842104Z",
+  "error": null,
+  "result": {
+    "asked_at": "2026-09-20T08:01:00Z",
+    "calls": [
+      {
+        "args": {
+          "end": "2026-09-20 09:01",
+          "entity_id": "S-SAH-006",
+          "region_id": null,
+          "start": "2026-09-19 16:00"
+        },
+        "body": "1 alert(s): ALR-0029 2026-09-20 01:30-07:00. RRC success drops; drop rate spikes on 3 sites in SAH (S-SAH-001, S-SAH-006, S-SAH-009) for 5.5 h\nAlerts still running are described only up to asked_at (end, final size and severity are not known yet).\nALR-0029 medium ended, 2026-09-20 01:30 to 2026-09-20 07:00 (5.5 h): RRC success drops; drop rate spikes on 3 sites in SAH (S-SAH-001, S-SAH-006, S-SAH-009) for 5.5 h\n  drop_rate_pct spike on 1 entity: worst S-SAH-006 z 12.8, 0.58 -> 2.58, 2026-09-20 01:30 to 2026-09-20 07:00\n  rrc_success_pct drop on 1 entity: worst S-SAH-006 z -23.3, 99.4 -> 96.2, 2026-09-20 01:30 to 2026-09-20 07:00",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "1 alert(s): ALR-0029 2026-09-20 01:30-07:00. RRC success drops; drop rate spikes on 3 sites in SAH (S-SAH-001, S-SAH-006, S-SAH-009) for 5.5 h",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T1",
+        "row_refs": [
+          "ALR-0029",
+          "ANM-000360",
+          "ANM-000361"
+        ],
+        "tool": "get_anomalies",
+        "truncated": false,
+        "wall_ms": 9
+      },
+      {
+        "args": {
+          "include": "all",
+          "node_id": "S-SAH-006"
+        },
+        "body": "Depends on (child -> parent -> core): S-SAH-006 (site) -> LNK-SAH-02-B (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)\nAlso depends on shared core services (not in the parent chain): CORE-AMF-01, CORE-DNS-01.\nS-SAH-006: site, SAH, Msaken, suburban.\nCells: C-SAH-006-1, C-SAH-006-2, C-SAH-006-3.\nSiblings under LNK-SAH-02-B: S-SAH-001, S-SAH-009.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "Depends on (child -> parent -> core): S-SAH-006 (site) -> LNK-SAH-02-B (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)",
+        "iteration": 0,
+        "node": "orient",
+        "ref": "T2",
+        "row_refs": [
+          "S-SAH-006",
+          "LNK-SAH-02-B",
+          "AGG-SAH-02",
+          "CORE-UPF-01",
+          "S-SAH-001",
+          "S-SAH-009"
+        ],
+        "tool": "get_topology",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "alarm_types": null,
+          "end": "2026-09-20 09:01",
+          "include_descendants": true,
+          "min_severity": "minor",
+          "node_ids": [
+            "S-SAH-006",
+            "S-SAH-001",
+            "S-SAH-009",
+            "AGG-SAH-02",
+            "LNK-SAH-02-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "5 alarm(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and nodes below: 5 minor; 0 active. None critical/major.\nNo critical or major alarm in this window.\n2026-09-19 17:59 ALM-000427 minor VSWR_HIGH S-SAH-001: cleared 2026-09-19 18:18\n2026-09-19 18:32 ALM-000429 minor VSWR_HIGH S-SAH-001: cleared 2026-09-19 18:44\n2026-09-20 01:57 ALM-000436 minor RRC_FAILURE_RATE_HIGH S-SAH-006: cleared 2026-09-20 07:04\n2026-09-20 01:59 ALM-000437 minor RRC_FAILURE_RATE_HIGH S-SAH-001: cleared 2026-09-20 07:05\n2026-09-20 02:14 ALM-000438 minor RRC_FAILURE_RATE_HIGH S-SAH-009: cleared 2026-09-20 07:06",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "5 alarm(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and nodes below: 5 minor; 0 active. None critical/major.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T3",
+        "row_refs": [
+          "ALM-000427",
+          "ALM-000429",
+          "ALM-000436",
+          "ALM-000437",
+          "ALM-000438"
+        ],
+        "tool": "get_alarms",
+        "truncated": false,
+        "wall_ms": 13
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:01",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-006",
+            "S-SAH-001",
+            "S-SAH-009",
+            "AGG-SAH-02",
+            "LNK-SAH-02-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "6 change(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents, 2026-09-19 18:00 to 2026-09-20 09:01 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-20 09:01).\n2026-09-20 01:31 CHG-2026-0061 parameter_tuning on S-SAH-001: Push RAN parameter template OPT-17 to S-SAH-001 (admission control, RRC timers) -> ROLLED BACK by CHG-2026-0069 at 2026-09-20 07:00\n2026-09-20 01:31 CHG-2026-0062 parameter_tuning on S-SAH-006: Push RAN parameter template OPT-17 to S-SAH-006 (admission control, RRC timers) -> ROLLED BACK by CHG-2026-0067 at 2026-09-20 06:58\n2026-09-20 01:31 CHG-2026-0063 parameter_tuning on S-SAH-009: Push RAN parameter template OPT-17 to S-SAH-009 (admission control, RRC timers) -> ROLLED BACK by CHG-2026-0068 at 2026-09-20 06:58\n2026-09-20 06:58 CHG-2026-0067 rollback of CHG-2026-0062 on S-SAH-006: Rollback of OPT-17 on S-SAH-006 after KPI regression escalated by NOC\n2026-09-20 06:58 CHG-2026-0068 rollback of CHG-2026-0063 on S-SAH-009: Rollback of OPT-17 on S-SAH-009 after KPI regression escalated by NOC\n2026-09-20 07:00 CHG-2026-0069 rollback of CHG-2026-0061 on S-SAH-001: Rollback of OPT-17 on S-SAH-001 after KPI regression escalated by NOC",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "6 change(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents, 2026-09-19 18:00 to 2026-09-20 09:01 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-20 09:01).",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T4",
+        "row_refs": [
+          "CHG-2026-0061",
+          "CHG-2026-0062",
+          "CHG-2026-0063",
+          "CHG-2026-0067",
+          "CHG-2026-0068",
+          "CHG-2026-0069"
+        ],
+        "tool": "get_changes",
+        "truncated": false,
+        "wall_ms": 6
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:01",
+          "include_ancestors": true,
+          "node_ids": [
+            "S-SAH-006",
+            "S-SAH-001",
+            "S-SAH-009",
+            "AGG-SAH-02",
+            "LNK-SAH-02-B"
+          ],
+          "region_id": null,
+          "start": "2026-09-19 18:00"
+        },
+        "body": "No maintenance window scheduled on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents between 2026-09-19 18:00 and 2026-09-20 09:01.",
+        "duplicate_of": null,
+        "error": null,
+        "headline": "No maintenance window scheduled on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents between 2026-09-19 18:00 and 2026-09-20 09:01.",
+        "iteration": 1,
+        "node": "investigate",
+        "ref": "T5",
+        "row_refs": [],
+        "tool": "get_maintenance",
+        "truncated": false,
+        "wall_ms": 4
+      },
+      {
+        "args": {
+          "end": "2026-09-20 09:01kra",
+          "entity_ids": [
+            "S-SAH-006",
+            "S-SAH-001",
+            "S-SAH-009"
+          ],
+          "entity_type": "site",
+          "metrics": [
+            "rrc_success_pct",
+            "drop_rate_pct"
+          ],
+          "start": "2026-09-19 18:00"
+        },
+        "body": "Cannot parse end='2026-09-20 09:01kra'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'.",
+        "duplicate_of": null,
+        "error": "Cannot parse end='2026-09-20 09:01kra'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'.",
+        "headline": "query_kpis error: Cannot parse end='2026-09-20 09:01kra'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'.",
+        "iteration": 2,
+        "node": "investigate",
+        "ref": "T6",
+        "row_refs": [],
+        "tool": "query_kpis",
+        "truncated": false,
+        "wall_ms": 0
+      }
+    ],
+    "error": null,
+    "evidence": {
+      "AGG-SAH-02": {
+        "kind": "node",
+        "ref": "AGG-SAH-02",
+        "summary": "agg router, SAH"
+      },
+      "ALM-000427": {
+        "kind": "alarm",
+        "ref": "ALM-000427",
+        "summary": "minor VSWR_HIGH on S-SAH-001, raised 2026-09-19 17:59, cleared 2026-09-19 18:18"
+      },
+      "ALM-000429": {
+        "kind": "alarm",
+        "ref": "ALM-000429",
+        "summary": "minor VSWR_HIGH on S-SAH-001, raised 2026-09-19 18:32, cleared 2026-09-19 18:44"
+      },
+      "ALM-000436": {
+        "kind": "alarm",
+        "ref": "ALM-000436",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SAH-006, raised 2026-09-20 01:57, cleared 2026-09-20 07:04"
+      },
+      "ALM-000437": {
+        "kind": "alarm",
+        "ref": "ALM-000437",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SAH-001, raised 2026-09-20 01:59, cleared 2026-09-20 07:05"
+      },
+      "ALM-000438": {
+        "kind": "alarm",
+        "ref": "ALM-000438",
+        "summary": "minor RRC_FAILURE_RATE_HIGH on S-SAH-009, raised 2026-09-20 02:14, cleared 2026-09-20 07:06"
+      },
+      "ALR-0029": {
+        "kind": "alert",
+        "ref": "ALR-0029",
+        "summary": "ended alert from 2026-09-20 01:30: 3 site(s) (S-SAH-001, S-SAH-006, S-SAH-009); region-level SAH; metrics: drop_rate_pct, rrc_success_pct"
+      },
+      "ANM-000360": {
+        "kind": "anomaly",
+        "ref": "ANM-000360",
+        "summary": "S-SAH-006 drop_rate_pct spike, z 12.8, baseline 0.58 -> 2.58"
+      },
+      "ANM-000361": {
+        "kind": "anomaly",
+        "ref": "ANM-000361",
+        "summary": "S-SAH-006 rrc_success_pct drop, z -23.3, baseline 99.4 -> 96.2"
+      },
+      "CHG-2026-0061": {
+        "kind": "change",
+        "ref": "CHG-2026-0061",
+        "summary": "parameter_tuning on S-SAH-001 at 2026-09-20 01:31: Push RAN parameter template OPT-17 to S-SAH-001 (admission control, RRC timers) [ROLLED BACK by CHG-2026-0069 at 2026-09-20 07:00]"
+      },
+      "CHG-2026-0062": {
+        "kind": "change",
+        "ref": "CHG-2026-0062",
+        "summary": "parameter_tuning on S-SAH-006 at 2026-09-20 01:31: Push RAN parameter template OPT-17 to S-SAH-006 (admission control, RRC timers) [ROLLED BACK by CHG-2026-0067 at 2026-09-20 06:58]"
+      },
+      "CHG-2026-0063": {
+        "kind": "change",
+        "ref": "CHG-2026-0063",
+        "summary": "parameter_tuning on S-SAH-009 at 2026-09-20 01:31: Push RAN parameter template OPT-17 to S-SAH-009 (admission control, RRC timers) [ROLLED BACK by CHG-2026-0068 at 2026-09-20 06:58]"
+      },
+      "CHG-2026-0067": {
+        "kind": "change",
+        "ref": "CHG-2026-0067",
+        "summary": "rollback of CHG-2026-0062 on S-SAH-006 at 2026-09-20 06:58: Rollback of OPT-17 on S-SAH-006 after KPI regression escalated by NOC"
+      },
+      "CHG-2026-0068": {
+        "kind": "change",
+        "ref": "CHG-2026-0068",
+        "summary": "rollback of CHG-2026-0063 on S-SAH-009 at 2026-09-20 06:58: Rollback of OPT-17 on S-SAH-009 after KPI regression escalated by NOC"
+      },
+      "CHG-2026-0069": {
+        "kind": "change",
+        "ref": "CHG-2026-0069",
+        "summary": "rollback of CHG-2026-0061 on S-SAH-001 at 2026-09-20 07:00: Rollback of OPT-17 on S-SAH-001 after KPI regression escalated by NOC"
+      },
+      "CORE-UPF-01": {
+        "kind": "node",
+        "ref": "CORE-UPF-01",
+        "summary": "core upf, serves TUN/SAH"
+      },
+      "LNK-SAH-02-B": {
+        "kind": "node",
+        "ref": "LNK-SAH-02-B",
+        "summary": "fiber link, SAH, 12.7 km, 10.0 Gbps"
+      },
+      "S-SAH-001": {
+        "kind": "node",
+        "ref": "S-SAH-001",
+        "summary": "site, SAH, Sousse Centre, suburban; sibling of S-SAH-006"
+      },
+      "S-SAH-006": {
+        "kind": "node",
+        "ref": "S-SAH-006",
+        "summary": "site, SAH, Msaken, suburban; chain: S-SAH-006 -> LNK-SAH-02-B -> AGG-SAH-02 -> CORE-UPF-01"
+      },
+      "S-SAH-009": {
+        "kind": "node",
+        "ref": "S-SAH-009",
+        "summary": "site, SAH, Moknine, rural; sibling of S-SAH-006"
+      },
+      "T1": {
+        "kind": "call",
+        "ref": "T1",
+        "summary": "get_anomalies(start=2026-09-19 16:00, end=2026-09-20 09:01, entity_id=S-SAH-006) -> 1 alert(s): ALR-0029 2026-09-20 01:30-07:00. RRC success drops; drop rate spikes on 3 sites in SAH (S-SAH-001, S-SAH-006, S-SAH-009) for 5.5 h"
+      },
+      "T2": {
+        "kind": "call",
+        "ref": "T2",
+        "summary": "get_topology(node_id=S-SAH-006, include=all) -> Depends on (child -> parent -> core): S-SAH-006 (site) -> LNK-SAH-02-B (fiber link) -> AGG-SAH-02 (agg router) -> CORE-UPF-01 (core upf)"
+      },
+      "T3": {
+        "kind": "call",
+        "ref": "T3",
+        "summary": "get_alarms(start=2026-09-19 18:00, end=2026-09-20 09:01, node_ids=['S-SAH-006', 'S-SAH-001', 'S-SAH-009', 'AGG-SAH-02', 'LNK-SAH-02-B'], include_desce -> 5 alarm(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and nodes below: 5 minor; 0 active. None critical/major."
+      },
+      "T4": {
+        "kind": "call",
+        "ref": "T4",
+        "summary": "get_changes(start=2026-09-19 18:00, end=2026-09-20 09:01, node_ids=['S-SAH-006', 'S-SAH-001', 'S-SAH-009', 'AGG-SAH-02', 'LNK-SAH-02-B'], include_ance -> 6 change(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents, 2026-09-19 18:00 to 2026-09-20 09:01 (0 on upstream nodes, 3 rolled back by asked_at 2026-09-20 09:01)."
+      },
+      "T5": {
+        "kind": "call",
+        "ref": "T5",
+        "summary": "get_maintenance(start=2026-09-19 18:00, end=2026-09-20 09:01, node_ids=['S-SAH-006', 'S-SAH-001', 'S-SAH-009', 'AGG-SAH-02', 'LNK-SAH-02-B'], include_ -> No maintenance window scheduled on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents between 2026-09-19 18:00 and 2026-09-20 09:01."
+      },
+      "T6": {
+        "kind": "call",
+        "ref": "T6",
+        "summary": "query_kpis(entity_type=site, entity_ids=['S-SAH-006', 'S-SAH-001', 'S-SAH-009'], metrics=['rrc_success_pct', 'drop_rate_pct'], start=2026-09-19 18:00, -> query_kpis error: Cannot parse end='2026-09-20 09:01kra'. Use ISO 8601, e.g. '2026-09-21 16:50' (Africa/Tunis local time) or '2026-09-21T15:50Z'."
+      }
+    },
+    "fell_back": false,
+    "issues": [
+      "Confidence lowered from high to medium: not checked: external events."
+    ],
+    "markdown": "# RRC Failure Rate Spike Caused by Bad Configuration Change\n\n- **Classification:** incident\n- **Root cause:** bad_change at `S-SAH-006`\n- **Confidence:** medium (Timing fits KPI onset perfectly, direct change and alarm evidence exist, and maintenance was checked via T5.)\n- **Impact:** 2026-09-20 01:30 to 2026-09-20 07:06\n- **Cause time:** 2026-09-20 01:31\n- **Affected:** S-SAH-006, S-SAH-001, S-SAH-009\n\n## Summary\n\nPushing RAN parameter template OPT-17 caused severe RRC success degradation and drop rate spikes on S-SAH-006 and sibling sites.\n\nCall setup failures and dropped sessions rose across S-SAH-006, S-SAH-001, and S-SAH-009 for 5.5 hours.\n\n## Timeline\n\n- 2026-09-20 01:30: Anomaly detected: RRC success drops and drop rate spikes on three sites. [ALR-0029]\n- 2026-09-20 01:31: Parameter template OPT-17 pushed to S-SAH-006. [CHG-2026-0062]\n- 2026-09-20 01:57: Minor RRC failure rate high alarm raised on S-SAH-006. [ALM-000436]\n- 2026-09-20 06:58: Rollback of parameter change executed on S-SAH-006. [CHG-2026-0067]\n- 2026-09-20 07:04: RRC failure rate alarm cleared on S-SAH-006. [ALM-000436]\n\n## Evidence\n\n- S-SAH-006 experienced a drop rate spike and RRC success percentage drop starting around 01:30. [ANM-000360, ANM-000361]\n- RAN parameter template OPT-17 was pushed to S-SAH-006 at 01:31. [CHG-2026-0062]\n- Minor RRC failure rate alarm on S-SAH-006 cleared at 07:04 following the rollback. [ALM-000436]\n- No maintenance window was scheduled on the affected nodes during the incident. [T5]\n\n## Hypotheses\n\n1. **bad_change** at S-SAH-006: confirmed. Change CHG-2026-0062 closely preceded the KPI degradation, and rolling it back restored KPIs. [CHG-2026-0062, CHG-2026-0067]\n2. **transport_degradation** at LNK-SAH-02-B: rejected. No major or critical alarms found on transport links or aggregation routers. [T3]\n\n## Ruled out\n\n- ALM-000427: VSWR high alarm on S-SAH-001 cleared before the incident window started.\n- ALM-000429: VSWR high alarm on S-SAH-001 cleared long before the incident occurred.\n\n## Recommended actions\n\n- Verify admission control and RRC timer configurations in template OPT-17 before future deployments.\n- Perform post-implementation reviews for all RAN parameter pushes.\n\n## Sources\n\n- `ALR-0029`: ended alert from 2026-09-20 01:30: 3 site(s) (S-SAH-001, S-SAH-006, S-SAH-009); region-level SAH; metrics: drop_rate_pct, rrc_success_pct\n- `CHG-2026-0062`: parameter_tuning on S-SAH-006 at 2026-09-20 01:31: Push RAN parameter template OPT-17 to S-SAH-006 (admission control, RRC timers) [ROLLED BACK by CHG-2026-0067 at 2026-09-20 06:58]\n- `ALM-000436`: minor RRC_FAILURE_RATE_HIGH on S-SAH-006, raised 2026-09-20 01:57, cleared 2026-09-20 07:04\n- `CHG-2026-0067`: rollback of CHG-2026-0062 on S-SAH-006 at 2026-09-20 06:58: Rollback of OPT-17 on S-SAH-006 after KPI regression escalated by NOC\n- `ANM-000360`: S-SAH-006 drop_rate_pct spike, z 12.8, baseline 0.58 -> 2.58\n- `ANM-000361`: S-SAH-006 rrc_success_pct drop, z -23.3, baseline 99.4 -> 96.2\n- `T5`: get_maintenance(start=2026-09-19 18:00, end=2026-09-20 09:01, node_ids=['S-SAH-006', 'S-SAH-001', 'S-SAH-009', 'AGG-SAH-02', 'LNK-SAH-02-B'], include_ -> No maintenance window scheduled on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and its parents between 2026-09-19 18:00 and 2026-09-20 09:01.\n- `T3`: get_alarms(start=2026-09-19 18:00, end=2026-09-20 09:01, node_ids=['S-SAH-006', 'S-SAH-001', 'S-SAH-009', 'AGG-SAH-02', 'LNK-SAH-02-B'], include_desce -> 5 alarm(s) on S-SAH-006, S-SAH-001, S-SAH-009, AGG-SAH-02 +1 more and nodes below: 5 minor; 0 active. None critical/major.\n- `ALM-000427`: minor VSWR_HIGH on S-SAH-001, raised 2026-09-19 17:59, cleared 2026-09-19 18:18\n- `ALM-000429`: minor VSWR_HIGH on S-SAH-001, raised 2026-09-19 18:32, cleared 2026-09-19 18:44\n\n## Verification notes\n\n- Confidence lowered from high to medium: not checked: external events.\n",
+    "models_used": [
+      "gemini:gemini-3.5-flash-lite"
+    ],
+    "question": "Call setup failures and dropped sessions rose at S-SAH-006 last night. What is behind it?",
+    "report": {
+      "affected_node_ids": [
+        "S-SAH-006",
+        "S-SAH-001",
+        "S-SAH-009"
+      ],
+      "classification": "incident",
+      "confidence": "medium",
+      "confidence_reason": "Timing fits KPI onset perfectly, direct change and alarm evidence exist, and maintenance was checked via T5.",
+      "dismissed_signals": [
+        {
+          "reason": "VSWR high alarm on S-SAH-001 cleared before the incident window started.",
+          "ref": "ALM-000427"
+        },
+        {
+          "reason": "VSWR high alarm on S-SAH-001 cleared long before the incident occurred.",
+          "ref": "ALM-000429"
+        }
+      ],
+      "findings": [
+        {
+          "basis": "observed",
+          "claim": "S-SAH-006 experienced a drop rate spike and RRC success percentage drop starting around 01:30.",
+          "refs": [
+            "ANM-000360",
+            "ANM-000361"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "RAN parameter template OPT-17 was pushed to S-SAH-006 at 01:31.",
+          "refs": [
+            "CHG-2026-0062"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "Minor RRC failure rate alarm on S-SAH-006 cleared at 07:04 following the rollback.",
+          "refs": [
+            "ALM-000436"
+          ]
+        },
+        {
+          "basis": "observed",
+          "claim": "No maintenance window was scheduled on the affected nodes during the incident.",
+          "refs": [
+            "T5"
+          ]
+        }
+      ],
+      "hypotheses": [
+        {
+          "category": "bad_change",
+          "node_id": "S-SAH-006",
+          "reason": "Change CHG-2026-0062 closely preceded the KPI degradation, and rolling it back restored KPIs.",
+          "refs": [
+            "CHG-2026-0062",
+            "CHG-2026-0067"
+          ],
+          "verdict": "confirmed"
+        },
+        {
+          "category": "transport_degradation",
+          "node_id": "LNK-SAH-02-B",
+          "reason": "No major or critical alarms found on transport links or aggregation routers.",
+          "refs": [
+            "T3"
+          ],
+          "verdict": "rejected"
+        }
+      ],
+      "impact_end": "2026-09-20 07:06",
+      "impact_start": "2026-09-20 01:30",
+      "impact_summary": "Call setup failures and dropped sessions rose across S-SAH-006, S-SAH-001, and S-SAH-009 for 5.5 hours.",
+      "recommended_actions": [
+        "Verify admission control and RRC timer configurations in template OPT-17 before future deployments.",
+        "Perform post-implementation reviews for all RAN parameter pushes."
+      ],
+      "root_cause_category": "bad_change",
+      "root_cause_node_id": "S-SAH-006",
+      "root_cause_summary": "Pushing RAN parameter template OPT-17 caused severe RRC success degradation and drop rate spikes on S-SAH-006 and sibling sites.",
+      "root_cause_time": "2026-09-20 01:31",
+      "timeline": [
+        {
+          "event": "Anomaly detected: RRC success drops and drop rate spikes on three sites.",
+          "refs": [
+            "ALR-0029"
+          ],
+          "time": "2026-09-20 01:30"
+        },
+        {
+          "event": "Parameter template OPT-17 pushed to S-SAH-006.",
+          "refs": [
+            "CHG-2026-0062"
+          ],
+          "time": "2026-09-20 01:31"
+        },
+        {
+          "event": "Minor RRC failure rate high alarm raised on S-SAH-006.",
+          "refs": [
+            "ALM-000436"
+          ],
+          "time": "2026-09-20 01:57"
+        },
+        {
+          "event": "Rollback of parameter change executed on S-SAH-006.",
+          "refs": [
+            "CHG-2026-0067"
+          ],
+          "time": "2026-09-20 06:58"
+        },
+        {
+          "event": "RRC failure rate alarm cleared on S-SAH-006.",
+          "refs": [
+            "ALM-000436"
+          ],
+          "time": "2026-09-20 07:04"
+        }
+      ],
+      "title": "RRC Failure Rate Spike Caused by Bad Configuration Change"
+    },
+    "report_before_checks": null,
+    "run_id": "RUN-813c0e7aa9",
+    "scope": {
+      "nationwide": false,
+      "node_ids": [
+        "S-SAH-006"
+      ],
+      "ongoing": false,
+      "region_ids": [
+        "SAH"
+      ],
+      "source": "model",
+      "symptom": "Call setup failures and dropped sessions",
+      "unknown_ids": [],
+      "window_end": "2026-09-20T05:00:00Z",
+      "window_start": "2026-09-19T17:00:00Z"
+    },
+    "status": "finished",
+    "steps": [
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 389,
+        "latency_ms": 1197,
+        "model": "gemini-3.5-flash-lite",
+        "node": "intake",
+        "output_tokens": 122,
+        "provider": "gemini",
+        "purpose": "intake",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 1775
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 2544,
+        "latency_ms": 1117,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 352,
+        "provider": "gemini",
+        "purpose": "investigate turn 1",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4403
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 3982,
+        "latency_ms": 1576,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 340,
+        "provider": "gemini",
+        "purpose": "investigate turn 2",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4926
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4489,
+        "latency_ms": 1435,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 270,
+        "provider": "gemini",
+        "purpose": "investigate turn 3",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4362
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4769,
+        "latency_ms": 1041,
+        "model": "gemini-3.5-flash-lite",
+        "node": "investigate",
+        "output_tokens": 138,
+        "provider": "gemini",
+        "purpose": "investigate turn 4",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 4094
+      },
+      {
+        "attempts": [
+          "gemini:gemini-3.5-flash-lite: ok"
+        ],
+        "cached": false,
+        "error": null,
+        "fell_back": false,
+        "input_tokens": 4381,
+        "latency_ms": 4202,
+        "model": "gemini-3.5-flash-lite",
+        "node": "conclude",
+        "output_tokens": 1338,
+        "provider": "gemini",
+        "purpose": "conclude",
+        "raw_output": null,
+        "served_model": "gemini-3.5-flash-lite",
+        "wall_ms": 7655
+      }
+    ],
+    "usage": {
+      "cached_calls": 0,
+      "input_tokens": 20554,
+      "live_requests": {
+        "gemini:gemini-3.5-flash-lite": 6
+      },
+      "llm_calls": 6,
+      "output_tokens": 2560,
+      "tool_calls": 6,
+      "wall_seconds": 27.29
+    }
+  },
+  "run_name": "final",
+  "truth": {
+    "affected_node_ids": [
+      "S-SAH-001",
+      "S-SAH-006",
+      "S-SAH-009"
+    ],
+    "affected_region_ids": [
+      "SAH"
+    ],
+    "confounders": [],
+    "difficulty": "medium",
+    "end_at": "2026-09-20T05:58:00Z",
+    "evidence": [
+      {
+        "id": "CHG-2026-0061",
+        "table": "changes",
+        "visible_from": "2026-09-20T00:31:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0069",
+        "table": "changes",
+        "visible_from": "2026-09-20T06:00:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0062",
+        "table": "changes",
+        "visible_from": "2026-09-20T00:31:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0067",
+        "table": "changes",
+        "visible_from": "2026-09-20T05:58:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0063",
+        "table": "changes",
+        "visible_from": "2026-09-20T00:31:00+00:00"
+      },
+      {
+        "id": "CHG-2026-0068",
+        "table": "changes",
+        "visible_from": "2026-09-20T05:58:00+00:00"
+      },
+      {
+        "id": "ALM-000438",
+        "table": "alarms",
+        "visible_from": "2026-09-20T01:14:00+00:00"
+      },
+      {
+        "id": "ALM-000437",
+        "table": "alarms",
+        "visible_from": "2026-09-20T00:59:00+00:00"
+      },
+      {
+        "id": "ALM-000436",
+        "table": "alarms",
+        "visible_from": "2026-09-20T00:57:00+00:00"
+      }
+    ],
+    "expected_tools": [
+      "get_changes",
+      "query_kpis",
+      "get_alarms",
+      "get_topology",
+      "search_runbooks"
+    ],
+    "impact_start_at": "2026-09-20T00:31:00Z",
+    "is_incident": true,
+    "kind": "config_push",
+    "notes": "Change OPT-17 pushed to a group of sites (S-SAH-001) regressed RRC success and drop rate until it was rolled back. Root cause node is the first site of the pushed group.",
+    "root_cause_category": "bad_change",
+    "root_cause_node_id": "S-SAH-001",
+    "severity": "medium",
+    "start_at": "2026-09-20T00:31:00Z"
+  },
+  "variant": "default"
+}
