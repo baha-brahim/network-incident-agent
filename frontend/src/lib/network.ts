@@ -62,7 +62,7 @@ export interface Network {
   verdict: Classification | null;
   /** What the mark on the root-cause node says. */
   rootLabel: string;
-  /** Regions that hold at least one node below the core. */
+  /** Regions that hold at least one node below the core, not counting nodes only known as siblings. */
   regionsInUse: string[];
 }
 
@@ -128,14 +128,16 @@ export function argNodeIds(args: Record<string, unknown>): string[] {
 
 export function deriveNetwork(view: RunView): Network {
   const byId = new Map<string, NetNode>();
-  const nodes: NetNode[] = [];
-  const edges: NetEdge[] = [];
+  let nodes: NetNode[] = [];
+  let edges: NetEdge[] = [];
   const edgeKeys = new Set<string>();
   const alarmIds = new Set<string>();
   const markerIds = new Set<string>();
   let scope: ScopeData | null = null;
+  /** Nodes only known as siblings of a looked-up node: context, not part of the investigation. */
+  const siblingOnly = new Set<string>();
 
-  function ensure(id: unknown, seq: number, stepId: string, probe = false): NetNode | null {
+  function ensure(id: unknown, seq: number, stepId: string, probe = false, sibling = false): NetNode | null {
     if (typeof id !== "string") return null;
     const layer = layerOf(id);
     if (layer === null) return null;
@@ -155,14 +157,17 @@ export function deriveNetwork(view: RunView): Network {
       };
       byId.set(id, node);
       nodes.push(node);
+      if (sibling) siblingOnly.add(id);
+    } else if (!sibling) {
+      siblingOnly.delete(id);
     }
     if (!node.touchedBy.includes(stepId)) node.touchedBy.push(stepId);
     if (probe && !node.probes.includes(seq)) node.probes.push(seq);
     return node;
   }
 
-  function link(childId: string, parentId: string, seq: number, stepId: string) {
-    const child = ensure(childId, seq, stepId);
+  function link(childId: string, parentId: string, seq: number, stepId: string, sibling = false) {
+    const child = ensure(childId, seq, stepId, false, sibling);
     const parent = ensure(parentId, seq, stepId);
     if (!child || !parent || child.id === parent.id) return;
     const key = `${child.id}>${parent.id}`;
@@ -203,7 +208,7 @@ export function deriveNetwork(view: RunView): Network {
             child = a;
           }
           const siblings = Array.isArray(data.siblings) ? (data.siblings as unknown[]) : [];
-          if (ancestors[0]) for (const s of siblings) if (typeof s === "string") link(s, ancestors[0], seq, id);
+          if (ancestors[0]) for (const s of siblings) if (typeof s === "string") link(s, ancestors[0], seq, id, true);
         }
         break;
       }
@@ -270,7 +275,17 @@ export function deriveNetwork(view: RunView): Network {
     }
   }
 
-  const regionsInUse = [...new Set(nodes.filter((n) => n.layer > 0 && n.region).map((n) => n.region as string))];
+  const regionsInUse = [
+    ...new Set(nodes.filter((n) => n.layer > 0 && n.region && !siblingOnly.has(n.id)).map((n) => n.region as string)),
+  ];
+  if (regionsInUse.length === 1 && !scope?.nationwide) {
+    const drop = new Set(nodes.filter((n) => siblingOnly.has(n.id) && n.region && n.region !== regionsInUse[0]).map((n) => n.id));
+    if (drop.size > 0) {
+      nodes = nodes.filter((n) => !drop.has(n.id));
+      edges = edges.filter((e) => !drop.has(e.child) && !drop.has(e.parent));
+      for (const id of drop) byId.delete(id);
+    }
+  }
   const verdict = report?.classification ?? null;
   return {
     nodes,

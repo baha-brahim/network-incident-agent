@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import fiberCut from "./__fixtures__/fiber-cut.json";
 import stadiumEvent from "./__fixtures__/stadium-event.json";
@@ -13,6 +15,14 @@ const full = (r: Recording): RunView => reduceEvents(r.events);
 const indexOfEvent = (r: Recording, type: string, ref?: string): number =>
   r.events.findIndex((e) => e.type === type && (ref === undefined || (e.data as { ref?: string }).ref === ref));
 const viewThrough = (r: Recording, index: number): RunView => reduceEvents(r.events.slice(0, index + 1));
+const demoDir = fileURLToPath(new URL("../../../backend/src/incident_agent/api/demos/", import.meta.url));
+const demo = (name: string): Recording => JSON.parse(readFileSync(`${demoDir}${name}.json`, "utf8")) as Recording;
+const withAffected = (r: Recording, extra: string[]): RunEvent[] =>
+  r.events.map((e) =>
+    e.type === "report" || e.type === "run_finished"
+      ? ({ ...e, data: { ...e.data, report: { ...(e.data as { report: { affected_node_ids: string[] } }).report, affected_node_ids: [...(e.data as { report: { affected_node_ids: string[] } }).report.affected_node_ids, ...extra] } } } as RunEvent)
+      : e,
+  );
 const without = (r: Recording, tool: string): RunEvent[] => r.events.filter((e) => !("tool" in e.data && e.data.tool === tool));
 
 describe("deriveNetwork", () => {
@@ -194,5 +204,55 @@ describe("shortId", () => {
     expect(shortId("LNK-TUN-02-C")).toBe("LNK-02-C");
     expect(shortId("AGG-TUN-02")).toBe("AGG-02");
     expect(shortId("CORE-DNS-01")).toBe("DNS-01");
+  });
+});
+
+describe("nodes known only as siblings", () => {
+  const cut = demo("fiber-cut");
+
+  it("do not make a single-region run span several regions, and are not drawn", () => {
+    const view = full(cut);
+    const siblings = (view.steps.flatMap((s) => (s.kind === "tool" && s.tool === "get_topology" ? [s.result?.data] : [])) as Array<{ siblings?: string[] }>).flatMap(
+      (d) => d?.siblings ?? [],
+    );
+    expect(siblings).toContain("AGG-SAH-01");
+    const net = deriveNetwork(view);
+    expect(net.regionsInUse).toEqual(["TUN"]);
+    expect(net.byId.has("AGG-SAH-01")).toBe(false);
+    expect(net.edges.every((e) => net.byId.has(e.child) && net.byId.has(e.parent))).toBe(true);
+    expect(layoutNetwork(net, 1200, 440).mode).toBe("tree");
+  });
+
+  it("keep their place when another node of the same region is looked up", () => {
+    const net = deriveNetwork(full(cut));
+    expect(net.byId.get("AGG-TUN-01")?.parent).toBe("CORE-UPF-01");
+  });
+
+  it("count once something else names them, and the run is then drawn by region", () => {
+    const net = deriveNetwork(reduceEvents(withAffected(cut, ["AGG-SAH-01"])));
+    expect(net.regionsInUse.sort()).toEqual(["SAH", "TUN"]);
+    expect(net.byId.has("AGG-SAH-01")).toBe(true);
+    expect(layoutNetwork(net, 1200, 440).mode).toBe("regions");
+  });
+
+  it("stay drawn in a nationwide run", () => {
+    const events = cut.events.map((e) => (e.type === "scope" ? { ...e, data: { ...e.data, nationwide: true } } : e)) as RunEvent[];
+    const net = deriveNetwork(reduceEvents(events));
+    expect(net.byId.has("AGG-SAH-01")).toBe(true);
+    expect(layoutNetwork(net, 1200, 440).mode).toBe("regions");
+  });
+});
+
+describe("recorded cases", () => {
+  const names = readdirSync(demoDir)
+    .filter((f) => f.endsWith(".json"))
+    .map((f) => f.replace(/\.json$/, ""));
+
+  it.each(names)("%s is drawn in the layout its scope calls for", (name) => {
+    const r = demo(name);
+    const net = deriveNetwork(full(r));
+    const scope = r.events.find((e) => e.type === "scope")?.data as { nationwide?: boolean; region_ids?: string[] } | undefined;
+    const expected = scope?.nationwide ? "regions" : "tree";
+    expect(layoutNetwork(net, 1200, 440).mode).toBe(expected);
   });
 });
