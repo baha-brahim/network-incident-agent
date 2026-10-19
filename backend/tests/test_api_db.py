@@ -164,7 +164,7 @@ def test_runs_are_filed_under_a_salted_hash_of_their_client(
         client_hash_salt="pepper",
     )
     c = TestClient(create_app(svc))
-    mine, other = {"X-Forwarded-For": "203.0.113.7, 10.0.0.1"}, {"X-Forwarded-For": "203.0.113.8"}
+    mine, other = {"X-Forwarded-For": "10.0.0.1, 203.0.113.7"}, {"X-Forwarded-For": "203.0.113.8"}
     body = {"question": QUESTION, "asked_at": ASKED.isoformat()}
 
     first = c.post("/api/investigations/stream", json=body, headers=mine)

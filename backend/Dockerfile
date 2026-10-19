@@ -48,7 +48,8 @@ ENV PATH="/app/.venv/bin:$PATH" \
 WORKDIR /app
 EXPOSE 8080
 
-# One worker: a Lambda instance serves one request at a time. The client address arrives in
-# X-Forwarded-For. Access logs are off because they would record every visitor's address.
+# One worker: a Lambda instance serves one request at a time. The client address arrives in the
+# x-amzn-request-context header. Access logs are off because they would record every visitor's
+# address.
 CMD ["uvicorn", "incident_agent.api.app:app", "--host", "0.0.0.0", "--port", "8080", \
      "--workers", "1", "--proxy-headers", "--forwarded-allow-ips", "*", "--no-access-log"]

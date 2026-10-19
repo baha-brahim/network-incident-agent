@@ -12,6 +12,6 @@ output "ecr_repository_url" {
 }
 
 output "deploy_role_arn" {
-  description = "Repository variable AWS_DEPLOY_ROLE_ARN."
-  value       = aws_iam_role.deploy.arn
+  description = "Repository variable AWS_DEPLOY_ROLE_ARN (null when github_deploy is false)."
+  value       = one(aws_iam_role.deploy[*].arn)
 }

@@ -1,7 +1,13 @@
 variable "region" {
   description = "AWS region of every resource."
   type        = string
-  default     = "eu-central-1"
+  default     = "eu-north-1"
+}
+
+variable "github_deploy" {
+  description = "Create the GitHub OIDC provider and deploy role for the deploy workflow."
+  type        = bool
+  default     = true
 }
 
 variable "github_repository" {

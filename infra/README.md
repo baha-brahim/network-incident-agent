@@ -1,9 +1,12 @@
 # Deploying the API
 
 The API runs as one AWS Lambda function (a container image with the Lambda Web Adapter, response
-streaming on, behind a public function URL) in `eu-central-1`. The data lives in a Neon Postgres
-project in the same region, and the web interface runs on Vercel. A GitHub Actions workflow
-(`.github/workflows/deploy.yml`) ships every green push to `main`.
+streaming on, behind a public function URL) in `eu-north-1`. The data lives in a Neon Postgres
+project in `eu-central-1` (the nearest Neon region), and the web interface runs on Vercel. A
+GitHub Actions workflow (`.github/workflows/deploy.yml`) ships every green push to `main`.
+
+AWS accounts on the free plan may be limited to a single region by an organization policy; set
+`region` in `terraform.tfvars` and `AWS_REGION` in the workflow to the region the account allows.
 
 ```
 Vercel (frontend/)  --->  Lambda function URL  --->  Neon (pooled endpoint)
@@ -86,15 +89,18 @@ repository.
    attestations, because Lambda rejects the image index they create:
 
    ```
-   aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com
-   docker build --platform linux/amd64 --provenance=false -t ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/incident-agent-api:bootstrap backend
-   docker push ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/incident-agent-api:bootstrap
+   aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com
+   docker build --platform linux/amd64 --provenance=false -t ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/incident-agent-api:bootstrap backend
+   docker push ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/incident-agent-api:bootstrap
    ```
 
 6. **Create the rest.** `terraform apply`. The outputs give `function_url`, `ecr_repository_url`
    and `deploy_role_arn`. Check the function: `curl FUNCTION_URL/api/ping`. An account can hold
    only one GitHub OIDC provider; if it already has one, import it with
-   `terraform import aws_iam_openid_connect_provider.github PROVIDER_ARN` before applying.
+   `terraform import 'aws_iam_openid_connect_provider.github[0]' PROVIDER_ARN` before applying. If
+   the organization policy denies OIDC providers, set `github_deploy = false`: Terraform then skips
+   the provider and the deploy role, and new images are shipped by hand: build and push as in
+   step 5 with a new tag, then `aws lambda update-function-code` as under Rollback.
 7. **Web interface.** Import the repository in Vercel with root directory `frontend/` and the
    environment variable `NEXT_PUBLIC_API_URL` set to the function URL. Add the Vercel address to
    `cors_origins` in `terraform.tfvars` and run `terraform apply` again.
@@ -112,9 +118,11 @@ investigations off; recorded replays keep working.
 
 ## Limits on live investigations
 
-A visitor is identified by the first address in the `X-Forwarded-For` header, stored only as a
-salted hash. The defaults are 3 live investigations per visitor and 20 in total per UTC day
-(`live_per_client_daily_limit`, `live_daily_limit`). Alert-triggered runs have their own daily
+A visitor is identified by the source address AWS records for the request (passed to the app in
+the `x-amzn-request-context` header), falling back to the last address in `X-Forwarded-For`. The
+caller cannot set the first. The address is stored only as a salted hash. The defaults are 3 live
+investigations per visitor and 20 in total per UTC day (`live_per_client_daily_limit`,
+`live_daily_limit`). Alert-triggered runs have their own daily
 limit (`alert_daily_limit`).
 
 ## Rollback
@@ -123,7 +131,7 @@ Point the function at an earlier image (the registry keeps the newest two):
 
 ```
 aws ecr describe-images --repository-name incident-agent-api --query "sort_by(imageDetails,&imagePushedAt)[].imageTags"
-aws lambda update-function-code --function-name incident-agent-api --image-uri ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/incident-agent-api:COMMIT_SHA
+aws lambda update-function-code --function-name incident-agent-api --image-uri ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com/incident-agent-api:COMMIT_SHA
 aws lambda wait function-updated --function-name incident-agent-api
 ```
 

@@ -1,15 +1,19 @@
+# Skipped with github_deploy = false, for accounts whose organization policy denies OIDC providers.
 resource "aws_iam_openid_connect_provider" "github" {
+  count          = var.github_deploy ? 1 : 0
   url            = "https://token.actions.githubusercontent.com"
   client_id_list = ["sts.amazonaws.com"]
 }
 
 data "aws_iam_policy_document" "github_assume" {
+  count = var.github_deploy ? 1 : 0
+
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.github.arn]
+      identifiers = [aws_iam_openid_connect_provider.github[0].arn]
     }
 
     condition {
@@ -28,8 +32,9 @@ data "aws_iam_policy_document" "github_assume" {
 }
 
 resource "aws_iam_role" "deploy" {
+  count              = var.github_deploy ? 1 : 0
   name               = "${local.name}-github-deploy"
-  assume_role_policy = data.aws_iam_policy_document.github_assume.json
+  assume_role_policy = data.aws_iam_policy_document.github_assume[0].json
 }
 
 data "aws_iam_policy_document" "deploy" {
@@ -65,7 +70,8 @@ data "aws_iam_policy_document" "deploy" {
 }
 
 resource "aws_iam_role_policy" "deploy" {
+  count  = var.github_deploy ? 1 : 0
   name   = "deploy"
-  role   = aws_iam_role.deploy.id
+  role   = aws_iam_role.deploy[0].id
   policy = data.aws_iam_policy_document.deploy.json
 }
